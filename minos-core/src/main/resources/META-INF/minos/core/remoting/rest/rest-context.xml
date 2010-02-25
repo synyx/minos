@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	
+    <!-- Core setup -->    
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="supportedMethods" value="GET,PUT,POST,DELETE,HEAD,OPTIONS" />
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+                    <property name="marshaller" ref="marshaller" />
+                    <property name="unmarshaller" ref="marshaller" />
+                    <property name="supportedMediaTypes" value="application/xml" />
+                </bean>
+            </list>
+        </property>
+        <property name="webBindingInitializer">
+            <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+                <property name="propertyEditorRegistrar">
+                    <bean class="org.synyx.minos.core.web.GenericDaoPropertyEditorRegistrar" />
+                </property>
+            </bean>
+        </property>
+    </bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<bean class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor">
+					<property name="entityManagerFactory" ref="entityManagerFactory" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="abstractDtoAssembler" class="org.synyx.minos.core.remoting.rest.AbstractDtoAssembler" abstract="true">
+		<property name="userManagement" ref="userManagement" />
+	</bean>
+	
+	<bean id="abstractJaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller" abstract="true">
+		<property name="marshallerProperties">
+			<map>
+				<entry key-ref="format" value-ref="true" />
+			</map>
+		</property>
+	</bean>
+	
+	<util:constant id="true" static-field="java.lang.Boolean.TRUE" />
+ 	<util:constant id="format" static-field="javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT"/>
+    
+    
+    <bean class="org.synyx.minos.support.remoting.StrictContentNegotiatingViewResolver">
+        <property name="beStrict" value="true" />
+        <property name="mediaTypes">
+            <map>
+                <entry key="xml" value="application/xml" />
+                <entry key="json" value="application/json" />
+            </map>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+                    <property name="contentType" value="application/xml" />
+                    <property name="marshaller" ref="marshaller" />
+                </bean>
+                <bean class="org.synyx.minos.support.remoting.MinosMappingJacksonJsonView">
+                    <property name="objectMapper">
+                        <bean class="org.synyx.minos.support.remoting.JacksonJaxbObjectMapperFactoryBean" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

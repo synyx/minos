@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:confyx="http://schemas.synyx.org/confyx"
+	xmlns:plugin="http://schemas.synyx.org/hera"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://schemas.synyx.org/confyx http://schemas.synyx.org/confyx/confyx.xsd
+		http://schemas.synyx.org/hera http://schemas.synyx.org/hera/hera.xsd">		
+			
+	<aop:aspectj-autoproxy />
+	
+	<import resource="dao-context.xml" />
+	<import resource="security-context.xml" />
+	<import resource="transaction-context.xml" />
+
+	<!-- PostProcessor to remove decorators whose module dependencies are not satisfied -->
+	<bean class="org.synyx.minos.core.module.support.ModulePostProcessor" />
+	
+	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+	
+	
+	<!-- 
+	
+		Configuration base configuration
+		
+		* registers the service itself
+		* registers BeanFactoryPostProcessor that automatically discovers all ConfigFamilyDescriptors 
+	
+	-->
+	
+	<bean id="configurationService" class="org.synyx.minos.core.configuration.ConfyxConfigurationService">
+		<property name="confyx" ref="confyx" />
+	</bean>
+	
+	<confyx:confyx id="confyx" />
+	
+	
+	<!-- 
+	
+		Notification base configuration
+		
+		* register NotificationService
+		* register EmailNotificationProvider as default provider
+		* enable automatic lookup of NotificationProvider implementations
+	
+	-->
+	
+	<bean id="notificationService" class="org.synyx.minos.core.notification.ProviderBasedNotificationService">
+		<constructor-arg ref="emailNotificationProvider" />
+		<property name="notificationProviders" ref="notificationProviders" />
+	</bean>
+	
+	<bean id="emailNotificationProvider" class="org.synyx.minos.core.notification.EmailNotificationProvider">
+		<constructor-arg ref="mailSender" />
+	</bean>
+	
+	<plugin:registry id="notificationProviders" class="org.synyx.minos.core.notification.NotificationProvider" />
+	
+	
+	<bean class="org.synyx.minos.core.bootstrap.MinosCoreInstaller">
+		<property name="userManagement" ref="userManagement" />
+	</bean>
+    
+    <bean class="org.synyx.minos.core.module.MinosModuleManager">
+        <property name="lifecycles">
+            <plugin:list class="org.synyx.minos.core.module.Lifecycle" />
+        </property>
+
+    </bean>
+
+    <bean id="messageSource" class="org.synyx.minos.core.message.DispatchingMessageSource">
+		<property name="sources">
+			<plugin:registry class="org.synyx.minos.core.message.MessageSourcePlugin" />
+		</property>
+        <property name="useCodeAsDefaultMessage" value="true" />
+	</bean>
+
+    <bean id="abstractMessageSource" abstract="true">
+        <property name="basename" value="message" />
+    </bean>
+
+    <!-- Configure basic message source resolving to "message" being used as last source -->
+	<bean class="org.synyx.minos.core.message.PrefixAwareMessageSource" parent="abstractMessageSource">
+        <property name="order" value="-1" />
+    </bean>
+
+</beans>
