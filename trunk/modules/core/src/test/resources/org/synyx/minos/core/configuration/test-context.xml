@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:confyx="http://schemas.synyx.org/confyx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://schemas.synyx.org/confyx http://schemas.synyx.org/confyx/confyx.xsd">
+
+	<bean id="configurationService" class="org.synyx.minos.core.configuration.ConfyxConfigurationService">
+		<property name="confyx" ref="confyx" />
+	</bean>
+	
+	<confyx:confyx id="confyx" />
+	
+	<confyx:family id="foo.bar" bean-type="java.lang.String">
+		<confyx:policy canAddAndRemoveAdditional="false"/>
+		<confyx:default-member value="value" />
+	</confyx:family>
+	
+	
+</beans>

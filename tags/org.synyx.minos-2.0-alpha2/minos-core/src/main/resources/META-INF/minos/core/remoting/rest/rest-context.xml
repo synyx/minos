@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:plugin="http://schemas.synyx.org/hera"
+    xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://schemas.synyx.org/hera http://schemas.synyx.org/hera/hera.xsd">
+        
+    <!-- Activate autowiring for REST controllers and other components -->
+    <context:annotation-config />
+	
+    <!-- Core setup -->    
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="supportedMethods" value="GET,PUT,POST,DELETE,HEAD,OPTIONS" />
+        <property name="messageConverters">
+            <list>
+                <bean class="org.synyx.minos.core.remoting.rest.MinosMarshallingHttpMessageConverter">
+                    <constructor-arg>
+                        <plugin:registry class="org.synyx.minos.core.remoting.rest.ModuleAwareMarshaller" />
+                    </constructor-arg>
+                </bean>
+            </list>
+        </property>
+        <property name="webBindingInitializer">
+            <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+                <property name="propertyEditorRegistrar">
+                    <bean class="org.synyx.minos.core.web.GenericDaoPropertyEditorRegistrar" />
+                </property>
+            </bean>
+        </property>
+    </bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<bean class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor">
+					<property name="entityManagerFactory" ref="entityManagerFactory" />
+				</bean>
+			</list>
+		</property>
+	</bean>    
+    
+    <bean class="org.synyx.minos.support.remoting.StrictContentNegotiatingViewResolver">
+        <property name="beStrict" value="true" />
+        <property name="mediaTypes">
+            <map>
+                <entry key="xml" value="application/xml" />
+                <entry key="json" value="application/json" />
+            </map>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+                    <property name="contentType" value="application/xml" />
+                    <property name="marshaller">
+                        <bean class="org.synyx.minos.core.remoting.rest.DispatchingMarshaller">
+                            <constructor-arg>
+                                <plugin:registry class="org.synyx.minos.core.remoting.rest.ModuleAwareMarshaller" />
+                            </constructor-arg>
+                        </bean>
+                    </property>
+                </bean>
+                <bean class="org.synyx.minos.support.remoting.MinosMappingJacksonJsonView">
+                    <property name="objectMapper">
+                        <bean class="org.synyx.minos.support.remoting.JacksonJaxbObjectMapperFactoryBean" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.synyx.minos.modules</groupId>
+	<artifactId>org.synyx.minos.modules.core</artifactId>
+	<packaging>war</packaging>
+
+	<name>Minos Modules: Core</name>
+	<description>Minos Core Module</description>
+
+	<parent>
+	   <groupId>org.synyx.minos.modules</groupId>
+	   <artifactId>org.synyx.minos.modules</artifactId>
+	   <version>2.0.0-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+    
+        <!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>org.springframework.security.core</artifactId>
+			<version>${springSecurityVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>org.springframework.security.config</artifactId>
+			<version>${springSecurityVersion}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>org.springframework.security.web</artifactId>
+            <version>${springSecurityVersion}</version>
+        </dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>org.springframework.security.taglibs</artifactId>
+			<version>${springSecurityVersion}</version>
+		</dependency>
+		
+		
+		<!-- ORM - JPA DAO, Toplink -->
+		<dependency>
+			<groupId>org.synyx.hades</groupId>
+			<artifactId>org.synyx.hades</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>3.3.2.GA</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.8.0.GA</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>concurrent</groupId>
+			<artifactId>concurrent</artifactId>
+			<version>1.3.4</version>
+		</dependency>
+		
+		
+		<!-- Database - MySQL Driver, Commons -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.6</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+        
+        <!-- Container Libraries -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        
+        <dependency>
+          <groupId>displaytag</groupId>
+          <artifactId>displaytag</artifactId>
+          <version>1.2</version>
+        </dependency>
+		
+		<!--  Mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.1</version>
+		</dependency>
+
+		<!-- Commons -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+		<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+        
+        <!-- Hera -->
+        <dependency>
+            <groupId>org.synyx.hera</groupId>
+            <artifactId>org.synyx.hera.metadata</artifactId>
+            <version>0.6-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.synyx</groupId>
+            <artifactId>confyx-spring-support</artifactId>
+            <version>0.3.1</version>
+        </dependency>
+		
+		
+		<!-- View technology -->
+		<dependency>
+			<groupId>opensymphony</groupId>
+			<artifactId>sitemesh</artifactId>
+			<version>2.3</version>
+		</dependency>
+        
+        <!-- Marshalling -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.xml.stream</groupId>
+                    <artifactId>stax-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <!-- Compile scoe required because of custom NamespacePrefixMapper -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.1.12</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.xml.stream</groupId>
+                    <artifactId>stax-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-xc</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+
+		<!-- Test libraries -->
+
+
+		<!-- Core Minos test support -->		
+		<dependency>
+			<groupId>com.synyx</groupId>
+			<artifactId>synyx-test-utils</artifactId>
+			<version>0.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>${project.groupId}.test</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.8.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.collections</groupId>
+			<artifactId>google-collections</artifactId>
+			<version>1.0</version>
+			<type>pom</type>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+	<developers>
+		<developer>
+			<id>gierke</id>
+			<name>Oliver Gierke</name>
+			<email>gierke@synyx.de</email>
+			<roles>
+				<role>Project lead</role>
+			</roles>
+		</developer>
+        <developer>
+            <id>kannegiesser</id>
+            <name>Mark Kannegießer</name>
+            <email>kannegiesser@synyx.de</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+	</developers>
+	
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.4.3</version>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.7.2</version>
+				<configuration>
+					<includeSchemas>
+						<includeSchema>**/*.xsd</includeSchema>
+					</includeSchemas>
+					<verbose>true</verbose>
+					<generateDirectory>${basedir}/src/main/java</generateDirectory>
+					<extension>true</extension>
+					<strict>false</strict>
+				</configuration>	
+			</plugin>
+		</plugins>
+	</build>
+	
+	<repositories>
+	
+		<repository>
+			<id>maven2.synyx.repository</id>
+			<name>Synyx Maven2 Repository</name>
+			<url>http://mvn.synyx.de/repository</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+		</repository>
+		
+		<repository>
+			<id>architect-rules-repo</id>
+			<name>architecture-rules repository</name>
+			<layout>default</layout>
+			<url> http://architecturerules.googlecode.com/svn/maven2/ </url>
+			<releases>
+				<checksumPolicy>ignore</checksumPolicy>
+			</releases>
+			<snapshots>
+				<checksumPolicy>ignore</checksumPolicy>
+			</snapshots>
+		</repository>
+		
+	</repositories> 
+
+</project>

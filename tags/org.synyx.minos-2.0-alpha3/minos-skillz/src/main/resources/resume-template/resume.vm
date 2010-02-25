@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<book>
+	<bookinfo>
+		<title>Resume</title>
+	</bookinfo>
+	<article>
+		<table>
+			<title>Personal</title>
+			<tgroup cols='2' align='left' colsep='0' rowsep='1'>
+				<colspec colname='c1' />
+				<colspec colname='c2' />
+				<tbody>
+					#if($resume.photo)
+					<row>
+						<entry>Photo</entry>
+						<entry><inlinegraphic fileref="$photoFile" format="$resume.photo.formatName" /></entry>
+					</row>
+					#end
+					<row>
+						<entry>Name</entry>
+						<entry>$!resume.subject.firstname $!resume.subject.lastname</entry>
+					</row>
+					<row>
+						<entry>E-Mail address</entry>
+						<entry>$!resume.subject.emailAddress</entry>
+					</row>
+					<row>
+						<entry>Title</entry>
+						<entry>$!resume.title</entry>
+					</row>
+					<row>
+						<entry>Position</entry>
+						<entry>$!resume.position</entry>
+					</row>
+					<row>
+						<entry>Birthday</entry>
+						<entry>$!resume.birthday</entry>
+					</row>
+					<row>
+						<entry>Foreign languages</entry>
+						<entry>$!resume.foreignLanguages</entry>
+					</row>
+					<row>
+						<entry>Certifications</entry>
+						<entry>$!resume.certifications</entry>
+					</row>
+					<row>
+						<entry>Publications</entry>
+						<entry>$!resume.publications</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<table>
+			<title>References</title>
+			<tgroup cols='2' align='left' colsep='0' rowsep='1'>
+				<colspec colname='c1' />
+				<colspec colname='c2' />
+				<tbody>
+					#if($resume.references && $resume.references.size() > 0)
+						#foreach($activity in $resume.references)
+							<row>
+								<entry>$!activity.start - $!activity.end</entry>
+								<entry>$!activity.project.name</entry>
+							</row>
+						#end
+					#else
+						<row>
+							<entry></entry>
+							<entry></entry>
+						</row>
+					#end
+				</tbody>
+			</tgroup>
+		</table>
+		<table>
+			<title>Skills</title>
+			<tgroup cols='2' align='left' colsep='0' rowsep='1'>
+				<colspec colname='c1' />
+				<colspec colname='c2' />
+				<tbody>
+					#if($resume.skillz.map.keySet() && $resume.skillz.map.keySet().size() > 0)
+						#foreach($category in $resume.skillz.map.keySet())
+							<row>
+								<entry>$category.name</entry>
+								<entry>
+									<itemizedlist>
+									#foreach($skillEntry in $resume.skillz.map.get($category))
+										<listitem>$!skillEntry.name ($!skillEntry.level.name)</listitem>
+									#end
+								</itemizedlist>
+								</entry>
+							</row>
+						#end
+					#else
+						<row>
+							<entry></entry>
+							<entry></entry>
+						</row>
+					#end
+				</tbody>
+			</tgroup>
+		</table>
+	</article>
+</book>

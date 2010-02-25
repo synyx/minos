@@ -1,0 +1,26 @@
+<fop version="1.0">
+	<!-- XXX file protocol must be used, since FOP > 0.94 needs a valid protocol -->
+	<base>file:///resume-template/maven/src/docbkx/</base>
+	<font-base>file:///resume-template/maven/src/fonts/</font-base>
+	<renderers>
+		<renderer mime="application/pdf">
+			<fonts>
+				<font metrics-url="SteLiR__.xml" embed-url="SteLiR__.ttf"
+					kerning="yes">
+					<font-triplet name="StellaLining" style="normal"
+						weight="normal" />
+				</font>
+				<font metrics-url="SteLiI__.xml" embed-url="SteLiI__.ttf"
+					kerning="yes">
+					<font-triplet name="StellaLining" style="italic"
+						weight="normal" />
+				</font>
+				<font metrics-url="SteLiB__.xml" embed-url="SteLiB__.ttf"
+					kerning="yes">
+					<font-triplet name="StellaLining" style="normal"
+						weight="bold" />
+				</font>
+			</fonts>
+		</renderer>
+	</renderers>
+</fop>

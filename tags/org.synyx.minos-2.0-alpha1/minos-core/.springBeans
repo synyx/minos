@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[2.2.7.200909032106-CI-R3397-B455]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>src/main/resources/META-INF/spring/osgi-context.xml</config>
+		<config>src/main/resources/META-INF/minos/umt/configuration-context.xml</config>
+		<config>src/main/resources/META-INF/minos/core/dao-context.xml</config>
+		<config>src/main/resources/META-INF/minos/core/infrastructure.xml</config>
+		<config>src/main/resources/META-INF/minos/core/remoting/rest/rest-context.xml</config>
+		<config>src/main/resources/META-INF/minos/umt/remoting/rest/rest-context.xml</config>
+		<config>src/main/resources/META-INF/minos/core/security-context.xml</config>
+		<config>src/main/resources/META-INF/minos/core/transaction-context.xml</config>
+	</configs>
+	<configSets>
+		<configSet>
+			<name><![CDATA[Minos2]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>src/main/resources/META-INF/spring/osgi-context.xml</config>
+			</configs>
+		</configSet>
+		<configSet>
+			<name><![CDATA[UMT]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+			</configs>
+		</configSet>
+		<configSet>
+			<name><![CDATA[UMT Services]]></name>
+			<allowBeanDefinitionOverriding>false</allowBeanDefinitionOverriding>
+			<incomplete>true</incomplete>
+			<configs>
+			</configs>
+		</configSet>
+		<configSet>
+			<name><![CDATA[Core Services]]></name>
+			<allowBeanDefinitionOverriding>false</allowBeanDefinitionOverriding>
+			<incomplete>true</incomplete>
+			<configs>
+			</configs>
+		</configSet>
+	</configSets>
+</beansProjectDescription>

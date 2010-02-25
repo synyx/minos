@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>org.synyx.minos.im</artifactId>
+	<packaging>war</packaging>
+	
+	<name>Minos Instant Messaging</name>
+	<description>Instant messaging module for minos</description>	
+
+	<parent>
+		<artifactId>org.synyx.minos</artifactId>
+		<groupId>org.synyx.minos</groupId>
+		<version>2.0-alpha1</version>
+	</parent>
+
+	<dependencies>
+	
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>org.synyx.minos.core</artifactId>
+			<version>${project.version}</version>
+			<classifier>classes</classifier>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>org.synyx.minos.core</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+			<scope>runtime</scope>
+		</dependency>
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>org.synyx.minos.core</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+		
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>org.synyx.minos.test</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.sun.tools.xjc.maven2</groupId>
+				<artifactId>maven-jaxb-plugin</artifactId>
+				<version>1.1</version>
+				<configuration>
+					<generatePackage>com.synyx.minos.im.remoting.rest.dto</generatePackage>
+					<generateDirectory>${basedir}/src/main/java</generateDirectory>
+					<includeSchemas>
+						<includeSchema>com/synyx/minos/im/remoting/rest/*.xsd</includeSchema>
+					</includeSchemas>
+					<extension>true</extension>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
