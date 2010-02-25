@@ -1,0 +1,16 @@
+<archetype>
+    <id>org.synyx.minos.application</id>
+    <sources>
+        <source>src/main/java/App.java</source>
+    </sources>
+    <resources>
+        <resource>src/main/resources/application.prod.properties</resource>
+        <resource>src/main/resources/application.test.properties</resource>
+        <resource>src/main/resources/application.properties</resource>
+        <resource>src/main/webapp/index.jsp</resource>
+        <resource>src/main/webapp/WEB-INF/web.xml</resource>
+    </resources>
+    <testSources>
+        <source>src/test/java/AppTest.java</source>
+    </testSources>
+</archetype>
