@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.synyx.docbook</groupId>
+  <artifactId>resume</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>Docbook resume</name>
+  <packaging>pom</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.agilejava.docbkx</groupId>
+        <artifactId>docbkx-maven-plugin</artifactId>
+        <version>2.0.9</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.docbook</groupId>
+            <artifactId>docbook-xml</artifactId>
+            <version>4.4</version>
+            <scope>runtime</scope>
+          </dependency>
+          <dependency>
+          	<groupId>offo.hyphenation</groupId>
+            <artifactId>fop-hyph</artifactId>
+            <version>0.1</version>
+            <scope>runtime</scope>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <xincludeSupported>true</xincludeSupported>
+          <paperType>A4</paperType>
+          <fop1Extensions>1</fop1Extensions>
+          <foCustomization>src/docbkx-stylesheet/fo/docbook.xsl</foCustomization>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

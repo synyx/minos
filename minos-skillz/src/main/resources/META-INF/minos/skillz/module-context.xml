@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:plugin="http://schemas.synyx.org/hera"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://schemas.synyx.org/hera http://schemas.synyx.org/hera/hera.xsd">
+
+    <bean id="skillz" class="org.synyx.minos.core.module.internal.MinosModule">
+        <constructor-arg>
+            <util:constant static-field="org.synyx.minos.skillz.Skillz.IDENTIFIER" />
+        </constructor-arg>
+        <property name="lifecycle">
+            <bean class="org.synyx.minos.skillz.bootstrap.SkillzInstaller">
+                <constructor-arg ref="skillManagement" />
+                <constructor-arg ref="resumeManagement" />
+                <constructor-arg ref="userManagement" />
+            </bean>
+        </property>
+        <property name="dependsOn">
+            <list>
+                <ref bean="umt" />
+            </list>
+        </property>
+    </bean>
+    <bean class="org.synyx.minos.core.authentication.ModulePermissionAware">
+        <constructor-arg ref="skillz" />
+    </bean>
+
+	<bean id="docbookTemplateService" class="org.synyx.minos.skillz.service.VelocityDocbookTemplateServiceImpl">
+		<constructor-arg>
+			<bean class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+				<property name="velocityProperties">
+					<props>
+						<prop key="resource.loader">class</prop>
+						<prop key="class.resource.loader.class">
+							org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+						</prop>
+					</props>
+				</property>
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="/resume-template/resume.vm" />
+	</bean>
+
+	<bean id="pdfDocbookCreator" class="org.synyx.minos.skillz.service.PdfDocbookCreatorImpl">
+		<constructor-arg ref="docbookTemplateService" />
+		<constructor-arg value="classpath:/resume-template/maven/src/docbkx-stylesheet/fo/docbook.xsl" />
+	</bean>
+	
+	<bean id="zipDocbookCreator" class="org.synyx.minos.skillz.service.ZipDocbookCreatorImpl">
+		<constructor-arg ref="docbookTemplateService" />
+	</bean>
+	
+	<bean id="skillManagement" class="org.synyx.minos.skillz.service.SkillManagementImpl">
+		<property name="categoryDao" ref="categoryDao" />
+		<property name="skillzDao" ref="skillzDao" />
+		<property name="matrixDao" ref="skillzMatrixDao" />
+		<property name="levelDao" ref="levelDao" />
+		<property name="projectDao" ref="projectDao" />
+		<property name="resumeDao" ref="resumeDao" />
+		<property name="templateDao" ref="matrixTemplateDao" />
+        <property name="responsibilityDao" ref="responsibilityDao" />
+	</bean>
+	
+	<bean id="converter" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+        	<list>
+        		<bean class="org.synyx.minos.skillz.domain.convert.StringToPersistableConverterFactory" />
+       	    	<bean class="org.synyx.minos.skillz.domain.convert.LevelToIntegerConverter" />
+        	</list>
+    	</property>
+	</bean>
+	
+	<bean id="resumeManagement" class="org.synyx.minos.skillz.service.ResumeManagementImpl">
+        <constructor-arg ref="resumeDao" />
+	 	<constructor-arg ref="activityDao" />
+        <constructor-arg ref="skillzMatrixDao" />
+        <constructor-arg ref="converter" />
+        <property name="resumeFilters">
+        	<plugin:list class="org.synyx.minos.skillz.domain.resume.ResumeFilter" />
+        </property>
+        <property name="resumeAttributeFilters">
+        	<plugin:list class="org.synyx.minos.skillz.domain.resume.ResumeAttributeFilter" />
+        </property>
+	</bean>
+    
+    <bean class="org.synyx.minos.skillz.domain.resume.SkillLevelFilter">
+    	<constructor-arg ref="levelDao" />
+    </bean>
+    
+    <bean class="org.synyx.minos.skillz.domain.resume.CategoriesFilter">
+    	<constructor-arg ref="categoryDao" />
+    </bean>
+    
+    <bean class="org.synyx.minos.core.message.PrefixAwareMessageSource">
+        <property name="prefix" value="skillz" />
+        <property name="basename" value="META-INF.minos.skillz.messages" />
+    </bean>
+    
+    <!-- Aspects -->
+    <bean class="org.synyx.minos.skillz.service.ManageResumeForUserAspect">
+        <constructor-arg ref="resumeManagement" />
+        <constructor-arg ref="skillManagement" />
+    </bean>
+    
+</beans>
