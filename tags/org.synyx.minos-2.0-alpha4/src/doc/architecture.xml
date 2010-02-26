@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book [
+<!ENTITY core SYSTEM "../../minos-core/src/doc/core.xml">
+]>
+<!-- 
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+ -->
+<book>
+  <bookinfo>
+    <title>Minos 2</title>
+
+    <subtitle>Architecture and implementation documentation</subtitle>
+
+    <authorgroup>
+      <author>
+        <firstname>Oliver</firstname>
+
+        <surname>Gierke</surname>
+
+        <affiliation>
+          <jobtitle>Software Architect</jobtitle>
+
+          <orgname>Synyx GmbH &amp; Co. KG</orgname>
+        </affiliation>
+
+        <email>gierke@synyx.de</email>
+
+        <address>Karlstraße 68, 76137 Karsruhe, Germany</address>
+      </author>
+    </authorgroup>
+
+    <releaseinfo>$Id$</releaseinfo>
+
+    <copyright>
+      <year>2009</year>
+
+      <holder>Synyx GmbH &amp; Co. KG</holder>
+    </copyright>
+  </bookinfo>
+
+  <preface>
+    <title>Introduction</title>
+
+    <para>- What is Minos?</para>
+
+    <para>-- Core -&gt; Application Platform, Functional modules</para>
+
+    <para>- Where do we come from?</para>
+
+    <para>-- Current situation (Minos 1), Environment (Web based applications,
+    Tomcat, Subversion, Maven)</para>
+
+    <para>- Document structure?</para>
+  </preface>
+
+  <part>
+    <title>High level Architecture</title>
+
+    <chapter>
+      <title>Objectives</title>
+
+      <abstract>
+        <para>This chapter is intended to clarify the key hot spots of the
+        application architecture. This will describe core motivations behind
+        certain design decisions and technology choices as well as giving a
+        high level view on how we attend to achieve the goals documented
+        here.</para>
+      </abstract>
+
+      <section>
+        <title>Context</title>
+
+        <para>As software projects at Synyx are entirely driven by Maven as
+        technical spine. This influences the project in organizational and
+        technical ways. We will use Maven to build and assemble the project as
+        well as for creating software quality reports. Thus we can leverage it
+        and implement architectural requirements with its help where possible.
+        Furthermore Maven allows IDE independent builds. This is a primary
+        objective, too.</para>
+      </section>
+
+      <section>
+        <title>Testability</title>
+
+        <para>As Minos 2 predecessor lacked testability, we do not want to
+        commit the same error twice. This will result in leveraging test
+        driven development as much as possible, design for testability and
+        mockability as well as use of the principle of Dependency Injection.
+        Testability also includes dedicated dependency management on package
+        level. We achieve this by using tools like JDepend.</para>
+      </section>
+
+      <section id="objectives.modularity">
+        <title>Modularity</title>
+
+        <para>A very key goal to Minos 2 development is modularity. We want to
+        build clearly self-contained separate modules based on functional
+        separation of the application domain. This means that we must not let
+        leak application modules into core module in any case. We want to
+        leverage two distinct kinds of dependencies between modules</para>
+
+        <orderedlist>
+          <listitem>
+            <para><emphasis>Mandatory dependencies</emphasis> will expect a
+            dependency to be available at runtime in any case. E.g. every
+            application module will have such kind of dependency to the core
+            module</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis>Optional dependency</emphasis> will explicitly
+            deal with the possibility that a dependency is not available in
+            the resulting application package and thus not also not at
+            runtime.</para>
+          </listitem>
+        </orderedlist>
+
+        <section>
+          <title>Extensibility</title>
+
+          <para>Another aspect of modularity is that modules shall be able to
+          extend other modules in various ways and provide own extension
+          points for other modules to hook into.</para>
+        </section>
+
+        <section>
+          <title>Composability</title>
+
+          <para>If we achieve the objectives described in <xref
+          linkend="objectives.modularity" /> we gain build time composability.
+          Thus we can compose Minos modules into new applications by declaring
+          modules as runtime dependencies in the Maven application descriptor
+          (<filename>pom.xml</filename>).</para>
+
+          <para>This requires the application to be able to automatically
+          detect modules at least at startup time and thus integrate various
+          modules with each other. There two key aspects that help us
+          achieving this:</para>
+
+          <orderedlist>
+            <listitem>
+              <para>Spring's feature to import configuration files from
+              wildcarded classpath paths</para>
+            </listitem>
+
+            <listitem>
+              <para>The plugin system <glossterm>Hera</glossterm> that
+              leverages point 1 and allows defining concrete extension
+              points</para>
+            </listitem>
+          </orderedlist>
+        </section>
+      </section>
+
+      <section>
+        <title>Deployment</title>
+
+        <para>Minos primarily is a web application. Thus the natural
+        deployment format is a JavaEE WAR file. Thus we have to pay attention
+        let these war files to be created easily without more effort than
+        necessary. The key goal is to let a <code>mvn package</code> executed
+        in a modules directory create a deployable WAR file.</para>
+
+        <para>Nevertheless a possible usage scenario could be a headless model
+        running from a plain JAR disregarding the entire web layer, of course.
+        Thus we have to keep an eye on plain non-web executability when
+        structuring configuration files and modules.</para>
+      </section>
+    </chapter>
+
+    <chapter>
+      <title>Coding guidelines</title>
+
+      <section>
+        <title>Naming conventions</title>
+
+        <para>The base package of Minos is <code>org.synyx.minos</code>.
+        Beneath it there are packages for business modules followed by
+        technical packages declaring layers and other technical
+        concerns.</para>
+
+        <section>
+          <title>Naming of classes and interfaces</title>
+
+          <para>To encourage working with interfaces, they should not be
+          polluted with pre- or postfixes. Implementations for an interface
+          should carry an <code>Impl</code> postfix if there is only one
+          implementation (services, DAOs e.g.). If more than one
+          implementation is provided, try to find suitable names communicating
+          the speciality of the implementation.</para>
+        </section>
+      </section>
+
+      <section>
+        <title>Functional separation</title>
+
+        <para>Every functional module resides in a package beneath
+        <code>com.synyx.minos</code> and provides functionality through a
+        module interface located in
+        <code>com.synyx.minos.${module}.service</code>. Clients shall only use
+        this interface and the exposed domain classes and get references to
+        the module injected via dependency injection.</para>
+
+        <para>Furthermore, there should be a separate Maven module (what
+        accords to an IDE project) for each business module. This should help
+        enforcing an acyclic directed graph of dependencies between functional
+        modules.</para>
+      </section>
+
+      <section>
+        <title>Technical separation</title>
+
+        <section>
+          <title><package>org.synyx.minos.${module}.domain</package></title>
+
+          <para>Package for domain classes / entities.</para>
+        </section>
+
+        <section>
+          <title><package>org.synyx.minos.${module}.dao</package></title>
+
+          <para>Package for DataAccessObjects. It encapsulates the data access
+          layer and should only be accessed from service layer, special
+          aspects or technical adaptors to third party frameworks.</para>
+        </section>
+
+        <section>
+          <title><package>org.synyx.minos.${module}.service</package></title>
+
+          <para>Package for module fassade. Access only through modul
+          interface.</para>
+        </section>
+
+        <section>
+          <title><package>org.synyx.minos.${module}.remoting</package></title>
+
+          <para>Package for classes exporting the module functionality into a
+          technical infrastructure (WebServices e.g.). Use subpackages for
+          concrete technologies / protocols.</para>
+        </section>
+
+        <section>
+          <title><package>org.synyx.minos.${module}.remoting.rest</package></title>
+
+          <para>Package for controllers exposing the functionality of the
+          module via REST WebService<footnote>
+              <para>REST - REpresentational State Transfer</para>
+            </footnote></para>
+        </section>
+      </section>
+
+      <section>
+        <title>Technical implementation of modularity</title>
+
+        <para>To assure Minos modularity for every module a Maven project is
+        created. With help of the <code>classpath*</code> directive that
+        allows classpath scanning access of configuration files it is possible
+        to integrate various modules by simply throwing the JAR into the
+        classpath.</para>
+
+        <para>Regarding modularity Minos Core is the key to look at. It
+        provides core infrastructure setup and lauches hooks for Minos modules
+        to take part. So</para>
+      </section>
+
+      <section>
+        <title>Special configuration files</title>
+
+        <section>
+          <title><filename>module-context.xml</filename></title>
+
+          <para>Central configuration file of a module is
+          <code>applicationContext.xml</code> in the root package of the
+          module. Here services being published to be used by clients and
+          other modules are declared.</para>
+        </section>
+
+        <section>
+          <title><filename>remoting-context.xml</filename></title>
+
+          <para>Minos declares a WebService servlet in <code>web.xml</code>
+          configuration file. It is a Spring <code>DispatcherServlet</code>
+          being configured in a configuration file named
+          <code>${servlet-name}-context.xml</code>. This file can be found in
+          <code>WEB-INF</code> folder also. This file includes files called
+          <code>remoting-context.xml</code> from the class path the same way
+          it's being done with <code>applicationContext.xml</code>.</para>
+        </section>
+
+        <section id="webContextConfiguration">
+          <title><filename>web-context.xml</filename></title>
+
+          <para>This configuration file has to declare all web
+          controllers.</para>
+        </section>
+      </section>
+    </chapter>
+
+    <chapter>
+      <title>Third party libraries</title>
+
+      <para>The following section contains a detailed list of third party
+      libraries used in Minos 2. The sections are divided by technical
+      concerns. We mainly focus on OpenSource products as they fit nicely into
+      Synyx' business strategy.</para>
+
+      <section>
+        <title>Core infrastructure - Spring 3</title>
+
+        <para>Spring has established itself as the defacto standard in
+        Java(EE) environments providing a consistent programming model based
+        on Dependency Injection, AOP and its Portable Service Abstraction. It
+        acts as base plaform for Minos 2 because it provides means to raise
+        consistent application paradigms across modules, lowering the coupling
+        between modules and application components, leads to testable code and
+        provides a wide basis to integrate infrastructure technologies and
+        services without affecting business code.</para>
+      </section>
+
+      <section>
+        <title>Persistence - JPA / Hibernate</title>
+
+        <para>The usage of Torque in Minos 1 provided a stable and mature
+        abstraction of persistence but seriously lacks clean separation of
+        persistence and application code. So we focus to choose a persistence
+        technology that allows implementing a clean data access layer.</para>
+
+        <para>The JavaEE 5 release containes Java Persistence API as
+        perstistence standard. Thus Minos 2 is going to rely on this standard
+        to ensure wide applicability. Fortnuately Spring provides TODO</para>
+      </section>
+
+      <section>
+        <title>Security - Spring Security 3</title>
+
+        <para>As security is a crosscutting concern it is implemented best
+        using AOP means. Spring Security 2.0 nicely integrates into existing
+        Spring applications and is very unobtrusive regarding application
+        code.</para>
+
+        <section>
+          <title>Password encryption</title>
+
+          <para>Password encryption has to be considered under two aspects.
+          Minos uses MD5 algorithm to encrypt password.</para>
+
+          <para>Authenticating components have to regard password encryption
+          when authentication credentials based on passwords. Therefore Spring
+          Security allows to integrate password encryption into its
+          <code>AuthenticationProvider</code> implementations and ships with
+          an <code>MD5PasswordEncoder</code>. This one is configured in
+          <code>security-context.xml</code> of Minos Core.</para>
+
+          <para>On password creation or change values have to be encrypted by
+          the entity managing module. Minos provides the interface
+          <code>EncryptionProvider</code> to allow instances expressing the
+          need to encrypt text values. In our
+          <code>Md5EncryptionProvider</code> implementation of this interface
+          we favour the <code>commons-codec</code> MD5 digest to implement
+          encryption due to the fact that using Spring Security encryption
+          would tie our implementation to Spring. As we might choose another
+          security library under forthcoming circumstances, we rely on the
+          smaller and more lightweight commons library.</para>
+        </section>
+
+        <section>
+          <title>Authentication</title>
+
+          <para>Authentication is realized by providing a custom
+          implementation of Spring Security's <code>UserDetailsService</code>.
+          <code>MinosUserDetailsService</code> acts as an adaptor for Spring
+          Security working with the <code>UserDao</code> to load user data
+          from the database backend. As this implementation is the only
+          dependency to Spring Security we can easily integrate further
+          authentication mechanisms like e.g. LDAP.</para>
+        </section>
+
+        <section>
+          <title>Authorization</title>
+
+          <para>Authorization can also be almost entirely implemented with
+          configuration. Currently there is a POC implemented in Minos UMT
+          using Spring Security's <code>@Secured</code> Annotation. This is
+          quite nice but won't cover our needs to configure access parameters
+          at application runtime. So we need a maybe ACL based solution using
+          the database.</para>
+        </section>
+      </section>
+
+      <section>
+        <title>Webfrontend - Spring MVC</title>
+
+        <para></para>
+      </section>
+
+      <section>
+        <title>REST WebServices - Spring MVC</title>
+
+        <para></para>
+      </section>
+    </chapter>
+
+    <chapter>
+      <title>Core concepts</title>
+
+      <section>
+        <title>Plugins</title>
+
+        <para>The very core of Minos 2 agility and extensibility is based on
+        the build time composability of minos modules. A very core principle
+        to implement modularity and extensibility is the usage of wildcarded
+        imports in Spring configuration files.<example>
+            <title>Using wildcarded imports in Spring config files</title>
+
+            <programlisting language="xml">&lt;beans&gt;
+  &lt;import resource="classpath*:META-INF/minos/**/module-context.xml" /&gt;
+&lt;/beans&gt;</programlisting>
+          </example>This import will cause Spring to scan the entire classpath
+        for files named <filename>module-context.xml</filename> inside
+        <filename>META-INF/minos</filename>. This way we can agree on defined
+        config file names and let the core module import them wildcardedly
+        letting further modules provide component declarations by entering the
+        classpath. Furthermore we need an infrastructure that eases declaring
+        interfaces as extension points for existing functionality. Hera is a
+        simple plugin system that provides this support. For a more detailed
+        description of its functionality see Hera reference documentation at
+        <ulink
+        url="http://hera.synyx.org">http://hera.synyx.org</ulink>.</para>
+      </section>
+
+      <section>
+        <title>Notifications</title>
+
+        <abstract>
+          <para>This section describes the basic notion of a
+          <interfacename>Notification</interfacename>, the extension points
+          the module provides and how to implement plugins for this extension
+          points.</para>
+        </abstract>
+
+        <para>A notification is better described with user notification. So it
+        includes almost any event a user has to be notified of. This starts at
+        a password changes an reaches up to appointments he probably wants to
+        be reminded of. The default
+        <interfacename>NotificationService</interfacename> implementation is
+        based on <interfacename>NotificationProvider</interfacename>s that
+        actually execute the notification in an appropriate technology.</para>
+
+        <simplesect>
+          <title>NotificationProvider</title>
+
+          <para>A NotificationProvider defines how the notification is
+          actually sent. So it basically abstracts the notification technology
+          to be used. Minos Core provides an
+          <classname>EmailNotificationProvider</classname>, that - as the name
+          suggests - sends notifications via email. Other modules might offer
+          further implementations by simply implementing
+          <interfacename>NotificationProvider</interfacename> and declaring
+          them in their configuration file.</para>
+        </simplesect>
+      </section>
+
+      <section>
+        <title>Orchestrating web requests</title>
+
+        <abstract>
+          <para>TODO</para>
+        </abstract>
+
+        <para></para>
+      </section>
+    </chapter>
+  </part>
+
+  <part>
+    <title>Modules</title>
+
+    &core;
+  </part>
+
+  <part>
+    <title>Howtos</title>
+
+    <chapter>
+      <title>Working with a module</title>
+
+      <section>
+        <title>Entities</title>
+
+        <abstract>
+          <para>SUBJECT TO CHANGE!</para>
+        </abstract>
+
+        <para>Module entities should extend
+        <code>com.synyx.minos.core.domain.AbstractEntity</code>. Actually it
+        is sufficient to implement <code>org.synyx.jap.support.Entity</code>
+        interface to use DAO functionality described in <link
+        linkend="workingWithModuleDAO">chapter DAO</link>. Note that entities
+        not implementing <code>AbstractEntity</code> can not take part in
+        automatic touching entity mechanism.</para>
+
+        <para>In concrete entity instances <abbrev>JPA</abbrev> Annotations
+        should be used to configure persistence. In most cases it is not
+        necessary to mark simple properties (e.g. <code>String</code>s and
+        <code>Integer</code>s). For further information see <ulink
+        url="http://java.sun.com/developer/technicalArticles/J2EE/jpa/">JPA
+        Specification</ulink>. A glance at existing modules (UMT e.g.) give
+        further insight, too.</para>
+      </section>
+
+      <section id="workingWithModuleDAO">
+        <title>DAO</title>
+
+        <abstract>
+          <para>SUBJECT TO CHANGE!</para>
+        </abstract>
+
+        <para>Core DAO functionality of minos is realized with
+        <code>spring-jpa-dao</code> library. To achieve CRUD functionality for
+        entities, it is sufficient to define an interface for the entity which
+        extends <code>GenericDAO&lt;${entity}, Long&gt;</code> . Furthermore
+        the bean instance can be configured using the dao namespace of the
+        <code>spring-jpa-dao</code> .Use <code>core-dao-context.xml</code> in
+        <code>com.synyx.minos.core</code> as template.</para>
+
+        <para>Simple finder methods can also be executed without a custom
+        implementation. You simply have to define a named query in
+        <code>com.synyx.minos.${module}.META-INF/orm.xml</code> The query name
+        has to follo the convention <code>${entity}.${method}</code> where the
+        method itself has to start with <code>find</code>. To execute the
+        finder just created declare a method with the method name chosen for
+        the finder in the DAO interface. E.g if you have a finder named
+        <code>User.findbyUsername</code> the method in the
+        <code>UserDAO</code> (extending <code>GenricDAO&lt;User,
+        Long&gt;</code>) interface has to be named <code>findByUsername</code>
+        . The generic implementation of <code>spring-jpa-dao</code>
+        automatically executes the finder. Method parameters are mapped onto
+        parameters in the query. See
+        <code>com.synyx.minos.umt.dao.UserDAO</code> as example.</para>
+
+        <para>If there is need for further functionality for the DAO, simply
+        extend the implementation of your DAO interface from
+        <code>org.synyx.GenericJpaDaoImpl</code> and add functionality as
+        required. Admittedly, the delegation of the calls to the finder
+        methods has to be done manually. Therefore the generic implementation
+        offers methods like <code>executeFinder(..)</code> and
+        <code>executeObjectFinder(..)</code>.</para>
+      </section>
+
+      <section>
+        <title>Transactionality</title>
+
+        <para>One of the service layers purposes is demarcation of
+        transactional boundaries. To enable transactionality for a module
+        adding an <code>@Transactional</code> to the service implementation
+        class of the module. This implicitly marks all contained methods as
+        transactional with <code>PROPAGATION_REQUIRED</code> settings. If you
+        have to modify settings on certain methods (e.g. setting the
+        <code>read-only</code> flag) simply add <code>@Transactional</code>
+        with the appropriate settings to the desired method.</para>
+
+        <para>For detailed information on handling transactions with
+        annotations see <ulink
+        url="http://static.springframework.org/spring/docs/2.5.x/reference/transaction.html#transaction-declarative-annotations">Spring
+        Documentation</ulink>.</para>
+      </section>
+
+      <section>
+        <title>Rest WebServices</title>
+
+        <para>The Minos Core module provides basic infrastructure to bind
+        WebServices to <code>$WEB-APP/rest/</code>. It automatically detects
+        REST controllers named <code>remoting-context.xml</code> placed in the
+        classpath.</para>
+      </section>
+    </chapter>
+  </part>
+
+  <part>
+    <title>FAQ</title>
+
+    <chapter>
+      <title></title>
+
+      <qandaset>
+        <qandadiv>
+          <qandaentry>
+            <question>
+              <para>Implementing a custom module for Minos 2 how can I include
+              existing modules into my application?</para>
+            </question>
+
+            <answer>
+              <para>Make sure your custom module is packaged as WAR (check
+              Maven pom.xml). The only thing then is to declare the modules
+              you want to use as runtime dependencies for your module:</para>
+
+              <example>
+                <title>Using Minos modules in a custom application</title>
+
+                <para><programlisting language="xml">&lt;project&gt;
+  &lt;!-- unnecessary stuff omitted --&gt;
+  &lt;packaging&gt;war&lt;/packaging&gt;
+
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.synyx.minos&lt;/groupId&gt;
+      &lt;artifactId&gt;minos-calendar&lt;/artifactId&gt;
+      &lt;version&gt;2.0.0&lt;/version&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+&lt;/project&gt;</programlisting>This will include <code>minos-calendar</code>
+                (and all of its mandatory dependencies) into your application.
+                Simply run it by executing <command>mvn:jetty-runwar</command>
+                from command line.</para>
+              </example>
+            </answer>
+          </qandaentry>
+
+          <qandaentry>
+            <question>
+              <para>I have included a Minos 2 module into my application but
+              have to tweak a JSP in the included module. How can I achieve
+              this?</para>
+            </question>
+
+            <answer>
+              <para>Packaging the various modules into an application is based
+              on <ulink
+              url="http://maven.apache.org/plugins/maven-war-plugin/overlays.html">Maven
+              WAR overlays</ulink>. The modules included will be included in
+              your application package if you do <emphasis>not</emphasis> have
+              a resource with the same name at the same location in your
+              project. Thus you can simply customize a JSP by placing a custom
+              one to
+              <filename>src/main/webapp/WEB-INF/jsp/umt/users.jsp</filename>
+              if you want to tweak the web users list.</para>
+
+              <note>
+                <para>Doing so, you seriously change the behaviour of the
+                module modified. Be sure to test the customized pieces well
+                and keep a special eye on these modifications.</para>
+              </note>
+            </answer>
+          </qandaentry>
+        </qandadiv>
+      </qandaset>
+    </chapter>
+  </part>
+
+  <appendix>
+    <title>Extension points</title>
+
+    <abstract>
+      <para>This appendix describes extension points of various modules as
+      well as their semantics.</para>
+    </abstract>
+
+    <para></para>
+  </appendix>
+
+  <appendix>
+    <title>Events</title>
+
+    <abstract>
+      <para>This appendix describes events published by various
+      modules.</para>
+    </abstract>
+
+    <para></para>
+  </appendix>
+
+  <glossary>
+    <glossdiv>
+      <title>H</title>
+
+      <glossentry>
+        <glossterm>Hades</glossterm>
+
+        <glossdef>
+          <para>Synyx' open source library to ease implementation of
+          Spring/JPA based data access layers as well as a domain model -
+          <ulink type=""
+          url="http://hades.synyx.org">http://hades.synyx.org</ulink></para>
+        </glossdef>
+      </glossentry>
+
+      <glossentry>
+        <glossterm>Hera</glossterm>
+
+        <glossdef>
+          <para>Synyx' open source minimal plugin system used to implement
+          modularity and extensibility - <ulink
+          url="http://hera.synyx.org">http://hera.synyx.org</ulink></para>
+        </glossdef>
+      </glossentry>
+    </glossdiv>
+
+    <glossdiv>
+      <title>S</title>
+
+      <glossentry>
+        <glossterm>Spring</glossterm>
+
+        <glossdef>
+          <para></para>
+        </glossdef>
+      </glossentry>
+    </glossdiv>
+  </glossary>
+</book>

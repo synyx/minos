@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[2.3.0.200912192100-CI-R3577-B578]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[true]]></enableImports>
+	<configs>
+		<config>src/test/resources/com/synyx/minos/im/remoting/rest/MarshallingIntegratonTest-context.xml</config>
+		<config>src/main/resources/META-INF/minos/im/module-context.xml</config>
+		<config>src/main/resources/META-INF/minos/im/remoting/rest/rest-context.xml</config>
+	</configs>
+	<configSets>
+		<configSet>
+			<name><![CDATA[Test]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>src/test/resources/com/synyx/minos/im/remoting/rest/MarshallingIntegratonTest-context.xml</config>
+			</configs>
+		</configSet>
+	</configSets>
+</beansProjectDescription>
