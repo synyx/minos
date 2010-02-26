@@ -1,0 +1,2 @@
+http\://schemas.synyx.org/minos/notification=org.synyx.minos.core.notification.config.NotificationFactoryNamespaceHandler
+http\://schemas.synyx.org/minos/module=org.synyx.minos.core.module.config.ModuleNamespaceHandler

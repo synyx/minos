@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema
+	xmlns="http://schemas.synyx.de/minos/umt/rest" 
+	targetNamespace="http://schemas.synyx.de/minos/umt/rest"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:core="http://schemas.synyx.de/minos/core/rest"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0"
+	elementFormDefault="qualified">
+
+	<xsd:import namespace="http://schemas.synyx.de/minos/core/rest" />
+	
+	<xsd:annotation>
+		<xsd:appinfo>
+			<jaxb:schemaBindings>
+				<jaxb:package name="com.synyx.minos.umt.remoting.rest.dto" />
+				<jaxb:nameXmlTransform>
+					<jaxb:typeName suffix="Dto" />
+					<jaxb:elementName suffix="Dto" />
+				</jaxb:nameXmlTransform>
+			</jaxb:schemaBindings>
+		</xsd:appinfo>
+	</xsd:annotation>
+
+	<xsd:element name="users">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="user" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="user">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="core:abstract-entity">
+					<xsd:sequence>
+						<xsd:element name="firstname" type="xsd:string" minOccurs="0" />
+						<xsd:element name="lastname" type="xsd:string" minOccurs="0" />
+						<xsd:element name="emailAddress" type="xsd:string" />
+						<xsd:element name="username" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+</xsd:schema>

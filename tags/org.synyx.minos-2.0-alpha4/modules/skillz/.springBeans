@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[2.2.7.200909022106-CI-R3397-B454]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>src/main/resources/META-INF/minos/skillz/module-context.xml</config>
+		<config>src/main/resources/META-INF/minos/skillz/web-context.xml</config>
+	</configs>
+	<configSets>
+		<configSet>
+			<name><![CDATA[Skill Module]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+				<config>/org.synyx.minos.core/src/main/resources/META-INF/minos/core/module-context.xml</config>
+				<config>/org.synyx.minos.core/src/main/resources/META-INF/minos/core/web/web-context.xml</config>
+				<config>/org.synyx.minos.core/src/main/resources/META-INF/minos/umt/module-context.xml</config>
+				<config>/org.synyx.minos.core/src/main/resources/META-INF/minos/umt/web/web-context.xml</config>
+				<config>src/main/resources/META-INF/minos/skillz/module-context.xml</config>
+				<config>src/main/resources/META-INF/minos/skillz/web-context.xml</config>
+			</configs>
+		</configSet>
+	</configSets>
+</beansProjectDescription>
