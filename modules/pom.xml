@@ -300,10 +300,10 @@
                     <preProcess>
                         <copy todir="${basedir}/target/doc/images">
                             <!-- Copy layout images -->
-                            <fileset dir="${basedir}/src/doc/layout/images" />
+                            <fileset dir="${basedir}/src/doc/layout/images"/>
                             <!-- Copy content images -->
                             <fileset dir="${basedir}/src/doc/images">
-                                <exclude name="**/*.txt" />
+                                <exclude name="**/*.txt"/>
                             </fileset>
                         </copy>
                     </preProcess>                   
@@ -337,7 +337,7 @@
                 <configuration>
                     <archiveClasses>true</archiveClasses>
                     <attachClasses>true</attachClasses>
-                    <classesClassifier />
+                    <classesClassifier/>
                     <excludes>
                     </excludes>
                 </configuration>
