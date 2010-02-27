@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 
+import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 import org.synyx.minos.core.authentication.AuthenticationService;
@@ -258,7 +259,8 @@ public class MenuTag extends RequestContextAwareTag {
         if (null == authenticationService) {
 
             Collection<AuthenticationService> beans =
-                    getApplicationContext().getBeansOfType(
+                    BeanFactoryUtils.beansOfTypeIncludingAncestors(
+                            getApplicationContext(),
                             AuthenticationService.class).values();
 
             authenticationService =
@@ -290,6 +292,7 @@ public class MenuTag extends RequestContextAwareTag {
     }
 
 
+    @Override
     public void setId(String id) {
 
         this.id = id;
