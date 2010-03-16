@@ -189,6 +189,11 @@ public class SpringSecurityAuthenticationService extends
             return null;
         }
 
+	// Principal may be "anonymous", which is a string
+	if (! (authentication.getPrincipal() instanceof UserDetails)) {
+	    return null;
+	}
+
         return (UserDetails) authentication.getPrincipal();
     }
 }
