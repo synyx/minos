@@ -9,13 +9,22 @@
     <security:http auto-config="true" access-decision-manager-ref="accessDecisionManager" access-denied-page="/accessDenied.jsp">
         <security:intercept-url pattern="/login.jsp" filters="none" />
         <security:intercept-url pattern="/**" access="ROLE_USER" />
-        <security:form-login login-page="/login.jsp" login-processing-url="/web/j_spring_security_check" authentication-failure-url="/login.jsp?login_error=true" authentication-success-handler-ref="authenticationSuccessHandler" />
+        <security:form-login login-page="/login.jsp" login-processing-url="/web/j_spring_security_check" authentication-failure-handler-ref="authenticationFailureHandler" authentication-success-handler-ref="authenticationSuccessHandler" />
         <security:remember-me user-service-ref="userDetailsService" />
-        <security:logout invalidate-session="true" logout-url="/web/logout" logout-success-url="/login.jsp" />
+        <security:logout invalidate-session="true" logout-url="/web/logout" success-handler-ref="logoutSuccessHandler" />
+        
     </security:http>
     
     <bean id="authenticationSuccessHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
         <property name="defaultTargetUrl" value="/index.jsp" />
     </bean>
 
+    <bean id="authenticationFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+        <property name="defaultFailureUrl" value="/login.jsp?login_error=true" />
+    </bean>
+    
+    <bean id="logoutSuccessHandler" class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler">
+        <property name="defaultTargetUrl" value="/login.jsp" />
+    </bean>
+   
 </beans>
