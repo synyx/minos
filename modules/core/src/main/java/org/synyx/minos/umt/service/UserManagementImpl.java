@@ -86,11 +86,11 @@ public class UserManagementImpl implements UserManagement,
      * 
      * @see
      * com.synyx.minos.umt.service.UserManagement#save(com.synyx.minos.umt.domain
-     * .User)
+     * .User, boolean)
      */
     @Override
     @Transactional(readOnly = false)
-    public void save(User user) {
+    public void save(User user, boolean forcePasswordEncryption) {
 
         Assert.notNull(user);
 
@@ -103,11 +103,23 @@ public class UserManagementImpl implements UserManagement,
             user.setPassword(passwordCreator.generatePassword());
         }
 
-        eventuallyEncryptPassword(user);
+        eventuallyEncryptPassword(user, forcePasswordEncryption);
 
         userDao.save(user);
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * com.synyx.minos.umt.service.UserManagement#save(com.synyx.minos.umt.domain
+     * .User)
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public void save(User user) {
+	save(user, false);
+    }
 
     /*
      * (non-Javadoc)
@@ -193,14 +205,15 @@ public class UserManagementImpl implements UserManagement,
      * conditions:
      * <ul>
      * <li>An encryption provider is configured</li>
-     * <li>The user is new, meaning the password has never been encrypted yet</li>
-     * <li>The user's password is not the one of the old user</li>
+     * <li>The user is new, meaning the password has never been encrypted yet </li>
+     * <li>The user's password is not the one of the old user or forcePasswordEncryption is true</li>
      * </ul>
      * 
      * @param user
+     * @param forcePasswordEncryption
      * @return
      */
-    private void eventuallyEncryptPassword(User user) {
+    private void eventuallyEncryptPassword(User user, boolean forcePasswordEncryption) {
 
         if (null == authenticationService) {
             return;
@@ -215,6 +228,7 @@ public class UserManagementImpl implements UserManagement,
 
             return;
         }
+
 
         User oldUser = userDao.readByPrimaryKey(user.getId());
 
@@ -231,7 +245,7 @@ public class UserManagementImpl implements UserManagement,
 
         // Case 2: Password available
         // Use new password if it does not match the old one
-        if (!oldUser.getPassword().equals(user.getPassword())) {
+        if (forcePasswordEncryption || !oldUser.getPassword().equals(user.getPassword())) {
             user.setPassword(authenticationService
                     .getEncryptedPasswordFor(user));
         }
