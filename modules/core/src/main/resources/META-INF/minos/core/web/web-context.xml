@@ -98,8 +98,14 @@
 
 	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
 
+    <bean id="annotationExceptionResolver" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
+        <property name="order" value="10"/>
+    </bean>
+
+
     <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-        <property name="defaultErrorView" value="general-error"/>
+        <property name="order" value="20"/>
+	<property name="defaultErrorView" value="general-error"/>
         <property name="exceptionMappings">
             <props>
                 <prop key="org.springframework.security.access.AccessDeniedException">accessDenied</prop>
