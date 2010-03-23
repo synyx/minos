@@ -1,0 +1,34 @@
+@CHARSET "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;	
+}
+
+body {
+	color: #333;
+	background-color: #fff;
+	font: normal 100% helvetica, arial, geneva, lucida, sans-serif;
+}
+
+h1 {
+	font-size:22px;
+	font-weight:normal;
+	margin: 0.5em 0.8em;
+	color: #111;
+}
+
+img {
+	border: 0px;	
+}
+
+div#header {
+	display: block;
+	background-color: #D3DADC;
+	padding: 1em 0 0 0;	
+}
+
+div#middle {
+	clear: both;
+	padding: 1em;
+}

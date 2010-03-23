@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean class="org.synyx.minos.cmt.web.CmtController">
+		<property name="contactManagement" ref="contactManagement" />
+		<property name="organisationManagement" ref="organisationManagement" />
+		<property name="personManagement" ref="personManagement" />
+		<property name="contactItemManagement" ref="contactItemManagement" />
+		<property name="validator" ref="personValidator" />
+		<property name="contactItemValidator" ref="contactItemValidator" />
+		<property name="organisationValidator" ref="organisationValidator" />
+		<property name="addressValidator" ref="addressValidator" />
+		<property name="addressManagement" ref="addressManagement" />
+	</bean>
+	
+	<bean id="organisationValidator" class="org.synyx.minos.cmt.validation.OrganisationFormValidator" />
+	<bean id="addressValidator" class="org.synyx.minos.cmt.validation.AddressFormValidator" />
+	<bean id="personValidator" class="org.synyx.minos.cmt.validation.PersonFormValidator" />
+	<bean id="contactItemValidator" class="org.synyx.minos.cmt.validation.ContactItemFormValidator" />
+	
+	<bean class="org.synyx.minos.cmt.web.CmtMenuItemProvider" />
+
+</beans>

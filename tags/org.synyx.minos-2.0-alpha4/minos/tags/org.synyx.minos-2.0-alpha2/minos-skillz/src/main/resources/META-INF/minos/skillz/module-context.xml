@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:plugin="http://schemas.synyx.org/hera"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://schemas.synyx.org/hera http://schemas.synyx.org/hera/hera.xsd">
+
+    <bean class="org.synyx.minos.core.module.internal.MinosModule">
+        <constructor-arg>
+            <util:constant static-field="org.synyx.minos.skillz.Skillz.IDENTIFIER" />
+        </constructor-arg>
+        <property name="lifecycle">
+            <bean class="org.synyx.minos.skillz.bootstrap.SkillzInstaller">
+                <constructor-arg ref="skillManagement" />
+                <constructor-arg ref="resumeManagement" />
+                <constructor-arg ref="userManagement" />
+            </bean>
+        </property>
+        <property name="dependsOn">
+            <list>
+                <ref bean="umt" />
+            </list>
+        </property>
+    </bean>
+	
+	<bean id="skillManagement" class="org.synyx.minos.skillz.service.SkillManagementImpl">
+		<property name="categoryDao" ref="categoryDao" />
+		<property name="skillzDao" ref="skillzDao" />
+		<property name="matrixDao" ref="skillzMatrixDao" />
+		<property name="levelDao" ref="levelDao" />
+		<property name="projectDao" ref="projectDao" />
+		<property name="resumeDao" ref="resumeDao" />
+		<property name="templateDao" ref="matrixTemplateDao" />
+        <property name="responsibilityDao" ref="responsibilityDao" />
+	</bean>
+	
+	<bean id="resumeManagement" class="org.synyx.minos.skillz.service.ResumeManagementImpl">
+        <constructor-arg ref="resumeDao" />
+	 	<constructor-arg ref="activityDao" />
+        <constructor-arg ref="skillzMatrixDao" />
+        <constructor-arg>
+        	<bean class="org.springframework.context.support.ConversionServiceFactoryBean" />
+        </constructor-arg>
+        <property name="resumeQueries">
+        	<plugin:list class="org.synyx.minos.skillz.domain.resume.ResumeFilter" />
+        </property>
+	</bean>
+    
+    <bean class="org.synyx.minos.skillz.domain.resume.SkillLevelFilter" />
+    
+    <bean class="org.synyx.minos.core.message.PrefixAwareMessageSource">
+        <property name="prefix" value="skillz" />
+        <property name="basename" value="META-INF.minos.skillz.messages" />
+    </bean>
+    
+    <!-- Aspects -->
+    <bean class="org.synyx.minos.skillz.service.CreateResumeForUserAspect">
+        <constructor-arg ref="resumeManagement" />
+        <constructor-arg ref="skillManagement" />
+    </bean>
+    
+</beans>

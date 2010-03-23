@@ -1,0 +1,4 @@
+#Sun Feb 08 17:44:53 CET 2009
+sonar.project.name=Minos Core
+sonar.context.file=../Minos Sandbox.sonarj
+sonar.violation.marker=Error

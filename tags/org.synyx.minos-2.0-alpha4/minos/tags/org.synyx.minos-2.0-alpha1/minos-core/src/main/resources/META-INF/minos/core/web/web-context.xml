@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:plugin="http://schemas.synyx.org/hera"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://schemas.synyx.org/hera http://schemas.synyx.org/hera/hera.xsd">
+
+    <context:annotation-config />
+
+	<bean class="org.synyx.minos.core.web.MinosAnnotationHandlerMapping">
+        <property name="useDefaultSuffixPattern" value="false" />
+		<property name="interceptors">
+			<list>
+				<bean
+					class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor">
+					<property name="entityManagerFactory" ref="entityManagerFactory" />
+				</bean>
+                <bean class="org.synyx.minos.core.web.enrichment.WebRequestEnricherHandlerInterceptor">
+                    <property name="enrichers">
+                        <plugin:registry class="org.synyx.minos.core.web.enrichment.WebRequestEnricher" />
+                    </property>
+                </bean>
+				<bean class="org.synyx.minos.core.web.MessageViaRedirectInterceptor">
+					<property name="messageKey">
+						<util:constant static-field="org.synyx.minos.core.web.Minos.MESSAGE" />
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="customArgumentResolvers">
+			<list>
+				<bean class="org.synyx.minos.core.web.PageableArgumentResolver" />
+                <bean class="org.synyx.minos.core.web.CurrentUserArgumentResolver">
+                    <constructor-arg ref="authenticationService" />
+                </bean>
+			</list>
+		</property>
+		<property name="webBindingInitializer">
+			<bean class="org.synyx.minos.core.web.MinosWebBindingIntializer">
+				<property name="parameters">
+					<map>
+						<entry key="id">
+							<set>
+								<value>java.lang.Long</value>
+							</set>
+						</entry>
+					</map>
+				</property>
+                <property name="propertyEditorRegistrar">
+                    <bean class="org.synyx.minos.core.web.GenericDaoPropertyEditorRegistrar" />
+                </property>
+			</bean>
+		</property>
+        <property name="supportedMethods" value="GET,PUT,POST,HEAD,DELETE" />
+	</bean>
+
+	<!-- TODO: document -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView" value="general-error"/>
+    </bean>
+
+	<!--
+	<menu:item name="umt.foo" description="foo.des" url="/umt/users">
+		<menu:item name="umt.foo" url="/umt/users" />
+	</menu:item>
+	 -->
+
+</beans>

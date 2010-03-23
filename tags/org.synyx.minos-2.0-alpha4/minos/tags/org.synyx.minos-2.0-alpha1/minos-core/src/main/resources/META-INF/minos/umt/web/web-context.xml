@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean class="org.synyx.minos.umt.web.UmtController">
+		<property name="userManagement" ref="userManagement" />
+		<property name="validator" ref="userValidator" />
+	</bean>
+	
+	<bean id="userValidator" class="org.synyx.minos.umt.web.validation.UserFormValidator">
+		<property name="userManagement" ref="userManagement" />
+	</bean>
+	
+	
+	<bean class="org.synyx.minos.umt.web.UmtMenuItemProvider" />
+	
+	
+	<!-- 
+	<bean class="com.synyx.minos.core.web.menu.SimpleMenuItemProvider">
+		<property name="menuItem">
+			<bean class="com.synyx.minos.core.web.menu.MenuItem">
+				<constructor-arg value="/umt/users" />
+				<constructor-arg value="umt.menu.title" />
+				<constructor-arg value="umt.menu.description" />
+				<constructor-arg value="0" />
+			</bean>
+		</property>
+	</bean>
+	 -->
+	
+	<!-- 
+	<menu:item title="umt.foo" description="foo.des" url="/umt/users" position="10">
+		<menu:item title="umt.foo" url="/umt/users" position="0" />
+		
+		<menu:item position="10" /> 
+	</menu:item>
+	
+	Positioniert das Menue im 10er Menue an der Position 5 
+	<menu:item position="10,5" />
+	 -->
+
+</beans>

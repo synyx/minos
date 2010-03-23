@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:confyx="http://schemas.synyx.org/confyx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://schemas.synyx.org/confyx http://schemas.synyx.org/confyx/confyx.xsd">
+	
+	<confyx:family id="minos.user.notification.provider" bean-type="org.synyx.hera.metadata.PluginMetadata">
+		<confyx:policy canAddAndRemoveAdditional="true" />
+		<confyx:default-member>
+			<bean factory-bean="emailNotificationProvider" factory-method="getMetadata" />
+		</confyx:default-member>
+	</confyx:family>
+
+</beans>

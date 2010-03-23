@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+    xmlns:plugin="http://schemas.synyx.org/hera"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+        http://schemas.synyx.org/hera http://schemas.synyx.org/hera/hera.xsd">
+	
+	<!-- Securing service layer -->
+	
+	<!-- Service wrapper to access authentication information -->
+	<bean id="authenticationService" class="org.synyx.minos.core.authentication.SpringSecurityAuthenticationService">
+		<property name="userDao" ref="userDao" />
+		<property name="accessDecisionManager" ref="accessDecisionManager" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+		<property name="saltSource" ref="saltSource" />
+        <property name="modulePermissions">
+            <plugin:list class="org.synyx.minos.core.authentication.PermissionAware" />
+        </property>
+	</bean>
+	
+	<!-- User details service implementation -->
+	<bean id="userDetailsService"
+		class="org.synyx.minos.security.MinosUserDetailsService">
+		<property name="userDao" ref="userDao" />
+	</bean>
+	
+	<!-- Authentication provider -->
+    <security:authentication-manager>
+    	<security:authentication-provider user-service-ref="userDetailsService">
+    		<security:password-encoder ref="passwordEncoder">
+    			<security:salt-source ref="saltSource" />
+    		</security:password-encoder>
+    	</security:authentication-provider>
+    </security:authentication-manager>
+	
+	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+	<bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+		<property name="userPropertyToUse" value="id" />
+	</bean>
+
+	
+	<!-- Enable audition on entities -->
+	<bean id="auditingAdvice" class="org.synyx.hades.domain.auditing.AuditingAdvice">
+		<property name="auditorAware" ref="authenticationService" />
+	</bean>
+	
+	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<property name="decisionVoters">
+			<list>
+                <bean class="org.springframework.security.access.vote.RoleVoter" />
+                
+				<bean class="org.springframework.security.access.vote.RoleVoter">
+                    <property name="rolePrefix" value="" />
+                </bean>
+				
+				<bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 
+	<security:global-method-security jsr250-annotations="enabled" access-decision-manager-ref="accessDecisionManager" />
+	 -->
+
+</beans>

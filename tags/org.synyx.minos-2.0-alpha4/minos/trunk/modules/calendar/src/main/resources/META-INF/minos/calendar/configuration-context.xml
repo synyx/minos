@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:confyx="http://schemas.synyx.org/confyx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://schemas.synyx.org/confyx http://schemas.synyx.org/confyx/confyx.xsd">
+
+	<!-- 
+	
+		Define configuration options here
+	
+	-->
+	
+	<!-- Appointment invitation notifications -->
+	<confyx:family id="minos.calendar.invitation.notification" bean-type="org.synyx.hera.metadata.PluginMetadata">
+		<confyx:policy canAddAndRemoveAdditional="true" />
+		<confyx:default-member>
+			<bean factory-bean="emailNotificationProvider" factory-method="getMetadata" />
+		</confyx:default-member>
+	</confyx:family>
+
+</beans>
