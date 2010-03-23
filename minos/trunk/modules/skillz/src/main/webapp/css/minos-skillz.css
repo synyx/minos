@@ -1,0 +1,80 @@
+/** Skillz **/
+
+.textarea {
+	font-family: Tahoma;
+	font-style: italic;
+}
+
+table.skillz {
+	width: 400px;	
+}
+
+td.skillzSkill {
+	padding-left: 15px;
+	width: 150px;
+}
+table.form th.skillzCategory {
+	padding-top: 15px;	
+	width: 40px;
+	text-align: left;
+}
+table.form .skillzSkillLevel {
+	text-align: center;
+	border-left: 1px solid #eee;
+}
+
+p.skillzProjectName {
+	padding-bottom: 0.4em; font-weight: bold; cursor: pointer;
+}
+p.skillzProjectDescription {
+	padding-bottom: 0.4em; font-style: italic;
+}
+
+.attention {
+	background-color: #fdd;
+}
+
+/** Menu **/
+.menu a#skillz_menu_title {
+	background-image: url(../images/skillz/resume.png);
+}
+
+.submenu a#skillz_menu_resume_title {
+	background-image: url(../images/skillz/resume.png);
+}
+
+.submenu a#skillz_menu_manageResumes_title {
+	background-image: url(../images/skillz/resume_browse.png);
+}
+
+/** Headlines **/
+
+a.iconized {
+	background-repeat: no-repeat;
+	background-position: 0px 10px;
+}
+
+h2.iconized {
+	background-repeat: no-repeat;
+	background-position: 8px 1px;
+	padding-left: 30px;
+}
+
+a.references {
+	background-image: url(../images/skillz/reference.png);
+}
+
+a.categories {
+	background-image: url(../images/skillz/category.png);
+}
+
+a.levels {
+	background-image: url(../images/skillz/level.png);
+}
+
+a.projects {
+	background-image: url(../images/skillz/project.png);
+}
+a.templates {
+	background-image: url(../images/skillz/template.png);
+}

@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<context>
+    <scope name="Minos Core" type="Project">
+        <element name="Filter" type="TypeFilterReferenceOverridden">
+            <element name="com.synyx.minos.**" type="IncludeTypePattern"/>
+            <element name="**package-info**" type="ExcludeTypePattern"/>
+        </element>
+        <architecture>
+            <element name="Application" type="LayerGroupReference">
+                <element name="Service" type="LayerReference">
+                    <element name="Notification Providers" type="SubsystemReference">
+                        <element name="Assignment" type="TypeFilterReferenceOverridden">
+                            <element name="**.EmailNotificationProvider" type="IncludeTypePattern"/>
+                        </element>
+                    </element>
+                    <element name="Notification" type="SubsystemReference"/>
+                    <element name="Configuration" type="SubsystemReference"/>
+                    <element name="Security" type="SubsystemReference">
+                        <element name="Assignment" type="TypeFilterReferenceOverridden">
+                            <element name="**.authentication.**" type="IncludeTypePattern"/>
+                        </element>
+                    </element>
+                </element>
+                <element name="Core" type="VerticalSliceReference">
+                    <reference name="Project|Minos Core::LayerGroup|Application::Layer|Service::Subsystem|Notification"/>
+                    <reference name="Project|Minos Core::LayerGroup|Application::Layer|Service::Subsystem|Notification"/>
+                    <reference name="Project|Minos Core::LayerGroup|Application::Layer|Service::Subsystem|Notification"/>
+                    <reference name="Project|Minos Core::LayerGroup|Application::Layer|Service::Subsystem|Configuration"/>
+                    <reference name="Project|Minos Core::LayerGroup|Application::Layer|Service::Subsystem|Configuration"/>
+                    <reference name="Project|Minos Core::LayerGroup|Application::Layer|Service::Subsystem|Configuration"/>
+                    <reference name="Project|Minos Core::LayerGroup|Application::Layer|Service::Subsystem|Security"/>
+                    <reference name="Project|Minos Core::LayerGroup|Application::Layer|Service::Subsystem|Security"/>
+                </element>
+            </element>
+            <element name="Minos Core" type="VerticalSliceGroupReference">
+                <reference name="Project|Minos Core::LayerGroup|Application::VerticalSlice|Core"/>
+                <reference name="Project|Minos Core::LayerGroup|Application::VerticalSlice|Core"/>
+                <reference name="Project|Minos Core::LayerGroup|Application::VerticalSlice|Core"/>
+            </element>
+            <element name="Minos Modules" type="VerticalSliceGroupReference">
+                <reference name="Project|Minos Core::LayerGroup|Application::Layer|Service::Subsystem|Notification Providers"/>
+                <reference name="Project|Minos Core::LayerGroup|Application::Layer|Service::Subsystem|Notification Providers"/>
+                <reference name="Project|Minos Core::LayerGroup|Application::Layer|Service::Subsystem|Notification Providers"/>
+            </element>
+        </architecture>
+        <workspace>
+            <element name="minos-core/src/main/java" type="JavaRootDirectory"/>
+            <element name="minos-core/target/classes" type="JavaRootDirectory"/>
+        </workspace>
+    </scope>
+    <scope name="Calendar" type="Project">
+        <element name="Configuration" type="Configuration">
+            <element name="CycleAnalysisAsymmetrical" type="ConfigurationSwitchDisabled"/>
+        </element>
+        <architecture>
+            <element name="Application" type="LayerGroupReference">
+                <element name="Service" type="LayerReference">
+                    <element name="Notification" type="SubsystemReference"/>
+                    <element name="Configuration" type="SubsystemReference"/>
+                </element>
+                <element name="Core" type="VerticalSliceReference">
+                    <reference name="Project|Calendar::LayerGroup|Application::Layer|Service::Subsystem|Notification"/>
+                    <reference name="Project|Calendar::LayerGroup|Application::Layer|Service::Subsystem|Notification"/>
+                    <reference name="Project|Calendar::LayerGroup|Application::Layer|Service::Subsystem|Notification"/>
+                    <reference name="Project|Calendar::LayerGroup|Application::Layer|Service::Subsystem|Configuration"/>
+                    <reference name="Project|Calendar::LayerGroup|Application::Layer|Service::Subsystem|Configuration"/>
+                    <reference name="Project|Calendar::LayerGroup|Application::Layer|Service::Subsystem|Configuration"/>
+                </element>
+            </element>
+            <element name="Minos Core" type="VerticalSliceGroupReference">
+                <reference name="Project|Calendar::LayerGroup|Application::VerticalSlice|Core"/>
+                <reference name="Project|Calendar::LayerGroup|Application::VerticalSlice|Core"/>
+                <reference name="Project|Calendar::LayerGroup|Application::VerticalSlice|Core"/>
+            </element>
+        </architecture>
+        <workspace>
+            <element name="minos-calendar/src/main/java" type="JavaRootDirectory"/>
+            <element name="minos-calendar/target/classes" type="JavaRootDirectory"/>
+        </workspace>
+    </scope>
+    <scope name="Instant Messaging" type="Project">
+        <architecture>
+            <element name="Application" type="LayerGroupReference">
+                <element name="Service" type="LayerReference">
+                    <element name="Notification" type="SubsystemReference"/>
+                    <element name="Configuration" type="SubsystemReference"/>
+                </element>
+                <element name="Core" type="VerticalSliceReference">
+                    <reference name="Project|Instant Messaging::LayerGroup|Application::Layer|Service::Subsystem|Notification"/>
+                    <reference name="Project|Instant Messaging::LayerGroup|Application::Layer|Service::Subsystem|Notification"/>
+                    <reference name="Project|Instant Messaging::LayerGroup|Application::Layer|Service::Subsystem|Notification"/>
+                    <reference name="Project|Instant Messaging::LayerGroup|Application::Layer|Service::Subsystem|Configuration"/>
+                    <reference name="Project|Instant Messaging::LayerGroup|Application::Layer|Service::Subsystem|Configuration"/>
+                    <reference name="Project|Instant Messaging::LayerGroup|Application::Layer|Service::Subsystem|Configuration"/>
+                </element>
+            </element>
+            <element name="Minos Core" type="VerticalSliceGroupReference">
+                <reference name="Project|Instant Messaging::LayerGroup|Application::VerticalSlice|Core"/>
+                <reference name="Project|Instant Messaging::LayerGroup|Application::VerticalSlice|Core"/>
+                <reference name="Project|Instant Messaging::LayerGroup|Application::VerticalSlice|Core"/>
+            </element>
+        </architecture>
+        <workspace>
+            <element name="minos-im/src/main/java" type="JavaRootDirectory"/>
+            <element name="minos-im/target/classes" type="JavaRootDirectory"/>
+        </workspace>
+    </scope>
+    <scope name="External" type="External">
+        <element name="Filter" type="TypeFilter">
+            <element name="**" type="IncludeTypePattern"/>
+            <element name="java.**" type="ExcludeTypePattern"/>
+        </element>
+        <architecture>
+            <element name="Application" type="LayerGroupReference">
+                <element name="Service" type="LayerReference">
+                    <element name="Notification" type="SubsystemReference"/>
+                    <element name="Configuration" type="SubsystemReference"/>
+                </element>
+                <element name="Core" type="VerticalSliceReference"/>
+            </element>
+            <element name="Minos Core" type="VerticalSliceGroupReference"/>
+        </architecture>
+    </scope>
+    <scope name="Global" type="Global">
+        <element name="Configuration" type="Configuration">
+            <element name="CycleAnalysisAsymmetrical" type="ConfigurationSwitchEnabled"/>
+            <element name="CycleAnalysisDepthSourceFile" type="ConfigurationSwitchDisabled"/>
+        </element>
+        <element name="Filter" type="TypeFilter">
+            <element name="com.synyx.minos.**" type="IncludeTypePattern"/>
+            <element name="**package-info**" type="ExcludeTypePattern"/>
+        </element>
+        <architecture>
+            <element name="Application" type="LayerGroup">
+                <element name="Assignment" type="TypeFilter"/>
+                <element name="Remoting" type="Layer">
+                    <element name="Assignment" type="TypeFilter">
+                        <element name="**.remoting.**" type="IncludeTypePattern"/>
+                    </element>
+                    <dependency type="AllowedDependency" toName="Global|Global::LayerGroup|Application::Layer|Domain"/>
+                    <dependency type="AllowedDependency" toName="Global|Global::LayerGroup|Application::Layer|Service"/>
+                    <dependency type="AllowedDependency" toName="Global|Global::LayerGroup|Application::Layer|Web"/>
+                </element>
+                <element name="Web" type="Layer">
+                    <element name="Assignment" type="TypeFilter">
+                        <element name="**.web.**" type="IncludeTypePattern"/>
+                    </element>
+                    <element name="Event" type="Subsystem">
+                        <element name="Assignment" type="TypeFilter">
+                            <element name="**.event.**" type="IncludeTypePattern"/>
+                        </element>
+                        <dependency type="AllowedDependency" toName="Global|Global::LayerGroup|Application::Layer|Service::Subsystem|Module"/>
+                    </element>
+                    <element name="Validation" type="Subsystem">
+                        <element name="Assignment" type="TypeFilter">
+                            <element name="**.validation.**" type="IncludeTypePattern"/>
+                        </element>
+                    </element>
+                    <dependency type="AllowedDependency" toName="Global|Global::LayerGroup|Application::Layer|Domain"/>
+                    <dependency type="AllowedDependency" toName="Global|Global::LayerGroup|Application::Layer|Service"/>
+                </element>
+                <element name="Service" type="Layer">
+                    <element name="Assignment" type="TypeFilter">
+                        <element name="**.service.**" type="IncludeTypePattern"/>
+                        <element name="**.notification.**" type="IncludeTypePattern"/>
+                        <element name="**.security.**" type="IncludeTypePattern"/>
+                        <element name="**.authentication.**" type="IncludeTypePattern"/>
+                        <element name="**.configuration.**" type="IncludeTypePattern"/>
+                        <element name="**.tagging.**" type="IncludeTypePattern"/>
+                        <element name="**.bootstrap.**" type="IncludeTypePattern"/>
+                        <element name="**.module.**" type="IncludeTypePattern"/>
+                    </element>
+                    <element name="Notification Providers" type="Subsystem">
+                        <element name="Assignment" type="TypeFilter">
+                            <element name="com.synyx.minos.*.notification.*NotificationProvider" type="IncludeTypePattern"/>
+                        </element>
+                        <dependency type="AllowedDependency" toName="Global|Global::LayerGroup|Application::Layer|Service::Subsystem|Notification">
+                            <access name="Global|Global::LayerGroup|Application::Layer|Service::Subsystem|Notification::NamedInterface|Provider API"/>
+                        </dependency>
+                    </element>
+                    <element name="Notification" type="Subsystem">
+                        <element name="Assignment" type="TypeFilter">
+                            <element name="**.notification.**" type="IncludeTypePattern"/>
+                            <element name="**.*NotificationAspect" type="IncludeTypePattern"/>
+                        </element>
+                        <element name="Provider API" type="NamedInterface">
+                            <element name="Assignment" type="TypeFilter">
+<element name="**.*NotificationProvider" type="IncludeTypePattern"/>
+<element name="**.Notification" type="IncludeTypePattern"/>
+                            </element>
+                        </element>
+                        <element name="API" type="NamedInterface">
+                            <element name="Assignment" type="TypeFilter">
+<element name="**.NotificationService" type="IncludeTypePattern"/>
+<element name="**.Notification" type="IncludeTypePattern"/>
+<element name="**.NotificationContext" type="IncludeTypePattern"/>
+                            </element>
+                        </element>
+                        <dependency type="AllowedDependency" toName="Global|Global::LayerGroup|Application::Layer|Domain::Subsystem|Domain"/>
+                        <dependency type="AllowedDependency" toName="Global|Global::LayerGroup|Application::Layer|Service::Subsystem|Configuration">
+                            <access name="Global|Global::LayerGroup|Application::Layer|Service::Subsystem|Configuration::NamedInterface|API"/>
+                        </dependency>
+                    </element>
+                    <element name="Configuration" type="Subsystem">
+                        <element name="Assignment" type="TypeFilter">
+                            <element name="**.configuration.**" type="IncludeTypePattern"/>
+                        </element>
+                        <element name="API" type="NamedInterface">
+                            <element name="Assignment" type="TypeFilter">
+<element name="**.ConfigurationService" type="IncludeTypePattern"/>
+<element name="**.ConfigKeys" type="IncludeTypePattern"/>
+                            </element>
+                        </element>
+                    </element>
+                    <element name="Module" type="Subsystem">
+                        <element name="Assignment" type="TypeFilter">
+                            <element name="**.module.**" type="IncludeTypePattern"/>
+                        </element>
+                        <stereotype name="Public"/>
+                    </element>
+                    <element name="Tagging" type="Subsystem">
+                        <element name="Assignment" type="TypeFilter">
+                            <element name="**.tagging.**" type="IncludeTypePattern"/>
+                        </element>
+                    </element>
+                    <element name="Bootstrap" type="Subsystem">
+                        <element name="Assignment" type="TypeFilter">
+                            <element name="**.bootstrap.**" type="IncludeTypePattern"/>
+                        </element>
+                    </element>
+                    <element name="Security" type="Subsystem">
+                        <element name="Assignment" type="TypeFilter">
+                            <element name="**.authentication.**" type="IncludeTypePattern"/>
+                        </element>
+                    </element>
+                    <dependency type="AllowedDependency" toName="Global|Global::LayerGroup|Application::Layer|DAO"/>
+                    <dependency type="AllowedDependency" toName="Global|Global::LayerGroup|Application::Layer|Domain"/>
+                </element>
+                <element name="Calendar" type="VerticalSlice">
+                    <element name="Assignment" type="TypeFilter">
+                        <element name="**.calendar.**" type="IncludeTypePattern"/>
+                    </element>
+                </element>
+                <element name="Contact Management" type="VerticalSlice">
+                    <element name="Assignment" type="TypeFilter">
+                        <element name="**.cmt.**" type="IncludeTypePattern"/>
+                    </element>
+                </element>
+                <element name="Instant Messaging" type="VerticalSlice">
+                    <element name="Assignment" type="TypeFilter">
+                        <element name="**.im.**" type="IncludeTypePattern"/>
+                    </element>
+                </element>
+                <element name="DAO" type="Layer">
+                    <element name="Assignment" type="TypeFilter">
+                        <element name="**.dao.**" type="IncludeTypePattern"/>
+                    </element>
+                    <dependency type="AllowedDependency" toName="Global|Global::LayerGroup|Application::Layer|Domain"/>
+                </element>
+                <element name="Domain" type="Layer">
+                    <element name="Assignment" type="TypeFilter">
+                        <element name="**.domain.**" type="IncludeTypePattern"/>
+                    </element>
+                    <element name="Domain" type="Subsystem">
+                        <element name="Assignment" type="TypeFilter">
+                            <element name="**.domain.**" type="IncludeTypePattern"/>
+                        </element>
+                    </element>
+                </element>
+                <element name="Core" type="VerticalSlice">
+                    <element name="Assignment" type="TypeFilter">
+                        <element name="**.core.**" type="IncludeTypePattern"/>
+                    </element>
+                    <reference name="Global|Global::LayerGroup|Application::Layer|Web::Subsystem|Event"/>
+                    <reference name="Global|Global::LayerGroup|Application::Layer|Web::Subsystem|Validation"/>
+                    <reference name="Global|Global::LayerGroup|Application::Layer|Service::Subsystem|Notification"/>
+                    <reference name="Global|Global::LayerGroup|Application::Layer|Service::Subsystem|Configuration"/>
+                    <reference name="Global|Global::LayerGroup|Application::Layer|Service::Subsystem|Module"/>
+                    <reference name="Global|Global::LayerGroup|Application::Layer|Service::Subsystem|Tagging"/>
+                    <reference name="Global|Global::LayerGroup|Application::Layer|Service::Subsystem|Bootstrap"/>
+                    <reference name="Global|Global::LayerGroup|Application::Layer|Service::Subsystem|Security"/>
+                    <reference name="Global|Global::LayerGroup|Application::Layer|Domain::Subsystem|Domain"/>
+                </element>
+            </element>
+            <element name="Minos Core" type="VerticalSliceGroup">
+                <element name="Assignment" type="TypeFilter"/>
+                <reference name="Global|Global::LayerGroup|Application::VerticalSlice|Core"/>
+            </element>
+            <element name="Minos Modules" type="VerticalSliceGroup">
+                <element name="Assignment" type="TypeFilter"/>
+                <reference name="Global|Global::LayerGroup|Application::VerticalSlice|Calendar"/>
+                <reference name="Global|Global::LayerGroup|Application::VerticalSlice|Contact Management"/>
+                <reference name="Global|Global::LayerGroup|Application::VerticalSlice|Instant Messaging"/>
+                <reference name="Global|Global::LayerGroup|Application::Layer|Service::Subsystem|Notification Providers"/>
+                <dependency type="AllowedDependency" toName="Global|Global::VerticalSliceGroup|Minos Core"/>
+            </element>
+        </architecture>
+    </scope>
+</context>

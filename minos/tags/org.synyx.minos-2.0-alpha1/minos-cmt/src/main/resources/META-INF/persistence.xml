@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="minos">
+		<class>org.synyx.minos.cmt.domain.Address</class>
+		<class>org.synyx.minos.cmt.domain.AddressBook</class>
+		<class>org.synyx.minos.cmt.domain.Company</class>
+		<class>org.synyx.minos.cmt.domain.Contact</class>
+		<class>org.synyx.minos.cmt.domain.ContactItem</class>
+		<class>org.synyx.minos.cmt.domain.Person</class>
+		<class>org.synyx.hades.domain.support.AbstractAuditable</class>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+	</persistence-unit>
+</persistence>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:module="http://schemas.synyx.org/minos/module"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+        http://schemas.synyx.org/minos/module http://schemas.synyx.org/minos/module/minos-module.xsd">
+	
+	<bean id="imNotificationProvider" class="org.synyx.minos.im.notification.InstantMessageNotificationProvider">
+		<property name="instantMessagingService" ref="instantMessagingService" />
+	</bean>
+
+	<bean id="instantMessagingService" class="org.synyx.minos.im.service.InstantMessagingServiceImpl">
+		<property name="instantMessageDao" ref="instantMessageDao" />
+	</bean>
+    
+    <module:module id="im" depends-on="umt" />
+    
+</beans>

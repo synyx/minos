@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<bean class="org.synyx.minos.skillz.web.SkillzMenuItemProvider" />
+	
+	<bean class="org.synyx.minos.skillz.web.SkillzController" />
+	
+	<bean class="org.synyx.minos.skillz.web.ResumeController" />
+	
+	<bean class="org.synyx.minos.skillz.web.ReferencesController" />
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- Max size in bytes. -->
+    	<property name="maxUploadSize" value="100000"/>
+	</bean>
+	
+	<!-- Validators -->
+    <bean id="projectValidator" class="org.synyx.minos.skillz.web.validation.ProjectValidator" />
+
+</beans>

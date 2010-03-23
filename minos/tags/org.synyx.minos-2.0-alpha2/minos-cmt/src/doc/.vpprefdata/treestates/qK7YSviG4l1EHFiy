@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProjectTreeState projectID="qwdiiviG4l1EHAAa" projectPath="/synyx/develop/svn/synyx/internal/projects/minos-sandbox/trunk/minos-cmt/src/doc/Classdiagramm.vpp">
+	<TreeState name="ModelRepository" viewX="0" viewY="0">
+		<ExpandedPath>ModelRepository</ExpandedPath>
+		<ExpandedPath>ModelRepository,h7PiiviG4l1EHAOq</ExpandedPath>
+		<ExpandedPath>ModelRepository,h7PiiviG4l1EHAOq,L7PiiviG4l1EHAOr</ExpandedPath>
+		<ExpandedPath>ModelRepository,h7PiiviG4l1EHAOq,L7PiiviG4l1EHAOr,X7PiiviG4l1EHAOs</ExpandedPath>
+		<ExpandedPath>ModelRepository,h7PiiviG4l1EHAOq,L7PiiviG4l1EHAOr,X7PiiviG4l1EHAOs,37PiiviG4l1EHAOt</ExpandedPath>
+		<ExpandedPath>ModelRepository,h7PiiviG4l1EHAOq,L7PiiviG4l1EHAOr,X7PiiviG4l1EHAOs,37PiiviG4l1EHAOt,nukyiviG4l1EHDcu</ExpandedPath>
+		<SelectedPath>ModelRepository,h7PiiviG4l1EHAOq</SelectedPath>
+	</TreeState>
+	<TreeState name="DiagramNavigator" viewX="0" viewY="18">
+		<ExpandedPath>DiagramNavigator</ExpandedPath>
+		<ExpandedPath>DiagramNavigator,UML Diagrams</ExpandedPath>
+	</TreeState>
+	<TreeState name="ClassBrowser" viewX="0" viewY="0">
+		<ExpandedPath>ClassBrowser</ExpandedPath>
+		<ExpandedPath>ClassBrowser,ClassBrowser</ExpandedPath>
+	</TreeState>
+	<TreeState name="LogicalView" viewX="0" viewY="0"/>
+</ProjectTreeState>

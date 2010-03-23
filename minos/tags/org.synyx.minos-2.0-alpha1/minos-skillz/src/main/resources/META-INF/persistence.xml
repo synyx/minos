@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="minos">
+		<class>org.synyx.minos.skillz.domain.Skill</class>
+		<class>org.synyx.minos.skillz.domain.Category</class>
+		<class>org.synyx.minos.skillz.domain.Level</class>
+		<class>org.synyx.minos.skillz.domain.SkillMatrix</class>
+		<class>org.synyx.minos.skillz.domain.SkillEntry</class>
+		<class>org.synyx.minos.skillz.domain.Project</class>
+		<class>org.synyx.minos.skillz.domain.Activity</class>
+		<class>org.synyx.minos.skillz.domain.Responsibility</class>
+		<class>org.synyx.minos.skillz.domain.Resume</class>
+		<class>org.synyx.minos.skillz.domain.MatrixTemplate</class>
+	</persistence-unit>
+</persistence>

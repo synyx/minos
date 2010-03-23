@@ -1,0 +1,76 @@
+<chapter>
+    <title>The Core Module</title>
+
+    <abstract>
+      <para>Minos Core is a special module containing some supporting base
+      classes to work with in further modules. Common technical concerns
+      like database access is configured here.</para>
+
+      <para>As concerns dealing with users are tightly coupled to the Minos
+      Core, the user management module resides within Minos Core project.
+      Nevetheless it resides in its own package
+      <code>org.synyx.minos.umt</code>.</para>
+    </abstract>
+
+    <section>
+      <title>org.synyx.minos.core.domain</title>
+
+      <para>This package contains <code>AbstractEntity</code> as a base
+      class for entities as well as direct dependents like <code>User</code>
+      and its <code>Role</code>. Thus the primary setup for entities is
+      realized where the creating and modifying date and user is stored for
+      each entity.</para>
+    </section>
+
+    <section>
+      <title>org.synyx.minos.core.dao.aspect</title>
+
+      <para>This package contains aspects regarding the DAO layer. E.g. the
+      one setting modification and creation date and user.</para>
+    </section>
+
+    <section>
+      <title>org.synyx.minos.core.dao-context.xml</title>
+
+      <para>Declaration of the DAOs for modules Core and UMT.</para>
+    </section>
+
+    <section>
+      <title>infrastructure.xml</title>
+
+      <para>This configuraion file defines beans to provide core
+      functionality regarding database access. Minos uses JPA as data access
+      abstraction layer. Thus you can find Spring JPA specific configuration
+      code here. Core database properties are factored out into
+      <code>database.properties</code> file to prevent the need to edit the
+      config file for workaday tasks. This should ease administrator's work
+      on deployment of Minos.</para>
+    </section>
+
+    <section>
+      <title>WEB-INF/web.xml</title>
+
+      <para>This is the core configuration file declaring Minos servlets and
+      including configuration files from modules.</para>
+    </section>
+
+    <section id="minosServletConfiguration">
+      <title>WEB-INF/minos-servlet.xml</title>
+
+      <para>This is a simple delegating configuration file needed by
+      Spring's Dispatcher Servlet default configuration. Here we simply
+      import a wildcarded configuration file so that all configuration files
+      matching the naming convention
+      <code>org.synyx.minos.${moduleName}.web.web-context.xml</code> will be
+      regarded as described <link
+      linkend="webContextConfiguration">here</link>.</para>
+    </section>
+
+    <section>
+      <title>WEB-INF/rest-servlet.xml</title>
+
+      <para>This is the equivalent to web-context.xml described <link
+      linkend="minosServletConfiguration">here</link> regarding the REST
+      servlet.</para>
+    </section>
+  </chapter>

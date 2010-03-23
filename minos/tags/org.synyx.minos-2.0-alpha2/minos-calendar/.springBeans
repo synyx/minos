@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[2.2.7.200909022106-CI-R3397-B454]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[true]]></enableImports>
+	<configs>
+		<config>src/main/resources/META-INF/minos/calendar/configuration-context.xml</config>
+		<config>src/main/resources/META-INF/minos/calendar/dao-context.xml</config>
+		<config>src/main/resources/META-INF/minos/calendar/module-context.xml</config>
+		<config>src/main/resources/META-INF/minos/calendar/web/web-context.xml</config>
+	</configs>
+	<configSets>
+		<configSet>
+			<name><![CDATA[Calendar]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>false</incomplete>
+			<configs>
+			</configs>
+		</configSet>
+		<configSet>
+			<name><![CDATA[Calendar Public Services]]></name>
+			<allowBeanDefinitionOverriding>true</allowBeanDefinitionOverriding>
+			<incomplete>true</incomplete>
+			<configs>
+			</configs>
+		</configSet>
+	</configSets>
+</beansProjectDescription>

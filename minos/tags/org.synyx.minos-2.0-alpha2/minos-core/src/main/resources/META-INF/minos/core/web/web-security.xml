@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:security="http://www.springframework.org/schema/security"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!-- Securing web access -->
+    <security:http auto-config="true" access-decision-manager-ref="accessDecisionManager">
+        <security:intercept-url pattern="/login.jsp" filters="none" />
+        <security:intercept-url pattern="/**" access="ROLE_USER" />
+        <security:form-login login-page="/login.jsp" login-processing-url="/web/j_spring_security_check" authentication-failure-url="/login.jsp?login_error=true" default-target-url="/index.jsp"  />
+        <security:remember-me user-service-ref="userDetailsService" />
+        <security:logout invalidate-session="true" logout-url="/web/logout" logout-success-url="/login.jsp" />
+       
+    </security:http>
+
+</beans>
