@@ -34,9 +34,9 @@
     </issueManagement>
     
     <scm>
-        <url>http://svn.synyx.org/synyx/opensource/minos</url>
-        <connection>scm:svn:http://svn.synyx.org/synyx/opensource/minos</connection>
-        <developerConnection>scm:svn:https://svn.synyx.de/svn/synyx/opensource/minos</developerConnection>
+        <url>http://svn.synyx.org/synyx/opensource/minos/trunk</url>
+        <connection>scm:svn:http://svn.synyx.org/synyx/opensource/minos/trunk</connection>
+        <developerConnection>scm:svn:https://svn.synyx.de/svn/synyx/opensource/minos/trunk</developerConnection>
     </scm>
 	
 	<distributionManagement>
