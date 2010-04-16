@@ -77,7 +77,7 @@
 	<!-- Mock dependencies of MailNotificationAspect -->
 	<bean id="mailSender" class="org.mockito.Mockito"
 		factory-method="mock">
-		<constructor-arg value="org.springframework.mail.MailSender" />
+		<constructor-arg value="org.springframework.mail.javamail.JavaMailSender" />
 	</bean>
 
 
