@@ -68,19 +68,29 @@ public class MyAccountController extends ValidationSupport<UserForm> {
      * @return
      */
     @RequestMapping(value = MYACCOUNT, method = PUT)
-    public String saveMyAccount(@ModelAttribute(ACCOUNT_KEY) UserForm userForm,
-            Errors errors, SessionStatus conversation, Model model) {
+    public String saveMyAccount(@ModelAttribute(ACCOUNT_KEY) UserForm userForm, Errors errors,
+            SessionStatus conversation, @CurrentUser User currentUser, Model model) {
+
+        User user = userForm.getDomainObject();
+        if (!currentUser.getId().equals(user.getId())) {
+            model.addAttribute(Core.MESSAGE, Message.error("umt.user.error.myuser.idmismatch"));
+            return "myaccount";
+        }
+
+        if (!currentUser.getUsername().equals(user.getUsername())) {
+            model.addAttribute(Core.MESSAGE, Message.error("umt.user.error.myuser.usernamemusmatch"));
+            return "myaccount";
+        }
 
         if (!isValid(userForm, errors)) {
 
             return "myaccount";
         }
 
-        userAccountManagement.saveUserAccount(userForm.getDomainObject());
+        userAccountManagement.saveUserAccount(user);
         conversation.setComplete();
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "umt.user.save.success", userForm.getUsername()));
+        model.addAttribute(Core.MESSAGE, Message.success("umt.user.save.success", userForm.getUsername()));
 
         return UrlUtils.redirect(MYACCOUNT);
     }

@@ -4,6 +4,6 @@
 
 <%@ taglib prefix="umt" tagdir="/WEB-INF/tags/umt" %>
 
-<h2><spring:message code="myaccount.title" /></h2>
+<h2><spring:message code="umt.myaccount.title" /></h2>
 
 <umt:userForm myaccount="true" />
