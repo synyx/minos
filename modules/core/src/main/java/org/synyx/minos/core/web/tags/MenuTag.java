@@ -23,6 +23,7 @@ import org.synyx.minos.core.web.menu.MenuItemProvider;
  * Tag rendering the applications menu from all found {@link MenuItemProvider}s.
  * 
  * @author Oliver Gierke - gierke@synyx.de
+ * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 public class MenuTag extends RequestContextAwareTag {
 
@@ -40,8 +41,7 @@ public class MenuTag extends RequestContextAwareTag {
     /*
      * (non-Javadoc)
      * 
-     * @seeorg.springframework.web.servlet.tags.RequestContextAwareTag#
-     * doStartTagInternal()
+     * @seeorg.springframework.web.servlet.tags.RequestContextAwareTag# doStartTagInternal()
      */
     @Override
     protected int doStartTagInternal() throws Exception {
@@ -80,16 +80,27 @@ public class MenuTag extends RequestContextAwareTag {
 
 
     /**
-     * Returns all {@link MenuItem}s given by the configured
-     * {@link MenuItemProvider}s sorted by their position.
+     * Returns all {@link MenuItem}s given by the configured {@link MenuItemProvider}s sorted by their position.
      * 
+     * @param user the user to get the Menuitems for
      * @return
      */
     public List<MenuItem> getSortedMenuItems() {
 
-        Collection<MenuItemProvider> beans =
-                getApplicationContext().getBeansOfType(MenuItemProvider.class)
-                        .values();
+        return buildMenu();
+
+    }
+
+
+    /**
+     * Builds a new Menu. This is done by searching all Implementations of {@link MenuItemProvider} , asking them for
+     * their {@link MenuItem}s, clone the items, filter it for the user
+     * 
+     * @return the generated Menu
+     */
+    private List<MenuItem> buildMenu() {
+
+        Collection<MenuItemProvider> beans = getApplicationContext().getBeansOfType(MenuItemProvider.class).values();
 
         List<MenuItem> sortedMenuItems = new ArrayList<MenuItem>();
 
@@ -103,69 +114,94 @@ public class MenuTag extends RequestContextAwareTag {
 
         Collections.sort(sortedMenuItems);
 
-        return sortedMenuItems;
+        // create a deep-copy of each item to be able to change the tree later
+        // (remove items the current user is not allowed to see)
+        List<MenuItem> itemCopy = new ArrayList<MenuItem>();
+
+        for (MenuItem item : sortedMenuItems) {
+            itemCopy.add(item.deepCopy());
+        }
+
+        // now remove the items the user cannot see
+
+        filterMenu(itemCopy);
+
+        return itemCopy;
     }
 
 
     /**
-     * Builds an HTML menu from the given {@link MenuItem}s. Traverses the items
-     * down to the leafs, if they contain submenues.
+     * Removes all {@link MenuItem}s from the given {@link List} that are not to be shown (recursively)
+     * 
+     * @param items the {@link List} to filter
+     */
+    private void filterMenu(List<MenuItem> items) {
+
+        if (items == null) {
+            return;
+        }
+        List<MenuItem> toRemove = new ArrayList<MenuItem>();
+        for (MenuItem item : items) {
+
+            if (showMenuItem(item)) {
+                filterMenu(item.getSubMenues());
+            } else {
+                toRemove.add(item);
+            }
+
+        }
+        items.removeAll(toRemove);
+
+    }
+
+
+    /**
+     * Builds an HTML menu from the given {@link MenuItem}s. Traverses the items down to the leafs, if they contain
+     * submenues.
      * 
      * @param menuItems
      * @param builder
      * @throws IOException
      */
-    private void buildHtmlMenu(List<MenuItem> menuItems, StringBuilder builder,
-            boolean submenu, Integer levelsRemaining) throws IOException {
+    private void buildHtmlMenu(List<MenuItem> menuItems, StringBuilder builder, boolean submenu, Integer levelsRemaining)
+            throws IOException {
+
+        User user = null == authenticationService ? null : authenticationService.getCurrentUser();
 
         for (MenuItem item : menuItems) {
 
-            if (!showMenuItem(item)) {
+            String url = item.getUrl(user);
+            if (url == null) {
                 continue;
             }
-
             String id = item.getTitle().replace('.', '_');
-            User user =
-                    null == authenticationService ? null
-                            : authenticationService.getCurrentUser();
 
             if (submenu) {
 
-                boolean isActive =
-                        getPathWithinApplication(getRequest()).equals(
-                                item.getUrl(user));
+                boolean isActive = getPathWithinApplication(getRequest()).equals(url);
 
                 String aClass = isActive ? " class='active'" : "";
 
-                builder.append(String.format(
-                        "<li%s><a id='%s' href='%s' title='%s'%s>%s</a>", "",
-                        id, UrlUtils.toUrl(item.getUrl(user), getRequest()),
-                        resolveMessage(item.getDesciption()), aClass,
-                        resolveMessage(item.getTitle())));
+                builder.append(String.format("<li%s><a id='%s' href='%s' title='%s'%s>%s</a>", "", id, UrlUtils.toUrl(
+                        url, getRequest()), resolveMessage(item.getDesciption()), aClass, resolveMessage(item
+                        .getTitle())));
 
             } else {
 
-                boolean isActive =
-                        getPathWithinApplication(getRequest()).startsWith(
-                                item.getUrl(null));
+                boolean isActive = getPathWithinApplication(getRequest()).startsWith(url);
 
                 String aClass = isActive ? " class='active'" : "";
 
-                builder.append(String.format(
-                        "<li%s><a id='%s' href='%s' title='%s'%s>%s</a>",
-                        aClass, id, UrlUtils.toUrl(item.getUrl(user),
-                                getRequest()), resolveMessage(item
-                                .getDesciption()), aClass, resolveMessage(item
-                                .getTitle())));
+                builder.append(String.format("<li%s><a id='%s' href='%s' title='%s'%s>%s</a>", aClass, id, UrlUtils
+                        .toUrl(url, getRequest()), resolveMessage(item.getDesciption()), aClass, resolveMessage(item
+                        .getTitle())));
 
-                if ((isActive || alwaysRenderSubmenus)
-                        && (isLevelRestrictionActive() || levelsRemaining > 1)) {
+                if ((isActive || alwaysRenderSubmenus) && (isLevelRestrictionActive() || levelsRemaining > 1)) {
 
                     if (item.hasSubMenues()) {
 
                         builder.append("<ul class='submenu'>");
-                        buildHtmlMenu(item.getSubMenues(), builder, true,
-                                levelsRemaining - 1);
+                        buildHtmlMenu(item.getSubMenues(), builder, true, levelsRemaining - 1);
                         builder.append("</ul>");
 
                     }
@@ -178,10 +214,9 @@ public class MenuTag extends RequestContextAwareTag {
 
 
     /**
-     * If the attribute levels is set, the tag renders submenues until the given
-     * level. This method checks if the level-feature is deactivated : if
-     * <minos:menu levels="0"> is used, the number of levels rendered are
-     * unlimited. This is also true for negative values of levels.
+     * If the attribute levels is set, the tag renders submenues until the given level. This method checks if the
+     * level-feature is deactivated : if <minos:menu levels="0"> is used, the number of levels rendered are unlimited.
+     * This is also true for negative values of levels.
      * 
      * @return
      */
@@ -197,22 +232,19 @@ public class MenuTag extends RequestContextAwareTag {
         String contextPath = request.getContextPath();
         String servletPath = request.getServletPath();
 
-        return uri.substring(contextPath.length() + servletPath.length(), uri
-                .length());
+        return uri.substring(contextPath.length() + servletPath.length(), uri.length());
     }
 
 
     /**
-     * Resolves the given resource bundle key to a localized message. Returns
-     * the key if no message can be found.
+     * Resolves the given resource bundle key to a localized message. Returns the key if no message can be found.
      * 
      * @param key
      * @return
      */
     private String resolveMessage(String key) {
 
-        return getApplicationContext().getMessage(key, null,
-                getRequestContext().getLocale());
+        return getApplicationContext().getMessage(key, null, getRequestContext().getLocale());
     }
 
 
@@ -259,12 +291,11 @@ public class MenuTag extends RequestContextAwareTag {
         if (null == authenticationService) {
 
             Collection<AuthenticationService> beans =
-                    BeanFactoryUtils.beansOfTypeIncludingAncestors(
-                            getApplicationContext(),
-                            AuthenticationService.class).values();
+                    BeanFactoryUtils
+                            .beansOfTypeIncludingAncestors(getApplicationContext(), AuthenticationService.class)
+                            .values();
 
-            authenticationService =
-                    beans.isEmpty() ? null : beans.iterator().next();
+            authenticationService = beans.isEmpty() ? null : beans.iterator().next();
         }
     }
 
@@ -282,9 +313,8 @@ public class MenuTag extends RequestContextAwareTag {
 
 
     /**
-     * Set whether submenus should always be rendered. Standard is 'false'. If
-     * false submenus are only rendered for active menu items. True is useful
-     * for dropdown-submenus.
+     * Set whether submenus should always be rendered. Standard is 'false'. If false submenus are only rendered for
+     * active menu items. True is useful for dropdown-submenus.
      */
     public void setAlwaysRenderSubmenus(boolean alwaysRenderSubmenus) {
 
