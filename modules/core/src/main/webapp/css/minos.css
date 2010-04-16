@@ -148,6 +148,18 @@ ul.successMessage {
 	background-image: url(../images/core/okay.png);
 }
 
+ul.noticeMessage {
+	border-color: #00f;
+	background-color: #ddf;
+	background-image: url(../images/core/error.png);
+}
+
+ul.warningMessage {
+	border-color: #990;
+	background-color: #ff9;
+	background-image: url(../images/core/error.png);
+}
+
 /* jQuery Component containers */
 .ui-widget-content {
 	background-color: #fcfdfd;

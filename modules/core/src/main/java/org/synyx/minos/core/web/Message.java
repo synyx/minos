@@ -6,9 +6,8 @@ import org.springframework.context.MessageSourceResolvable;
 
 
 /**
- * Representation of a system message to be displayed in the user interface.
- * Implements {@code MessageSourceResolvable} to be easily localized via Springs
- * {@code MessageSource} means.
+ * Representation of a system message to be displayed in the user interface. Implements {@code MessageSourceResolvable}
+ * to be easily localized via Springs {@code MessageSource} means.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -16,29 +15,25 @@ public class Message implements Serializable, MessageSourceResolvable {
 
     private static final long serialVersionUID = -8019010828845066017L;
 
-    private static final String ERROR_CSS = "systemMessage errorMessage";
-    private static final String SUCCESS_CSS = "systemMessage successMessage";
-
-    private boolean isErrorMessage;
+    private MessageType messageType;
 
     private String key;
     private Object[] arguments;
 
 
     /**
-     * Creates a new message. Message with a key and parameters and the css
-     * class to be used. Private to enforce instantiation via static methods.
+     * Creates a new message. Message with a key and parameters and the css class to be used. Private to enforce
+     * instantiation via static methods.
      * 
-     * @param isErrorMessage
+     * @param messageType the type of this
      * @param key the key to lookup the localized message string
-     * @param arguments possibly available arguments to add to the localized
-     *            message
+     * @param arguments possibly available arguments to add to the localized message
      */
-    private Message(boolean isErrorMessage, String key, Object... arguments) {
+    private Message(MessageType messageType, String key, Object... arguments) {
 
         this.key = key;
-        this.isErrorMessage = isErrorMessage;
         this.arguments = arguments;
+        this.messageType = messageType;
     }
 
 
@@ -63,7 +58,7 @@ public class Message implements Serializable, MessageSourceResolvable {
      */
     public static Message error(String key, Object... arguments) {
 
-        return new Message(true, key, arguments);
+        return new Message(MessageType.ERROR, key, arguments);
     }
 
 
@@ -88,7 +83,57 @@ public class Message implements Serializable, MessageSourceResolvable {
      */
     public static Message success(String key, Object... arguments) {
 
-        return new Message(false, key, arguments);
+        return new Message(MessageType.SUCCESS, key, arguments);
+    }
+
+
+    /**
+     * Creates a notice message with the given key.
+     * 
+     * @param key
+     * @return
+     */
+    public static Message notice(String key) {
+
+        return notice(key, (Object) null);
+    }
+
+
+    /**
+     * Creates a notice message with the given key and arguments.
+     * 
+     * @param key
+     * @param arguments
+     * @return
+     */
+    public static Message notice(String key, Object... arguments) {
+
+        return new Message(MessageType.NOTICE, key, arguments);
+    }
+
+
+    /**
+     * Creates a warning message with the given key.
+     * 
+     * @param key
+     * @return
+     */
+    public static Message warning(String key) {
+
+        return warning(key, (Object) null);
+    }
+
+
+    /**
+     * Creates a warning message with the given key and arguments.
+     * 
+     * @param key
+     * @param arguments
+     * @return
+     */
+    public static Message warning(String key, Object... arguments) {
+
+        return new Message(MessageType.WARNING, key, arguments);
     }
 
 
@@ -100,6 +145,17 @@ public class Message implements Serializable, MessageSourceResolvable {
     public Object[] getArguments() {
 
         return arguments;
+    }
+
+
+    /**
+     * Returns true if this is an error-message
+     * 
+     * @return
+     */
+    public boolean isErrorMessage() {
+
+        return messageType.isErrorMessage();
     }
 
 
@@ -117,8 +173,7 @@ public class Message implements Serializable, MessageSourceResolvable {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.context.MessageSourceResolvable#getDefaultMessage()
+     * @see org.springframework.context.MessageSourceResolvable#getDefaultMessage()
      */
     public String getDefaultMessage() {
 
@@ -133,18 +188,56 @@ public class Message implements Serializable, MessageSourceResolvable {
      */
     public String getCssClass() {
 
-        return isErrorMessage ? ERROR_CSS : SUCCESS_CSS;
+        return messageType.getCss();
     }
 
-
     /**
-     * Returns whether the message is an error message or not.
+     * Enum that represents the differend {@link MessageType}s
      * 
-     * @return
+     * @author Marc Kannegiesser - kannegiesser@synyx.de
      */
-    public boolean isErrorMessage() {
+    private enum MessageType {
 
-        return isErrorMessage;
+        ERROR("systemMessage errorMessage", true), SUCCESS("systemMessage successMessage"), WARNING(
+                "systemMessage warningMessage"), NOTICE("systemMessage noticeMessage");
+
+        private String css;
+
+        private boolean isError;
+
+
+        private MessageType(String css) {
+
+            this(css, false);
+        }
+
+
+        private MessageType(String css, boolean isError) {
+
+            this.css = css;
+            this.isError = isError;
+        }
+
+
+        /**
+         * @return
+         */
+        public boolean isErrorMessage() {
+
+            return isError;
+        }
+
+
+        /**
+         * Returns the cssClass content that should be applied to the corresponding {@link MessageType}
+         * 
+         * @return String with cssClass content
+         */
+        public String getCss() {
+
+            return css;
+        }
+
     }
 
 }
