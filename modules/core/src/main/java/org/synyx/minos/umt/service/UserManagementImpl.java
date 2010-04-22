@@ -16,15 +16,13 @@ import org.synyx.minos.umt.dao.UserDao;
 
 
 /**
- * Implementation of user management module. Uses an implementation of {@code
- * PasswordCreator} to generate a random password, that is used as initial
- * password for a new user after successful registration.
+ * Implementation of user management module. Uses an implementation of {@code PasswordCreator} to generate a random
+ * password, that is used as initial password for a new user after successful registration.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Transactional(readOnly = true)
-public class UserManagementImpl implements UserManagement,
-        UserAccountManagement {
+public class UserManagementImpl implements UserManagement, UserAccountManagement {
 
     private final UserDao userDao;
     private final RoleDao roleDao;
@@ -34,16 +32,14 @@ public class UserManagementImpl implements UserManagement,
 
 
     /**
-     * Creates a new {@link UserManagementImpl} with the given {@link UserDao},
-     * {@link RoleDao}, {@link AuthenticationService} and
-     * {@link PasswordCreator}.
+     * Creates a new {@link UserManagementImpl} with the given {@link UserDao}, {@link RoleDao},
+     * {@link AuthenticationService} and {@link PasswordCreator}.
      * 
      * @param userDao
      * @param roleDao
      * @param authenticationService
      */
-    public UserManagementImpl(UserDao userDao, RoleDao roleDao,
-            AuthenticationService authenticationService,
+    public UserManagementImpl(UserDao userDao, RoleDao roleDao, AuthenticationService authenticationService,
             PasswordCreator passwordCreator) {
 
         Assert.notNull(userDao);
@@ -69,8 +65,7 @@ public class UserManagementImpl implements UserManagement,
         Assert.notNull(user);
 
         if (authenticationService.isCurrentUser(user)) {
-            throw new IllegalArgumentException(
-                    "Illegal attempt to delete the currently logged in user!");
+            throw new IllegalArgumentException("Illegal attempt to delete the currently logged in user!");
         }
 
         if (!exists(user.getId())) {
@@ -84,9 +79,7 @@ public class UserManagementImpl implements UserManagement,
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.synyx.minos.umt.service.UserManagement#save(com.synyx.minos.umt.domain
-     * .User, boolean)
+     * @see com.synyx.minos.umt.service.UserManagement#save(com.synyx.minos.umt.domain .User, boolean)
      */
     @Override
     @Transactional(readOnly = false)
@@ -95,8 +88,7 @@ public class UserManagementImpl implements UserManagement,
         Assert.notNull(user);
 
         if (!user.isNew() && !exists(user.getId())) {
-            throw new IllegalArgumentException("User with id " + user.getId()
-                    + " does not exist!");
+            throw new IllegalArgumentException("User with id " + user.getId() + " does not exist!");
         }
 
         if (user.isNew() && !user.hasPassword()) {
@@ -108,25 +100,24 @@ public class UserManagementImpl implements UserManagement,
         userDao.save(user);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * com.synyx.minos.umt.service.UserManagement#save(com.synyx.minos.umt.domain
-     * .User)
-     */
-    @Override
-    @Transactional(readOnly = false)
-    public void save(User user) {
-	save(user, false);
-    }
 
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.synyx.minos.umt.service.UserManagement#save(com.synyx.minos.umt.domain
-     * .Role)
+     * @see com.synyx.minos.umt.service.UserManagement#save(com.synyx.minos.umt.domain .User)
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public void save(User user) {
+
+        save(user, false);
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.synyx.minos.umt.service.UserManagement#save(com.synyx.minos.umt.domain .Role)
      */
     @Override
     @Transactional(readOnly = false)
@@ -153,9 +144,8 @@ public class UserManagementImpl implements UserManagement,
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.synyx.minos.umt.service.UserManagement#getUsers(org.synyx.hades.domain
-     * .Pageable, org.synyx.hades.domain.support.Sort)
+     * @see com.synyx.minos.umt.service.UserManagement#getUsers(org.synyx.hades.domain .Pageable,
+     * org.synyx.hades.domain.support.Sort)
      */
     @Override
     public Page<User> getUsers(Pageable pageable) {
@@ -201,11 +191,10 @@ public class UserManagementImpl implements UserManagement,
 
 
     /**
-     * Encrypts the password of the given user if it matches the following
-     * conditions:
+     * Encrypts the password of the given user if it matches the following conditions:
      * <ul>
      * <li>An encryption provider is configured</li>
-     * <li>The user is new, meaning the password has never been encrypted yet </li>
+     * <li>The user is new, meaning the password has never been encrypted yet</li>
      * <li>The user's password is not the one of the old user or forcePasswordEncryption is true</li>
      * </ul>
      * 
@@ -223,12 +212,10 @@ public class UserManagementImpl implements UserManagement,
         if (user.isNew()) {
 
             userDao.save(user);
-            user.setPassword(authenticationService
-                    .getEncryptedPasswordFor(user));
+            user.setPassword(authenticationService.getEncryptedPasswordFor(user));
 
             return;
         }
-
 
         User oldUser = userDao.readByPrimaryKey(user.getId());
 
@@ -246,8 +233,7 @@ public class UserManagementImpl implements UserManagement,
         // Case 2: Password available
         // Use new password if it does not match the old one
         if (forcePasswordEncryption || !oldUser.getPassword().equals(user.getPassword())) {
-            user.setPassword(authenticationService
-                    .getEncryptedPasswordFor(user));
+            user.setPassword(authenticationService.getEncryptedPasswordFor(user));
         }
     }
 
@@ -307,12 +293,10 @@ public class UserManagementImpl implements UserManagement,
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.umt.service.UserManagement#getUserByEmail(java.lang.String
-     * )
+     * @see org.synyx.minos.umt.service.UserManagement#getUsersByEmail(java.lang.String)
      */
     @Override
-    public User getUserByEmail(String argEmail) {
+    public List<User> getUsersByEmail(String argEmail) {
 
         return userDao.findByEmailAddress(argEmail);
     }
@@ -321,9 +305,7 @@ public class UserManagementImpl implements UserManagement,
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.umt.service.UserManagement#deleteRole(org.synyx.minos
-     * .core.domain.Role)
+     * @see org.synyx.minos.umt.service.UserManagement#deleteRole(org.synyx.minos .core.domain.Role)
      */
     @Override
     @Transactional(readOnly = false)

@@ -31,7 +31,8 @@ public class User extends AbstractAuditable<User, Long> {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true)
+    // unique-ness is now ensured on demand by validator
+    @Column(nullable = false, unique = false)
     private String emailAddress;
 
     private String firstname;
@@ -71,8 +72,7 @@ public class User extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Assigns the role to the user. Prevents {@link Role}s to be assigned
-     * twice, so there won't be any duplicates.
+     * Assigns the role to the user. Prevents {@link Role}s to be assigned twice, so there won't be any duplicates.
      * 
      * @param role
      */
@@ -119,8 +119,8 @@ public class User extends AbstractAuditable<User, Long> {
     @Override
     public String toString() {
 
-        return super.toString() + " " + getUsername() + " - " + getFirstname()
-                + " " + getLastname() + " - " + getEmailAddress();
+        return super.toString() + " " + getUsername() + " - " + getFirstname() + " " + getLastname() + " - "
+                + getEmailAddress();
     }
 
 

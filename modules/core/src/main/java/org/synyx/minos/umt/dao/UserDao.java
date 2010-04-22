@@ -25,12 +25,12 @@ public interface UserDao extends ExtendedGenericDao<User, Long> {
 
 
     /**
-     * Returns a user by its email.
+     * Returns users by their email.
      * 
      * @param emailAddress String containing email of user
-     * @return User instance, which has passed email, null if nothing was found
+     * @return all User instances, which has passed email, empty {@link List} if none was found
      */
-    public User findByEmailAddress(String emailAddress);
+    public List<User> findByEmailAddress(String emailAddress);
 
 
     /**

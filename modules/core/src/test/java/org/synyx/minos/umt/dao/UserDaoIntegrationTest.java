@@ -15,7 +15,6 @@ import org.synyx.minos.core.domain.User;
 import org.synyx.minos.test.AbstractDaoIntegrationTest;
 
 
-
 /**
  * Integration test for <code>UserDao</code>.
  * 
@@ -42,8 +41,8 @@ public class UserDaoIntegrationTest extends AbstractDaoIntegrationTest {
 
 
     /**
-     * Tests, that <code>findByUsername</code> calls the query
-     * <code>User.findByUsername</code> and returns the reference user.
+     * Tests, that <code>findByUsername</code> calls the query <code>User.findByUsername</code> and returns the
+     * reference user.
      */
     @Test
     public void testFindByUsernameQuery() {
@@ -67,13 +66,14 @@ public class UserDaoIntegrationTest extends AbstractDaoIntegrationTest {
 
 
     /**
-     * Tests, that <code>findByEmailAddress</code> calls the query
-     * <code>User.findByEmailAddress</code> and returns the reference user.
+     * Tests, that <code>findByEmailAddress</code> calls the query <code>User.findByEmailAddress</code> and returns the
+     * reference user.
      */
     @Test
     public void find_by_emailAddress() {
-        User refUser = userDao.findByEmailAddress(user.getEmailAddress());
-        Assert.assertEquals(user, refUser);
+
+        List<User> refUser = userDao.findByEmailAddress(user.getEmailAddress());
+        Assert.assertTrue(refUser.contains(user));
     }
 
 

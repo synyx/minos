@@ -1,5 +1,6 @@
 package org.synyx.minos.umt.web.validation;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import static org.synyx.minos.TestConstants.*;
 import static org.synyx.minos.core.web.WebTestUtils.*;
@@ -40,8 +41,7 @@ public class UserFormValidatorUnitTest {
 
 
     /**
-     * Sets up mocks, configures the validator and creates a defualt {@code
-     * UserForm} instance.
+     * Sets up mocks, configures the validator and creates a defualt {@code UserForm} instance.
      */
     @Before
     public void setUp() {
@@ -69,7 +69,7 @@ public class UserFormValidatorUnitTest {
 
         prepareErrorsAndExecute();
 
-        verify(userManagement).getUserByEmail(userForm.getEmailAddress());
+        verify(userManagement).getUsersByEmail(userForm.getEmailAddress());
         verify(userManagement).getUser(userForm.getUsername());
         Assert.assertFalse("Found errors: " + errors, errors.hasErrors());
     }
@@ -86,10 +86,9 @@ public class UserFormValidatorUnitTest {
 
         prepareErrorsAndExecute();
 
-        verify(userManagement).getUserByEmail(userForm.getEmailAddress());
+        verify(userManagement).getUsersByEmail(userForm.getEmailAddress());
         verify(userManagement).getUser(userForm.getUsername());
-        assertContainsFieldErrorWithCode(errors, "username",
-                UserFormValidator.USERNAME_EMPTY);
+        assertContainsFieldErrorWithCode(errors, "username", UserFormValidator.USERNAME_EMPTY);
     }
 
 
@@ -104,10 +103,9 @@ public class UserFormValidatorUnitTest {
 
         prepareErrorsAndExecute();
 
-        verify(userManagement).getUserByEmail(userForm.getEmailAddress());
+        verify(userManagement).getUsersByEmail(userForm.getEmailAddress());
         verify(userManagement).getUser(userForm.getUsername());
-        assertContainsFieldErrorWithCode(errors, "newPassword",
-                UserFormValidator.PASSWORD_EMPTY);
+        assertContainsFieldErrorWithCode(errors, "newPassword", UserFormValidator.PASSWORD_EMPTY);
     }
 
 
@@ -118,29 +116,47 @@ public class UserFormValidatorUnitTest {
     public void rejects_new_user_with_other_users_email() {
 
         userForm.setId(null);
-        when(userManagement.getUserByEmail(userForm.getEmailAddress()))
-                .thenReturn(new User("dlinsin", userForm.getEmailAddress(), ""));
+        when(userManagement.getUsersByEmail(userForm.getEmailAddress())).thenReturn(
+                Arrays.asList(new User("dlinsin", userForm.getEmailAddress(), "")));
 
         prepareErrorsAndExecute();
 
-        verify(userManagement).getUserByEmail(userForm.getEmailAddress());
+        verify(userManagement).getUsersByEmail(userForm.getEmailAddress());
         verify(userManagement).getUser(userForm.getUsername());
-        assertContainsFieldErrorWithCode(errors, "emailAddress",
-                UserFormValidator.EMAIL_ALREADY_EXISTS);
+        assertContainsFieldErrorWithCode(errors, "emailAddress", UserFormValidator.EMAIL_ALREADY_EXISTS);
+    }
+
+
+    /**
+     * Checks that a second user can be created with an existing email if configured that way
+     */
+    @Test
+    public void does_notreject_new_user_with_other_users_email_if_valid() {
+
+        validator.setEmailMustBeUnique(Boolean.FALSE);
+
+        userForm.setId(null);
+        when(userManagement.getUsersByEmail(userForm.getEmailAddress())).thenReturn(
+                Arrays.asList(new User("dlinsin", userForm.getEmailAddress(), "")));
+
+        prepareErrorsAndExecute();
+
+        verify(userManagement).getUser(userForm.getUsername());
+        assertFalse(errors.hasErrors());
+
     }
 
 
     @Test
     public void reject_existing_user_with_other_users_email() {
 
-        when(userManagement.getUserByEmail(userForm.getEmailAddress()))
-                .thenReturn(new User("dlinsin", userForm.getEmailAddress(), ""));
+        when(userManagement.getUsersByEmail(userForm.getEmailAddress())).thenReturn(
+                Arrays.asList(new User("dlinsin", userForm.getEmailAddress(), "")));
 
         prepareErrorsAndExecute();
 
         verify(userManagement).getUser(userForm.getUsername());
-        assertContainsFieldErrorWithCode(errors, "emailAddress",
-                UserFormValidator.EMAIL_ALREADY_EXISTS);
+        assertContainsFieldErrorWithCode(errors, "emailAddress", UserFormValidator.EMAIL_ALREADY_EXISTS);
     }
 
 
@@ -154,10 +170,9 @@ public class UserFormValidatorUnitTest {
 
         prepareErrorsAndExecute();
 
-        verify(userManagement).getUserByEmail(userForm.getEmailAddress());
+        verify(userManagement).getUsersByEmail(userForm.getEmailAddress());
         verify(userManagement).getUser(userForm.getUsername());
-        assertContainsFieldErrorWithCode(errors, "repeatedPassword",
-                UserFormValidator.PASSWORDS_DO_NOT_MATCH);
+        assertContainsFieldErrorWithCode(errors, "repeatedPassword", UserFormValidator.PASSWORDS_DO_NOT_MATCH);
     }
 
 
@@ -175,9 +190,8 @@ public class UserFormValidatorUnitTest {
 
         prepareErrorsAndExecute();
 
-        verify(userManagement).getUserByEmail(userForm.getEmailAddress());
-        assertContainsFieldErrorWithCode(errors, "username",
-                UserFormValidator.USERNAME_ALREADY_EXISTS);
+        verify(userManagement).getUsersByEmail(userForm.getEmailAddress());
+        assertContainsFieldErrorWithCode(errors, "username", UserFormValidator.USERNAME_ALREADY_EXISTS);
     }
 
 
@@ -191,12 +205,10 @@ public class UserFormValidatorUnitTest {
 
             prepareErrorsAndExecute();
 
-            assertContainsFieldErrorWithCode(errors, "username",
-                    UserFormValidator.USERNAME_ALREADY_EXISTS);
+            assertContainsFieldErrorWithCode(errors, "username", UserFormValidator.USERNAME_ALREADY_EXISTS);
         }
 
-        verify(userManagement, times(2)).getUserByEmail(
-                userForm.getEmailAddress());
+        verify(userManagement, times(2)).getUsersByEmail(userForm.getEmailAddress());
         verify(userManagement).getUser(userForm.getUsername());
     }
 
@@ -207,16 +219,14 @@ public class UserFormValidatorUnitTest {
         userForm.setRoles(new ArrayList<Role>());
         prepareErrorsAndExecute();
 
-        verify(userManagement).getUserByEmail(userForm.getEmailAddress());
+        verify(userManagement).getUsersByEmail(userForm.getEmailAddress());
         verify(userManagement).getUser(userForm.getUsername());
-        assertContainsFieldErrorWithCode(errors, "roles",
-                UserFormValidator.ROLES_EMPTY);
+        assertContainsFieldErrorWithCode(errors, "roles", UserFormValidator.ROLES_EMPTY);
     }
 
 
     /**
-     * Creates a new {@code Errors} instance that binds the {@code UserForm}
-     * instance and triggers validation.
+     * Creates a new {@code Errors} instance that binds the {@code UserForm} instance and triggers validation.
      */
     private void prepareErrorsAndExecute() {
 

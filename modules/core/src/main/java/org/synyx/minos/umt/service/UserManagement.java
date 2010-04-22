@@ -21,7 +21,6 @@ public interface UserManagement {
     /**
      * Creates a new user. Generates a new password for her if she has none.
      * 
-     * 
      * @param user
      * @param forcePasswordEncryption if true the password of the user will be encrypted in any case
      */
@@ -49,8 +48,7 @@ public interface UserManagement {
      * Deletes the given {@link User}.
      * 
      * @param id
-     * @throws UserNotFoundException if the given {@link User} was not found or
-     *             {@literal null} was given
+     * @throws UserNotFoundException if the given {@link User} was not found or {@literal null} was given
      */
     @RolesAllowed("ROLE_ADMIN")
     void delete(User user) throws UserNotFoundException;
@@ -77,8 +75,7 @@ public interface UserManagement {
      * Returns a {@link User} with the given id.
      * 
      * @param id
-     * @return the user with the given id or {@literal null} if no user can be
-     *         found.
+     * @return the user with the given id or {@literal null} if no user can be found.
      */
     User getUser(Long id);
 
@@ -93,13 +90,12 @@ public interface UserManagement {
 
 
     /**
-     * Returns the user with passed email
+     * Returns all {@link User}s with passed email
      * 
-     * @param email String containing email of user
-     * @return {@link User} instance with passed email, null if no user exists
-     *         with passed email
+     * @param email String containing email
+     * @return {@link List} of {@link User}s with passed email, empty {@link List} if none exists with passed email
      */
-    User getUserByEmail(String email);
+    List<User> getUsersByEmail(String email);
 
 
     /**
