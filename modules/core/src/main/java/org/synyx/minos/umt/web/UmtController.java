@@ -4,6 +4,12 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static org.synyx.minos.umt.UmtPermissions.*;
 import static org.synyx.minos.umt.web.UmtUrls.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import javax.annotation.security.RolesAllowed;
 
 import org.springframework.beans.BeanUtils;
@@ -34,8 +40,7 @@ import org.synyx.minos.util.Assert;
 
 
 /**
- * Web controller for the user management providing access to most of the user
- * management functionality.
+ * Web controller for the user management providing access to most of the user management functionality.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -51,6 +56,8 @@ public class UmtController extends ValidationSupport<UserForm> {
     private final UserManagement userManagement;
     private final AuthenticationService authenticationService;
 
+    private Comparator<String> permissionComparator;
+
 
     protected UmtController() {
 
@@ -59,8 +66,7 @@ public class UmtController extends ValidationSupport<UserForm> {
 
 
     @Autowired
-    public UmtController(UserManagement userManagement,
-            AuthenticationService authenticationService) {
+    public UmtController(UserManagement userManagement, AuthenticationService authenticationService) {
 
         super();
         this.userManagement = userManagement;
@@ -76,8 +82,7 @@ public class UmtController extends ValidationSupport<UserForm> {
     @InitBinder
     public void initBinder(DataBinder binder) {
 
-        binder.registerCustomEditor(Role.class, new RolePropertyEditor(
-                userManagement));
+        binder.registerCustomEditor(Role.class, new RolePropertyEditor(userManagement));
     }
 
 
@@ -99,12 +104,10 @@ public class UmtController extends ValidationSupport<UserForm> {
      * @return
      */
     @RequestMapping(value = USERS, method = GET)
-    public String getUsers(Pageable pageable, Model model,
-            @CurrentUser User user) {
+    public String getUsers(Pageable pageable, Model model, @CurrentUser User user) {
 
         model.addAttribute("currentUser", user);
-        model.addAttribute(USERS_KEY, PageWrapper.wrap(userManagement
-                .getUsers(pageable)));
+        model.addAttribute(USERS_KEY, PageWrapper.wrap(userManagement.getUsers(pageable)));
 
         return USERS;
     }
@@ -117,14 +120,12 @@ public class UmtController extends ValidationSupport<UserForm> {
      * @return
      */
     @RequestMapping(value = USER, method = DELETE)
-    public String deleteUser(@PathVariable("id") User user, Model model,
-            @CurrentUser User currentUser) {
+    public String deleteUser(@PathVariable("id") User user, Model model, @CurrentUser User currentUser) {
 
         String targetView = UrlUtils.redirect(USERS);
 
         if (null == user) {
-            model.addAttribute(Core.MESSAGE, Message
-                    .error("umt.user.delete.usernamerequired"));
+            model.addAttribute(Core.MESSAGE, Message.error("umt.user.delete.usernamerequired"));
             return targetView;
         }
 
@@ -133,20 +134,17 @@ public class UmtController extends ValidationSupport<UserForm> {
             boolean currentUserGiven = null != currentUser;
 
             if (currentUserGiven && currentUser.equals(user)) {
-                model.addAttribute(Core.MESSAGE, Message
-                        .error("umt.user.delete.cannotdeleteherself"));
+                model.addAttribute(Core.MESSAGE, Message.error("umt.user.delete.cannotdeleteherself"));
                 return targetView;
             }
 
             userManagement.delete(user);
 
-            model.addAttribute(Core.MESSAGE, Message.success(
-                    "umt.user.delete.success", user.getUsername()));
+            model.addAttribute(Core.MESSAGE, Message.success("umt.user.delete.success", user.getUsername()));
 
         } catch (UserNotFoundException e) {
 
-            model.addAttribute(Core.MESSAGE, Message.error(
-                    "user.delete.invalidusername", user.getId()));
+            model.addAttribute(Core.MESSAGE, Message.error("user.delete.invalidusername", user.getId()));
         }
 
         return targetView;
@@ -181,8 +179,7 @@ public class UmtController extends ValidationSupport<UserForm> {
     @RequestMapping(value = USER_FORM, method = GET)
     public String showEmptyForm(Model model) {
 
-        return populateFormModel(BeanUtils.instantiateClass(UserForm.class),
-                model);
+        return populateFormModel(BeanUtils.instantiateClass(UserForm.class), model);
     }
 
 
@@ -205,8 +202,8 @@ public class UmtController extends ValidationSupport<UserForm> {
      * @return
      */
     @RequestMapping(value = USERS, method = POST)
-    public String saveNewUser(@ModelAttribute(USER_KEY) UserForm userForm,
-            Errors errors, SessionStatus conversation, Model model) {
+    public String saveNewUser(@ModelAttribute(USER_KEY) UserForm userForm, Errors errors, SessionStatus conversation,
+            Model model) {
 
         return saveUser(userForm, USERS, errors, conversation, model);
     }
@@ -222,15 +219,14 @@ public class UmtController extends ValidationSupport<UserForm> {
      * @return
      */
     @RequestMapping(value = USER, method = PUT)
-    public String saveExistingUser(@ModelAttribute(USER_KEY) UserForm userForm,
-            Errors errors, SessionStatus conversation, Model model) {
+    public String saveExistingUser(@ModelAttribute(USER_KEY) UserForm userForm, Errors errors,
+            SessionStatus conversation, Model model) {
 
         return saveUser(userForm, USERS, errors, conversation, model);
     }
 
 
-    String saveUser(UserForm userForm, String redirectUrl, Errors errors,
-            SessionStatus conversation, Model model) {
+    String saveUser(UserForm userForm, String redirectUrl, Errors errors, SessionStatus conversation, Model model) {
 
         if (!isValid(userForm, errors)) {
 
@@ -241,8 +237,7 @@ public class UmtController extends ValidationSupport<UserForm> {
         userManagement.save(userForm.getDomainObject());
         conversation.setComplete();
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "umt.user.save.success", userForm.getUsername()));
+        model.addAttribute(Core.MESSAGE, Message.success("umt.user.save.success", userForm.getUsername()));
 
         return UrlUtils.redirect(redirectUrl);
     }
@@ -295,8 +290,11 @@ public class UmtController extends ValidationSupport<UserForm> {
         Assert.notNull(role);
 
         model.addAttribute(ROLE_KEY, role);
-        model.addAttribute("permissions", authenticationService
-                .getPermissions());
+        Collection<String> perm = authenticationService.getPermissions();
+        List<String> permissions = new ArrayList<String>();
+        permissions.addAll(perm);
+        Collections.sort(permissions, permissionComparator);
+        model.addAttribute("permissions", permissions);
 
         return "/umt/role";
     }
@@ -314,8 +312,7 @@ public class UmtController extends ValidationSupport<UserForm> {
 
         userManagement.save(role);
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "umt.role.save.success", role.getName()));
+        model.addAttribute(Core.MESSAGE, Message.success("umt.role.save.success", role.getName()));
 
         return UrlUtils.redirect(ROLES);
     }
@@ -329,13 +326,11 @@ public class UmtController extends ValidationSupport<UserForm> {
      * @return
      */
     @RequestMapping(value = ROLE, method = PUT)
-    public String saveExistingRole(@ModelAttribute(ROLE_KEY) Role role,
-            Model model) {
+    public String saveExistingRole(@ModelAttribute(ROLE_KEY) Role role, Model model) {
 
         userManagement.save(role);
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "umt.role.save.success", role.getName()));
+        model.addAttribute(Core.MESSAGE, Message.success("umt.role.save.success", role.getName()));
 
         return UrlUtils.redirect(ROLES);
     }
@@ -353,10 +348,18 @@ public class UmtController extends ValidationSupport<UserForm> {
 
         userManagement.deleteRole(role);
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "umt.role.delete.success", role.getName()));
+        model.addAttribute(Core.MESSAGE, Message.success("umt.role.delete.success", role.getName()));
 
         return UrlUtils.redirect(ROLES);
+    }
+
+
+    /**
+     * @param permissionComparator the permissionComparator to set
+     */
+    public void setPermissionComparator(Comparator<String> permissionComparator) {
+
+        this.permissionComparator = permissionComparator;
     }
 
 }
