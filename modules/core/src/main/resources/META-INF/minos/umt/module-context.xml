@@ -22,7 +22,7 @@
         </constructor-arg>
     </bean>
 
-    <bean class="org.synyx.minos.umt.service.UmtNotificationAspect">
+    <bean id="umtNotificationAspect" class="org.synyx.minos.umt.service.UmtNotificationAspect">
         <property name="notificationService" ref="notificationService"/>
         <property name="notificationFactory">
             <minos:notification-factory message="User %s has password %s now!"/>
