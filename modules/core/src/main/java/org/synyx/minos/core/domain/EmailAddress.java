@@ -16,8 +16,7 @@ public class EmailAddress extends AbstractNamedEntity {
 
     // Regular expression to test for valid email
     public static final String EMAIL_REGEX =
-            "[-_.(\\w)]+@((([(\\w)]|[(\\w)][(\\w)-]*"
-                    + "[(\\w)])\\.)+(([a-z]{2,6})|(([0-9][0-9]?|[0-1][0-9]"
+            "[-_.(\\w)]+@((([(\\w)]|[(\\w)][(\\w)-]*" + "[(\\w)])\\.)+(([a-zA-Z]{2,6})|(([0-9][0-9]?|[0-1][0-9]"
                     + "[0-9]|[2][0-4][0-9]|[2][5][0-5])\\.){3}([0-9][0-9]?|[0-1]"
                     + "[0-9][0-9]|[2][0-4][0-9]|[2][5][0-5])))";
 
