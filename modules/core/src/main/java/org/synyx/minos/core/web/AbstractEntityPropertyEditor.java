@@ -14,8 +14,8 @@ import org.synyx.hades.domain.Persistable;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public abstract class AbstractEntityPropertyEditor<T extends Persistable<Long>>
-        extends PropertyEditorSupport {
+public abstract class AbstractEntityPropertyEditor<T> extends
+        PropertyEditorSupport {
 
     /*
      * (non-Javadoc)

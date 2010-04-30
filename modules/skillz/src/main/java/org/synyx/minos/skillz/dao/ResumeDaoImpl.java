@@ -27,6 +27,14 @@ public class ResumeDaoImpl implements ResumeDaoCustom {
     private EntityManager entityManager;
 
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.synyx.minos.skillz.dao.ResumeDaoCustom#findByFilter(org.synyx.hades
+     * .domain.Pageable, org.synyx.minos.skillz.domain.resume.ResumeFilter,
+     * java.util.Map)
+     */
     @SuppressWarnings("unchecked")
     @Override
     public List<Resume> findByFilter(Pageable pageable,
@@ -62,5 +70,4 @@ public class ResumeDaoImpl implements ResumeDaoCustom {
                 + StringUtils.defaultString(resumeQuery.getQueryPartString()),
                 pageable.getSort());
     }
-
 }

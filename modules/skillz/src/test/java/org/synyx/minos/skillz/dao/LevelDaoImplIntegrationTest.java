@@ -2,8 +2,6 @@ package org.synyx.minos.skillz.dao;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +41,7 @@ public class LevelDaoImplIntegrationTest extends AbstractDaoIntegrationTest {
 
         assertDefaultlevel(0);
 
-        List<Level> levels = levelDao.readByExample(new Level("Level8", 8));
-
-        Level level = levels.get(0);
+        Level level = levelDao.findByName("Level8");
         level.setDefault(true);
 
         levelDao.undefaultAllBut(level);

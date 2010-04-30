@@ -2,8 +2,6 @@ package org.synyx.minos.skillz.dao;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +40,7 @@ public class MatrixTemplateDaoIntegrationTest extends
     @Test
     public void undefaultsTemplatesCorrectly() throws Exception {
 
-        List<MatrixTemplate> templates =
-                templateDao.readByExample(new MatrixTemplate("Template8"));
-
-        MatrixTemplate template = templates.get(0);
+        MatrixTemplate template = templateDao.findByName("Template8");
         template.setDefault(true);
 
         templateDao.undefaultAllBut(template);

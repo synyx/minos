@@ -75,11 +75,7 @@ public class InstantMessagingServiceImpl implements InstantMessagingService {
         Assert.notNull(user, "User must not be null!");
         Assert.notNull(pageable, "Pageable must not be null!");
 
-        InstantMessage example = new InstantMessage();
-        example.setReceipient(user);
-        example.setInInbox(true);
-
-        return instantMessageDao.readByExample(pageable, example);
+        return instantMessageDao.findInboxMessagesFor(user, pageable);
     }
 
 
@@ -94,11 +90,7 @@ public class InstantMessagingServiceImpl implements InstantMessagingService {
 
         Assert.notNull(user, "User must not be null!");
 
-        InstantMessage example = new InstantMessage();
-        example.setSender(user);
-        example.setInOutbox(true);
-
-        return instantMessageDao.readByExample(example);
+        return instantMessageDao.findOutboxMessagesFor(user);
     }
 
 
@@ -114,10 +106,7 @@ public class InstantMessagingServiceImpl implements InstantMessagingService {
         Assert.notNull(user, "User must not be null!");
         Assert.notNull(pageable, "Pageable must not be null!");
 
-        InstantMessage example = new InstantMessage();
-        example.setSender(user);
-
-        return instantMessageDao.readByExample(pageable, example);
+        return instantMessageDao.findOutboxMessagesFor(user, pageable);
     }
 
 

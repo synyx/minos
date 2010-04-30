@@ -2,7 +2,7 @@ package org.synyx.minos.skillz.dao;
 
 import java.util.List;
 
-import org.synyx.hades.dao.ExtendedGenericDao;
+import org.synyx.hades.dao.GenericDao;
 import org.synyx.hades.dao.Modifying;
 import org.synyx.hades.dao.Query;
 import org.synyx.minos.skillz.domain.Level;
@@ -13,7 +13,7 @@ import org.synyx.minos.skillz.domain.Level;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public interface LevelDao extends ExtendedGenericDao<Level, Long> {
+public interface LevelDao extends GenericDao<Level, Long> {
 
     /**
      * Returns the default {@link Level}.

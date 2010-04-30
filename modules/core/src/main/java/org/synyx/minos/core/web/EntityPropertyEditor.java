@@ -1,6 +1,7 @@
 package org.synyx.minos.core.web;
 
 import java.beans.PropertyEditor;
+import java.io.Serializable;
 
 import org.synyx.hades.dao.GenericDao;
 import org.synyx.hades.domain.Persistable;
@@ -12,7 +13,7 @@ import org.synyx.hades.domain.Persistable;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class EntityPropertyEditor<T extends GenericDao<S, Long>, S extends Persistable<Long>>
+public class EntityPropertyEditor<T extends GenericDao<S, Serializable>, S>
         extends AbstractEntityPropertyEditor<S> {
 
     private T dao;
@@ -36,7 +37,7 @@ public class EntityPropertyEditor<T extends GenericDao<S, Long>, S extends Persi
      * @param dao
      * @return
      */
-    public static <T extends GenericDao<S, Long>, S extends Persistable<Long>> EntityPropertyEditor<T, S> create(
+    public static <T extends GenericDao<S, Serializable>, S> EntityPropertyEditor<T, S> create(
             T dao) {
 
         return new EntityPropertyEditor<T, S>(dao);

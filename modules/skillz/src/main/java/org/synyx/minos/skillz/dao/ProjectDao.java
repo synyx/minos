@@ -2,11 +2,10 @@ package org.synyx.minos.skillz.dao;
 
 import java.util.List;
 
-import org.synyx.hades.dao.ExtendedGenericDao;
+import org.synyx.hades.dao.GenericDao;
 import org.synyx.hades.dao.Query;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.skillz.domain.Project;
-
 
 
 /**
@@ -14,7 +13,7 @@ import org.synyx.minos.skillz.domain.Project;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public interface ProjectDao extends ExtendedGenericDao<Project, Long> {
+public interface ProjectDao extends GenericDao<Project, Long> {
 
     /**
      * Returns all {@link Project}s publically available to all {@link User}s.
@@ -34,7 +33,8 @@ public interface ProjectDao extends ExtendedGenericDao<Project, Long> {
      */
     @Query("select p from Project p where p.owner = ?")
     List<Project> findProjectsFor(User user);
-    
+
+
     /**
      * Returns the {@link Project} by the given name.
      * 

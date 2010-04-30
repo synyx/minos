@@ -2,7 +2,7 @@ package org.synyx.minos.skillz.dao;
 
 import java.util.List;
 
-import org.synyx.hades.dao.ExtendedGenericDao;
+import org.synyx.hades.dao.GenericDao;
 import org.synyx.hades.dao.Query;
 import org.synyx.minos.skillz.domain.Category;
 import org.synyx.minos.skillz.domain.MatrixTemplate;
@@ -14,7 +14,7 @@ import org.synyx.minos.skillz.domain.SkillMatrix;
 /**
  * @author Oliver Gierke - gierke@synyx.de
  */
-public interface SkillzMatrixDao extends ExtendedGenericDao<SkillMatrix, Long> {
+public interface SkillzMatrixDao extends GenericDao<SkillMatrix, Long> {
 
     @Query("select count(l) from Level l")
     int findByNumberOfLevels();

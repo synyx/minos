@@ -3,7 +3,7 @@ package org.synyx.minos.calendar.dao;
 import java.util.Date;
 import java.util.List;
 
-import org.synyx.hades.dao.ExtendedGenericDao;
+import org.synyx.hades.dao.GenericDao;
 import org.synyx.hades.dao.Query;
 import org.synyx.minos.calendar.domain.Appointment;
 import org.synyx.minos.core.domain.User;
@@ -14,7 +14,7 @@ import org.synyx.minos.core.domain.User;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public interface AppointmentDao extends ExtendedGenericDao<Appointment, Long> {
+public interface AppointmentDao extends GenericDao<Appointment, Long> {
 
     /**
      * Returns all appointments that start and end in the given timeframe.

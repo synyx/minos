@@ -1,6 +1,6 @@
 package org.synyx.minos.skillz.dao;
 
-import org.synyx.hades.dao.ExtendedGenericDao;
+import org.synyx.hades.dao.GenericDao;
 import org.synyx.hades.dao.Modifying;
 import org.synyx.hades.dao.Query;
 import org.synyx.minos.skillz.domain.MatrixTemplate;
@@ -11,8 +11,7 @@ import org.synyx.minos.skillz.domain.MatrixTemplate;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public interface MatrixTemplateDao extends
-        ExtendedGenericDao<MatrixTemplate, Long> {
+public interface MatrixTemplateDao extends GenericDao<MatrixTemplate, Long> {
 
     /**
      * Returns the default {@link MatrixTemplate}.
@@ -32,4 +31,7 @@ public interface MatrixTemplateDao extends
     @Modifying
     @Query("update MatrixTemplate t set t.isDefault = false where t <> ?")
     void undefaultAllBut(MatrixTemplate template);
+
+
+    MatrixTemplate findByName(String name);
 }

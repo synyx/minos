@@ -1,6 +1,7 @@
 package org.synyx.minos.core.web;
 
 import java.beans.PropertyEditor;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,11 +26,11 @@ import org.synyx.hades.util.ClassUtils;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-@SuppressWarnings("unchecked")
+
 public class GenericDaoPropertyEditorRegistrar implements
         PropertyEditorRegistrar, ApplicationContextAware {
 
-	private Map<Class<?>, GenericDao> daoMap;
+    private Map<Class<?>, GenericDao<?, Serializable>> daoMap;
 
 
     /**
@@ -51,12 +52,13 @@ public class GenericDaoPropertyEditorRegistrar implements
      * org.springframework.beans.PropertyEditorRegistrar#registerCustomEditors
      * (org.springframework.beans.PropertyEditorRegistry)
      */
-	public void registerCustomEditors(PropertyEditorRegistry registry) {
+    public void registerCustomEditors(PropertyEditorRegistry registry) {
 
-        for (Entry<Class<?>, GenericDao> entry : daoMap.entrySet()) {
+        for (Entry<Class<?>, GenericDao<?, Serializable>> entry : daoMap
+                .entrySet()) {
 
             registry.registerCustomEditor(entry.getKey(), EntityPropertyEditor
-                    .create((GenericDao<?, Long>) entry.getValue()));
+                    .create(entry.getValue()));
         }
     }
 
@@ -69,6 +71,7 @@ public class GenericDaoPropertyEditorRegistrar implements
      * (org.springframework.context.ApplicationContext)
      */
     @Override
+    @SuppressWarnings("unchecked")
     public void setApplicationContext(ApplicationContext applicationContext)
             throws BeansException {
 
@@ -76,11 +79,13 @@ public class GenericDaoPropertyEditorRegistrar implements
                 BeanFactoryUtils.beansOfTypeIncludingAncestors(
                         applicationContext, GenericDao.class).values();
 
-        this.daoMap = new HashMap<Class<?>, GenericDao>(daos.size());
+        this.daoMap =
+                new HashMap<Class<?>, GenericDao<?, Serializable>>(daos.size());
 
         for (GenericDao<?, ?> dao : daos) {
 
-            this.daoMap.put(getDomainClass(dao), dao);
+            this.daoMap.put(getDomainClass(dao),
+                    (GenericDao<?, Serializable>) dao);
         }
     }
 }
