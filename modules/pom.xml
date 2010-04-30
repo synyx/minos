@@ -512,6 +512,12 @@
             </snapshots>
         </repository>
         
+        <repository>
+            <id>jboss</id>
+            <name>JBoss repository</name>
+            <url>http://repository.jboss.org/maven2</url>
+        </repository>
+        
     </repositories>
     
     <pluginRepositories>

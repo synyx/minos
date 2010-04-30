@@ -40,7 +40,6 @@ public class MergingPersistenceUnitManager extends
 
         // Invoke normal post processing
         super.postProcessPersistenceUnitInfo(pui);
-        pui.addJarFileUrl(pui.getPersistenceUnitRootUrl());
 
         PersistenceUnitInfo oldPui =
                 getPersistenceUnitInfo(pui.getPersistenceUnitName());
@@ -58,6 +57,8 @@ public class MergingPersistenceUnitManager extends
                     pui.addJarFileUrl(url);
                 }
             }
+            
+            pui.addJarFileUrl(oldPui.getPersistenceUnitRootUrl());
         }
     }
 }

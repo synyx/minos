@@ -7,10 +7,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
-import org.hibernate.annotations.CollectionOfElements;
 import org.synyx.hades.domain.auditing.AbstractAuditable;
 import org.synyx.minos.util.Assert;
 
@@ -36,9 +36,7 @@ public class Role extends AbstractAuditable<User, Long> {
     @Column(nullable = false, unique = true)
     private String name;
 
-    // TODO: Get rid of this as JPA 2.0 addresses the issue (by providing
-    // @ElementCollection)
-    @CollectionOfElements(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> permissions;
 
 
