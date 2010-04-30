@@ -53,10 +53,9 @@ public class MinosMarshallingHttpMessageConverter extends
      * #readFromSource(java.lang.Class, org.springframework.http.HttpHeaders,
      * javax.xml.transform.Source)
      */
-
     @Override
-    protected Object readFromSource(Class<Object> clazz, HttpHeaders headers,
-            Source source) throws IOException {
+    protected Object readFromSource(Class<? extends Object> clazz,
+            HttpHeaders headers, Source source) throws IOException {
 
         Unmarshaller marshaller =
                 marshallers.getPluginFor(clazz,

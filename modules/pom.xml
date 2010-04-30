@@ -58,7 +58,7 @@
  
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <springVersion>3.0.0.RELEASE</springVersion>
+        <springVersion>3.0.2.RELEASE</springVersion>
         <springSecurityVersion>3.0.0.RELEASE</springSecurityVersion>
         <junit.version>4.6</junit.version>
         <jetty.version>6.1.20</jetty.version>
@@ -96,12 +96,32 @@
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>org.springframework.web</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>org.springframework.web.servlet</artifactId>
             <version>${springVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>org.springframework.oxm</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>org.springframework.context</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>org.springframework.core</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>org.springframework.beans</artifactId>
             <version>${springVersion}</version>
         </dependency>
         

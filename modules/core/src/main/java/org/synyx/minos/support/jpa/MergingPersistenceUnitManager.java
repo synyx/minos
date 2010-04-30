@@ -2,6 +2,8 @@ package org.synyx.minos.support.jpa;
 
 import java.net.URL;
 
+import javax.persistence.spi.PersistenceUnitInfo;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager;
@@ -40,7 +42,7 @@ public class MergingPersistenceUnitManager extends
         super.postProcessPersistenceUnitInfo(pui);
         pui.addJarFileUrl(pui.getPersistenceUnitRootUrl());
 
-        MutablePersistenceUnitInfo oldPui =
+        PersistenceUnitInfo oldPui =
                 getPersistenceUnitInfo(pui.getPersistenceUnitName());
 
         if (oldPui != null) {
