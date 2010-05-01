@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.synyx.hades.domain.auditing.AbstractAuditable;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.util.Assert;
@@ -30,10 +28,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     private static final long serialVersionUID = 8926027934220678416L;
 
-    @OneToMany
-    // TODO: switch back to JPA annotations and "orphanRemoval" when updateing
-    // to JPA 2.0 - use Hibernate annotations for now
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(cascade = ALL, orphanRemoval = true)
     private List<SkillEntry> entries;
 
     @ManyToOne(cascade = { PERSIST, MERGE })

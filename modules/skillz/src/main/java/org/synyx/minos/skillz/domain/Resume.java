@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.joda.time.DateMidnight;
 import org.springframework.util.Assert;
 import org.synyx.hades.domain.auditing.AbstractAuditable;
@@ -46,8 +44,7 @@ public class Resume extends AbstractAuditable<User, Long> {
 
     private String foreignLanguages;
 
-    @OneToMany
-    @Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(cascade = ALL, orphanRemoval = true)
     private final List<Activity> references;
 
     @OneToOne(cascade = { PERSIST, MERGE, REMOVE })
