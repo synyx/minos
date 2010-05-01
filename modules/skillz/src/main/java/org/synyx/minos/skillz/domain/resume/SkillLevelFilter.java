@@ -76,10 +76,10 @@ public class SkillLevelFilter extends ResumeFilterSupport {
      * (javax.persistence.Query, java.util.Map)
      */
     @Override
-    public void manualBindParameters(Query query, Map<String, Object> parameters) {
+    public void bindParameters(Query query, Map<String, Object> parameters) {
 
         query.setParameter("level", ((Level) parameters.get("level"))
                 .getOrdinal());
+        query.setParameter("skill", parameters.get("skill"));
     }
-
 }

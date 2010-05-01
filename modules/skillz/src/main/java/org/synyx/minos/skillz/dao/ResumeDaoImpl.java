@@ -4,7 +4,6 @@ import static org.synyx.hades.dao.query.QueryUtils.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -53,11 +52,8 @@ public class ResumeDaoImpl implements ResumeDaoCustom {
         Query jpaQuery = entityManager.createQuery(queryString);
 
         if (resumeFilter.getQueryPartString() != null) {
-            for (Entry<String, Object> parameter : parameters.entrySet()) {
 
-                jpaQuery.setParameter(parameter.getKey(), parameter.getValue());
-            }
-            resumeFilter.manualBindParameters(jpaQuery, parameters);
+            resumeFilter.bindParameters(jpaQuery, parameters);
         }
 
         return jpaQuery;

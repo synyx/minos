@@ -56,12 +56,11 @@ public interface ResumeFilter {
 
 
     /**
-     * Let you override the binding the JPA parameters. Needed when a type of a
-     * parameter isn't a primitive value.
+     * Binds the given parameters to the given {@link Query}.
      * 
      * @param query
      * @param parameters
      */
-    void manualBindParameters(Query query, Map<String, Object> parameters);
+    void bindParameters(Query query, Map<String, Object> parameters);
 
 }

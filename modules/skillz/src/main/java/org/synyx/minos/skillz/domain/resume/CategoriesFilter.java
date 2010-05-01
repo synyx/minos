@@ -77,7 +77,7 @@ public class CategoriesFilter extends ResumeFilterSupport {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public void manualBindParameters(Query query, Map<String, Object> parameters) {
+    public void bindParameters(Query query, Map<String, Object> parameters) {
 
         List<String> categoryNames = new ArrayList<String>();
         for (Category category : (List<Category>) parameters.get("categories")) {

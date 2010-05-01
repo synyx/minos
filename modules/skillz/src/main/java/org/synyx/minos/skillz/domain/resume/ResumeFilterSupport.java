@@ -2,6 +2,7 @@ package org.synyx.minos.skillz.domain.resume;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.persistence.Query;
 
@@ -47,17 +48,19 @@ public abstract class ResumeFilterSupport implements ResumeFilter {
     }
 
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Default implementation simply binds the given parameters by name as is.
+     * In case you declare non-primitive {@link ResumeFilterParameters} in
+     * {@link ResumeFilter#getParameters()} you have to implement custom binding
+     * here.
      * 
-     * @see
-     * org.synyx.minos.skillz.domain.resume.ResumeFilter#manuallBindParameters
-     * (javax.persistence.Query, java.util.Map)
+     * @see ResumeFilter#bindParameters(Query, Map)
      */
     @Override
-    public void manualBindParameters(Query query, Map<String, Object> parameters) {
+    public void bindParameters(Query query, Map<String, Object> parameters) {
 
-        // nothing to do
+        for (Entry<String, Object> parameter : parameters.entrySet()) {
+            query.setParameter(parameter.getKey(), parameter.getValue());
+        }
     }
-
 }
