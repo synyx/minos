@@ -100,13 +100,8 @@ public class PageableArgumentResolver implements WebArgumentResolver {
 
             assertPageableUniqueness(methodParameter);
 
-            // Construct request with fallback request to ensure sensible
-            // default values. Create fresh copy as Spring will manipulate the
-            // instance under the covers
             Pageable request =
-                    new PageRequest(fallbackPagable.getPageNumber(),
-                            fallbackPagable.getPageSize(), fallbackPagable
-                                    .getSort());
+                    getDefaultFromAnnotationOrFallback(methodParameter);
 
             ServletRequest servletRequest =
                     (ServletRequest) webRequest.getNativeRequest();
@@ -133,6 +128,28 @@ public class PageableArgumentResolver implements WebArgumentResolver {
         }
 
         return UNRESOLVED;
+    }
+
+
+    private Pageable getDefaultFromAnnotationOrFallback(
+            MethodParameter methodParameter) {
+
+        // search for PageableDefaults annotation
+        for (Annotation annotation : methodParameter.getParameterAnnotations()) {
+            if (annotation instanceof PageableDefaults) {
+                PageableDefaults defaults = (PageableDefaults) annotation;
+                // +1 is because we substract 1 later
+                return new PageRequest(defaults.pageNumber() + 1, defaults
+                        .value());
+            }
+        }
+
+        // Construct request with fallback request to ensure sensible
+        // default values. Create fresh copy as Spring will manipulate the
+        // instance under the covers
+        return new PageRequest(fallbackPagable.getPageNumber(), fallbackPagable
+                .getPageSize(), fallbackPagable.getSort());
+
     }
 
 

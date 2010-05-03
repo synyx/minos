@@ -1,6 +1,7 @@
 package org.synyx.minos.core.web;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Method;
 
@@ -14,7 +15,6 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.synyx.hades.domain.Order;
 import org.synyx.hades.domain.Pageable;
 import org.synyx.hades.domain.Sort;
-import org.synyx.minos.core.web.PageableArgumentResolver;
 
 
 /**
@@ -27,6 +27,7 @@ public class PageableArgumentResolverUnitTest {
     private Method correctMethod;
     private Method failedMethod;
     private Method invalidQualifiers;
+    private Method defaultsMethod;
 
     private MockHttpServletRequest request;
 
@@ -43,6 +44,10 @@ public class PageableArgumentResolverUnitTest {
         invalidQualifiers =
                 SampleController.class.getMethod("invalidQualifiers",
                         Pageable.class, Pageable.class);
+
+        defaultsMethod =
+                SampleController.class.getMethod("defaultsMethod",
+                        Pageable.class);
 
         request = new MockHttpServletRequest();
 
@@ -84,6 +89,45 @@ public class PageableArgumentResolverUnitTest {
     }
 
 
+    @Test
+    public void assertDefaults() throws Exception {
+
+        MethodParameter parameter = new MethodParameter(defaultsMethod, 0);
+        NativeWebRequest webRequest =
+                new ServletWebRequest(new MockHttpServletRequest());
+        PageableArgumentResolver resolver = new PageableArgumentResolver();
+        Object argument = resolver.resolveArgument(parameter, webRequest);
+
+        assertTrue(argument instanceof Pageable);
+
+        Pageable pageable = (Pageable) argument;
+        assertEquals(SampleController.DEFAULT_PAGESIZE, pageable.getPageSize());
+        assertEquals(SampleController.DEFAULT_PAGENUMBER, pageable
+                .getPageNumber());
+    }
+
+
+    @Test
+    public void assertOverridesDefaults() throws Exception {
+
+        Integer sizeParam = 5;
+
+        MethodParameter parameter = new MethodParameter(defaultsMethod, 0);
+        MockHttpServletRequest mockRequest = new MockHttpServletRequest();
+
+        mockRequest.addParameter("page.page", sizeParam.toString());
+        NativeWebRequest webRequest = new ServletWebRequest(mockRequest);
+        PageableArgumentResolver resolver = new PageableArgumentResolver();
+        Object argument = resolver.resolveArgument(parameter, webRequest);
+
+        assertTrue(argument instanceof Pageable);
+
+        Pageable pageable = (Pageable) argument;
+        assertEquals(SampleController.DEFAULT_PAGESIZE, pageable.getPageSize());
+        assertEquals(sizeParam - 1, pageable.getPageNumber());
+    }
+
+
     private void assertSizeForPrefix(int size, Sort sort, int index)
             throws Exception {
 
@@ -105,6 +149,16 @@ public class PageableArgumentResolverUnitTest {
 
     @SuppressWarnings("unused")
     private class SampleController {
+
+        static final int DEFAULT_PAGESIZE = 198;
+        static final int DEFAULT_PAGENUMBER = 42;
+
+
+        public void defaultsMethod(
+                @PageableDefaults(value = DEFAULT_PAGESIZE, pageNumber = DEFAULT_PAGENUMBER) Pageable pageable) {
+
+        }
+
 
         public void correctMethod(@Qualifier("foo") Pageable first,
                 @Qualifier("bar") Pageable second) {
