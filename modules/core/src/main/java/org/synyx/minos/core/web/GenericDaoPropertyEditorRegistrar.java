@@ -57,8 +57,9 @@ public class GenericDaoPropertyEditorRegistrar implements
         for (Entry<Class<?>, GenericDao<?, Serializable>> entry : daoMap
                 .entrySet()) {
 
-            registry.registerCustomEditor(entry.getKey(), EntityPropertyEditor
-                    .create(entry.getValue()));
+            registry.registerCustomEditor(entry.getKey(),
+                    new EntityPropertyEditor<Serializable>(entry.getValue(),
+                            registry));
         }
     }
 

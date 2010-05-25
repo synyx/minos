@@ -1,10 +1,15 @@
 package org.synyx.minos.core.web;
 
 import java.beans.PropertyEditor;
+import java.beans.PropertyEditorSupport;
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.PropertyEditorRegistry;
+import org.springframework.beans.SimpleTypeConverter;
 import org.synyx.hades.dao.GenericDao;
 import org.synyx.hades.domain.Persistable;
+import org.synyx.hades.util.ClassUtils;
 
 
 /**
@@ -13,47 +18,84 @@ import org.synyx.hades.domain.Persistable;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class EntityPropertyEditor<T extends GenericDao<S, Serializable>, S>
-        extends AbstractEntityPropertyEditor<S> {
+public class EntityPropertyEditor<T extends Serializable> extends
+        PropertyEditorSupport {
 
-    private T dao;
+    private final GenericDao<?, T> dao;
+    private final PropertyEditorRegistry registry;
 
 
     /**
      * Creates a new {@link EntityPropertyEditor} for the given dao.
      * 
      * @param dao
+     * @param registry
      */
-    protected EntityPropertyEditor(T dao) {
+    public EntityPropertyEditor(GenericDao<?, T> dao,
+            PropertyEditorRegistry registry) {
 
         this.dao = dao;
-    }
-
-
-    /**
-     * Static factory method to create {@link EntityPropertyEditor} instances.
-     * 
-     * @param <T>
-     * @param dao
-     * @return
-     */
-    public static <T extends GenericDao<S, Serializable>, S> EntityPropertyEditor<T, S> create(
-            T dao) {
-
-        return new EntityPropertyEditor<T, S>(dao);
+        this.registry = registry;
     }
 
 
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.core.web.AbstractEntityPropertyEditor#lookupForId(java
-     * .lang.Long)
+     * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
      */
     @Override
-    protected S lookupForId(Long id) {
+    public void setAsText(String idAsString) throws IllegalArgumentException {
 
-        return dao.readByPrimaryKey(id);
+        if (StringUtils.isBlank(idAsString)) {
+            setValue(null);
+            return;
+        }
+
+        setValue(dao.readByPrimaryKey(getId(idAsString)));
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.beans.PropertyEditorSupport#getAsText()
+     */
+    @Override
+    public String getAsText() {
+
+        Persistable<?> value = (Persistable<?>) getValue();
+
+        if (null == value) {
+            return null;
+        }
+
+        return null == value.getId() ? null : value.getId().toString();
+    }
+
+
+    /**
+     * Returns the actual typed id. Looks up an available customly registered
+     * {@link PropertyEditor} from the {@link PropertyEditorRegistry} before
+     * falling back on a {@link SimpleTypeConverter} to translate the
+     * {@link String} id into the type one.
+     * 
+     * @param idAsString
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    private T getId(String idAsString) {
+
+        Class<T> idClass = (Class<T>) ClassUtils.getIdClass(dao.getClass());
+
+        PropertyEditor idEditor = registry.findCustomEditor(idClass, null);
+
+        if (idEditor != null) {
+            idEditor.setAsText(idAsString);
+            return (T) idEditor.getValue();
+        }
+
+        return new SimpleTypeConverter()
+                .convertIfNecessary(idAsString, idClass);
     }
 }
