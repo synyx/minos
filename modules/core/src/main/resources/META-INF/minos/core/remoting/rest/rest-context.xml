@@ -43,8 +43,8 @@
 		</property>
 	</bean>    
     
-    <bean class="org.synyx.minos.support.remoting.StrictContentNegotiatingViewResolver">
-        <property name="beStrict" value="true" />
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="useNotAcceptableStatusCode" value="true" />
         <property name="mediaTypes">
             <map>
                 <entry key="xml" value="application/xml" />
