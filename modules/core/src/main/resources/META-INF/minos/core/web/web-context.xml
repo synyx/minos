@@ -65,23 +65,26 @@
                 </bean>
 			</list>
 		</property>
-		<property name="webBindingInitializer">
-			<bean class="org.synyx.minos.core.web.MinosWebBindingIntializer">
-				<property name="parameters">
-					<map>
-						<entry key="id">
-							<set>
-								<value>java.lang.Long</value>
-							</set>
-						</entry>
-					</map>
-				</property>
-                <property name="propertyEditorRegistrars">
-                    <plugin:list class="org.springframework.beans.PropertyEditorRegistrar" />
-                </property>
-			</bean>
+		<property name="webBindingInitializer" ref="minosWebBindingInitializer">
+			
 		</property>
         <property name="supportedMethods" value="GET,PUT,POST,HEAD,DELETE" />
+	</bean>
+
+
+	<bean id="minosWebBindingInitializer" class="org.synyx.minos.core.web.MinosWebBindingIntializer">
+		<property name="parameters">
+			<map>
+				<entry key="id">
+					<set>
+						<value>java.lang.Long</value>
+					</set>
+				</entry>
+			</map>
+		</property>
+		<property name="propertyEditorRegistrars">
+			<plugin:list class="org.springframework.beans.PropertyEditorRegistrar" />
+		</property>
 	</bean>
     
     <!-- PropertyEditors -->
