@@ -99,6 +99,16 @@ public interface UserManagement {
 
 
     /**
+     * Returns all {@link User}s that have the given {@link Role}
+     * 
+     * @param role the {@link Role} to search {@link User}s for
+     * @param pageable
+     * @return a page of {@link User}s with the given {@link Role}
+     */
+    Page<User> getUsersByRole(Role role, Pageable pageable);
+
+
+    /**
      * Returns whether a {@code User} with the given id already exists.
      * 
      * @param id

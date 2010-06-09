@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.Pageable;
 import org.synyx.minos.core.Core;
 import org.synyx.minos.core.authentication.AuthenticationService;
@@ -104,11 +106,20 @@ public class UmtController extends ValidationSupport<UserForm> {
      * @return
      */
     @RequestMapping(value = USERS, method = GET)
-    public String getUsers(Pageable pageable, Model model, @CurrentUser User user) {
+    public String getUsers(Pageable pageable, Model model, @RequestParam(value = "role", required = false) Role role,
+            @CurrentUser User user) {
 
         model.addAttribute("currentUser", user);
-        model.addAttribute(USERS_KEY, PageWrapper.wrap(userManagement.getUsers(pageable)));
 
+        Page<User> page = null;
+        if (role == null) {
+            page = userManagement.getUsers(pageable);
+        } else {
+            page = userManagement.getUsersByRole(role, pageable);
+        }
+
+        model.addAttribute(USERS_KEY, PageWrapper.wrap(page));
+        model.addAttribute("roles", userManagement.getRoles());
         return USERS;
     }
 

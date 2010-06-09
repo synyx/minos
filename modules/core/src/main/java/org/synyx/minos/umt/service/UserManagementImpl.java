@@ -328,4 +328,16 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
         save(user);
         userDao.flush();
     }
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.synyx.minos.umt.service.UserManagement#getUsersByRole(org.synyx.minos.core.domain.Role)
+     */
+    @Override
+    public Page<User> getUsersByRole(Role role, Pageable pageable) {
+
+        return userDao.findByRole(pageable, role);
+    }
 }

@@ -23,6 +23,7 @@ import org.springframework.web.bind.support.SimpleSessionStatus;
 import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.PageImpl;
 import org.synyx.minos.core.authentication.AuthenticationService;
+import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.umt.service.UserManagement;
@@ -30,8 +31,7 @@ import org.synyx.minos.umt.service.UserNotFoundException;
 
 
 /**
- * Unit test for {@code UmtController}. TODO: extract message assertions into
- * utility class
+ * Unit test for {@code UmtController}. TODO: extract message assertions into utility class
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -86,8 +86,8 @@ public class UmtControllerUnitTest {
 
 
     /**
-     * Asserts that the request for the users binds the user list to the model
-     * that is returned by the user management service.
+     * Asserts that the request for the users binds the user list to the model that is returned by the user management
+     * service.
      */
     @Test
     @SuppressWarnings("unchecked")
@@ -98,17 +98,34 @@ public class UmtControllerUnitTest {
         // Prepare user management
         when(userManagement.getUsers(null)).thenReturn(referenceUsers);
 
-        controller.getUsers(null, model, USER);
+        controller.getUsers(null, model, null, USER);
 
-        assertThat(model.asMap().get(UmtController.USERS_KEY),
-                is(notNullValue()));
+        assertThat(model.asMap().get(UmtController.USERS_KEY), is(notNullValue()));
     }
 
 
     /**
-     * Asserts, that a request to delete a user without giving an id results in
-     * a redirect request to the list users page as well as produces an error
-     * message.
+     * Asserts that if a role is given getUsers executes the role-filter method on the usermanagement
+     */
+    @Test
+    @SuppressWarnings("unchecked")
+    public void executesRoleFilterMethodOnManagement() {
+
+        Page<User> referenceUsers = new PageImpl<User>(Collections.EMPTY_LIST);
+
+        Role role = new Role("somerole");
+        // Prepare user management
+        when(userManagement.getUsersByRole(role, null)).thenReturn(referenceUsers);
+
+        controller.getUsers(null, model, role, USER);
+
+        assertThat(model.asMap().get(UmtController.USERS_KEY), is(notNullValue()));
+    }
+
+
+    /**
+     * Asserts, that a request to delete a user without giving an id results in a redirect request to the list users
+     * page as well as produces an error message.
      */
     @Test
     public void rejectsMissingUserIdOnDelete() {
@@ -121,8 +138,7 @@ public class UmtControllerUnitTest {
 
 
     /**
-     * Asserts that a successful deletion is confirmed by a success message
-     * containing the username.
+     * Asserts that a successful deletion is confirmed by a success message containing the username.
      * 
      * @throws UserNotFoundException
      */
@@ -139,8 +155,7 @@ public class UmtControllerUnitTest {
 
 
     /**
-     * Asserts that the controller prepopulates a blank user form for the edit
-     * form if no id is given.
+     * Asserts that the controller prepopulates a blank user form for the edit form if no id is given.
      */
     @Test
     public void createsBlankFormIfNoIdGiven() {
@@ -149,15 +164,13 @@ public class UmtControllerUnitTest {
 
         Assert.assertEquals("/umt/user", viewName);
 
-        UserForm user =
-                assertContains(model, UmtController.USER_KEY, UserForm.class);
+        UserForm user = assertContains(model, UmtController.USER_KEY, UserForm.class);
         Assert.assertTrue(user.isNew());
     }
 
 
     /**
-     * Asserts that the controller rejects invalid usernames and redirects to
-     * the user list instead.
+     * Asserts that the controller rejects invalid usernames and redirects to the user list instead.
      */
     @Test
     public void rejectsInvalidUsernameForEdit() {
@@ -170,8 +183,8 @@ public class UmtControllerUnitTest {
 
 
     /**
-     * Asserts that the controller puts the user into the model that is returned
-     * by the {@code UserManagement} on a request with a valid username.
+     * Asserts that the controller puts the user into the model that is returned by the {@code UserManagement} on a
+     * request with a valid username.
      */
     @Test
     public void putsUserToEditIntoModel() {
@@ -185,31 +198,27 @@ public class UmtControllerUnitTest {
         Assert.assertEquals("/umt/user", viewName);
 
         // Assert model
-        UserForm userForm =
-                assertContains(model, UmtController.USER_KEY, UserForm.class);
+        UserForm userForm = assertContains(model, UmtController.USER_KEY, UserForm.class);
         Assert.assertEquals(user, userForm.getDomainObject());
     }
 
 
     /**
-     * Asserts that the controller rejects form submissions whose validation
-     * results return errors.
+     * Asserts that the controller rejects form submissions whose validation results return errors.
      */
     @Test
     public void rejectsInvalidFormSubmissions() {
 
         expectValidationResult(false);
 
-        String viewName =
-                controller.saveUser(userForm, "", errors, sessionStatus, model);
+        String viewName = controller.saveUser(userForm, "", errors, sessionStatus, model);
 
         Assert.assertEquals("/umt/user", viewName);
     }
 
 
     /**
-     * Asserts that the controller invokes {@code UserManagement#save(User)} if
-     * a valid request was submitted.
+     * Asserts that the controller invokes {@code UserManagement#save(User)} if a valid request was submitted.
      */
     @Test
     public void triggersSaveOnUserManagement() {
@@ -218,9 +227,7 @@ public class UmtControllerUnitTest {
 
         User user = userForm.getDomainObject();
 
-        String viewName =
-                controller.saveUser(userForm, "./users", errors, sessionStatus,
-                        model);
+        String viewName = controller.saveUser(userForm, "./users", errors, sessionStatus, model);
 
         Assert.assertEquals(UrlUtils.redirect("./users"), viewName);
         assertSuccessMessageWithArguments(model, userForm.getUsername());

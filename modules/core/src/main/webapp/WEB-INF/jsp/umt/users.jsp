@@ -1,8 +1,35 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="minos" uri="http://www.synyx.org/minos/tags" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <%@ taglib prefix="core" tagdir="/WEB-INF/tags/core" %>
+
+
+<table id="rolefilter">
+<tr>
+<td>
+	<spring:message code="umt.user.rolefilter.explain"/>
+</td>
+<td>
+	<form action="users" method="get">
+		<select name="role">
+			<option value="-1"><spring:message code="umt.user.rolefilter.all"/></option>
+			<c:forEach var="role" items="${roles}">
+				<c:choose>
+					<c:when test="${param.role == role.id}"><c:set var="sel" value="selected='selected'"/></c:when>
+					<c:otherwise><c:set var="sel" value=""/></c:otherwise>
+				</c:choose>
+				<option ${sel} value="${role.id}">${role.name}</option>
+			</c:forEach>
+		
+		</select>
+		<input type="submit" value="<spring:message code="umt.user.rolefilter.dofilter"/>"/>
+	</form>
+</td>
+
+</tr>
+</table>
 
 <display:table id="user" name="users" requestURI="users" >
 	<minos:column titleKey="username" sortProperty="username">
