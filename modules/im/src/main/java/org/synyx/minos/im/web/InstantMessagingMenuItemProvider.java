@@ -9,7 +9,6 @@ import org.synyx.minos.core.web.menu.AbstractMenuItemProvider;
 import org.synyx.minos.core.web.menu.MenuItem;
 
 
-
 /**
  * Menu declarations for Instant Messaging module.
  * 
@@ -20,13 +19,12 @@ public class InstantMessagingMenuItemProvider extends AbstractMenuItemProvider {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.synyx.minos.core.web.menu.AbstractMenuItemProvider#initMenuItems()
+     * @see com.synyx.minos.core.web.menu.AbstractMenuItemProvider#initMenuItems()
      */
     @Override
     protected List<MenuItem> initMenuItems() {
 
-        MenuItem imMenu = new MenuItem("im.menu", 5, MODULE);
+        MenuItem imMenu = MenuItem.create("MENU_IM").withKeyBase("im.menu").withPosition(5).withUrl(MODULE).build();
 
         return Arrays.asList(imMenu);
     }

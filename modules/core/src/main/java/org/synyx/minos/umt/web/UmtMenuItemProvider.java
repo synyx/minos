@@ -17,6 +17,13 @@ import org.synyx.minos.umt.UmtPermissions;
  */
 public class UmtMenuItemProvider extends AbstractMenuItemProvider {
 
+    public static final String MENU_UMT = "MENU_UMT";
+    public static final String MENU_UMT_LOGOUT = "MENU_UMT_LOGOUT";
+    public static final String MENU_UMT_ROLES = "MENU_UMT_ROLES";
+    public static final String MENU_UMT_USERS = "MENU_UMT_USERS";
+    public static final String MENU_UMT_MYACCOUNT = "MENU_UMT_MYACCOUNT";
+
+
     /*
      * (non-Javadoc)
      * 
@@ -25,19 +32,30 @@ public class UmtMenuItemProvider extends AbstractMenuItemProvider {
     @Override
     protected List<MenuItem> initMenuItems() {
 
-        MenuItem logoutItem = new MenuItem("core.menu.logout", Integer.MAX_VALUE - 42, "/logout");
+        MenuItem logoutItem =
+                MenuItem.create(MENU_UMT_LOGOUT).withKeyBase("core.menu.logout").withPosition(1000000).withUrl(
+                        "/logout").build();
 
-        MenuItem rolesItem = new MenuItem("umt.menu.roles", 200, UmtUrls.ROLES).add(UmtPermissions.UMT_ADMIN);
+        MenuItem usersItem =
+                MenuItem.create(MENU_UMT_USERS).withKeyBase("umt.menu.users").withPosition(100).withUrl(UmtUrls.USERS)
+                        .withPermission(UmtPermissions.UMT_ADMIN).build();
 
-        MenuItem usersItem = new MenuItem("umt.menu.users", 100, UmtUrls.USERS).add(UmtPermissions.UMT_ADMIN);
+        MenuItem rolesItem =
+                MenuItem.create(MENU_UMT_ROLES).withKeyBase("umt.menu.roles").withPosition(200).withUrl(UmtUrls.ROLES)
+                        .withPermission(UmtPermissions.UMT_ADMIN).build();
 
-        MenuItem myAccountItem = new MenuItem("umt.myaccount", 300, UmtUrls.MYACCOUNT);
+        MenuItem myAccountItem =
+                MenuItem.create(MENU_UMT_MYACCOUNT).withKeyBase("umt.myaccount").withPosition(300).withUrl(
+                        UmtUrls.MYACCOUNT).build();
 
         // the menu should have the url of usersItem if possible or else the
         // myAccountItem
         UrlResolvingStrategy umtItemStrategy = new PreferredSubMenuItemUrlResolvingStrategy(usersItem, myAccountItem);
-        MenuItem umtItem = new MenuItem("umt.menu", 10000, umtItemStrategy, myAccountItem, rolesItem, usersItem);
+        MenuItem umtItem =
+                MenuItem.create(MENU_UMT).withKeyBase("umt.menu").withPosition(10000).withUrlStrategy(umtItemStrategy)
+                        .withSubmenues(usersItem, rolesItem, myAccountItem).build();
 
         return Arrays.asList(umtItem, logoutItem);
     }
+
 }

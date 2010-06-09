@@ -6,6 +6,8 @@
 <%@ taglib prefix="core" tagdir="/WEB-INF/tags/core" %>
 
 
+
+
 <table id="rolefilter">
 <tr>
 <td>
@@ -13,7 +15,7 @@
 </td>
 <td>
 	<form action="users" method="get">
-		<select name="role">
+		<select name="role" style="width: 150px;">
 			<option value="-1"><spring:message code="umt.user.rolefilter.all"/></option>
 			<c:forEach var="role" items="${roles}">
 				<c:choose>

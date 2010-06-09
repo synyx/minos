@@ -17,18 +17,17 @@ public class CalendarMenuItemProvider extends AbstractMenuItemProvider {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.synyx.minos.core.web.menu.AbstractMenuItemProvider#initMenuItems()
+     * @see com.synyx.minos.core.web.menu.AbstractMenuItemProvider#initMenuItems()
      */
     @Override
     protected List<MenuItem> initMenuItems() {
 
         MenuItem subItem =
-                new MenuItem("calendar.menu.appointment", 0,
-                        CalendarUrls.APPOINTMENTS);
-
+                MenuItem.create("MENU_CALENDAR_APPOINTMENTS").withKeyBase("calendar.menu.appointment").withPosition(0)
+                        .withUrl(CalendarUrls.APPOINTMENTS).build();
         MenuItem mainItem =
-                new MenuItem("calendar.menu", 100, CalendarUrls.MODULE, subItem);
+                MenuItem.create("MENU_CALENDAR_MAIN").withKeyBase("calendar.menu").withPosition(100).withUrl(
+                        CalendarUrls.MODULE).withSubmenu(subItem).build();
 
         return Arrays.asList(mainItem);
     }

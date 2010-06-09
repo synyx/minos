@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.util.StringUtils;
 import org.synyx.minos.core.domain.User;
+import org.synyx.minos.util.Assert;
 
 
 /**
@@ -24,186 +25,21 @@ public class MenuItem implements Comparable<MenuItem> {
     private static final String TITLE_POSTFIX = ".title";
     private static final String DESCRIPTION_POSTFIX = ".description";
 
-    private final UrlResolvingStrategy urlStrategy;
-    private final String title;
-    private final String desciption;
-    private final int position;
+    private String id;
+
+    private UrlResolvingStrategy urlStrategy;
+    private String title;
+    private String desciption;
+    private Integer position;
+    // TODO: what is this needed for?
     private MenuItem parent;
-    private List<MenuItem> subMenues;
-    private List<String> permissions;
+    private List<MenuItem> subMenues = new ArrayList<MenuItem>();
+    private List<String> permissions = new ArrayList<String>();
 
 
-    /**
-     * Creates a new {@link MenuItem} with the given {@code url} as target using the given {@code keyBase} to define
-     * title and description. {@link #TITLE_POSTFIX} and {@link #DESCRIPTION_POSTFIX} will be appended accordingly and
-     * default to {@value #TITLE_POSTFIX} as well as {@value #DESCRIPTION_POSTFIX}.
-     * 
-     * @param keyBase
-     * @param position
-     * @param url
-     */
-    public MenuItem(String keyBase, int position, String url) {
+    private MenuItem(String id) {
 
-        this(keyBase, position, url, null, new MenuItem[] {});
-    }
-
-
-    /**
-     * Creates a new {@link MenuItem} with the given {@code UrlResolvingStrategy} as target using the given {@code
-     * keyBase} to define title and description. {@link #TITLE_POSTFIX} and {@link #DESCRIPTION_POSTFIX} will be
-     * appended accordingly and default to {@value #TITLE_POSTFIX} as well as {@value #DESCRIPTION_POSTFIX}.
-     * 
-     * @param keyBase
-     * @param position
-     * @param urlStrategy
-     */
-    public MenuItem(String keyBase, int position, UrlResolvingStrategy urlStrategy) {
-
-        this(keyBase, position, null, urlStrategy, new MenuItem[] {});
-    }
-
-
-    public MenuItem(String keyBase, int position, MenuItem... items) {
-
-        this(keyBase, position, null, null, items);
-    }
-
-
-    /**
-     * Creates a new {@link MenuItem} with the given {@code url} as target using the given {@code keyBase} to define
-     * title and description. Uses the given {@code items} as sub menu items.
-     * 
-     * @param keyBase
-     * @param position
-     * @param url
-     * @param items
-     * @see #MenuItem(String, int, String)
-     */
-    public MenuItem(String keyBase, int position, String url, MenuItem... items) {
-
-        this(keyBase, position, url, null, items);
-    }
-
-
-    /**
-     * Creates a new {@link MenuItem} with the given {@code UrlResolvingStrategy} as target using the given {@code
-     * keyBase} to define title and description. Uses the given {@code items} as sub menu items.
-     * 
-     * @param keyBase
-     * @param position
-     * @param urlStrategy
-     * @param items
-     * @see #MenuItem(String, int, String)
-     */
-    public MenuItem(String keyBase, int position, UrlResolvingStrategy urlStrategy, MenuItem... items) {
-
-        this(keyBase, position, null, urlStrategy, items);
-    }
-
-
-    /**
-     * Creates a new {@link MenuItem} without submenues.
-     * 
-     * @param title
-     * @param desciption
-     * @param position
-     * @param url
-     */
-    public MenuItem(String title, String desciption, int position, String url) {
-
-        this(title, desciption, position, url, null, new MenuItem[] {});
-
-    }
-
-
-    /**
-     * Creates a new {@link MenuItem} without submenues.
-     * 
-     * @param title
-     * @param desciption
-     * @param position
-     * @param urlStrategy
-     */
-    public MenuItem(String title, String desciption, int position, UrlResolvingStrategy urlStrategy) {
-
-        this(title, desciption, position, null, urlStrategy, new MenuItem[] {});
-
-    }
-
-
-    /**
-     * Creates a new {@link MenuItem} with the given {@link MenuItem}s as submenues.
-     * 
-     * @param title
-     * @param description
-     * @param position
-     * @param url
-     * @param items
-     */
-    public MenuItem(String title, String description, int position, String url, MenuItem... items) {
-
-        this(title, description, position, url, null, items);
-    }
-
-
-    /**
-     * Creates a new {@link MenuItem} with the given {@link MenuItem}s as submenues.
-     * 
-     * @param title
-     * @param description
-     * @param position
-     * @param urlStrategy
-     * @param items
-     */
-    public MenuItem(String title, String description, int position, UrlResolvingStrategy urlStrategy, MenuItem... items) {
-
-        this(title, description, position, null, urlStrategy, items);
-    }
-
-
-    private MenuItem(String keyBase, int position, String url, UrlResolvingStrategy urlStrategy, MenuItem... items) {
-
-        this(keyBase + TITLE_POSTFIX, keyBase + DESCRIPTION_POSTFIX, position, url, urlStrategy, items);
-    }
-
-
-    private MenuItem(String title, String description, int position, String url, UrlResolvingStrategy urlStrategy,
-            MenuItem... items) {
-
-        this.title = title;
-        this.desciption = description;
-        this.position = position;
-        this.permissions = new ArrayList<String>();
-
-        UrlResolvingStrategy strategy = urlStrategy;
-        // if no strategy was given explicit we try to detect it
-        if (urlStrategy == null) {
-            if (url != null) {
-                strategy = new SimpleUrlResolvingStrategy(url);
-            } else if (items != null && items.length > 0) {
-                strategy = new FirstSubMenuUrlResolvingStrategy();
-            }
-        }
-
-        this.urlStrategy = strategy;
-
-        if (this.urlStrategy == null) {
-            throw new IllegalArgumentException(
-                    "No UrlResolvingStrategy not given. Could not autodetect one (you must supply a strategy, a url or submenues).");
-        }
-
-        this.subMenues = new ArrayList<MenuItem>();
-
-        if (items != null) {
-            this.subMenues.addAll(Arrays.asList(items));
-
-            for (MenuItem item : subMenues) {
-                item.parent = this;
-            }
-
-            Collections.sort(this.subMenues);
-
-        }
+        this.id = id;
     }
 
 
@@ -271,19 +107,6 @@ public class MenuItem implements Comparable<MenuItem> {
 
 
     /**
-     * Adds some permissions to the {@link MenuItem} that determines who is allowed to see/access it.
-     * 
-     * @param permission
-     * @return
-     */
-    public MenuItem add(String... permission) {
-
-        this.permissions.addAll(Arrays.asList(permission));
-        return this;
-    }
-
-
-    /**
      * Returns the permission required to access this {@link MenuItem}. Includes permissions from parent menu items,
      * too.
      * 
@@ -291,20 +114,7 @@ public class MenuItem implements Comparable<MenuItem> {
      */
     public List<String> getPermissions() {
 
-        if (isTopLevel()) {
-            return permissions;
-        }
-
-        List<String> result = new ArrayList<String>();
-        result.addAll(parent.getPermissions());
-
-        for (String permission : permissions) {
-            if (!result.contains(permission)) {
-                result.add(permission);
-            }
-        }
-
-        return Collections.unmodifiableList(result);
+        return Collections.unmodifiableList(permissions);
     }
 
 
@@ -330,26 +140,6 @@ public class MenuItem implements Comparable<MenuItem> {
     }
 
 
-    /**
-     * Adds the given {@link MenuItem}s as sub menu items.
-     * 
-     * @param subMenuItem
-     * @return
-     */
-    public MenuItem withSub(MenuItem... subMenuItems) {
-
-        for (MenuItem subMenuItem : subMenuItems) {
-
-            subMenuItem.parent = this;
-            this.subMenues.add(subMenuItem);
-        }
-
-        Collections.sort(this.subMenues);
-
-        return this;
-    }
-
-
     /*
      * (non-Javadoc)
      * 
@@ -358,7 +148,7 @@ public class MenuItem implements Comparable<MenuItem> {
     @Override
     public int compareTo(MenuItem item) {
 
-        return this.position - item.getPosition();
+        return this.position.compareTo(item.getPosition());
     }
 
 
@@ -387,34 +177,34 @@ public class MenuItem implements Comparable<MenuItem> {
      */
     public MenuItem deepCopy() {
 
-        MenuItem copy = new MenuItem(title, desciption, position, urlStrategy);
+        MenuItemBuilder builder =
+                create(id).withDescription(title).withTitle(title).withPosition(position).withUrlStrategy(urlStrategy)
+                        .withPermissions(permissions);
 
         if (subMenues != null) {
+            List<MenuItem> subCopy = new ArrayList<MenuItem>();
 
-            MenuItem[] subCopy = new MenuItem[subMenues.size()];
-
-            for (int i = 0; i < subMenues.size(); i++) {
-                subCopy[i] = subMenues.get(i).deepCopy();
+            for (MenuItem sub : subMenues) {
+                subCopy.add(sub.deepCopy());
             }
-            copy.withSub(subCopy);
+            builder.withSubmenues(subCopy);
         }
 
-        copy.add(permissions.toArray(new String[0]));
-
-        return copy;
+        return builder.build();
     }
 
 
     @Override
     public int hashCode() {
 
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + desciption.hashCode();
-        result = prime * result + ((parent == null) ? 0 : parent.hashCode());
-        result = prime * result + position;
-        result = prime * result + title.hashCode();
-        return result;
+        return id.hashCode();
+        // final int prime = 31;
+        // int result = 1;
+        // result = prime * result + desciption.hashCode();
+        // result = prime * result + ((parent == null) ? 0 : parent.hashCode());
+        // result = prime * result + position;
+        // result = prime * result + title.hashCode();
+        // return result;
     }
 
 
@@ -429,21 +219,162 @@ public class MenuItem implements Comparable<MenuItem> {
             return false;
         MenuItem other = (MenuItem) obj;
 
-        if (!desciption.equals(other.desciption))
-            return false;
+        return other.id.equals(id);
+        //
 
-        if (!title.equals(other.title))
-            return false;
-
-        if (parent == null) {
-            if (other.parent != null)
-                return false;
-        } else if (!parent.equals(other.parent))
-            return false;
-        if (position != other.position)
-            return false;
-
-        return true;
+        // if (!desciption.equals(other.desciption))
+        // return false;
+        //
+        // if (!title.equals(other.title))
+        // return false;
+        //
+        // if (parent == null) {
+        // if (other.parent != null)
+        // return false;
+        // } else if (!parent.equals(other.parent))
+        // return false;
+        // if (position != other.position)
+        // return false;
+        //
+        // return true;
     }
 
+
+    public static MenuItemBuilder create(String id) {
+
+        return new MenuItemBuilder(id);
+    }
+
+    public static class MenuItemBuilder {
+
+        private MenuItem menuItem;
+
+
+        /**
+         * @param id
+         */
+        public MenuItemBuilder(String id) {
+
+            menuItem = new MenuItem(id);
+        }
+
+
+        public MenuItem build() {
+
+            checkStrategy();
+            if (menuItem.subMenues != null) {
+                Collections.sort(menuItem.subMenues);
+            }
+            return menuItem;
+
+        }
+
+
+        private void checkStrategy() {
+
+            if (menuItem.urlStrategy != null) {
+                return;
+            }
+            if (menuItem.hasSubMenues()) {
+                menuItem.urlStrategy = new FirstSubMenuUrlResolvingStrategy();
+            } else {
+                throw new IllegalStateException(
+                        "No UrlResolvingStrategy not given. Could not autodetect one (you must supply a strategy, a url or submenues).");
+            }
+
+        }
+
+
+        public MenuItemBuilder withTitle(String title) {
+
+            Assert.notNull(title);
+            menuItem.title = title;
+            return this;
+        }
+
+
+        public MenuItemBuilder withDescription(String description) {
+
+            Assert.notNull(description);
+            menuItem.desciption = description;
+            return this;
+        }
+
+
+        public MenuItemBuilder withPosition(Integer position) {
+
+            Assert.notNull(position);
+            menuItem.position = position;
+            return this;
+        }
+
+
+        public MenuItemBuilder withSubmenues(List<MenuItem> subMenues) {
+
+            Assert.notNull(subMenues);
+            menuItem.subMenues = subMenues;
+
+            for (MenuItem item : subMenues) {
+                item.parent = menuItem;
+            }
+            return this;
+        }
+
+
+        public MenuItemBuilder withSubmenues(MenuItem... subMenues) {
+
+            Assert.notNull(subMenues);
+            return withSubmenues(Arrays.asList(subMenues));
+        }
+
+
+        public MenuItemBuilder withSubmenu(MenuItem subMenu) {
+
+            Assert.notNull(subMenu);
+            menuItem.subMenues.add(subMenu);
+            subMenu.parent = menuItem;
+            return this;
+        }
+
+
+        public MenuItemBuilder withPermissions(List<String> permissions) {
+
+            Assert.notNull(permissions);
+            menuItem.permissions = permissions;
+            return this;
+        }
+
+
+        public MenuItemBuilder withPermission(String permission) {
+
+            menuItem.permissions.add(permission);
+            return this;
+        }
+
+
+        public MenuItemBuilder withKeyBase(String keyBase) {
+
+            Assert.notNull(keyBase);
+            menuItem.title = keyBase + TITLE_POSTFIX;
+            menuItem.desciption = keyBase + DESCRIPTION_POSTFIX;
+            return this;
+        }
+
+
+        public MenuItemBuilder withUrlStrategy(UrlResolvingStrategy strategy) {
+
+            Assert.notNull(strategy);
+            menuItem.urlStrategy = strategy;
+            return this;
+        }
+
+
+        public MenuItemBuilder withUrl(String url) {
+
+            Assert.notNull(url);
+            menuItem.urlStrategy = new SimpleUrlResolvingStrategy(url);
+            return this;
+        }
+
+    }
 }
