@@ -7,15 +7,15 @@
 
 
 
-
-<table id="rolefilter">
+<div id="filter">
+<table id="filter_table">
 <tr>
 <td>
 	<spring:message code="umt.user.rolefilter.explain"/>
 </td>
 <td>
-	<form action="users" method="get">
-		<select name="role" style="width: 150px;">
+	<form id="filter_form" action="users" method="get">
+		<select id="filter_form_role_select" name="role" style="width: 150px;">
 			<option value="-1"><spring:message code="umt.user.rolefilter.all"/></option>
 			<c:forEach var="role" items="${roles}">
 				<c:choose>
@@ -26,13 +26,13 @@
 			</c:forEach>
 		
 		</select>
-		<input type="submit" value="<spring:message code="umt.user.rolefilter.dofilter"/>"/>
+		<input id="filter_form_button" type="submit" value="<spring:message code="umt.user.rolefilter.dofilter"/>"/>
 	</form>
 </td>
 
 </tr>
 </table>
-
+</div>
 <display:table id="user" name="users" requestURI="users" >
 	<minos:column titleKey="username" sortProperty="username">
 		<a href="users/${user.id}">${user.username}</a>
