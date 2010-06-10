@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <groupId>org.synyx.minos.archetypes</groupId>
+    <artifactId>org.synyx.minos.archetypes.module</artifactId>
+    <packaging>jar</packaging>
+    
+    <parent>
+        <groupId>org.synyx.minos.archetypes</groupId>
+        <artifactId>org.synyx.minos.archetypes</artifactId>
+        <version>2.0.0-alpha7.1</version>
+    </parent>
+    
+    <name>Minos Archetypes: Module</name>
+    <description>
+        You can use this archetyp to create a project template for a Minos module. It creates a POM which contains the boilerplate to setup the infrastructure configuration.   
+    </description>
+    
+    
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+    
+    <developers>
+        <developer>
+            <id>gierke</id>
+            <name>Oliver Gierke</name>
+            <email>gierke@synyx.de</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>kannegiesser</id>
+            <name>Marc Kannegießer</name>
+            <email>kannegiesser@synyx.de</email>
+            <roles>
+                <role>Project Lead</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+    
+    
+</project>

@@ -1,0 +1,2 @@
+http\://schemas.synyx.org/minos/notification/minos-notification.xsd=org/synyx/minos/core/notification/config/minos-notification.xsd
+http\://schemas.synyx.org/minos/module/minos-module.xsd=org/synyx/minos/core/module/config/minos-module.xsd

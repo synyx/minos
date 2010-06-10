@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:minos="http://schemas.synyx.org/minos/module"
+	xsi:schemaLocation="http://schemas.synyx.org/minos/module http://schemas.synyx.org/minos/module/minos-module.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <minos:module id="foo" lifecycle-ref="fooLifecycle" />
+    
+    <minos:module id="bar" />
+    
+    <minos:module id="foobar" depends-on="foo, bar" />
+    
+    <bean id="fooLifecycle" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="org.synyx.minos.core.module.Lifecycle" />
+    </bean>
+
+</beans>

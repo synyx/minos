@@ -1,0 +1,18 @@
+<archetype>
+    <id>org.synyx.minos.archetypes.module</id>
+    <sources>
+        <source>src/main/java/App.java</source>
+    </sources>
+    <resources>
+        <resource>src/main/resources/module.properties</resource>
+        <resource>src/main/resources/META-INF/persistence.xml</resource>
+        <resource>src/main/resources/META-INF/minos/module/messages_de.properties</resource>
+        <resource>src/main/resources/META-INF/minos/module/messages.properties</resource>
+        <resource>src/main/resources/META-INF/minos/module/module-context.xml</resource>
+        <resource>src/main/resources/META-INF/minos/module/web-context.xml</resource>
+        <resource>src/main/webapp/WEB-INF/jsp/module/sample.jsp</resource>
+    </resources>
+    <testSources>
+        <source>src/test/java/AppTest.java</source>
+    </testSources>
+</archetype>
