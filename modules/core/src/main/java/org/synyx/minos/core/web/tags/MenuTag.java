@@ -2,25 +2,25 @@ package org.synyx.minos.core.web.tags;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 
-import org.springframework.beans.factory.BeanFactoryUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 import org.synyx.minos.core.authentication.AuthenticationService;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.web.UrlUtils;
+import org.synyx.minos.core.web.menu.Menu;
 import org.synyx.minos.core.web.menu.MenuItem;
-import org.synyx.minos.core.web.menu.MenuItemProvider;
+import org.synyx.minos.core.web.menu.MenuProvider;
 
 
 /**
- * Tag rendering the applications menu from all found {@link MenuItemProvider}s.
+ * Tag rendering the applications menu using {@link MenuProvider} to get the needed {@link Menu}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  * @author Marc Kannegiesser - kannegiesser@synyx.de
@@ -29,13 +29,21 @@ public class MenuTag extends RequestContextAwareTag {
 
     private static final long serialVersionUID = 3562560895559874960L;
 
+    @Autowired
     private AuthenticationService authenticationService;
 
+    @Autowired
+    private MenuProvider menuProvider;
+
     private Integer levels = 0;
+
+    private String menuId;
 
     private boolean alwaysRenderSubmenus = false;
 
     private String id = null;
+
+    private boolean initialized = false;
 
 
     /*
@@ -46,9 +54,10 @@ public class MenuTag extends RequestContextAwareTag {
     @Override
     protected int doStartTagInternal() throws Exception {
 
-        initAuthenticationService();
+        initDependencies();
 
-        List<MenuItem> menuItems = getSortedMenuItems();
+        Menu menu = menuProvider == null ? new Menu(new ArrayList<MenuItem>()) : menuProvider.getMenu(getMenuId());
+        List<MenuItem> menuItems = menu.getItems();
 
         if (null == menuItems || menuItems.isEmpty()) {
             return 0;
@@ -80,82 +89,6 @@ public class MenuTag extends RequestContextAwareTag {
 
 
     /**
-     * Returns all {@link MenuItem}s given by the configured {@link MenuItemProvider}s sorted by their position.
-     * 
-     * @param user the user to get the Menuitems for
-     * @return
-     */
-    public List<MenuItem> getSortedMenuItems() {
-
-        return buildMenu();
-
-    }
-
-
-    /**
-     * Builds a new Menu. This is done by searching all Implementations of {@link MenuItemProvider} , asking them for
-     * their {@link MenuItem}s, clone the items, filter it for the user
-     * 
-     * @return the generated Menu
-     */
-    private List<MenuItem> buildMenu() {
-
-        Collection<MenuItemProvider> beans = getApplicationContext().getBeansOfType(MenuItemProvider.class).values();
-
-        List<MenuItem> sortedMenuItems = new ArrayList<MenuItem>();
-
-        for (MenuItemProvider provider : beans) {
-
-            for (MenuItem menuItem : provider.getMenuItems()) {
-
-                sortedMenuItems.add(menuItem);
-            }
-        }
-
-        Collections.sort(sortedMenuItems);
-
-        // create a deep-copy of each item to be able to change the tree later
-        // (remove items the current user is not allowed to see)
-        List<MenuItem> itemCopy = new ArrayList<MenuItem>();
-
-        for (MenuItem item : sortedMenuItems) {
-            itemCopy.add(item.deepCopy());
-        }
-
-        // now remove the items the user cannot see
-
-        filterMenu(itemCopy);
-
-        return itemCopy;
-    }
-
-
-    /**
-     * Removes all {@link MenuItem}s from the given {@link List} that are not to be shown (recursively)
-     * 
-     * @param items the {@link List} to filter
-     */
-    private void filterMenu(List<MenuItem> items) {
-
-        if (items == null) {
-            return;
-        }
-        List<MenuItem> toRemove = new ArrayList<MenuItem>();
-        for (MenuItem item : items) {
-
-            if (showMenuItem(item)) {
-                filterMenu(item.getSubMenues());
-            } else {
-                toRemove.add(item);
-            }
-
-        }
-        items.removeAll(toRemove);
-
-    }
-
-
-    /**
      * Builds an HTML menu from the given {@link MenuItem}s. Traverses the items down to the leafs, if they contain
      * submenues.
      * 
@@ -168,6 +101,8 @@ public class MenuTag extends RequestContextAwareTag {
 
         User user = null == authenticationService ? null : authenticationService.getCurrentUser();
 
+        String path = getPathWithinApplication(getRequest());
+
         for (MenuItem item : menuItems) {
 
             String url = item.getUrl(user);
@@ -178,7 +113,7 @@ public class MenuTag extends RequestContextAwareTag {
 
             if (submenu) {
 
-                boolean isActive = getPathWithinApplication(getRequest()).equals(url);
+                boolean isActive = item.isActiveFor(path, user);
 
                 String aClass = isActive ? " class='active'" : "";
 
@@ -188,7 +123,7 @@ public class MenuTag extends RequestContextAwareTag {
 
             } else {
 
-                boolean isActive = getPathWithinApplication(getRequest()).startsWith(url);
+                boolean isActive = item.isActiveFor(path, user);
 
                 String aClass = isActive ? " class='active'" : "";
 
@@ -270,33 +205,30 @@ public class MenuTag extends RequestContextAwareTag {
     }
 
 
-    /**
-     * Returns whether to show the given {@link MenuItem} or not.
-     * 
-     * @param item
-     * @return
-     */
-    private boolean showMenuItem(MenuItem item) {
+    private synchronized void initDependencies() {
 
-        if (null == authenticationService) {
-            return true;
+        if (!initialized) {
+            try {
+                SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+            } catch (Exception e) {
+                // this is usually if the current context is not the web-context
+                // TODO fixme
+
+                if (null == menuProvider) {
+                    try {
+                        menuProvider = getApplicationContext().getBean("menuProvider", MenuProvider.class);
+                    } catch (RuntimeException ex) {
+                        menuProvider = null;
+                    }
+                }
+
+            }
+
+            if (authenticationService != null && menuProvider != null) {
+                initialized = true;
+            }
         }
 
-        return authenticationService.hasAllPermissions(item.getPermissions());
-    }
-
-
-    private void initAuthenticationService() {
-
-        if (null == authenticationService) {
-
-            Collection<AuthenticationService> beans =
-                    BeanFactoryUtils
-                            .beansOfTypeIncludingAncestors(getApplicationContext(), AuthenticationService.class)
-                            .values();
-
-            authenticationService = beans.isEmpty() ? null : beans.iterator().next();
-        }
     }
 
 
@@ -326,6 +258,18 @@ public class MenuTag extends RequestContextAwareTag {
     public void setId(String id) {
 
         this.id = id;
+    }
+
+
+    public void setMenuId(String menuId) {
+
+        this.menuId = menuId;
+    }
+
+
+    public String getMenuId() {
+
+        return menuId;
     }
 
 }

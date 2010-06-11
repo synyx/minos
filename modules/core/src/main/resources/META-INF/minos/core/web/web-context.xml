@@ -116,10 +116,17 @@
         </property>
     </bean>
 
-	<!--
-	<menu:item name="umt.foo" description="foo.des" url="/umt/users">
-		<menu:item name="umt.foo" url="/umt/users" />
-	</menu:item>
-	 -->
+
+	<bean id="menuPermissionFilter" class="org.synyx.minos.core.web.menu.filter.PermissionMenuItemFilter">
+		<property name="authenticationService" ref="authenticationService"/>
+	</bean>
+
+	<bean id="menuProvider" class="org.synyx.minos.core.web.menu.MenuManager">
+		<property name="menuItemFilters"><plugin:list class="org.synyx.minos.core.web.menu.MenuItemFilter" /></property>
+		<property name="menuItemProviders"><plugin:list class="org.synyx.minos.core.web.menu.MenuItemProvider" /></property>
+	</bean>
+	
+
+
 
 </beans>

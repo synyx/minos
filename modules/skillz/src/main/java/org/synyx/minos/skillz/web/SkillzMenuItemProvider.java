@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.synyx.minos.core.web.menu.AbstractMenuItemProvider;
 import org.synyx.minos.core.web.menu.MenuItem;
+import org.synyx.minos.core.web.menu.UrlResolvingStrategy;
 
 
 /**
@@ -45,8 +46,8 @@ public class SkillzMenuItemProvider extends AbstractMenuItemProvider {
 
         MenuItem privateProjects =
                 MenuItem.create(MENU_SKILLZ_PRIVATEPROJECTS).withKeyBase("skillz.menu.projects.private").withPosition(
-                        50).withUrl(String.format("/skillz/projects/%s", MenuItem.USER_PLACEHOLDER)).withPermission(
-                        SKILLZ_USER).build();
+                        50).withUrl(String.format("/skillz/projects/%s", UrlResolvingStrategy.USER_PLACEHOLDER))
+                        .withPermission(SKILLZ_USER).build();
 
         MenuItem item =
                 MenuItem.create(MENU_SKILLZ).withKeyBase("skillz.menu").withPosition(20).withUrl("/skillz")

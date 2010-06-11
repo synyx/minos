@@ -45,4 +45,16 @@ public class SimpleMenuItemProvider implements MenuItemProvider {
 
         return menuItems;
     }
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.synyx.hera.core.Plugin#supports(java.lang.Object)
+     */
+    @Override
+    public boolean supports(String delimiter) {
+
+        return true;
+    }
 }

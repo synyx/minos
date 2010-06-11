@@ -20,12 +20,14 @@
 	<body>
 		<div id="header">
 			<h1>Minos Sandbox</h1>
-			<minos:menu id="menu" />
+			<minos:menu menuId="MAIN" id="menu" />
 		</div>
 		<div id="middle">
 			<minos:system-message />
 			<decorator:body />
 		</div>
-		<div id="footer"></div>
+		<div id="footer">
+		
+		</div>
 	</body>
 </html>

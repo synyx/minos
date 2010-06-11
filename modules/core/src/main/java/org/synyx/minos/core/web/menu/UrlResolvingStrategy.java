@@ -10,8 +10,12 @@ import org.synyx.minos.core.domain.User;
  */
 public interface UrlResolvingStrategy {
 
+    public static final String USER_PLACEHOLDER = "{username}";
+
+
     /**
-     * Return the Url for the given {@link MenuItem} and the {@link User} user
+     * Return the Url for the given {@link MenuItem} and the {@link User} user. Replaces eventually contained
+     * placeholders for the user with the given {@link User}s username. Cleans up the URL if no {@link User} is given.
      * 
      * @param user the {@link User} to resolve the url for
      * @param item the {@link MenuItem} to resolve the url for

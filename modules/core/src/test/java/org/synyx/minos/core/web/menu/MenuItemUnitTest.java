@@ -44,7 +44,7 @@ public class MenuItemUnitTest {
     @Test
     public void replacesUserCorrectly() throws Exception {
 
-        String url = String.format("/foo/%s/resume", MenuItem.USER_PLACEHOLDER);
+        String url = String.format("/foo/%s/resume", UrlResolvingStrategy.USER_PLACEHOLDER);
         MenuItem item = MenuItem.create("SOME").withKeyBase("keyBase").withPosition(0).withUrl(url).build();
 
         User user = new User("oliver.gierke", "gierke@synyx.de", "password");
@@ -55,7 +55,7 @@ public class MenuItemUnitTest {
     @Test
     public void removesPlaceholderCorrectlyIfNoUserProvided() throws Exception {
 
-        String url = String.format("/foo/%s/resume", MenuItem.USER_PLACEHOLDER);
+        String url = String.format("/foo/%s/resume", UrlResolvingStrategy.USER_PLACEHOLDER);
         MenuItem item = MenuItem.create("SOME").withKeyBase("keyBase").withPosition(0).withUrl(url).build();
 
         assertEquals("/foo/resume", item.getUrl(null));

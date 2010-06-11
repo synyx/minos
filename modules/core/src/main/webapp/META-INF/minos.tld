@@ -29,6 +29,14 @@
         <tag-class>org.synyx.minos.core.web.tags.MenuTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
+          <description>
+            The name of the menu to display (try MAIN for default-menu)
+          </description>
+          <name>menuId</name>
+          <required>true</required>
+          <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
           <description><![CDATA[
           The id is set as attribute to the surrounding <div/> element.
           ]]></description>

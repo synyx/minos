@@ -1,7 +1,6 @@
 package org.synyx.minos.core.web.menu;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,8 +18,6 @@ import org.synyx.minos.util.Assert;
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 public class MenuItem implements Comparable<MenuItem> {
-
-    public static final String USER_PLACEHOLDER = "{username}";
 
     private static final String TITLE_POSTFIX = ".title";
     private static final String DESCRIPTION_POSTFIX = ".description";
@@ -43,22 +40,22 @@ public class MenuItem implements Comparable<MenuItem> {
     }
 
 
+    public String getId() {
+
+        return id;
+    }
+
+
     /**
-     * Returns the URL the {@link MenuItem} shall link to. Replaces eventually contained placeholders for the user with
-     * the given {@link User}s username. Cleans up the URL if no {@link User} is given.
+     * Returns the URL the {@link MenuItem} shall link to.
      * 
      * @param user the user to create the menu for. Can be {@literal null} if no user is authenticated
      * @return the url
      */
     public String getUrl(User user) {
 
-        String url = urlStrategy.resolveUrl(user, this);
-        if (url == null) {
-            return null;
-        }
+        return urlStrategy.resolveUrl(user, this);
 
-        String username = null == user ? "" : user.getUsername();
-        return url.replace(USER_PLACEHOLDER, username).replace("//", "/");
     }
 
 
@@ -324,7 +321,11 @@ public class MenuItem implements Comparable<MenuItem> {
         public MenuItemBuilder withSubmenues(MenuItem... subMenues) {
 
             Assert.notNull(subMenues);
-            return withSubmenues(Arrays.asList(subMenues));
+            List<MenuItem> items = new ArrayList<MenuItem>();
+            for (MenuItem sub : subMenues) {
+                items.add(sub);
+            }
+            return withSubmenues(items);
         }
 
 
@@ -375,6 +376,32 @@ public class MenuItem implements Comparable<MenuItem> {
             menuItem.urlStrategy = new SimpleUrlResolvingStrategy(url);
             return this;
         }
+
+    }
+
+
+    /**
+     * @param url
+     * @return
+     */
+    public boolean isActiveFor(String url, User user) {
+
+        if (url.startsWith(urlStrategy.resolveUrl(user, this))) {
+            return true;
+        }
+
+        List<MenuItem> subMenues = getSubMenues();
+        if (subMenues == null || subMenues.isEmpty()) {
+            return false;
+        }
+
+        for (MenuItem sub : subMenues) {
+            if (sub.isActiveFor(url, user)) {
+                return true;
+            }
+        }
+
+        return false;
 
     }
 }

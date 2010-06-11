@@ -5,8 +5,7 @@ import java.util.List;
 
 
 /**
- * Abstract base class to ease declaring {@link MenuItem}s via a
- * {@link MenuItemProvider}. Subclasses usually implement
+ * Abstract base class to ease declaring {@link MenuItem}s via a {@link MenuItemProvider}. Subclasses usually implement
  * {@link #initMenuItems()} to provide the necessary items.
  * 
  * @author Oliver Gierke - gierke@synyx.de
@@ -14,6 +13,18 @@ import java.util.List;
 public abstract class AbstractMenuItemProvider implements MenuItemProvider {
 
     private List<MenuItem> menuItems;
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.synyx.hera.core.Plugin#supports(java.lang.Object)
+     */
+    @Override
+    public boolean supports(String delimiter) {
+
+        return true;
+    }
 
 
     /*
@@ -36,8 +47,8 @@ public abstract class AbstractMenuItemProvider implements MenuItemProvider {
 
 
     /**
-     * Initialize {@link MenuItem}s here. This method will be called on the
-     * first access of {@link MenuItemProvider#getMenuItems()}.
+     * Initialize {@link MenuItem}s here. This method will be called on the first access of
+     * {@link MenuItemProvider#getMenuItems()}.
      * 
      * @return
      */

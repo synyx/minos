@@ -35,7 +35,9 @@ public class SimpleUrlResolvingStrategy implements UrlResolvingStrategy {
     @Override
     public String resolveUrl(User user, MenuItem item) {
 
-        return url;
+        String username = null == user ? "" : user.getUsername();
+        return url.replace(UrlResolvingStrategy.USER_PLACEHOLDER, username).replace("//", "/");
+
     }
 
 }
