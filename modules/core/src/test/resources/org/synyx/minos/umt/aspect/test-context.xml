@@ -10,10 +10,7 @@
 		<constructor-arg value="org.synyx.minos.core.notification.NotificationService" />
 	</bean>
 	
-	<bean id="configurationService" class="org.mockito.Mockito" factory-method="mock">
-		<constructor-arg value="org.synyx.minos.core.configuration.ConfigurationService" />
-	</bean>
-	
+
 	<bean id="mailSender" class="org.mockito.Mockito" factory-method="mock">
 		<constructor-arg value="org.springframework.mail.MailSender" />
 	</bean>

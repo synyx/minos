@@ -176,12 +176,7 @@
             <artifactId>org.synyx.hera.metadata</artifactId>
             <version>0.6</version>
         </dependency>
-        
-        <dependency>
-            <groupId>com.synyx</groupId>
-            <artifactId>confyx-spring-support</artifactId>
-            <version>0.3.1</version>
-        </dependency>
+
         
         
         <!-- View technology -->

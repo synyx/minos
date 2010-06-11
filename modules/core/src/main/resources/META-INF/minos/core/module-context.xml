@@ -2,12 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:confyx="http://schemas.synyx.org/confyx"
     xmlns:plugin="http://schemas.synyx.org/hera"
     xmlns:util="http://www.springframework.org/schema/util"
     xmlns:module="http://schemas.synyx.org/minos/module"
     xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-		http://schemas.synyx.org/confyx http://schemas.synyx.org/confyx/confyx.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
 		http://schemas.synyx.org/hera http://schemas.synyx.org/hera/hera.xsd
@@ -26,22 +24,7 @@
 	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
     <bean class="org.synyx.minos.core.module.support.ModuleManagerAwareBeanPostProcessor" />
 	
-	
-	<!-- 
-	
-		Configuration base configuration
-		
-		* registers the service itself
-		* registers BeanFactoryPostProcessor that automatically discovers all ConfigFamilyDescriptors 
-	
-	-->
-	
-	<bean id="configurationService" class="org.synyx.minos.core.configuration.ConfyxConfigurationService">
-		<property name="confyx" ref="confyx" />
-	</bean>
-	
-	<confyx:confyx id="confyx" />
-	
+
 	
 	<!-- 
 	
@@ -99,5 +82,13 @@
         <!-- Max size in bytes. -->
         <property name="maxUploadSize" value="100000"/>
     </bean>
+
+
+
+	
+
+
+
+
 
 </beans>
