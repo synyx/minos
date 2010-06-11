@@ -17,7 +17,6 @@
     
     <modules>
         <module>core</module>
-        <module>calendar</module>
         <module>im</module>
         <module>skillz</module>
         <module>test</module>
