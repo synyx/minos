@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
-import org.synyx.minos.core.domain.User;
 import org.synyx.minos.util.Assert;
 
 
@@ -52,9 +51,9 @@ public class MenuItem implements Comparable<MenuItem> {
      * @param user the user to create the menu for. Can be {@literal null} if no user is authenticated
      * @return the url
      */
-    public String getUrl(User user) {
+    public String getUrl() {
 
-        return urlStrategy.resolveUrl(user, this);
+        return urlStrategy.resolveUrl(this);
 
     }
 
@@ -158,7 +157,7 @@ public class MenuItem implements Comparable<MenuItem> {
     public String toString() {
 
         StringBuilder builder = new StringBuilder(title);
-        builder.append(", URL: ").append(getUrl(null));
+        builder.append(", URL: ").append(getUrl());
         builder.append(", Position: ").append(position);
         builder.append(", Permissions: ").append(StringUtils.collectionToCommaDelimitedString(getPermissions()));
 
@@ -380,13 +379,9 @@ public class MenuItem implements Comparable<MenuItem> {
     }
 
 
-    /**
-     * @param url
-     * @return
-     */
-    public boolean isActiveFor(String url, User user) {
+    public boolean isActiveFor(String url) {
 
-        if (url.startsWith(urlStrategy.resolveUrl(user, this))) {
+        if (url.startsWith(urlStrategy.resolveUrl(this))) {
             return true;
         }
 
@@ -396,7 +391,7 @@ public class MenuItem implements Comparable<MenuItem> {
         }
 
         for (MenuItem sub : subMenues) {
-            if (sub.isActiveFor(url, user)) {
+            if (sub.isActiveFor(url)) {
                 return true;
             }
         }

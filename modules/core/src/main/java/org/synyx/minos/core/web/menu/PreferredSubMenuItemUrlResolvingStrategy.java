@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.util.Assert;
-import org.synyx.minos.core.domain.User;
 
 
 /**
@@ -27,11 +26,11 @@ public class PreferredSubMenuItemUrlResolvingStrategy implements UrlResolvingStr
 
 
     @Override
-    public String resolveUrl(User user, MenuItem item) {
+    public String resolveUrl(MenuItem item) {
 
         for (MenuItem preference : preferences) {
             if (item.getSubMenues().contains(preference)) {
-                return preference.getUrl(user);
+                return preference.getUrl();
             }
         }
         return null;

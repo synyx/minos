@@ -1,13 +1,17 @@
 package org.synyx.minos.skillz.web;
 
-import static org.synyx.minos.skillz.SkillzPermissions.*;
+import static org.synyx.minos.skillz.SkillzPermissions.SKILLZ_ADMINISTRATION;
+import static org.synyx.minos.skillz.SkillzPermissions.SKILLZ_USER;
 
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.synyx.minos.core.authentication.AuthenticationService;
 import org.synyx.minos.core.web.menu.AbstractMenuItemProvider;
 import org.synyx.minos.core.web.menu.MenuItem;
 import org.synyx.minos.core.web.menu.UrlResolvingStrategy;
+import org.synyx.minos.core.web.menu.UserPlaceholderAwareUrlResolvingStrategy;
 
 
 /**
@@ -16,6 +20,9 @@ import org.synyx.minos.core.web.menu.UrlResolvingStrategy;
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class SkillzMenuItemProvider extends AbstractMenuItemProvider {
+
+    @Autowired
+    private AuthenticationService authenticationService;
 
     private static final String MENU_SKILLZ = "MENU_SKILLZ";
     private static final String MENU_SKILLZ_PRIVATEPROJECTS = "MENU_SKILLZ_PRIVATEPROJECTS";
@@ -44,10 +51,12 @@ public class SkillzMenuItemProvider extends AbstractMenuItemProvider {
                 MenuItem.create(MENU_SKILLZ_RESUME).withKeyBase("skillz.menu.resume").withPosition(40).withUrl(
                         "/skillz/resume").withPermission(SKILLZ_USER).build();
 
+        UrlResolvingStrategy privateProjectsStrategy =
+                new UserPlaceholderAwareUrlResolvingStrategy(String.format("/skillz/projects/%s",
+                        UserPlaceholderAwareUrlResolvingStrategy.USER_PLACEHOLDER), authenticationService);
         MenuItem privateProjects =
                 MenuItem.create(MENU_SKILLZ_PRIVATEPROJECTS).withKeyBase("skillz.menu.projects.private").withPosition(
-                        50).withUrl(String.format("/skillz/projects/%s", UrlResolvingStrategy.USER_PLACEHOLDER))
-                        .withPermission(SKILLZ_USER).build();
+                        50).withUrlStrategy(privateProjectsStrategy).withPermission(SKILLZ_USER).build();
 
         MenuItem item =
                 MenuItem.create(MENU_SKILLZ).withKeyBase("skillz.menu").withPosition(20).withUrl("/skillz")

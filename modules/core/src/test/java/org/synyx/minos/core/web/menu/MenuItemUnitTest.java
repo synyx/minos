@@ -1,10 +1,10 @@
 package org.synyx.minos.core.web.menu;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.synyx.minos.core.domain.User;
 
 
 /**
@@ -37,28 +37,7 @@ public class MenuItemUnitTest {
         MenuItem menuItem =
                 MenuItem.create("some").withKeyBase("keyBase").withPosition(0).withSubmenu(subMenuItem).build();
 
-        assertEquals("/url", menuItem.getUrl(null));
-    }
-
-
-    @Test
-    public void replacesUserCorrectly() throws Exception {
-
-        String url = String.format("/foo/%s/resume", UrlResolvingStrategy.USER_PLACEHOLDER);
-        MenuItem item = MenuItem.create("SOME").withKeyBase("keyBase").withPosition(0).withUrl(url).build();
-
-        User user = new User("oliver.gierke", "gierke@synyx.de", "password");
-        assertEquals("/foo/oliver.gierke/resume", item.getUrl(user));
-    }
-
-
-    @Test
-    public void removesPlaceholderCorrectlyIfNoUserProvided() throws Exception {
-
-        String url = String.format("/foo/%s/resume", UrlResolvingStrategy.USER_PLACEHOLDER);
-        MenuItem item = MenuItem.create("SOME").withKeyBase("keyBase").withPosition(0).withUrl(url).build();
-
-        assertEquals("/foo/resume", item.getUrl(null));
+        assertEquals("/url", menuItem.getUrl());
     }
 
 

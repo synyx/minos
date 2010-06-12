@@ -1,8 +1,5 @@
 package org.synyx.minos.core.web.menu;
 
-import org.synyx.minos.core.domain.User;
-
-
 /**
  * Strategy that simply returns the url from a property.
  * 
@@ -33,11 +30,9 @@ public class SimpleUrlResolvingStrategy implements UrlResolvingStrategy {
 
 
     @Override
-    public String resolveUrl(User user, MenuItem item) {
+    public String resolveUrl(MenuItem item) {
 
-        String username = null == user ? "" : user.getUsername();
-        return url.replace(UrlResolvingStrategy.USER_PLACEHOLDER, username).replace("//", "/");
-
+        return url;
     }
 
 }

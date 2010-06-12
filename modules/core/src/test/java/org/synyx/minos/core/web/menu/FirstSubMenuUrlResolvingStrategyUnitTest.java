@@ -3,16 +3,16 @@
  */
 package org.synyx.minos.core.web.menu;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.synyx.minos.core.domain.User;
 
 
 /**
@@ -29,11 +29,10 @@ public class FirstSubMenuUrlResolvingStrategyUnitTest {
         MenuItem first = Mockito.mock(MenuItem.class);
         MenuItem second = Mockito.mock(MenuItem.class);
 
-        User user = Mockito.mock(User.class);
-        when(first.getUrl(user)).thenReturn("FOO");
+        when(first.getUrl()).thenReturn("FOO");
         when(item.getSubMenues()).thenReturn(Arrays.asList(first, second));
 
-        String url = strategy.resolveUrl(user, item);
+        String url = strategy.resolveUrl(item);
 
         assertThat(url, is("FOO"));
     }
@@ -45,11 +44,10 @@ public class FirstSubMenuUrlResolvingStrategyUnitTest {
         MenuItem item = Mockito.mock(MenuItem.class);
 
         FirstSubMenuUrlResolvingStrategy strategy = new FirstSubMenuUrlResolvingStrategy();
-        User user = Mockito.mock(User.class);
 
         when(item.getSubMenues()).thenReturn(new ArrayList<MenuItem>());
 
-        String url = strategy.resolveUrl(user, item);
+        String url = strategy.resolveUrl(item);
 
         assertNull(url);
     }

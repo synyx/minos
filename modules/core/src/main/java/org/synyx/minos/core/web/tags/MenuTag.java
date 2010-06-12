@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
-import org.synyx.minos.core.authentication.AuthenticationService;
-import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.core.web.menu.Menu;
 import org.synyx.minos.core.web.menu.MenuItem;
@@ -28,9 +26,6 @@ import org.synyx.minos.core.web.menu.MenuProvider;
 public class MenuTag extends RequestContextAwareTag {
 
     private static final long serialVersionUID = 3562560895559874960L;
-
-    @Autowired
-    private AuthenticationService authenticationService;
 
     @Autowired
     private MenuProvider menuProvider;
@@ -99,13 +94,11 @@ public class MenuTag extends RequestContextAwareTag {
     private void buildHtmlMenu(List<MenuItem> menuItems, StringBuilder builder, boolean submenu, Integer levelsRemaining)
             throws IOException {
 
-        User user = null == authenticationService ? null : authenticationService.getCurrentUser();
-
         String path = getPathWithinApplication(getRequest());
 
         for (MenuItem item : menuItems) {
 
-            String url = item.getUrl(user);
+            String url = item.getUrl();
             if (url == null) {
                 continue;
             }
@@ -113,7 +106,7 @@ public class MenuTag extends RequestContextAwareTag {
 
             if (submenu) {
 
-                boolean isActive = item.isActiveFor(path, user);
+                boolean isActive = item.isActiveFor(path);
 
                 String aClass = isActive ? " class='active'" : "";
 
@@ -123,7 +116,7 @@ public class MenuTag extends RequestContextAwareTag {
 
             } else {
 
-                boolean isActive = item.isActiveFor(path, user);
+                boolean isActive = item.isActiveFor(path);
 
                 String aClass = isActive ? " class='active'" : "";
 
@@ -224,7 +217,7 @@ public class MenuTag extends RequestContextAwareTag {
 
             }
 
-            if (authenticationService != null && menuProvider != null) {
+            if (menuProvider != null) {
                 initialized = true;
             }
         }
