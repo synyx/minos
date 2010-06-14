@@ -13,8 +13,8 @@ import org.synyx.minos.core.domain.User;
 
 
 /**
- * A template to create {@link SkillMatrix} instances from. Used to enumerate a
- * list of categories for different type of subjects.
+ * A template to create {@link SkillMatrix} instances from. Used to enumerate a list of categories for different type of
+ * subjects.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -85,7 +85,7 @@ public class MatrixTemplate extends AbstractAuditable<User, Long> {
     public MatrixTemplate setCategories(List<Category> categories) {
 
         if (categories == null) {
-            categories = new ArrayList<Category>();
+            this.categories = new ArrayList<Category>();
         } else {
             this.categories = categories;
         }

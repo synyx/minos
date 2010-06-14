@@ -27,10 +27,9 @@ import org.synyx.hades.domain.Sort;
 
 
 /**
- * Extracts paging information from web requests and thus allows injecting
- * {@link Pageable} instances into controller methods. Request properties to be
- * parsed can be configured. Default configuration uses request properties
- * beginning with {@link #DEFAULT_PREFIX}{@link #DEFAULT_SEPARATOR}.
+ * Extracts paging information from web requests and thus allows injecting {@link Pageable} instances into controller
+ * methods. Request properties to be parsed can be configured. Default configuration uses request properties beginning
+ * with {@link #DEFAULT_PREFIX}{@link #DEFAULT_SEPARATOR}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  * @author Marc Kannegiesser - kannegiesser@synyx.de
@@ -47,23 +46,20 @@ public class PageableArgumentResolver implements WebArgumentResolver {
 
 
     /**
-     * Setter to configure a fallback instance of {@link Pageable} that is being
-     * used to back missing parameters. Defaults to
-     * {@value #DEFAULT_PAGE_REQUEST}.
+     * Setter to configure a fallback instance of {@link Pageable} that is being used to back missing parameters.
+     * Defaults to {@value #DEFAULT_PAGE_REQUEST}.
      * 
      * @param fallbackPagable the fallbackPagable to set
      */
     public void setFallbackPagable(Pageable fallbackPagable) {
 
-        this.fallbackPagable =
-                null == fallbackPagable ? DEFAULT_PAGE_REQUEST
-                        : fallbackPagable;
+        this.fallbackPagable = null == fallbackPagable ? DEFAULT_PAGE_REQUEST : fallbackPagable;
     }
 
 
     /**
-     * Setter to configure the prefix of request parameters to be used to
-     * retrieve paging information. Defaults to {@link #DEFAULT_PREFIX}.
+     * Setter to configure the prefix of request parameters to be used to retrieve paging information. Defaults to
+     * {@link #DEFAULT_PREFIX}.
      * 
      * @param prefix the prefix to set
      */
@@ -74,8 +70,8 @@ public class PageableArgumentResolver implements WebArgumentResolver {
 
 
     /**
-     * Setter to configure the separator between prefix and actual property
-     * value. Defaults to {@link #DEFAULT_SEPARATOR}.
+     * Setter to configure the separator between prefix and actual property value. Defaults to
+     * {@link #DEFAULT_SEPARATOR}.
      * 
      * @param separator the separator to set
      */
@@ -88,40 +84,31 @@ public class PageableArgumentResolver implements WebArgumentResolver {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.web.bind.support.WebArgumentResolver#resolveArgument
-     * (org.springframework.core.MethodParameter,
-     * org.springframework.web.context.request.NativeWebRequest)
+     * @see org.springframework.web.bind.support.WebArgumentResolver#resolveArgument
+     * (org.springframework.core.MethodParameter, org.springframework.web.context.request.NativeWebRequest)
      */
-    public Object resolveArgument(MethodParameter methodParameter,
-            NativeWebRequest webRequest) throws Exception {
+    public Object resolveArgument(MethodParameter methodParameter, NativeWebRequest webRequest) throws Exception {
 
         if (methodParameter.getParameterType().equals(Pageable.class)) {
 
             assertPageableUniqueness(methodParameter);
 
-            Pageable request =
-                    getDefaultFromAnnotationOrFallback(methodParameter);
+            Pageable request = getDefaultFromAnnotationOrFallback(methodParameter);
 
-            ServletRequest servletRequest =
-                    (ServletRequest) webRequest.getNativeRequest();
+            ServletRequest servletRequest = (ServletRequest) webRequest.getNativeRequest();
 
             PropertyValues propertyValues =
-                    new ServletRequestParameterPropertyValues(servletRequest,
-                            getPrefix(methodParameter), separator);
+                    new ServletRequestParameterPropertyValues(servletRequest, getPrefix(methodParameter), separator);
 
             DataBinder binder = new ServletRequestDataBinder(request);
 
             binder.initDirectFieldAccess();
-            binder.registerCustomEditor(Sort.class, new SortPropertyEditor(
-                    "sort.dir", propertyValues));
+            binder.registerCustomEditor(Sort.class, new SortPropertyEditor("sort.dir", propertyValues));
             binder.bind(propertyValues);
 
             if (request.getPageNumber() > 0) {
 
-                request =
-                        new PageRequest(request.getPageNumber() - 1, request
-                                .getPageSize(), request.getSort());
+                request = new PageRequest(request.getPageNumber() - 1, request.getPageSize(), request.getSort());
             }
 
             return request;
@@ -131,32 +118,29 @@ public class PageableArgumentResolver implements WebArgumentResolver {
     }
 
 
-    private Pageable getDefaultFromAnnotationOrFallback(
-            MethodParameter methodParameter) {
+    private Pageable getDefaultFromAnnotationOrFallback(MethodParameter methodParameter) {
 
         // search for PageableDefaults annotation
         for (Annotation annotation : methodParameter.getParameterAnnotations()) {
             if (annotation instanceof PageableDefaults) {
                 PageableDefaults defaults = (PageableDefaults) annotation;
                 // +1 is because we substract 1 later
-                return new PageRequest(defaults.pageNumber() + 1, defaults
-                        .value());
+                return new PageRequest(defaults.pageNumber() + 1, defaults.value());
             }
         }
 
         // Construct request with fallback request to ensure sensible
         // default values. Create fresh copy as Spring will manipulate the
         // instance under the covers
-        return new PageRequest(fallbackPagable.getPageNumber(), fallbackPagable
-                .getPageSize(), fallbackPagable.getSort());
+        return new PageRequest(fallbackPagable.getPageNumber(), fallbackPagable.getPageSize(), fallbackPagable
+                .getSort());
 
     }
 
 
     /**
-     * Resolves the prefix to use to bind properties from. Will prepend a
-     * possible {@link Qualifier} if available or return the configured prefix
-     * otherwise.
+     * Resolves the prefix to use to bind properties from. Will prepend a possible {@link Qualifier} if available or
+     * return the configured prefix otherwise.
      * 
      * @param parameter
      * @return
@@ -167,8 +151,7 @@ public class PageableArgumentResolver implements WebArgumentResolver {
 
             if (annotation instanceof Qualifier) {
 
-                return new StringBuilder(((Qualifier) annotation).value())
-                        .append("_").append(prefix).toString();
+                return new StringBuilder(((Qualifier) annotation).value()).append("_").append(prefix).toString();
             }
         }
 
@@ -177,8 +160,7 @@ public class PageableArgumentResolver implements WebArgumentResolver {
 
 
     /**
-     * Asserts uniqueness of all {@link Pageable} parameters of the method of
-     * the given {@link MethodParameter}.
+     * Asserts uniqueness of all {@link Pageable} parameters of the method of the given {@link MethodParameter}.
      * 
      * @param parameter
      */
@@ -188,8 +170,7 @@ public class PageableArgumentResolver implements WebArgumentResolver {
 
         Class<?>[] parameterTypes = method.getParameterTypes();
 
-        if (CollectionUtils.cardinality(Pageable.class, Arrays
-                .asList(parameterTypes)) > 1) {
+        if (CollectionUtils.cardinality(Pageable.class, Arrays.asList(parameterTypes)) > 1) {
 
             Annotation[][] annotations = method.getParameterAnnotations();
             assertQualifiersFor(parameterTypes, annotations);
@@ -198,15 +179,13 @@ public class PageableArgumentResolver implements WebArgumentResolver {
 
 
     /**
-     * Asserts that every {@link Pageable} parameter of the given parameters
-     * carries an {@link Qualifier} annotation to distinguish them from each
-     * other.
+     * Asserts that every {@link Pageable} parameter of the given parameters carries an {@link Qualifier} annotation to
+     * distinguish them from each other.
      * 
      * @param parameterTypes
      * @param annotations
      */
-    private void assertQualifiersFor(Class<?>[] parameterTypes,
-            Annotation[][] annotations) {
+    private void assertQualifiersFor(Class<?>[] parameterTypes, Annotation[][] annotations) {
 
         Set<String> values = new HashSet<String>();
 
@@ -222,8 +201,7 @@ public class PageableArgumentResolver implements WebArgumentResolver {
                 }
 
                 if (values.contains(qualifier.value())) {
-                    throw new IllegalStateException(
-                            "Values of the user Qualifiers must be unique!");
+                    throw new IllegalStateException("Values of the user Qualifiers must be unique!");
                 }
 
                 values.add(qualifier.value());
@@ -233,9 +211,8 @@ public class PageableArgumentResolver implements WebArgumentResolver {
 
 
     /**
-     * Returns a {@link Qualifier} annotation from the given array of
-     * {@link Annotation}s. Returns {@literal null} if the array does not
-     * contain a {@link Qualifier} annotation.
+     * Returns a {@link Qualifier} annotation from the given array of {@link Annotation}s. Returns {@literal null} if
+     * the array does not contain a {@link Qualifier} annotation.
      * 
      * @param annotations
      * @return
@@ -252,14 +229,13 @@ public class PageableArgumentResolver implements WebArgumentResolver {
     }
 
     /**
-     * {@link PropertyEditor} to create {@link Sort} instances from textual
-     * representations. The implementation interprets the string as a comma
-     * separated list where the first entry is the sort direction ({@code asc},
-     * {@code desc}) followed by the properties to sort by.
+     * {@link PropertyEditor} to create {@link Sort} instances from textual representations. The implementation
+     * interprets the string as a comma separated list where the first entry is the sort direction ({@code asc}, {@code
+     * desc}) followed by the properties to sort by.
      * 
      * @author Oliver Gierke - gierke@synyx.de
      */
-    private class SortPropertyEditor extends PropertyEditorSupport {
+    private static class SortPropertyEditor extends PropertyEditorSupport {
 
         private String orderProperty;
         private PropertyValues values;
@@ -287,9 +263,7 @@ public class PageableArgumentResolver implements WebArgumentResolver {
         public void setAsText(String text) throws IllegalArgumentException {
 
             PropertyValue rawOrder = values.getPropertyValue(orderProperty);
-            Order order =
-                    null == rawOrder ? Order.ASCENDING : Order
-                            .fromJpaValue(rawOrder.getValue().toString());
+            Order order = null == rawOrder ? Order.ASCENDING : Order.fromJpaValue(rawOrder.getValue().toString());
 
             setValue(new Sort(order, text));
         }
