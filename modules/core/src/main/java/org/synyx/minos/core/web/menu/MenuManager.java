@@ -54,7 +54,7 @@ public class MenuManager implements MenuProvider {
     public Menu getMenu(String id) {
 
         synchronized (this) {
-            if (menuItems == null) {
+            if (menuItems == null || menuItems.isEmpty()) {
                 loadMenuItems();
             }
         }

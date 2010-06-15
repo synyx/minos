@@ -7,9 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.core.web.menu.Menu;
@@ -26,9 +24,6 @@ import org.synyx.minos.core.web.menu.MenuProvider;
 public class MenuTag extends RequestContextAwareTag {
 
     private static final long serialVersionUID = 3562560895559874960L;
-
-    @Autowired
-    private MenuProvider menuProvider;
 
     private Integer levels = 0;
 
@@ -49,8 +44,7 @@ public class MenuTag extends RequestContextAwareTag {
     @Override
     protected int doStartTagInternal() throws Exception {
 
-        initDependencies();
-
+        MenuProvider menuProvider = getMenuProvider();
         Menu menu = menuProvider == null ? new Menu(new ArrayList<MenuItem>()) : menuProvider.getMenu(getMenuId());
         List<MenuItem> menuItems = menu.getItems();
 
@@ -198,28 +192,12 @@ public class MenuTag extends RequestContextAwareTag {
     }
 
 
-    private synchronized void initDependencies() {
+    private MenuProvider getMenuProvider() {
 
-        if (!initialized) {
-            try {
-                SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-            } catch (Exception e) {
-                // this is usually if the current context is not the web-context
-                // TODO fixme
-
-                if (null == menuProvider) {
-                    try {
-                        menuProvider = getApplicationContext().getBean("menuProvider", MenuProvider.class);
-                    } catch (RuntimeException ex) {
-                        menuProvider = null;
-                    }
-                }
-
-            }
-
-            if (menuProvider != null) {
-                initialized = true;
-            }
+        try {
+            return getApplicationContext().getBean("menuProvider", MenuProvider.class);
+        } catch (RuntimeException ex) {
+            return null;
         }
 
     }
