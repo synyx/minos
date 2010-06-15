@@ -58,12 +58,7 @@
         </property>
         -->
 		<property name="customArgumentResolvers">
-			<list>
-				<bean class="org.synyx.minos.core.web.PageableArgumentResolver" />
-                <bean class="org.synyx.minos.core.web.CurrentUserArgumentResolver">
-                    <constructor-arg ref="authenticationService" />
-                </bean>
-			</list>
+			<plugin:list class="org.springframework.web.bind.support.WebArgumentResolver" />
 		</property>
 		<property name="webBindingInitializer" ref="minosWebBindingInitializer">
 			
@@ -71,6 +66,10 @@
         <property name="supportedMethods" value="GET,PUT,POST,HEAD,DELETE" />
 	</bean>
 
+	<bean class="org.synyx.minos.core.web.PageableArgumentResolver" />
+    <bean class="org.synyx.minos.core.web.CurrentUserArgumentResolver">
+    	<constructor-arg ref="authenticationService" />
+    </bean>
 
 	<bean id="minosWebBindingInitializer" class="org.synyx.minos.core.web.MinosWebBindingIntializer">
 		<property name="parameters">
