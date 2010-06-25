@@ -16,35 +16,4 @@
         You can use this archetyp to create a project template for a Minos module. It creates a POM which contains the boilerplate to setup the infrastructure configuration.   
     </description>
     
-    
-    <licenses>
-        <license>
-            <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-            <comments>A business-friendly OSS license</comments>
-        </license>
-    </licenses>
-    
-    <developers>
-        <developer>
-            <id>gierke</id>
-            <name>Oliver Gierke</name>
-            <email>gierke@synyx.de</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>kannegiesser</id>
-            <name>Marc Kannegießer</name>
-            <email>kannegiesser@synyx.de</email>
-            <roles>
-                <role>Project Lead</role>
-                <role>Developer</role>
-            </roles>
-        </developer>
-    </developers>
-    
-    
 </project>
