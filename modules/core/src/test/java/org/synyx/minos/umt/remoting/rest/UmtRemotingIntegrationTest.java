@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.mortbay.jetty.HttpHeaders;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.synyx.minos.test.integration.AbstractJUnit4JettyIntegrationTest;
 import org.synyx.minos.umt.remoting.rest.dto.UserDto;
 import org.xml.sax.SAXException;
 
@@ -29,7 +30,6 @@ import com.meterware.httpunit.PutMethodWebRequest;
 import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
-import com.synyx.utils.test.server.AbstractJUnit4JettyIntegrationTest;
 
 
 /**
@@ -40,9 +40,9 @@ import com.synyx.utils.test.server.AbstractJUnit4JettyIntegrationTest;
 public class UmtRemotingIntegrationTest extends
         AbstractJUnit4JettyIntegrationTest {
 
-    private static final String USER_URL =
-            "http://localhost:" + System.getProperty("jetty.testport", "7070")
-                    + "/rest/v1/umt/users";
+    private static final String USER_URL = "http://localhost:"
+            + System.getProperty("jetty.testport", "7070")
+            + "/rest/v1/umt/users";
 
     private Jaxb2Marshaller unmarshaller;
 

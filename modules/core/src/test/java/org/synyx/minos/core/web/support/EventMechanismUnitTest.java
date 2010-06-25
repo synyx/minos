@@ -17,8 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import org.synyx.minos.core.Core;
-
-import com.synyx.utils.test.easymock.EasyMockUtils;
+import org.synyx.minos.test.MockUtils;
 
 
 /**
@@ -46,8 +45,8 @@ public class EventMechanismUnitTest {
 
 
     /**
-     * Sets up mocks for {@code HttpServletRequest} and {@code
-     * HttpServletResponse}.
+     * Sets up mocks for {@code HttpServletRequest} and
+     * {@code HttpServletResponse}.
      * 
      * @throws Exception
      */
@@ -76,8 +75,7 @@ public class EventMechanismUnitTest {
 
         // Create model and view for target controller
         ModelAndView mockMav = new ModelAndView(PMT_VIEW);
-        mockMav.addObject(Core.EVENT_KEY,
-                new ProjectDeletedEvent("MOCK_EVENT"));
+        mockMav.addObject(Core.EVENT_KEY, new ProjectDeletedEvent("MOCK_EVENT"));
         mockMav.addObject("bar", "foo");
 
         expectControllerToReturn(pmtController, mockMav);
@@ -102,10 +100,11 @@ public class EventMechanismUnitTest {
 
 
     /**
-     * Adds expectation for one call to {@code
+     * Adds expectation for one call to
+     * {@code
      * Controller#handleRequest(javax.servlet.http.HttpServletRequest,
-     * javax.servlet.http.HttpServletResponse)} returning the given {@code
-     * ModelAndView} as result.
+     * javax.servlet.http.HttpServletResponse)} returning the given
+     * {@code ModelAndView} as result.
      * 
      * @param advisedController
      * @param mav
@@ -114,7 +113,7 @@ public class EventMechanismUnitTest {
     private void expectControllerToReturn(Controller advisedController,
             ModelAndView mav) throws Exception {
 
-        Controller controller = EasyMockUtils.unwrap(advisedController);
+        Controller controller = MockUtils.unwrap(advisedController);
 
         when(controller.handleRequest(request, response)).thenReturn(mav);
     }

@@ -193,12 +193,6 @@
         
         <!-- Core Minos test support -->		
         <dependency>
-            <groupId>com.synyx</groupId>
-            <artifactId>synyx-test-utils</artifactId>
-            <version>0.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>${project.groupId}.test</artifactId>
             <version>${project.version}</version>
