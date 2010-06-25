@@ -66,14 +66,6 @@
     
     <developers>
         <developer>
-            <id>gierke</id>
-            <name>Oliver Gierke</name>
-            <email>gierke@synyx.de</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
             <id>kannegiesser</id>
             <name>Marc Kannegießer</name>
             <email>kannegiesser@synyx.de</email>
@@ -82,9 +74,18 @@
                 <role>Developer</role>
             </roles>
         </developer>
+        <developer>
+            <id>gierke</id>
+            <name>Oliver Gierke</name>
+            <email>ogierke@vmware.com</email>
+            <url>http://www.olivergierke.de</url>
+            <organization>SpringSource - a division of VMware</organization>
+            <organizationUrl>http://www.springsource.com</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
     </developers>
-    
-    
     
     <build>
         <plugins>
