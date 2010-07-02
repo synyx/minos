@@ -7,23 +7,23 @@ import org.springframework.util.Assert;
 
 
 /**
- * {@link UrlResolvingStrategy} that takes a list of {@link MenuItem} of which the first available elements url gets
+ * {@link UrlResolver} that takes a list of {@link MenuItem} of which the first available elements url gets
  * returned.
  * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  * @author Oliver Gierke
  */
-public class PreferredSubMenuItemUrlResolvingStrategy implements UrlResolvingStrategy {
+public class PreferredSubMenuItemUrlResolver implements UrlResolver {
 
     private final List<MenuItem> preferences;
 
 
     /**
-     * Creates a new {@link PreferredSubMenuItemUrlResolvingStrategy}.
+     * Creates a new {@link PreferredSubMenuItemUrlResolver}.
      * 
      * @param preferences the sub {@link MenuItem}s whose URLs should be preferred to be used
      */
-    public PreferredSubMenuItemUrlResolvingStrategy(MenuItem... preferences) {
+    public PreferredSubMenuItemUrlResolver(MenuItem... preferences) {
 
         Assert.notEmpty(preferences);
         this.preferences = Arrays.asList(preferences);

@@ -7,13 +7,13 @@ import org.synyx.minos.util.Assert;
 
 
 /**
- * {@link UrlResolvingStrategy} that is able to detect a given placeholder in the configured URL and replaces it with
+ * {@link UrlResolver} that is able to detect a given placeholder in the configured URL and replaces it with
  * the current {@link User}s username.
  * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  * @author Oliver Gierke
  */
-public class UserPlaceholderAwareUrlResolvingStrategy extends SimpleUrlResolvingStrategy {
+public class UserPlaceholderAwareUrlResolver extends SimpleUrlResolver {
 
     public static final String DEFAULT_PLACEHOLDER = "{username}";
 
@@ -22,12 +22,12 @@ public class UserPlaceholderAwareUrlResolvingStrategy extends SimpleUrlResolving
 
 
     /**
-     * Creates a new {@link UserPlaceholderAwareUrlResolvingStrategy}.
+     * Creates a new {@link UserPlaceholderAwareUrlResolver}.
      * 
      * @param url
      * @param authService
      */
-    public UserPlaceholderAwareUrlResolvingStrategy(String url, AuthenticationService authService) {
+    public UserPlaceholderAwareUrlResolver(String url, AuthenticationService authService) {
 
         super(url);
         Assert.notNull(authService);

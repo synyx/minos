@@ -14,12 +14,12 @@ import org.mockito.Mockito;
 /**
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
-public class FirstSubMenuUrlResolvingStrategyUnitTest {
+public class FirstSubMenuUrlResolverUnitTest {
 
     @Test
     public void resolvesUrlOfFirstSubMenu() {
 
-        FirstSubMenuUrlResolvingStrategy strategy = new FirstSubMenuUrlResolvingStrategy();
+        FirstSubMenuUrlResolver strategy = new FirstSubMenuUrlResolver();
 
         MenuItem first = Mockito.mock(MenuItem.class);
         when(first.getUrl()).thenReturn("FOO");
@@ -38,7 +38,7 @@ public class FirstSubMenuUrlResolvingStrategyUnitTest {
 
         MenuItem item = Mockito.mock(MenuItem.class);
 
-        FirstSubMenuUrlResolvingStrategy strategy = new FirstSubMenuUrlResolvingStrategy();
+        FirstSubMenuUrlResolver strategy = new FirstSubMenuUrlResolver();
 
         when(item.getSubMenues()).thenReturn(new MenuItems());
 

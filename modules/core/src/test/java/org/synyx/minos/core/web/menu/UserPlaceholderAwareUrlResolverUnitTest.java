@@ -9,7 +9,7 @@ import org.synyx.minos.core.authentication.AuthenticationService;
 import org.synyx.minos.core.domain.User;
 
 
-public class UserPlaceholderAwareUrlResolvingStrategyUnitTest {
+public class UserPlaceholderAwareUrlResolverUnitTest {
 
     @Test
     public void replacesUserCorrectly() throws Exception {
@@ -18,9 +18,9 @@ public class UserPlaceholderAwareUrlResolvingStrategyUnitTest {
         User user = new User("oliver.gierke", "gierke@synyx.de", "password");
         when(authService.getCurrentUser()).thenReturn(user);
 
-        String url = String.format("/foo/%s/resume", UserPlaceholderAwareUrlResolvingStrategy.DEFAULT_PLACEHOLDER);
-        UserPlaceholderAwareUrlResolvingStrategy strategy =
-                new UserPlaceholderAwareUrlResolvingStrategy(url, authService);
+        String url = String.format("/foo/%s/resume", UserPlaceholderAwareUrlResolver.DEFAULT_PLACEHOLDER);
+        UserPlaceholderAwareUrlResolver strategy =
+                new UserPlaceholderAwareUrlResolver(url, authService);
 
         assertEquals("/foo/oliver.gierke/resume", strategy.resolveUrl(null));
     }
@@ -31,9 +31,9 @@ public class UserPlaceholderAwareUrlResolvingStrategyUnitTest {
 
         AuthenticationService authService = Mockito.mock(AuthenticationService.class);
         when(authService.getCurrentUser()).thenReturn(null);
-        String url = String.format("/foo/%s/resume", UserPlaceholderAwareUrlResolvingStrategy.DEFAULT_PLACEHOLDER);
-        UserPlaceholderAwareUrlResolvingStrategy strategy =
-                new UserPlaceholderAwareUrlResolvingStrategy(url, authService);
+        String url = String.format("/foo/%s/resume", UserPlaceholderAwareUrlResolver.DEFAULT_PLACEHOLDER);
+        UserPlaceholderAwareUrlResolver strategy =
+                new UserPlaceholderAwareUrlResolver(url, authService);
 
         assertEquals("/foo/resume", strategy.resolveUrl(null));
     }

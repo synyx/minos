@@ -28,7 +28,7 @@ public class MenuItem implements Comparable<MenuItem> {
 
     private final String id;
 
-    private UrlResolvingStrategy urlStrategy;
+    private UrlResolver urlStrategy;
     private String title;
     private String desciption;
     private Integer position = 0;
@@ -168,7 +168,7 @@ public class MenuItem implements Comparable<MenuItem> {
 
         MenuItemBuilder builder =
                 create(id).withDescription(desciption).withTitle(title).withPosition(position)
-                        .withUrlStrategy(urlStrategy).withPermissions(permissions);
+                        .withUrlResolver(urlStrategy).withPermissions(permissions);
 
         if (hasSubMenues()) {
             // Only clone sub menu items that satisfy the filter
@@ -282,7 +282,7 @@ public class MenuItem implements Comparable<MenuItem> {
             }
 
             if (menuItem.hasSubMenues()) {
-                menuItem.urlStrategy = new FirstSubMenuUrlResolvingStrategy();
+                menuItem.urlStrategy = new FirstSubMenuUrlResolver();
             } else {
                 throw new IllegalStateException(
                         "No UrlResolvingStrategy not given. Could not autodetect one (you must supply a strategy, a url or submenues).");
@@ -360,12 +360,12 @@ public class MenuItem implements Comparable<MenuItem> {
 
 
         /**
-         * Sets the {@link UrlResolvingStrategy} to be used to determine the URL the {@link MenuItem} shall link to.
+         * Sets the {@link UrlResolver} to be used to determine the URL the {@link MenuItem} shall link to.
          * 
          * @param strategy
          * @return
          */
-        public MenuItemBuilder withUrlStrategy(UrlResolvingStrategy strategy) {
+        public MenuItemBuilder withUrlResolver(UrlResolver strategy) {
 
             Assert.notNull(strategy);
             menuItem.urlStrategy = strategy;
@@ -382,7 +382,7 @@ public class MenuItem implements Comparable<MenuItem> {
         public MenuItemBuilder withUrl(String url) {
 
             Assert.notNull(url);
-            menuItem.urlStrategy = new SimpleUrlResolvingStrategy(url);
+            menuItem.urlStrategy = new SimpleUrlResolver(url);
             return this;
         }
 

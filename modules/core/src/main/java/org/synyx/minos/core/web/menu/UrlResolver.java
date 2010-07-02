@@ -8,7 +8,7 @@ import org.synyx.minos.core.domain.User;
  * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
-public interface UrlResolvingStrategy {
+public interface UrlResolver {
 
     /**
      * Return the Url for the given {@link MenuItem}

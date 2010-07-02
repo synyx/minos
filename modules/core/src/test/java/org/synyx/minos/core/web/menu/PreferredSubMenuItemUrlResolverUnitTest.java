@@ -8,12 +8,12 @@ import org.junit.Test;
 
 
 /**
- * Unit test for {@link PreferredSubMenuItemUrlResolvingStrategy}.
+ * Unit test for {@link PreferredSubMenuItemUrlResolver}.
  * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  * @author Oliver Gierke
  */
-public class PreferredSubMenuItemUrlResolvingStrategyUnitTest {
+public class PreferredSubMenuItemUrlResolverUnitTest {
 
     MenuItem first;
     MenuItem second;
@@ -34,7 +34,7 @@ public class PreferredSubMenuItemUrlResolvingStrategyUnitTest {
 
         MenuItem item = MenuItem.create("item").withSubmenues(second, third).build();
 
-        PreferredSubMenuItemUrlResolvingStrategy strategy = new PreferredSubMenuItemUrlResolvingStrategy(first, third);
+        PreferredSubMenuItemUrlResolver strategy = new PreferredSubMenuItemUrlResolver(first, third);
         String url = strategy.resolveUrl(item);
 
         assertThat(url, is("FOO"));
@@ -46,7 +46,7 @@ public class PreferredSubMenuItemUrlResolvingStrategyUnitTest {
 
         MenuItem item = MenuItem.create("item").withSubmenues(second).build();
 
-        PreferredSubMenuItemUrlResolvingStrategy strategy = new PreferredSubMenuItemUrlResolvingStrategy(first, third);
+        PreferredSubMenuItemUrlResolver strategy = new PreferredSubMenuItemUrlResolver(first, third);
         String url = strategy.resolveUrl(item);
 
         assertNull(url);

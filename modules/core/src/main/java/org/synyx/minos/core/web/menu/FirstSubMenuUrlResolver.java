@@ -1,21 +1,12 @@
 package org.synyx.minos.core.web.menu;
 
 /**
- * Strategy that simply returns the url from a property.
+ * {@link UrlResolver} that delegates the resolving to the first sub {@link MenuItem}.
  * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  * @author Oliver Gierke
  */
-public class SimpleUrlResolvingStrategy implements UrlResolvingStrategy {
-
-    private final String url;
-
-
-    public SimpleUrlResolvingStrategy(String url) {
-
-        this.url = url;
-    }
-
+public class FirstSubMenuUrlResolver implements UrlResolver {
 
     /*
      * (non-Javadoc)
@@ -25,6 +16,6 @@ public class SimpleUrlResolvingStrategy implements UrlResolvingStrategy {
     @Override
     public String resolveUrl(MenuItem item) {
 
-        return url;
+        return item.hasSubMenues() ? item.getSubMenues().iterator().next().getUrl() : null;
     }
 }

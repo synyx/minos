@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.synyx.minos.core.web.menu.AbstractMenuItemProvider;
 import org.synyx.minos.core.web.menu.MenuItem;
-import org.synyx.minos.core.web.menu.PreferredSubMenuItemUrlResolvingStrategy;
-import org.synyx.minos.core.web.menu.UrlResolvingStrategy;
+import org.synyx.minos.core.web.menu.PreferredSubMenuItemUrlResolver;
+import org.synyx.minos.core.web.menu.UrlResolver;
 import org.synyx.minos.umt.UmtPermissions;
 
 
@@ -50,9 +50,9 @@ public class UmtMenuItemProvider extends AbstractMenuItemProvider {
 
         // the menu should have the url of usersItem if possible or else the
         // myAccountItem
-        UrlResolvingStrategy umtItemStrategy = new PreferredSubMenuItemUrlResolvingStrategy(usersItem, myAccountItem);
+        UrlResolver umtItemStrategy = new PreferredSubMenuItemUrlResolver(usersItem, myAccountItem);
         MenuItem umtItem =
-                MenuItem.create(MENU_UMT).withKeyBase("umt.menu").withPosition(10000).withUrlStrategy(umtItemStrategy)
+                MenuItem.create(MENU_UMT).withKeyBase("umt.menu").withPosition(10000).withUrlResolver(umtItemStrategy)
                         .withSubmenues(usersItem, rolesItem, myAccountItem).build();
 
         return Arrays.asList(umtItem, logoutItem);
