@@ -1,11 +1,16 @@
 package org.synyx.minos.core.web.menu;
 
+import static com.google.common.collect.Iterables.*;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
 import org.synyx.minos.util.Assert;
+
+import com.google.common.base.Predicate;
 
 
 /**
@@ -21,13 +26,14 @@ public class MenuItem implements Comparable<MenuItem> {
     private static final String TITLE_POSTFIX = ".title";
     private static final String DESCRIPTION_POSTFIX = ".description";
 
-    private String id;
+    private final String id;
 
     private UrlResolvingStrategy urlStrategy;
     private String title;
     private String desciption;
-    private Integer position;
-    private List<MenuItem> subMenues = new ArrayList<MenuItem>();
+    private Integer position = 0;
+
+    private MenuItems subMenues;
     private List<String> permissions = new ArrayList<String>();
 
 
@@ -108,7 +114,7 @@ public class MenuItem implements Comparable<MenuItem> {
      */
     public boolean hasSubMenues() {
 
-        return 0 != subMenues.size();
+        return !subMenues.isEmpty();
     }
 
 
@@ -117,7 +123,7 @@ public class MenuItem implements Comparable<MenuItem> {
      * 
      * @return
      */
-    public List<MenuItem> getSubMenues() {
+    public MenuItems getSubMenues() {
 
         return subMenues;
     }
@@ -226,26 +232,44 @@ public class MenuItem implements Comparable<MenuItem> {
         return new MenuItemBuilder(id);
     }
 
+    /**
+     * Builder class to create {@link MenuItem}s in a step-by-step fashion but keep the actual {@link MenuItem} class
+     * immutable.
+     * 
+     * @author Marc Kannegiesser - kannegiesser@synyx.de
+     * @author Oliver Gierke
+     */
     public static class MenuItemBuilder {
 
-        private MenuItem menuItem;
+        private final MenuItem menuItem;
+        private final List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
 
 
         /**
+         * Creates a new {@link MenuItemBuilder}.
+         * 
          * @param id
          */
-        public MenuItemBuilder(String id) {
+        private MenuItemBuilder(String id) {
 
             menuItem = new MenuItem(id);
         }
 
 
+        /**
+         * Builds the {@link MenuItem}. The instance is frozen after this method was called.
+         * 
+         * @return
+         */
         public MenuItem build() {
 
-            checkStrategy();
-            if (menuItem.subMenues != null) {
-                Collections.sort(menuItem.subMenues);
+            if (!subMenuItems.isEmpty()) {
+                Collections.sort(subMenuItems);
             }
+
+            menuItem.subMenues = new MenuItems(subMenuItems);
+            checkStrategy();
+
             return menuItem;
 
         }
@@ -256,13 +280,13 @@ public class MenuItem implements Comparable<MenuItem> {
             if (menuItem.urlStrategy != null) {
                 return;
             }
+
             if (menuItem.hasSubMenues()) {
                 menuItem.urlStrategy = new FirstSubMenuUrlResolvingStrategy();
             } else {
                 throw new IllegalStateException(
                         "No UrlResolvingStrategy not given. Could not autodetect one (you must supply a strategy, a url or submenues).");
             }
-
         }
 
 
@@ -293,8 +317,7 @@ public class MenuItem implements Comparable<MenuItem> {
         public MenuItemBuilder withSubmenues(List<MenuItem> subMenues) {
 
             Assert.notNull(subMenues);
-            menuItem.subMenues = subMenues;
-
+            this.subMenuItems.addAll(subMenues);
             return this;
         }
 
@@ -302,18 +325,14 @@ public class MenuItem implements Comparable<MenuItem> {
         public MenuItemBuilder withSubmenues(MenuItem... subMenues) {
 
             Assert.notNull(subMenues);
-            List<MenuItem> items = new ArrayList<MenuItem>();
-            for (MenuItem sub : subMenues) {
-                items.add(sub);
-            }
-            return withSubmenues(items);
+            return withSubmenues(Arrays.asList(subMenues));
         }
 
 
         public MenuItemBuilder withSubmenu(MenuItem subMenu) {
 
             Assert.notNull(subMenu);
-            menuItem.subMenues.add(subMenu);
+            this.subMenuItems.add(subMenu);
             return this;
         }
 
@@ -342,6 +361,12 @@ public class MenuItem implements Comparable<MenuItem> {
         }
 
 
+        /**
+         * Sets the {@link UrlResolvingStrategy} to be used to determine the URL the {@link MenuItem} shall link to.
+         * 
+         * @param strategy
+         * @return
+         */
         public MenuItemBuilder withUrlStrategy(UrlResolvingStrategy strategy) {
 
             Assert.notNull(strategy);
@@ -350,6 +375,12 @@ public class MenuItem implements Comparable<MenuItem> {
         }
 
 
+        /**
+         * Lets the {@link MenuItem} link to a static URL.
+         * 
+         * @param url
+         * @return
+         */
         public MenuItemBuilder withUrl(String url) {
 
             Assert.notNull(url);
@@ -360,24 +391,40 @@ public class MenuItem implements Comparable<MenuItem> {
     }
 
 
+    /**
+     * Returns wether we have the given {@link MenuItem} somewhere in our trees of sub {@link MenuItem}s.
+     * 
+     * @param menuItem
+     * @return
+     */
+    public boolean hasSubMenuItem(MenuItem menuItem) {
+
+        return hasSubMenues() ? getSubMenues().contains(menuItem) : false;
+    }
+
+
+    /**
+     * Returns whether the {@link MenuItem} shall be considered as active for the given URL.
+     * 
+     * @param url
+     * @return
+     */
     public boolean isActiveFor(String url) {
 
         if (url.startsWith(urlStrategy.resolveUrl(this))) {
             return true;
         }
 
-        List<MenuItem> subMenues = getSubMenues();
-        if (subMenues == null || subMenues.isEmpty()) {
+        if (!hasSubMenues()) {
             return false;
         }
 
-        for (MenuItem sub : subMenues) {
+        for (MenuItem sub : getSubMenues()) {
             if (sub.isActiveFor(url)) {
                 return true;
             }
         }
 
         return false;
-
     }
 }

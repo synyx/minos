@@ -39,7 +39,7 @@ public class PreferredSubMenuItemUrlResolvingStrategy implements UrlResolvingStr
     public String resolveUrl(MenuItem item) {
 
         for (MenuItem preference : preferences) {
-            if (item.getSubMenues().contains(preference)) {
+            if (item.hasSubMenuItem(preference)) {
                 return preference.getUrl();
             }
         }
