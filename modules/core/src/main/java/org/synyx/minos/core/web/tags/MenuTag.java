@@ -1,8 +1,6 @@
 package org.synyx.minos.core.web.tags;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
@@ -12,6 +10,7 @@ import org.springframework.web.servlet.tags.RequestContextAwareTag;
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.core.web.menu.Menu;
 import org.synyx.minos.core.web.menu.MenuItem;
+import org.synyx.minos.core.web.menu.MenuItems;
 import org.synyx.minos.core.web.menu.MenuProvider;
 
 
@@ -45,8 +44,8 @@ public class MenuTag extends RequestContextAwareTag {
     protected int doStartTagInternal() throws Exception {
 
         MenuProvider menuProvider = getMenuProvider();
-        Menu menu = menuProvider == null ? new Menu(new ArrayList<MenuItem>()) : menuProvider.getMenu(getMenuId());
-        List<MenuItem> menuItems = menu.getItems();
+        Menu menu = menuProvider == null ? new Menu() : menuProvider.getMenu(getMenuId());
+        MenuItems menuItems = menu.getItems();
 
         if (null == menuItems || menuItems.isEmpty()) {
             return 0;
@@ -85,7 +84,7 @@ public class MenuTag extends RequestContextAwareTag {
      * @param builder
      * @throws IOException
      */
-    private void buildHtmlMenu(List<MenuItem> menuItems, StringBuilder builder, boolean submenu, Integer levelsRemaining)
+    private void buildHtmlMenu(MenuItems menuItems, StringBuilder builder, boolean submenu, Integer levelsRemaining)
             throws IOException {
 
         String path = getPathWithinApplication(getRequest());
