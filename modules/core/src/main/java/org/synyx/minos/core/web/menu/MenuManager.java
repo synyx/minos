@@ -71,8 +71,7 @@ public class MenuManager implements MenuProvider, InitializingBean {
 
         Menu menu = menues.get(id);
         if (menu == null) {
-            List<MenuItem> empty = Collections.emptyList();
-            menu = new Menu(empty);
+            menu = new Menu();
         }
 
         return menu;
