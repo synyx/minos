@@ -90,7 +90,7 @@ public abstract class AbstractEventHandler<T extends Event> implements
      * 
      * @see com.synyx.minos.core.web.support.EventHandlerInterface#supports(java.lang.Object)
      */
-    public boolean supports(Class<T> eventClass) {
+    public boolean supports(Class<? extends T> eventClass) {
 
         return eventClass.isAssignableFrom(supportedEvent);
     }

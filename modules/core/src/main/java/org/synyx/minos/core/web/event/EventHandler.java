@@ -24,6 +24,6 @@ public interface EventHandler<T extends Event> {
      * @param eventClazz
      * @return
      */
-    public abstract boolean supports(Class<T> eventClazz);
+    public abstract boolean supports(Class<? extends T> eventClazz);
 
 }

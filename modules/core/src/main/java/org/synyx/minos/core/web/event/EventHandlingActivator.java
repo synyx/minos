@@ -78,7 +78,6 @@ public class EventHandlingActivator extends ModulePostProcessor {
      * @see org.springframework.beans.factory.config.BeanFactoryPostProcessor#postProcessBeanFactory(org.springframework.beans.factory.config.ConfigurableListableBeanFactory)
      */
     @Override
-    @SuppressWarnings("unchecked")
     public void postProcessBeanFactory(
             ConfigurableListableBeanFactory beanFactory) throws BeansException {
 
@@ -115,7 +114,8 @@ public class EventHandlingActivator extends ModulePostProcessor {
         BeanDefinitionBuilder builder = BeanDefinitionBuilder
                 .rootBeanDefinition(EventOrchestrator.class);
 
-        ManagedList eventHandlers = new ManagedList();
+        ManagedList<BeanDefinition> eventHandlers =
+                new ManagedList<BeanDefinition>();
 
         // Create and add event handlers
         for (String eventHandlerName : eventHandlerNames) {

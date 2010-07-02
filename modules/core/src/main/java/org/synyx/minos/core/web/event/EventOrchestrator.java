@@ -40,7 +40,7 @@ public class EventOrchestrator {
     private static final String EVENT_CONTEXT_KEY = Core.EVENT_KEY
             + ".context";
 
-    private List<EventHandler<?>> eventHandlers;
+    private List<EventHandler<Event>> eventHandlers;
 
 
     /**
@@ -51,7 +51,7 @@ public class EventOrchestrator {
      * @param eventHandlers the eventHandlers to set
      */
     @Required
-    public void setEventHandlers(List<EventHandler<?>> eventHandlers) {
+    public void setEventHandlers(List<EventHandler<Event>> eventHandlers) {
 
         this.eventHandlers = eventHandlers;
     }
@@ -90,7 +90,6 @@ public class EventOrchestrator {
      * @throws Throwable
      */
     @Around("(controllerInvocation() || annotationMethodHandlerInvocation()) && args(request, response) && this(controller)")
-    @SuppressWarnings("unchecked")
     public ModelAndView orchestrate(ProceedingJoinPoint joinPoint,
             HttpServletRequest request, HttpServletResponse response,
             Object controller) throws Throwable {
@@ -112,7 +111,7 @@ public class EventOrchestrator {
             // Retrieve event
             Event event = (Event) map.get(Core.EVENT_KEY);
 
-            for (EventHandler handler : eventHandlers) {
+            for (EventHandler<Event> handler : eventHandlers) {
 
                 // Hand execution to handler if she is intrested in the event
                 if (handler.supports(event.getClass())) {
