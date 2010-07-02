@@ -56,22 +56,4 @@ public class MenuUnitTest {
 
         assertThat(menu.hasMenuItem("1_2"), is(true));
     }
-
-
-    @Test
-    public void getSecondLevel() {
-
-        MenuItem item = menu.getMenuItem("1_2");
-        assertThat(item, equalTo(m1_2));
-    }
-
-
-    @Test
-    public void removeSecondLevel() {
-
-        MenuItem item = menu.removeMenuItem("1_2");
-        assertThat(item, equalTo(m1_2));
-
-        assertThat(menu.hasMenuItem("1_2"), is(false));
-    }
 }

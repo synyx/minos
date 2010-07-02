@@ -84,38 +84,4 @@ public class Menu {
 
         return null;
     }
-
-
-    public MenuItem removeMenuItem(String id) {
-
-        return removeMenuItem(id, items);
-    }
-
-
-    public static MenuItem removeMenuItem(String id, List<MenuItem> currentItems) {
-
-        if (currentItems == null) {
-            return null;
-        }
-
-        Iterator<MenuItem> itemIter = currentItems.iterator();
-        while (itemIter.hasNext()) {
-            MenuItem item = itemIter.next();
-            if (id.equals(item.getId())) {
-                itemIter.remove();
-                return item;
-            }
-
-            if (item.hasSubMenues()) {
-                MenuItem subItem = removeMenuItem(id, item.getSubMenues());
-                if (subItem != null) {
-                    return subItem;
-                }
-
-            }
-        }
-
-        return null;
-    }
-
 }
