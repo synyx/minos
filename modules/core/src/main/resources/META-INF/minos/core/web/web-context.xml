@@ -114,18 +114,20 @@
             </props>
         </property>
     </bean>
-
-
-	<bean id="menuPermissionFilter" class="org.synyx.minos.core.web.menu.filter.PermissionMenuItemFilter">
-		<property name="authenticationService" ref="authenticationService"/>
-	</bean>
-
-	<bean id="menuProvider" class="org.synyx.minos.core.web.menu.MenuManager">
-		<property name="menuItemFilters"><plugin:list class="org.synyx.minos.core.web.menu.MenuItemFilter" /></property>
-		<property name="menuItemProviders"><plugin:list class="org.synyx.minos.core.web.menu.MenuItemProvider" /></property>
-	</bean>
 	
 
+	<bean id="menuProvider" class="org.synyx.minos.core.web.menu.MenuManager">
+        <constructor-arg>
+            <plugin:list class="org.synyx.minos.core.web.menu.MenuItemProvider" />
+        </constructor-arg>
+        <constructor-arg>
+            <plugin:list class="org.synyx.minos.core.web.menu.MenuItemFilter" />
+        </constructor-arg>
+	</bean>
+	
+    <bean id="menuPermissionFilter" class="org.synyx.minos.core.web.menu.filter.PermissionMenuItemFilter">
+        <constructor-arg ref="authenticationService" />
+    </bean>
 
 
 </beans>

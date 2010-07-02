@@ -8,6 +8,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.synyx.minos.util.Assert;
+
 
 /**
  * {@link MenuProvider} implementation that uses {@link MenuItem} provided by {@link MenuItemProvider}s defined in the
@@ -15,33 +18,43 @@ import java.util.Map;
  * {@link MenuAssembler}-Implementation.
  * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
+ * @author Oliver Gierke
  */
-public class MenuManager implements MenuProvider {
+public class MenuManager implements MenuProvider, InitializingBean {
 
-    public static final MenuAssembler DEFAULT_MENUASSEMBLER = new SimpleMenuAssembler();
+    private static final MenuAssembler DEFAULT_MENUASSEMBLER = new SimpleMenuAssembler();
 
-    private List<MenuItemProvider> menuItemProviders;
-    private List<MenuItemFilter> menuItemFilters;
-
-    private List<MenuItem> menuItems;
-
+    private final List<MenuItemProvider> menuItemProviders;
+    private final List<MenuItemFilter> menuItemFilters;
     private MenuAssembler menuAssembler = DEFAULT_MENUASSEMBLER;
 
+    private List<MenuItem> menuItems = new ArrayList<MenuItem>();
 
-    public void loadMenuItems() {
 
-        menuItems = new ArrayList<MenuItem>();
+    /**
+     * Creates a new {@link MenuManager}.
+     * 
+     * @param menuItemProviders
+     * @param menuItemFilters
+     */
+    public MenuManager(List<MenuItemProvider> menuItemProviders, List<MenuItemFilter> menuItemFilters) {
 
-        for (MenuItemProvider provider : menuItemProviders) {
+        Assert.notNull(menuItemProviders);
+        Assert.notNull(menuItemFilters);
 
-            for (MenuItem menuItem : provider.getMenuItems()) {
+        this.menuItemProviders = menuItemProviders;
+        this.menuItemFilters = menuItemFilters;
+    }
 
-                menuItems.add(menuItem);
-            }
-        }
 
-        Collections.sort(menuItems);
+    /**
+     * Configures a {@link MenuAssembler}. Defaults to {@value #DEFAULT_MENUASSEMBLER}.
+     * 
+     * @param menuAssembler the menuAssembler to set
+     */
+    public void setMenuAssembler(MenuAssembler menuAssembler) {
 
+        this.menuAssembler = menuAssembler == null ? DEFAULT_MENUASSEMBLER : menuAssembler;
     }
 
 
@@ -52,12 +65,6 @@ public class MenuManager implements MenuProvider {
      */
     @Override
     public Menu getMenu(String id) {
-
-        synchronized (this) {
-            if (menuItems == null || menuItems.isEmpty()) {
-                loadMenuItems();
-            }
-        }
 
         List<MenuItem> items = cloneItems(menuItems);
         items = filterMenueItems(items);
@@ -107,56 +114,23 @@ public class MenuManager implements MenuProvider {
 
 
     /**
-     * @param menuItemProviders the menuItemProviders to set
      */
-    public void setMenuItemProviders(List<MenuItemProvider> menuItemProviders) {
 
-        this.menuItemProviders = menuItemProviders;
     }
 
 
-    /**
-     * @return the menuItemProviders
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
-    public List<MenuItemProvider> getMenuItemProviders() {
+    @Override
+    public void afterPropertiesSet() throws Exception {
 
-        return menuItemProviders;
+        for (MenuItemProvider provider : menuItemProviders) {
+            menuItems.addAll(provider.getMenuItems());
+        }
+
+        Collections.sort(menuItems);
     }
-
-
-    /**
-     * @param menuItemFilters the menuItemFilters to set
-     */
-    public void setMenuItemFilters(List<MenuItemFilter> menuItemFilters) {
-
-        this.menuItemFilters = menuItemFilters;
-    }
-
-
-    /**
-     * @return the menuItemFilters
-     */
-    public List<MenuItemFilter> getMenuItemFilters() {
-
-        return menuItemFilters;
-    }
-
-
-    /**
-     * @param menuAssembler the menuAssembler to set
-     */
-    public void setMenuAssembler(MenuAssembler menuAssembler) {
-
-        this.menuAssembler = menuAssembler;
-    }
-
-
-    /**
-     * @return the menuAssembler
-     */
-    public MenuAssembler getMenuAssembler() {
-
-        return menuAssembler;
-    }
-
 }
