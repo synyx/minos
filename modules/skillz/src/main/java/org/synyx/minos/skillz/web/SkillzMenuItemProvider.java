@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.synyx.minos.core.authentication.AuthenticationService;
 import org.synyx.minos.core.web.menu.AbstractMenuItemProvider;
 import org.synyx.minos.core.web.menu.MenuItem;
-import org.synyx.minos.core.web.menu.UrlResolvingStrategy;
-import org.synyx.minos.core.web.menu.UserPlaceholderAwareUrlResolvingStrategy;
+import org.synyx.minos.core.web.menu.UrlResolver;
+import org.synyx.minos.core.web.menu.UserPlaceholderAwareUrlResolver;
 
 
 /**
@@ -51,9 +51,9 @@ public class SkillzMenuItemProvider extends AbstractMenuItemProvider {
                 MenuItem.create(MENU_SKILLZ_RESUME).withKeyBase("skillz.menu.resume").withPosition(40).withUrl(
                         "/skillz/resume").withPermission(SKILLZ_USER).build();
 
-        UrlResolvingStrategy privateProjectsStrategy =
-                new UserPlaceholderAwareUrlResolvingStrategy(String.format("/skillz/projects/%s",
-                        UserPlaceholderAwareUrlResolvingStrategy.DEFAULT_PLACEHOLDER), authenticationService);
+        UrlResolver privateProjectsStrategy =
+                new UserPlaceholderAwareUrlResolver(String.format("/skillz/projects/%s",
+                        UserPlaceholderAwareUrlResolver.DEFAULT_PLACEHOLDER), authenticationService);
         MenuItem privateProjects =
                 MenuItem.create(MENU_SKILLZ_PRIVATEPROJECTS).withKeyBase("skillz.menu.projects.private").withPosition(
                         50).withUrlResolver(privateProjectsStrategy).withPermission(SKILLZ_USER).build();
