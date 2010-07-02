@@ -97,7 +97,7 @@ public class MenuItems implements Iterable<MenuItem> {
 
         for (MenuItem item : menuItems) {
 
-            if (item.contains(menuItem)) {
+            if (item.equals(menuItem) || item.hasSubMenuItem(menuItem)) {
                 return true;
             }
         }
