@@ -292,7 +292,6 @@ public class MenuItem implements Comparable<MenuItem> {
 
         public MenuItemBuilder withTitle(String title) {
 
-            Assert.notNull(title);
             menuItem.title = title;
             return this;
         }
@@ -300,7 +299,6 @@ public class MenuItem implements Comparable<MenuItem> {
 
         public MenuItemBuilder withDescription(String description) {
 
-            Assert.notNull(description);
             menuItem.desciption = description;
             return this;
         }
