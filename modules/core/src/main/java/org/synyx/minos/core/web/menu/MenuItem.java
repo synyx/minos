@@ -167,8 +167,8 @@ public class MenuItem implements Comparable<MenuItem> {
     public MenuItem deepCopy(Predicate<MenuItem> subMenuItemFilters) {
 
         MenuItemBuilder builder =
-                create(id).withDescription(title).withTitle(title).withPosition(position).withUrlStrategy(urlStrategy)
-                        .withPermissions(permissions);
+                create(id).withDescription(desciption).withTitle(title).withPosition(position)
+                        .withUrlStrategy(urlStrategy).withPermissions(permissions);
 
         if (hasSubMenues()) {
             // Only clone sub menu items that satisfy the filter
