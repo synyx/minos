@@ -11,20 +11,30 @@ import org.springframework.util.Assert;
  * returned.
  * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
+ * @author Oliver Gierke
  */
 public class PreferredSubMenuItemUrlResolvingStrategy implements UrlResolvingStrategy {
 
-    private List<MenuItem> preferences;
+    private final List<MenuItem> preferences;
 
 
+    /**
+     * Creates a new {@link PreferredSubMenuItemUrlResolvingStrategy}.
+     * 
+     * @param preferences the sub {@link MenuItem}s whose URLs should be preferred to be used
+     */
     public PreferredSubMenuItemUrlResolvingStrategy(MenuItem... preferences) {
 
-        super();
         Assert.notEmpty(preferences);
         this.preferences = Arrays.asList(preferences);
     }
 
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.synyx.minos.core.web.menu.UrlResolvingStrategy#resolveUrl(org.synyx.minos.core.web.menu.MenuItem)
+     */
     @Override
     public String resolveUrl(MenuItem item) {
 
@@ -35,5 +45,4 @@ public class PreferredSubMenuItemUrlResolvingStrategy implements UrlResolvingStr
         }
         return null;
     }
-
 }
