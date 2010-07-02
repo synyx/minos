@@ -53,7 +53,7 @@ public class SkillzMenuItemProvider extends AbstractMenuItemProvider {
 
         UrlResolvingStrategy privateProjectsStrategy =
                 new UserPlaceholderAwareUrlResolvingStrategy(String.format("/skillz/projects/%s",
-                        UserPlaceholderAwareUrlResolvingStrategy.USER_PLACEHOLDER), authenticationService);
+                        UserPlaceholderAwareUrlResolvingStrategy.DEFAULT_PLACEHOLDER), authenticationService);
         MenuItem privateProjects =
                 MenuItem.create(MENU_SKILLZ_PRIVATEPROJECTS).withKeyBase("skillz.menu.projects.private").withPosition(
                         50).withUrlStrategy(privateProjectsStrategy).withPermission(SKILLZ_USER).build();
