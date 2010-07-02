@@ -27,8 +27,6 @@ public class MenuItem implements Comparable<MenuItem> {
     private String title;
     private String desciption;
     private Integer position;
-    // TODO: what is this needed for?
-    private MenuItem parent;
     private List<MenuItem> subMenues = new ArrayList<MenuItem>();
     private List<String> permissions = new ArrayList<String>();
 
@@ -88,17 +86,6 @@ public class MenuItem implements Comparable<MenuItem> {
     public int getPosition() {
 
         return position;
-    }
-
-
-    /**
-     * Returns whether the {@link MenuItem} is a top-level one.
-     * 
-     * @return
-     */
-    public boolean isTopLevel() {
-
-        return null == parent;
     }
 
 
@@ -310,9 +297,6 @@ public class MenuItem implements Comparable<MenuItem> {
             Assert.notNull(subMenues);
             menuItem.subMenues = subMenues;
 
-            for (MenuItem item : subMenues) {
-                item.parent = menuItem;
-            }
             return this;
         }
 
@@ -332,7 +316,6 @@ public class MenuItem implements Comparable<MenuItem> {
 
             Assert.notNull(subMenu);
             menuItem.subMenues.add(subMenu);
-            subMenu.parent = menuItem;
             return this;
         }
 
