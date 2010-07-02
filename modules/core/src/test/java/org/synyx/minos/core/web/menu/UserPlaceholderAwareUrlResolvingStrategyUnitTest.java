@@ -18,7 +18,7 @@ public class UserPlaceholderAwareUrlResolvingStrategyUnitTest {
         User user = new User("oliver.gierke", "gierke@synyx.de", "password");
         when(authService.getCurrentUser()).thenReturn(user);
 
-        String url = String.format("/foo/%s/resume", UserPlaceholderAwareUrlResolvingStrategy.USER_PLACEHOLDER);
+        String url = String.format("/foo/%s/resume", UserPlaceholderAwareUrlResolvingStrategy.DEFAULT_PLACEHOLDER);
         UserPlaceholderAwareUrlResolvingStrategy strategy =
                 new UserPlaceholderAwareUrlResolvingStrategy(url, authService);
 
@@ -31,7 +31,7 @@ public class UserPlaceholderAwareUrlResolvingStrategyUnitTest {
 
         AuthenticationService authService = Mockito.mock(AuthenticationService.class);
         when(authService.getCurrentUser()).thenReturn(null);
-        String url = String.format("/foo/%s/resume", UserPlaceholderAwareUrlResolvingStrategy.USER_PLACEHOLDER);
+        String url = String.format("/foo/%s/resume", UserPlaceholderAwareUrlResolvingStrategy.DEFAULT_PLACEHOLDER);
         UserPlaceholderAwareUrlResolvingStrategy strategy =
                 new UserPlaceholderAwareUrlResolvingStrategy(url, authService);
 

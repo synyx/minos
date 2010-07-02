@@ -1,38 +1,40 @@
-/**
- * 
- */
 package org.synyx.minos.core.web.menu;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
-import java.util.Arrays;
-
+import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 
 /**
+ * Unit test for {@link PreferredSubMenuItemUrlResolvingStrategy}.
+ * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
+ * @author Oliver Gierke
  */
 public class PreferredSubMenuItemUrlResolvingStrategyUnitTest {
+
+    MenuItem first;
+    MenuItem second;
+    MenuItem third;
+
+
+    @Before
+    public void setUp() {
+
+        first = MenuItem.create("first").withUrl("BAR").build();
+        second = MenuItem.create("second").withUrl("BAR").build();
+        third = MenuItem.create("third").withUrl("FOO").build();
+    }
+
 
     @Test
     public void resolvesUrlOfFirstSubMenu() {
 
-        MenuItem item = Mockito.mock(MenuItem.class);
-
-        MenuItem first = Mockito.mock(MenuItem.class);
-        MenuItem second = Mockito.mock(MenuItem.class);
-        MenuItem third = Mockito.mock(MenuItem.class);
+        MenuItem item = MenuItem.create("item").withSubmenues(second, third).build();
 
         PreferredSubMenuItemUrlResolvingStrategy strategy = new PreferredSubMenuItemUrlResolvingStrategy(first, third);
-
-        when(third.getUrl()).thenReturn("FOO");
-        when(item.getSubMenues()).thenReturn(Arrays.asList(second, third));
-
         String url = strategy.resolveUrl(item);
 
         assertThat(url, is("FOO"));
@@ -42,15 +44,9 @@ public class PreferredSubMenuItemUrlResolvingStrategyUnitTest {
     @Test
     public void resolvesToNullIfNoneFound() {
 
-        MenuItem item = Mockito.mock(MenuItem.class);
-
-        MenuItem first = Mockito.mock(MenuItem.class);
-        MenuItem second = Mockito.mock(MenuItem.class);
-        MenuItem third = Mockito.mock(MenuItem.class);
+        MenuItem item = MenuItem.create("item").withSubmenues(second).build();
 
         PreferredSubMenuItemUrlResolvingStrategy strategy = new PreferredSubMenuItemUrlResolvingStrategy(first, third);
-        when(item.getSubMenues()).thenReturn(Arrays.asList(second));
-
         String url = strategy.resolveUrl(item);
 
         assertNull(url);

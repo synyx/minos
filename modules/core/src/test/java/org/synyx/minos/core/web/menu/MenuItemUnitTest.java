@@ -1,8 +1,9 @@
 package org.synyx.minos.core.web.menu;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
+
+import java.util.Iterator;
 
 import org.junit.Test;
 
@@ -48,10 +49,12 @@ public class MenuItemUnitTest {
         MenuItem second = MenuItem.create("SOME").withKeyBase("keyBase").withPosition(10).withUrl("url").build();
 
         MenuItem item =
-                MenuItem.create("SOME").withKeyBase("keyBase").withPosition(0).withUrl("url").withSubmenues(second,
-                        first).build();
+                MenuItem.create("SOME").withKeyBase("keyBase").withPosition(0).withUrl("url")
+                        .withSubmenues(second, first).build();
 
-        assertThat(item.getSubMenues().get(0), is(first));
-        assertThat(item.getSubMenues().get(1), is(second));
+        Iterator<MenuItem> iterator = item.getSubMenues().iterator();
+
+        assertThat(iterator.next(), is(first));
+        assertThat(iterator.next(), is(second));
     }
 }
