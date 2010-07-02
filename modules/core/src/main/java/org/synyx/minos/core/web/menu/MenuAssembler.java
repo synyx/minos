@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.synyx.minos.core.web.menu;
 
 import java.util.Map;
@@ -20,6 +17,5 @@ public interface MenuAssembler {
      * @param itemCopy all {@link MenuItem}s available
      * @return
      */
-    Map<String, Menu> assembleMenues(Menu menu);
-
+    Map<String, Menu> assembleMenues(MenuItems items);
 }

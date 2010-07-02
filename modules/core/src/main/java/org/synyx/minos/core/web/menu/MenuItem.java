@@ -158,19 +158,17 @@ public class MenuItem implements Comparable<MenuItem> {
      * 
      * @return a deep copy of this {@link MenuItem}
      */
-    public MenuItem deepCopy() {
+    public MenuItem deepCopy(Predicate<MenuItem> subMenuItemFilters) {
 
         MenuItemBuilder builder =
                 create(id).withDescription(title).withTitle(title).withPosition(position).withUrlStrategy(urlStrategy)
                         .withPermissions(permissions);
 
-        if (subMenues != null) {
-            List<MenuItem> subCopy = new ArrayList<MenuItem>();
-
-            for (MenuItem sub : subMenues) {
-                subCopy.add(sub.deepCopy());
+        if (hasSubMenues()) {
+            // Only clone sub menu items that satisfy the filter
+            for (MenuItem sub : filter(subMenues, subMenuItemFilters)) {
+                builder.withSubmenu(sub.deepCopy(subMenuItemFilters));
             }
-            builder.withSubmenues(subCopy);
         }
 
         return builder.build();

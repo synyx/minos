@@ -66,9 +66,7 @@ public class MenuManager implements MenuProvider, InitializingBean {
     @Override
     public Menu getMenu(String id) {
 
-        List<MenuItem> items = cloneItems(menuItems);
-        items = filterMenueItems(items);
-
+        MenuItems items = new MenuItems(menuItems).filter(menuItemFilters);
         Map<String, Menu> menues = buildMenues(items);
 
         Menu menu = menues.get(id);
@@ -81,41 +79,18 @@ public class MenuManager implements MenuProvider, InitializingBean {
     }
 
 
-    protected List<MenuItem> cloneItems(List<MenuItem> items) {
-
-        // create a deep-copy of each item to be able to change the tree later
-        // (remove items the current user is not allowed to see)
-        List<MenuItem> itemCopy = new ArrayList<MenuItem>();
-
-        for (MenuItem item : items) {
-            itemCopy.add(item.deepCopy());
-        }
-
-        return itemCopy;
-
-    }
-
-
-    protected Map<String, Menu> buildMenues(List<MenuItem> itemCopy) {
-
-        return getMenuAssembler().assembleMenues(new Menu(itemCopy));
-
-    }
-
-
-    protected List<MenuItem> filterMenueItems(List<MenuItem> items) {
-
-        for (MenuItemFilter filter : menuItemFilters) {
-            items = filter.filterMenuItems(items);
-        }
-        return items;
-
-    }
-
-
     /**
+     * Build the actual {@link Menu}es from the given {@link MenuItems}. Default implmentation will delegate this to
+     * configured {@link MenuAssembler}.
+     * <p>
+     * TODO: should we wrap the Map into a Menues class to avoid null checks for non existent id lookups?
+     * 
+     * @param items
+     * @return
      */
+    protected Map<String, Menu> buildMenues(MenuItems items) {
 
+        return menuAssembler.assembleMenues(items);
     }
 
 

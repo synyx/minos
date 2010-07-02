@@ -17,13 +17,13 @@ public class SimpleMenuAssembler implements MenuAssembler {
     /*
      * (non-Javadoc)
      * 
-     * @see org.synyx.minos.core.web.menu.MenuAssembler#assembleMenues(java.util.List)
+     * @see org.synyx.minos.core.web.menu.MenuAssembler#assembleMenues(org.synyx.minos.core.web.menu.MenuItems)
      */
     @Override
-    public Map<String, Menu> assembleMenues(Menu menu) {
+    public Map<String, Menu> assembleMenues(MenuItems items) {
 
         Map<String, Menu> menues = new HashMap<String, Menu>();
-        menues.put("MAIN", menu);
+        menues.put("MAIN", new Menu(items));
         return menues;
     }
 

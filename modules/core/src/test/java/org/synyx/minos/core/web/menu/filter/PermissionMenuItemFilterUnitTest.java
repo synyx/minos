@@ -1,8 +1,6 @@
-/**
- * 
- */
 package org.synyx.minos.core.web.menu.filter;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -17,9 +15,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.synyx.minos.core.authentication.AuthenticationService;
 import org.synyx.minos.core.web.menu.MenuItem;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+
 
 /**
  * @author Marc Kannegiesser - kannegiesser@synyx.de
+ * @author Oliver Gierke
  */
 
 @RunWith(MockitoJUnitRunner.class)
@@ -40,8 +42,7 @@ public class PermissionMenuItemFilterUnitTest {
     @Before
     public void setup() {
 
-        filter = new PermissionMenuItemFilter();
-        filter.setAuthenticationService(authService);
+        filter = new PermissionMenuItemFilter(authService);
 
         a = MenuItem.create("A").withUrl("a").withPosition(1).withPermission(permA).build();
         b = MenuItem.create("B").withUrl("b").withPosition(1).withPermission(permB).build();
@@ -55,7 +56,8 @@ public class PermissionMenuItemFilterUnitTest {
         items.add(a);
         items.add(b);
 
-        filter.filterMenuItems(items);
+        filter.apply(a);
+        filter.apply(b);
         verify(authService).hasAllPermissions(a.getPermissions());
         verify(authService).hasAllPermissions(b.getPermissions());
 
@@ -65,50 +67,35 @@ public class PermissionMenuItemFilterUnitTest {
     @Test
     public void testFilterNone() {
 
-        when(authService.hasAllPermissions(a.getPermissions())).thenReturn(true);
-        when(authService.hasAllPermissions(b.getPermissions())).thenReturn(true);
-
-        List<MenuItem> items = new ArrayList<MenuItem>();
-        items.add(a);
-        items.add(b);
-
-        List<MenuItem> result = filter.filterMenuItems(items);
-        assertTrue(result.contains(a));
-        assertTrue(result.contains(b));
-
+        assertAAndB(true, true);
     }
 
 
     @Test
     public void testFilterBoth() {
 
-        when(authService.hasAllPermissions(a.getPermissions())).thenReturn(false);
-        when(authService.hasAllPermissions(b.getPermissions())).thenReturn(false);
-
-        List<MenuItem> items = new ArrayList<MenuItem>();
-        items.add(a);
-        items.add(b);
-
-        List<MenuItem> result = filter.filterMenuItems(items);
-        assertTrue(!result.contains(a));
-        assertTrue(!result.contains(b));
-
+        assertAAndB(false, false);
     }
 
 
     @Test
     public void testFilterOne() {
 
-        when(authService.hasAllPermissions(a.getPermissions())).thenReturn(false);
-        when(authService.hasAllPermissions(b.getPermissions())).thenReturn(true);
+        assertAAndB(false, true);
+    }
+
+
+    private void assertAAndB(boolean forA, boolean forB) {
+
+        when(authService.hasAllPermissions(a.getPermissions())).thenReturn(forA);
+        when(authService.hasAllPermissions(b.getPermissions())).thenReturn(forB);
 
         List<MenuItem> items = new ArrayList<MenuItem>();
         items.add(a);
         items.add(b);
 
-        List<MenuItem> result = filter.filterMenuItems(items);
-        assertTrue(!result.contains(a));
-        assertTrue(result.contains(b));
-
+        List<MenuItem> result = Lists.newArrayList(Iterables.filter(items, filter));
+        assertThat(result.contains(a), is(forA));
+        assertThat(result.contains(b), is(forB));
     }
 }
