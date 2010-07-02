@@ -1,52 +1,31 @@
-/**
- * 
- */
 package org.synyx.minos.core.web.menu;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-
 /**
+ * Abstraction of a {@link Menu}. That is a tree of {@link MenuItem}s.
+ * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
+ * @author Oliver Gierke
  */
 public class Menu {
 
-    private List<MenuItem> items;
+    private final MenuItems items;
 
 
     public Menu(MenuItem... items) {
 
-        this.items = new ArrayList<MenuItem>();
-        for (MenuItem item : items) {
-            this.items.add(item);
-        }
+        this(new MenuItems(items));
     }
 
 
-    public Menu(List<MenuItem> items) {
+    public Menu(MenuItems menuItems) {
 
-        super();
-        this.items = items;
+        this.items = menuItems;
     }
 
 
-    /**
-     * @param items the items to set
-     */
-    public void setItems(List<MenuItem> items) {
+    public MenuItems getItems() {
 
-        this.items = items;
-    }
-
-
-    /**
-     * @return the items
-     */
-    public List<MenuItem> getItems() {
-
-        return items;
+        return this.items;
     }
 
 
@@ -56,13 +35,7 @@ public class Menu {
     }
 
 
-    public MenuItem getMenuItem(String id) {
-
-        return getMenuItem(id, items);
-    }
-
-
-    public static MenuItem getMenuItem(String id, List<MenuItem> currentItems) {
+    private static MenuItem getMenuItem(String id, MenuItems currentItems) {
 
         if (currentItems == null) {
             return null;
