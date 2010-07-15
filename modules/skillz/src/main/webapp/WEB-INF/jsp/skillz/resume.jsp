@@ -10,13 +10,15 @@
 <%@ taglib prefix="c" tagdir="/WEB-INF/tags/core"%>
 
 <script type="text/javascript">
-	<!--
-	$(function() {
-		$("#tabs").tabs();
-		
-		$("#birthday").datepicker();
-	});
-	//-->
+    <!--
+
+        window.onload = function() {
+
+        $("#tabs").tabs();
+        $("#birthday").datepicker();
+
+    }
+    -->
 </script>
 
 <div id="tabs">
