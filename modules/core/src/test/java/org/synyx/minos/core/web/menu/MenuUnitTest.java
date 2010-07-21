@@ -1,12 +1,10 @@
-/**
- * 
- */
 package org.synyx.minos.core.web.menu;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-import org.junit.Before;
+import java.util.Iterator;
+
 import org.junit.Test;
 
 
@@ -15,45 +13,49 @@ import org.junit.Test;
  */
 public class MenuUnitTest {
 
-    private Menu menu;
+    @Test
+    public void returnsUrlOfFirstSubMenuItem() throws Exception {
 
-    MenuItem m1_2;
+        MenuItem parent =
+                MenuItem.create("some").withKeyBase("keyBase").withPosition(0).withUrlResolver(
+                        new FirstSubMenuUrlResolver()).build();
 
+        MenuItem child =
+                MenuItem.create("some").withKeyBase("keyBase").withPosition(0).withUrl("/url").withParent(parent)
+                        .build();
 
-    /**
-     * <pre>
-     *                1               2
-     *             /     \
-     *          1_1     1_2
-     *                 /  \
-     *             1_2_1   1_2_2
-     * </pre>
-     */
-    @Before
-    public void setup() {
+        Menu childMenu = Menu.create(child);
+        Menu parentMenu = Menu.create(parent, new MenuItems(childMenu));
 
-        MenuItem m1_1 = MenuItem.create("1_1").withPosition(1).withUrl("foo").build();
-        MenuItem m1_2_1 = MenuItem.create("1_2_1f").withPosition(1).withUrl("foo").build();
-        MenuItem m1_2_2 = MenuItem.create("1_2_2").withPosition(1).withUrl("foo").build();
-        m1_2 = MenuItem.create("1_2").withPosition(1).withUrl("foo").withSubmenues(m1_2_1, m1_2_2).build();
-        MenuItem m1 = MenuItem.create("1").withPosition(1).withUrl("foo").withSubmenues(m1_1, m1_2).build();
-        MenuItem m2 = MenuItem.create("2").withPosition(1).withUrl("foo").build();
-
-        menu = new Menu(m1, m2);
-
+        assertEquals("/url", parentMenu.getUrl());
     }
 
 
     @Test
-    public void testHasFirstLevel() {
+    public void ordersSubmenuesCorrectly() throws Exception {
 
-        assertThat(menu.hasMenuItem("1"), is(true));
-    }
+        MenuItem parent = MenuItem.create("SOME").withKeyBase("keyBase").withPosition(0).withUrl("url").build();
 
+        MenuItem first =
+                MenuItem.create("SOME").withKeyBase("keyBase").withPosition(1).withUrl("url").withParent(parent)
+                        .build();
+        MenuItem second =
+                MenuItem.create("SOME").withKeyBase("keyBase").withPosition(10).withUrl("url").withParent(parent)
+                        .build();
 
-    @Test
-    public void testHasSecondLevel() {
+        MenuItem third =
+                MenuItem.create("SOME").withKeyBase("keyBase").withPosition(42).withUrl("url").withParent(parent)
+                        .build();
 
-        assertThat(menu.hasMenuItem("1_2"), is(true));
+        Menu firstMenu = Menu.create(first);
+        Menu secondMenu = Menu.create(second);
+        Menu thirdMenu = Menu.create(third);
+
+        Menu parentMenu = Menu.create(parent, new MenuItems(secondMenu, thirdMenu, firstMenu));
+
+        Iterator<Menu> iterator = parentMenu.getSubMenues().iterator();
+
+        assertThat(iterator.next(), is(firstMenu));
+        assertThat(iterator.next(), is(secondMenu));
     }
 }

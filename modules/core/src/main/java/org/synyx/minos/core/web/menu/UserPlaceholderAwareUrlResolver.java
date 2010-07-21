@@ -7,8 +7,8 @@ import org.synyx.minos.util.Assert;
 
 
 /**
- * {@link UrlResolver} that is able to detect a given placeholder in the configured URL and replaces it with
- * the current {@link User}s username.
+ * {@link UrlResolver} that is able to detect a given placeholder in the configured URL and replaces it with the current
+ * {@link User}s username.
  * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  * @author Oliver Gierke
@@ -52,7 +52,7 @@ public class UserPlaceholderAwareUrlResolver extends SimpleUrlResolver {
      * @see org.synyx.minos.core.web.menu.SimpleUrlResolvingStrategy#resolveUrl(org.synyx.minos.core.web.menu.MenuItem)
      */
     @Override
-    public String resolveUrl(MenuItem item) {
+    public String resolveUrl(Menu item) {
 
         String url = super.resolveUrl(item);
 

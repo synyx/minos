@@ -5,6 +5,8 @@ package org.synyx.minos.core.web.menu;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +15,9 @@ import org.synyx.minos.util.Assert;
 
 
 /**
- * {@link MenuProvider} implementation that uses {@link MenuItem} provided by {@link MenuItemProvider}s defined in the
- * context, filteres them using {@link MenuItemFilter}s defined in the context and assembles the {@link Menu}s using a
- * {@link MenuAssembler}-Implementation.
+ * {@link MenuProvider} implementation that uses {@link MenuItem}s provided by {@link MenuItemProvider}s defined in the
+ * context, filteres them using {@link MenuItemFilter}s defined in the context and assembles the {@link MenuItems} using
+ * a {@link MenuAssembler}-Implementation.
  * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  * @author Oliver Gierke
@@ -61,17 +63,19 @@ public class MenuManager implements MenuProvider, InitializingBean {
     /*
      * (non-Javadoc)
      * 
-     * @see org.synyx.minos.core.web.menu.MenuProvider#getMenu(java.lang.String, org.synyx.minos.core.domain.User)
+     * @see org.synyx.minos.core.web.menu.MenuProvider#getMenu(java.lang.String)
      */
     @Override
-    public Menu getMenu(String id) {
+    public MenuItems getMenu(String id) {
 
-        MenuItems items = new MenuItems(menuItems).filter(menuItemFilters);
-        Map<String, Menu> menues = buildMenues(items);
+        MenuItems items = buildMenu(menuItems);
+        MenuItems menuTree = items.filter(menuItemFilters);
 
-        Menu menu = menues.get(id);
+        Map<String, MenuItems> menues = buildMenues(menuTree);
+
+        MenuItems menu = menues.get(id);
         if (menu == null) {
-            menu = new Menu();
+            menu = MenuItems.EMPTY;
         }
 
         return menu;
@@ -79,15 +83,55 @@ public class MenuManager implements MenuProvider, InitializingBean {
 
 
     /**
-     * Build the actual {@link Menu}es from the given {@link MenuItems}. Default implmentation will delegate this to
-     * configured {@link MenuAssembler}.
+     * Converts the flat hierarchy of {@link MenuItems} into a Tree of {@link MenuItems} by resolving the parent-child
+     * relation.
+     * 
+     * @param menuItems
+     * @return
+     */
+    private MenuItems buildMenu(List<MenuItem> menuItems) {
+
+        Map<String, List<Menu>> childMap = new HashMap<String, List<Menu>>();
+        for (MenuItem item : menuItems) {
+
+            List<Menu> children = childMap.get(item.getPath());
+            if (children == null) {
+                children = new ArrayList<Menu>();
+            } else {
+                Collections.sort(children);
+            }
+            Menu menu = Menu.create(item, new MenuItems(children));
+
+            List<Menu> items = childMap.get(item.getParentPath());
+            if (items == null) {
+                items = new ArrayList<Menu>();
+                childMap.put(item.getParentPath(), items);
+            }
+            items.add(menu);
+        }
+
+        List<Menu> root = childMap.get("");
+        if (root == null) {
+            root = new ArrayList<Menu>();
+        } else {
+            Collections.sort(root);
+        }
+        return new MenuItems(root);
+
+    }
+
+
+    /**
+     * Build the actual {@link MenuItems}es from the given {@link MenuItems}. Default implmentation will delegate this
+     * to configured {@link MenuAssembler}.
      * <p>
      * TODO: should we wrap the Map into a Menues class to avoid null checks for non existent id lookups?
+     * </p>
      * 
      * @param items
      * @return
      */
-    protected Map<String, Menu> buildMenues(MenuItems items) {
+    protected Map<String, MenuItems> buildMenues(MenuItems items) {
 
         return menuAssembler.assembleMenues(items);
     }
@@ -105,6 +149,20 @@ public class MenuManager implements MenuProvider, InitializingBean {
             menuItems.addAll(provider.getMenuItems());
         }
 
-        Collections.sort(menuItems);
+        Collections.sort(menuItems, new Comparator<MenuItem>() {
+
+            @Override
+            public int compare(MenuItem o1, MenuItem o2) {
+
+                int value = o2.getPath().length() - o1.getPath().length();
+                if (value == 0) {
+                    return o1.compareTo(o2);
+                }
+                return value;
+            }
+
+        });
+
+        // Collections.sort(menuItems);
     }
 }

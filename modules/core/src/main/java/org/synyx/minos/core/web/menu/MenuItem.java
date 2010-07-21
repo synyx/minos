@@ -1,16 +1,11 @@
 package org.synyx.minos.core.web.menu;
 
-import static com.google.common.collect.Iterables.*;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
 import org.synyx.minos.util.Assert;
-
-import com.google.common.base.Predicate;
 
 
 /**
@@ -23,17 +18,19 @@ import com.google.common.base.Predicate;
  */
 public class MenuItem implements Comparable<MenuItem> {
 
+    public static final String PATH_SEPARATOR = "/";
+
     private static final String TITLE_POSTFIX = ".title";
     private static final String DESCRIPTION_POSTFIX = ".description";
 
     private final String id;
+    private String path;
 
     private UrlResolver urlStrategy;
     private String title;
     private String desciption;
     private Integer position = 0;
 
-    private MenuItems subMenues;
     private List<String> permissions = new ArrayList<String>();
 
 
@@ -50,15 +47,13 @@ public class MenuItem implements Comparable<MenuItem> {
 
 
     /**
-     * Returns the URL the {@link MenuItem} shall link to.
+     * Returns the {@link UrlResolver} for the {@link MenuItem} shall link to.
      * 
-     * @param user the user to create the menu for. Can be {@literal null} if no user is authenticated
-     * @return the url
+     * @return the {@link UrlResolver} of this
      */
-    public String getUrl() {
+    public UrlResolver getUrlResolver() {
 
-        return urlStrategy.resolveUrl(this);
-
+        return urlStrategy;
     }
 
 
@@ -107,28 +102,6 @@ public class MenuItem implements Comparable<MenuItem> {
     }
 
 
-    /**
-     * Returns whether the {@link MenuItem} has submenues.
-     * 
-     * @return
-     */
-    public boolean hasSubMenues() {
-
-        return !subMenues.isEmpty();
-    }
-
-
-    /**
-     * Returns all submenues.
-     * 
-     * @return
-     */
-    public MenuItems getSubMenues() {
-
-        return subMenues;
-    }
-
-
     /*
      * (non-Javadoc)
      * 
@@ -150,7 +123,7 @@ public class MenuItem implements Comparable<MenuItem> {
     public String toString() {
 
         StringBuilder builder = new StringBuilder(title);
-        builder.append(", URL: ").append(getUrl());
+        builder.append(", URL: ").append("...who knows yet...");
         builder.append(", Position: ").append(position);
         builder.append(", Permissions: ").append(StringUtils.collectionToCommaDelimitedString(getPermissions()));
 
@@ -158,40 +131,24 @@ public class MenuItem implements Comparable<MenuItem> {
     }
 
 
-    /**
-     * Returns a deep copy of this. This means that a copy of this with copies of all subMenueitems (and so on) is
-     * returned.
-     * 
-     * @return a deep copy of this {@link MenuItem}
-     */
-    public MenuItem deepCopy(Predicate<MenuItem> subMenuItemFilters) {
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
 
-        MenuItemBuilder builder =
-                create(id).withDescription(desciption).withTitle(title).withPosition(position)
-                        .withUrlResolver(urlStrategy).withPermissions(permissions);
+        return typeSaveClone();
+    }
 
-        if (hasSubMenues()) {
-            // Only clone sub menu items that satisfy the filter
-            for (MenuItem sub : filter(subMenues, subMenuItemFilters)) {
-                builder.withSubmenu(sub.deepCopy(subMenuItemFilters));
-            }
-        }
 
-        return builder.build();
+    protected MenuItem typeSaveClone() {
+
+        return deepCopy(this).build();
     }
 
 
     @Override
     public int hashCode() {
 
-        return id.hashCode();
-        // final int prime = 31;
-        // int result = 1;
-        // result = prime * result + desciption.hashCode();
-        // result = prime * result + ((parent == null) ? 0 : parent.hashCode());
-        // result = prime * result + position;
-        // result = prime * result + title.hashCode();
-        // return result;
+        return getPath().hashCode();
+
     }
 
 
@@ -206,30 +163,62 @@ public class MenuItem implements Comparable<MenuItem> {
             return false;
         MenuItem other = (MenuItem) obj;
 
-        return other.id.equals(id);
-        //
+        return other.path.equals(path);
 
-        // if (!desciption.equals(other.desciption))
-        // return false;
-        //
-        // if (!title.equals(other.title))
-        // return false;
-        //
-        // if (parent == null) {
-        // if (other.parent != null)
-        // return false;
-        // } else if (!parent.equals(other.parent))
-        // return false;
-        // if (position != other.position)
-        // return false;
-        //
-        // return true;
+    }
+
+
+    public String getPath() {
+
+        return path == null ? id : path;
+    }
+
+
+    public String getParentPath() {
+
+        String path = getPath();
+
+        if (!path.contains(PATH_SEPARATOR)) {
+            return "";
+        }
+
+        int pos = path.lastIndexOf(PATH_SEPARATOR);
+        return path.substring(0, pos);
+
     }
 
 
     public static MenuItemBuilder create(String id) {
 
         return new MenuItemBuilder(id);
+    }
+
+
+    public static MenuItemBuilder deepCopy(MenuItem item) {
+
+        MenuItemBuilder clone = MenuItem.create(item.id);
+
+        clone.menuItem.path = item.getPath();
+        clone.menuItem.urlStrategy = item.urlStrategy;
+        clone.menuItem.title = item.title;
+        clone.menuItem.desciption = item.desciption;
+        clone.menuItem.position = item.position;
+
+        clone.menuItem.permissions = new ArrayList<String>();
+        for (String permission : item.permissions) {
+            clone.menuItem.permissions.add(permission);
+        }
+
+        return clone;
+    }
+
+
+    public MenuItemBuilder createChild(MenuItem item) {
+
+        MenuItemBuilder clone = deepCopy(item);
+        clone.menuItem.path = getPath() + PATH_SEPARATOR + item.id;
+
+        return clone;
     }
 
     /**
@@ -242,7 +231,6 @@ public class MenuItem implements Comparable<MenuItem> {
     public static class MenuItemBuilder {
 
         private final MenuItem menuItem;
-        private final List<MenuItem> subMenuItems = new ArrayList<MenuItem>();
 
 
         /**
@@ -252,6 +240,7 @@ public class MenuItem implements Comparable<MenuItem> {
          */
         private MenuItemBuilder(String id) {
 
+            Assert.notNull(id);
             menuItem = new MenuItem(id);
         }
 
@@ -263,30 +252,11 @@ public class MenuItem implements Comparable<MenuItem> {
          */
         public MenuItem build() {
 
-            if (!subMenuItems.isEmpty()) {
-                Collections.sort(subMenuItems);
+            if (menuItem.urlStrategy == null) {
+                throw new IllegalStateException("Either URL or UrlResolver must be set.");
             }
-
-            menuItem.subMenues = new MenuItems(subMenuItems);
-            checkStrategy();
-
             return menuItem;
 
-        }
-
-
-        private void checkStrategy() {
-
-            if (menuItem.urlStrategy != null) {
-                return;
-            }
-
-            if (menuItem.hasSubMenues()) {
-                menuItem.urlStrategy = new FirstSubMenuUrlResolver();
-            } else {
-                throw new IllegalStateException(
-                        "No UrlResolvingStrategy not given. Could not autodetect one (you must supply a strategy, a url or submenues).");
-            }
         }
 
 
@@ -308,29 +278,6 @@ public class MenuItem implements Comparable<MenuItem> {
 
             Assert.notNull(position);
             menuItem.position = position;
-            return this;
-        }
-
-
-        public MenuItemBuilder withSubmenues(List<MenuItem> subMenues) {
-
-            Assert.notNull(subMenues);
-            this.subMenuItems.addAll(subMenues);
-            return this;
-        }
-
-
-        public MenuItemBuilder withSubmenues(MenuItem... subMenues) {
-
-            Assert.notNull(subMenues);
-            return withSubmenues(Arrays.asList(subMenues));
-        }
-
-
-        public MenuItemBuilder withSubmenu(MenuItem subMenu) {
-
-            Assert.notNull(subMenu);
-            this.subMenuItems.add(subMenu);
             return this;
         }
 
@@ -386,43 +333,15 @@ public class MenuItem implements Comparable<MenuItem> {
             return this;
         }
 
-    }
 
+        public MenuItemBuilder withParent(MenuItem parent) {
 
-    /**
-     * Returns wether we have the given {@link MenuItem} somewhere in our trees of sub {@link MenuItem}s.
-     * 
-     * @param menuItem
-     * @return
-     */
-    public boolean hasSubMenuItem(MenuItem menuItem) {
+            Assert.notNull(parent);
+            menuItem.path = String.format("%s%s%s", parent.getPath(), PATH_SEPARATOR, menuItem.getId());
 
-        return hasSubMenues() ? getSubMenues().contains(menuItem) : false;
-    }
-
-
-    /**
-     * Returns whether the {@link MenuItem} shall be considered as active for the given URL.
-     * 
-     * @param url
-     * @return
-     */
-    public boolean isActiveFor(String url) {
-
-        if (url.startsWith(urlStrategy.resolveUrl(this))) {
-            return true;
+            return this;
         }
 
-        if (!hasSubMenues()) {
-            return false;
-        }
-
-        for (MenuItem sub : getSubMenues()) {
-            if (sub.isActiveFor(url)) {
-                return true;
-            }
-        }
-
-        return false;
     }
+
 }

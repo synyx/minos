@@ -14,7 +14,7 @@ public class FirstSubMenuUrlResolver implements UrlResolver {
      * @see org.synyx.minos.core.web.menu.UrlResolvingStrategy#resolveUrl(org.synyx.minos.core.web.menu.MenuItem)
      */
     @Override
-    public String resolveUrl(MenuItem item) {
+    public String resolveUrl(Menu item) {
 
         return item.hasSubMenues() ? item.getSubMenues().iterator().next().getUrl() : null;
     }

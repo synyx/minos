@@ -15,7 +15,7 @@ import org.synyx.minos.core.web.menu.MenuProvider;
 
 
 /**
- * Tag rendering the applications menu using {@link MenuProvider} to get the needed {@link Menu}.
+ * Tag rendering the applications menu using {@link MenuProvider} to get the needed {@link MenuItems}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  * @author Marc Kannegiesser - kannegiesser@synyx.de
@@ -26,13 +26,11 @@ public class MenuTag extends RequestContextAwareTag {
 
     private Integer levels = 0;
 
-    private String menuId;
+    private String menuId = "MAIN";
 
     private boolean alwaysRenderSubmenus = false;
 
     private String id = null;
-
-    private boolean initialized = false;
 
 
     /*
@@ -44,10 +42,13 @@ public class MenuTag extends RequestContextAwareTag {
     protected int doStartTagInternal() throws Exception {
 
         MenuProvider menuProvider = getMenuProvider();
-        Menu menu = menuProvider == null ? new Menu() : menuProvider.getMenu(getMenuId());
-        MenuItems menuItems = menu.getItems();
+        if (menuProvider == null) {
+            return 0;
+        }
 
-        if (null == menuItems || menuItems.isEmpty()) {
+        MenuItems menuItems = menuProvider.getMenu(getMenuId());
+
+        if (menuItems.isEmpty()) {
             return 0;
         }
 
@@ -89,7 +90,7 @@ public class MenuTag extends RequestContextAwareTag {
 
         String path = getPathWithinApplication(getRequest());
 
-        for (MenuItem item : menuItems) {
+        for (Menu item : menuItems) {
 
             String url = item.getUrl();
             if (url == null) {
@@ -233,7 +234,7 @@ public class MenuTag extends RequestContextAwareTag {
 
     public void setMenuId(String menuId) {
 
-        this.menuId = menuId;
+        this.menuId = menuId != null ? menuId : "MAIN";
     }
 
 

@@ -15,26 +15,34 @@ import org.junit.Test;
  */
 public class PreferredSubMenuItemUrlResolverUnitTest {
 
-    MenuItem first;
-    MenuItem second;
-    MenuItem third;
+    MenuItem firstItem;
+    Menu first;
+    MenuItem secondItem;
+    Menu second;
+    MenuItem thirdItem;
+    Menu third;
 
 
     @Before
     public void setUp() {
 
-        first = MenuItem.create("first").withUrl("BAR").build();
-        second = MenuItem.create("second").withUrl("BAR").build();
-        third = MenuItem.create("third").withUrl("FOO").build();
+        firstItem = MenuItem.create("first").withUrl("BAR").build();
+        first = Menu.create(firstItem);
+        secondItem = MenuItem.create("second").withUrl("BAR").build();
+        second = Menu.create(secondItem);
+        thirdItem = MenuItem.create("third").withUrl("FOO").build();
+        third = Menu.create(thirdItem);
     }
 
 
     @Test
     public void resolvesUrlOfFirstSubMenu() {
 
-        MenuItem item = MenuItem.create("item").withSubmenues(second, third).build();
-
         PreferredSubMenuItemUrlResolver strategy = new PreferredSubMenuItemUrlResolver(first, third);
+
+        MenuItem itemItem = MenuItem.create("item").withUrlResolver(strategy).build();
+        Menu item = Menu.create(itemItem, new MenuItems(second, third));
+
         String url = strategy.resolveUrl(item);
 
         assertThat(url, is("FOO"));
@@ -44,9 +52,11 @@ public class PreferredSubMenuItemUrlResolverUnitTest {
     @Test
     public void resolvesToNullIfNoneFound() {
 
-        MenuItem item = MenuItem.create("item").withSubmenues(second).build();
-
         PreferredSubMenuItemUrlResolver strategy = new PreferredSubMenuItemUrlResolver(first, third);
+
+        MenuItem itemItem = MenuItem.create("item").withUrlResolver(strategy).build();
+        Menu item = Menu.create(itemItem, new MenuItems(second));
+
         String url = strategy.resolveUrl(item);
 
         assertNull(url);

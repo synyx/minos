@@ -8,7 +8,7 @@ import java.util.Map;
 
 
 /**
- * {@link MenuAssembler} implementation that simply puts the given {@link Menu} to a single Menu named MAIN
+ * {@link MenuAssembler} implementation that simply puts the given {@link MenuItems} to a single Menu named MAIN
  * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
@@ -20,10 +20,10 @@ public class SimpleMenuAssembler implements MenuAssembler {
      * @see org.synyx.minos.core.web.menu.MenuAssembler#assembleMenues(org.synyx.minos.core.web.menu.MenuItems)
      */
     @Override
-    public Map<String, Menu> assembleMenues(MenuItems items) {
+    public Map<String, MenuItems> assembleMenues(MenuItems items) {
 
-        Map<String, Menu> menues = new HashMap<String, Menu>();
-        menues.put("MAIN", new Menu(items));
+        Map<String, MenuItems> menues = new HashMap<String, MenuItems>();
+        menues.put("MAIN", items);
         return menues;
     }
 

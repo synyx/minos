@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.synyx.minos.core.authentication.AuthenticationService;
+import org.synyx.minos.core.web.menu.Menu;
 import org.synyx.minos.core.web.menu.MenuItem;
 
 import com.google.common.collect.Iterables;
@@ -35,8 +36,10 @@ public class PermissionMenuItemFilterUnitTest {
     private String permA = "A";
     private String permB = "B";
 
-    private MenuItem a;
-    private MenuItem b;
+    private MenuItem aItem;
+    private MenuItem bItem;
+    private Menu a;
+    private Menu b;
 
 
     @Before
@@ -44,15 +47,17 @@ public class PermissionMenuItemFilterUnitTest {
 
         filter = new PermissionMenuItemFilter(authService);
 
-        a = MenuItem.create("A").withUrl("a").withPosition(1).withPermission(permA).build();
-        b = MenuItem.create("B").withUrl("b").withPosition(1).withPermission(permB).build();
+        aItem = MenuItem.create("A").withUrl("a").withPosition(1).withPermission(permA).build();
+        a = Menu.create(aItem);
+        bItem = MenuItem.create("B").withUrl("b").withPosition(1).withPermission(permB).build();
+        b = Menu.create(bItem);
     }
 
 
     @Test
     public void testCallsHasPermissions() {
 
-        List<MenuItem> items = new ArrayList<MenuItem>();
+        List<Menu> items = new ArrayList<Menu>();
         items.add(a);
         items.add(b);
 
@@ -90,11 +95,11 @@ public class PermissionMenuItemFilterUnitTest {
         when(authService.hasAllPermissions(a.getPermissions())).thenReturn(forA);
         when(authService.hasAllPermissions(b.getPermissions())).thenReturn(forB);
 
-        List<MenuItem> items = new ArrayList<MenuItem>();
+        List<Menu> items = new ArrayList<Menu>();
         items.add(a);
         items.add(b);
 
-        List<MenuItem> result = Lists.newArrayList(Iterables.filter(items, filter));
+        List<Menu> result = Lists.newArrayList(Iterables.filter(items, filter));
         assertThat(result.contains(a), is(forA));
         assertThat(result.contains(b), is(forB));
     }

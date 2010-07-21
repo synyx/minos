@@ -1,6 +1,7 @@
 package org.synyx.minos.core.web.menu.filter;
 
 import org.synyx.minos.core.authentication.AuthenticationService;
+import org.synyx.minos.core.web.menu.Menu;
 import org.synyx.minos.core.web.menu.MenuItem;
 import org.synyx.minos.core.web.menu.MenuItemFilter;
 import org.synyx.minos.util.Assert;
@@ -30,8 +31,8 @@ public class PermissionMenuItemFilter implements MenuItemFilter {
      * @see com.google.common.base.Predicate#apply(java.lang.Object)
      */
     @Override
-    public boolean apply(MenuItem item) {
+    public boolean apply(Menu input) {
 
-        return authenticationService.hasAllPermissions(item.getPermissions());
+        return authenticationService.hasAllPermissions(input.getPermissions());
     }
 }

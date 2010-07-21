@@ -16,46 +16,48 @@ import com.google.common.base.Predicates;
  * 
  * @author Oliver Gierke
  */
-public class MenuItems implements Iterable<MenuItem> {
+public class MenuItems implements Iterable<Menu> {
 
-    private final List<MenuItem> menuItems;
+    public static final MenuItems EMPTY = new MenuItems(new ArrayList<Menu>());
+
+    private final List<Menu> items;
 
 
     /**
-     * Creates a new {@link MenuItems} for the given {@link List} of {@link MenuItem}s.
+     * Creates a new {@link Menu} for the given {@link List} of {@link Menu}s.
      * 
      * @param menuItems
      */
-    public MenuItems(List<MenuItem> menuItems) {
+    public MenuItems(List<Menu> menuItems) {
 
-        this.menuItems = menuItems;
+        this.items = menuItems;
     }
 
 
     /**
-     * Creates a new {@link MenuItems} for the given array of {@link MenuItem}s.
+     * Creates a new {@link Menu} for the given array of {@link Menu}s.
      * 
      * @param menuItems
      */
-    public MenuItems(MenuItem... menuItems) {
+    public MenuItems(Menu... items) {
 
-        this(asList(menuItems));
+        this(asList(items));
     }
 
 
     /**
-     * Returns a new {@link MenuItems} instance with deep copies of all {@link MenuItem}s that satisfy all of the given
+     * Returns a new {@link Menu} instance with deep copies of all {@link Menu}s that satisfy all of the given
      * {@link Predicate}s.
      * 
      * @param filter
      * @return
      */
-    public MenuItems filter(Iterable<? extends Predicate<MenuItem>> filter) {
+    public MenuItems filter(Iterable<? extends Predicate<Menu>> filter) {
 
-        List<MenuItem> result = new ArrayList<MenuItem>();
-        Predicate<MenuItem> allFilters = Predicates.and(filter);
+        List<Menu> result = new ArrayList<Menu>();
+        Predicate<Menu> allFilters = Predicates.and(filter);
 
-        for (MenuItem item : this) {
+        for (Menu item : this) {
             if (allFilters.apply(item)) {
                 result.add(item.deepCopy(allFilters));
             }
@@ -72,30 +74,30 @@ public class MenuItems implements Iterable<MenuItem> {
      */
     public boolean isEmpty() {
 
-        return menuItems.isEmpty();
+        return items.isEmpty();
     }
 
 
     /**
-     * Returns the number of {@link MenuItem}s contained.
+     * Returns the number of {@link Menu}s contained.
      * 
      * @return
      */
     public int size() {
 
-        return menuItems.size();
+        return items.size();
     }
 
 
     /**
-     * Returns whether the {@link MenuItems} contain the given {@link MenuItem}.
+     * Returns whether the {@link Menu} contain the given {@link Menu}.
      * 
      * @param menuItem
      * @return
      */
-    public boolean contains(MenuItem menuItem) {
+    public boolean contains(Menu menuItem) {
 
-        for (MenuItem item : menuItems) {
+        for (Menu item : items) {
 
             if (item.equals(menuItem) || item.hasSubMenuItem(menuItem)) {
                 return true;
@@ -112,8 +114,8 @@ public class MenuItems implements Iterable<MenuItem> {
      * @see java.lang.Iterable#iterator()
      */
     @Override
-    public Iterator<MenuItem> iterator() {
+    public Iterator<Menu> iterator() {
 
-        return menuItems.iterator();
+        return items.iterator();
     }
 }

@@ -9,6 +9,6 @@ import com.google.common.base.Predicate;
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  * @author Oliver Gierke
  */
-public interface MenuItemFilter extends Predicate<MenuItem> {
+public interface MenuItemFilter extends Predicate<Menu> {
 
 }

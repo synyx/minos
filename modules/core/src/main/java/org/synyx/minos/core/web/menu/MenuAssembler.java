@@ -12,10 +12,10 @@ import java.util.Map;
 public interface MenuAssembler {
 
     /**
-     * Returns a {@link Map} of Menues keyed by a {@link String} representing their name
+     * Returns a {@link Map} of {@link MenuItems} keyed by a {@link String} representing their name
      * 
-     * @param itemCopy all {@link MenuItem}s available
-     * @return
+     * @param items all {@link MenuItem}s available
+     * @return a {@link Map} of {@link MenuItems} keyed by a {@link String} represending their name
      */
-    Map<String, Menu> assembleMenues(MenuItems items);
+    Map<String, MenuItems> assembleMenues(MenuItems items);
 }

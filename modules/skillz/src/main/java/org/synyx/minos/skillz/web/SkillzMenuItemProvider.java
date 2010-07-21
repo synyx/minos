@@ -1,7 +1,6 @@
 package org.synyx.minos.skillz.web;
 
-import static org.synyx.minos.skillz.SkillzPermissions.SKILLZ_ADMINISTRATION;
-import static org.synyx.minos.skillz.SkillzPermissions.SKILLZ_USER;
+import static org.synyx.minos.skillz.SkillzPermissions.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,31 +38,32 @@ public class SkillzMenuItemProvider extends AbstractMenuItemProvider {
     @Override
     protected List<MenuItem> initMenuItems() {
 
+        MenuItem skillzMenu =
+                MenuItem.create(MENU_SKILLZ).withKeyBase("skillz.menu").withPosition(20).withUrl("/skillz")
+                        .withPermission(SKILLZ_USER).build();
+
         MenuItem manageResumes =
                 MenuItem.create(MENU_SKILLZ_RESUMES_MANAGE).withKeyBase("skillz.menu.manageResumes").withPosition(10)
-                        .withUrl("/skillz/resumes").withPermission(SKILLZ_ADMINISTRATION).build();
+                        .withUrl("/skillz/resumes").withPermission(SKILLZ_ADMINISTRATION).withParent(skillzMenu)
+                        .build();
 
         MenuItem skillz =
                 MenuItem.create(MENU_SKILLZ_SKILLZ).withKeyBase("skillz.menu.skillz").withPosition(20).withUrl(
-                        "/skillz").withPermission(SKILLZ_ADMINISTRATION).build();
+                        "/skillz").withPermission(SKILLZ_ADMINISTRATION).withParent(skillzMenu).build();
 
         MenuItem resume =
                 MenuItem.create(MENU_SKILLZ_RESUME).withKeyBase("skillz.menu.resume").withPosition(40).withUrl(
-                        "/skillz/resume").withPermission(SKILLZ_USER).build();
+                        "/skillz/resume").withPermission(SKILLZ_USER).withParent(skillzMenu).build();
 
         UrlResolver privateProjectsStrategy =
                 new UserPlaceholderAwareUrlResolver(String.format("/skillz/projects/%s",
                         UserPlaceholderAwareUrlResolver.DEFAULT_PLACEHOLDER), authenticationService);
         MenuItem privateProjects =
                 MenuItem.create(MENU_SKILLZ_PRIVATEPROJECTS).withKeyBase("skillz.menu.projects.private").withPosition(
-                        50).withUrlResolver(privateProjectsStrategy).withPermission(SKILLZ_USER).build();
-
-        MenuItem item =
-                MenuItem.create(MENU_SKILLZ).withKeyBase("skillz.menu").withPosition(20).withUrl("/skillz")
-                        .withPermission(SKILLZ_USER).withSubmenues(manageResumes, skillz, resume, privateProjects)
+                        50).withUrlResolver(privateProjectsStrategy).withPermission(SKILLZ_USER).withParent(skillzMenu)
                         .build();
 
-        return Arrays.asList(item);
+        return Arrays.asList(skillzMenu, manageResumes, skillz, resume, privateProjects);
 
     }
 }

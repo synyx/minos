@@ -11,11 +11,11 @@ import org.synyx.minos.core.domain.User;
 public interface UrlResolver {
 
     /**
-     * Return the Url for the given {@link MenuItem}
+     * Return the Url for the given {@link Menu}
      * 
-     * @param item the {@link MenuItem} to resolve the url for
-     * @return the Url for the given {@link MenuItem} and {@link User}
+     * @param item the {@link Menu} to resolve the url for
+     * @return the Url for the given {@link Menu} and {@link User}
      */
-    String resolveUrl(MenuItem item);
+    String resolveUrl(Menu item);
 
 }

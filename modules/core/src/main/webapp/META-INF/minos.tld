@@ -33,7 +33,7 @@
             The name of the menu to display (try MAIN for default-menu)
           </description>
           <name>menuId</name>
-          <required>true</required>
+          <required>false</required>
           <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>

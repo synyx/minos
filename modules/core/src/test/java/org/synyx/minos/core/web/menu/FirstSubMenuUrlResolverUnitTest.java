@@ -21,11 +21,11 @@ public class FirstSubMenuUrlResolverUnitTest {
 
         FirstSubMenuUrlResolver strategy = new FirstSubMenuUrlResolver();
 
-        MenuItem first = Mockito.mock(MenuItem.class);
+        Menu first = Mockito.mock(Menu.class);
         when(first.getUrl()).thenReturn("FOO");
 
-        MenuItem second = Mockito.mock(MenuItem.class);
-        MenuItem item = MenuItem.create("BAR").withSubmenues(first, second).build();
+        Menu second = Mockito.mock(Menu.class);
+        Menu item = Menu.create(MenuItem.create("BAR").withUrlResolver(strategy).build(), new MenuItems(first, second));
 
         String url = strategy.resolveUrl(item);
 
@@ -36,7 +36,7 @@ public class FirstSubMenuUrlResolverUnitTest {
     @Test
     public void resolvesToNullIfNoSubmenues() {
 
-        MenuItem item = Mockito.mock(MenuItem.class);
+        Menu item = Mockito.mock(Menu.class);
 
         FirstSubMenuUrlResolver strategy = new FirstSubMenuUrlResolver();
 
