@@ -49,13 +49,10 @@ public class MessageSourceNotificationFactoryTest {
 
         classUnderTest.setKey(KEY);
         String result = "New user password";
-        when(
-                mockMessageSource.getMessage(anyString(),
-                        (Object[]) anyObject(), (Locale) anyObject()))
+        when(mockMessageSource.getMessage(anyString(), (Object[]) anyObject(), (Locale) anyObject()))
                 .thenReturn(result);
 
-        Notification notification =
-                classUnderTest.create(dummy, dummy.getUsername(), NEW_PW);
+        Notification notification = classUnderTest.create(dummy, dummy.getUsername(), NEW_PW);
 
         assertEquals(result, notification.getMessage());
         assertEquals(dummy, notification.getRecipients().toArray()[0]);

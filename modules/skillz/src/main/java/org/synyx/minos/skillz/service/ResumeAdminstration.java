@@ -51,15 +51,13 @@ public interface ResumeAdminstration {
 
 
     /**
-     * Returns a {@link Page} of {@link Resume}s for the given
-     * {@link ResumeFilter} and parameters.
+     * Returns a {@link Page} of {@link Resume}s for the given {@link ResumeFilter} and parameters.
      * 
      * @param pageable
      * @param resumeFilter
      * @param parameters
      * @return
      */
-    Page<Resume> getResumesByFilter(Pageable pageable,
-            ResumeFilter resumeFilter, Map<String, String[]> parameters);
+    Page<Resume> getResumesByFilter(Pageable pageable, ResumeFilter resumeFilter, Map<String, String[]> parameters);
 
 }

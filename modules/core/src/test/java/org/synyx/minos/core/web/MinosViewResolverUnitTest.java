@@ -22,8 +22,7 @@ public class MinosViewResolverUnitTest {
 
         ViewResolver viewResolver = new MinosViewResolver();
 
-        assertThat(
-                viewResolver.resolveViewName("redirect:/foo", Locale.GERMAN),
+        assertThat(viewResolver.resolveViewName("redirect:/foo", Locale.GERMAN),
                 is(instanceOf(ServletMappingAwareRedirectView.class)));
     }
 }

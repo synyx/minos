@@ -6,8 +6,7 @@ import org.synyx.minos.core.domain.User;
 
 
 /**
- * Implementation of {@link NotificationProvider} that sends the notification
- * via email.
+ * Implementation of {@link NotificationProvider} that sends the notification via email.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */

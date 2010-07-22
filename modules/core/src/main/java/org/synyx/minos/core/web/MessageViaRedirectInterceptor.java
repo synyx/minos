@@ -12,13 +12,11 @@ import org.springframework.web.util.WebUtils;
 
 
 /**
- * This interceptor transparently transfers {@code Message}s through a redirect.
- * It uses the {@code HttpSession} to do this and cares for session cleanup
- * after the redirect.
+ * This interceptor transparently transfers {@code Message}s through a redirect. It uses the {@code HttpSession} to do
+ * this and cares for session cleanup after the redirect.
  * <p>
- * Messages that are added in the redirect action transparently override the
- * session message. This ensures to always see the latest system message but
- * implies the disadvantage, that the old message is never being seen.
+ * Messages that are added in the redirect action transparently override the session message. This ensures to always see
+ * the latest system message but implies the disadvantage, that the old message is never being seen.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -28,9 +26,8 @@ public class MessageViaRedirectInterceptor extends HandlerInterceptorAdapter {
 
 
     /**
-     * Configures the message key that is used to lookup messages in the
-     * {@link HttpSession} and {@link HttpServletRequest}. This has to be the
-     * key under which controllers register application messages.
+     * Configures the message key that is used to lookup messages in the {@link HttpSession} and
+     * {@link HttpServletRequest}. This has to be the key under which controllers register application messages.
      * 
      * @param messageKey the messageKey to set
      */
@@ -44,19 +41,15 @@ public class MessageViaRedirectInterceptor extends HandlerInterceptorAdapter {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.web.servlet.handler.HandlerInterceptorAdapter#postHandle
-     * (javax.servlet.http.HttpServletRequest,
-     * javax.servlet.http.HttpServletResponse, java.lang.Object,
+     * @see org.springframework.web.servlet.handler.HandlerInterceptorAdapter#postHandle
+     * (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object,
      * org.springframework.web.servlet.ModelAndView)
      */
     @Override
-    public void postHandle(HttpServletRequest request,
-            HttpServletResponse response, Object handler,
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
 
-        Message oldMessage =
-                (Message) WebUtils.getSessionAttribute(request, messageKey);
+        Message oldMessage = (Message) WebUtils.getSessionAttribute(request, messageKey);
 
         // Cleanup session
         HttpSession session = request.getSession();

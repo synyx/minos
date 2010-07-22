@@ -18,8 +18,7 @@ public class ReferenceDataContainer {
 
 
     /**
-     * Creates a {@link ReferenceDataContainer} with a generic DAO to fetch the
-     * reference data.
+     * Creates a {@link ReferenceDataContainer} with a generic DAO to fetch the reference data.
      * 
      * @param genericDao
      */
@@ -31,8 +30,7 @@ public class ReferenceDataContainer {
 
 
     /**
-     * Creates a {@link ReferenceDataContainer} with a collection as reference
-     * data.
+     * Creates a {@link ReferenceDataContainer} with a collection as reference data.
      * 
      * @param collection
      */

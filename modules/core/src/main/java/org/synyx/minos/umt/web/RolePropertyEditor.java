@@ -6,11 +6,9 @@ import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.umt.service.UserManagement;
 
 
-
 /**
- * {@link java.beans.PropertyEditor} to map {@link Role}s to {@link String}
- * representations. Expects the {@link String} representation to be the id of
- * the {@link Role} actually.
+ * {@link java.beans.PropertyEditor} to map {@link Role}s to {@link String} representations. Expects the {@link String}
+ * representation to be the id of the {@link Role} actually.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */

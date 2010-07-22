@@ -19,16 +19,14 @@ import org.synyx.hades.util.ClassUtils;
 
 
 /**
- * Simple helper class to use Hades DAOs to provide {@link PropertyEditor}s for
- * domain classes. Use a {@link CustomEditorConfigurer} and provide a reference
- * to an instance of this class for automatic registration of a
+ * Simple helper class to use Hades DAOs to provide {@link PropertyEditor}s for domain classes. Use a
+ * {@link CustomEditorConfigurer} and provide a reference to an instance of this class for automatic registration of a
  * {@link PropertyEditor} for each {@link GenericDao}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
 
-public class GenericDaoPropertyEditorRegistrar implements
-        PropertyEditorRegistrar, ApplicationContextAware {
+public class GenericDaoPropertyEditorRegistrar implements PropertyEditorRegistrar, ApplicationContextAware {
 
     private Map<Class<?>, GenericDao<?, Serializable>> daoMap;
 
@@ -48,18 +46,15 @@ public class GenericDaoPropertyEditorRegistrar implements
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.beans.PropertyEditorRegistrar#registerCustomEditors
+     * @see org.springframework.beans.PropertyEditorRegistrar#registerCustomEditors
      * (org.springframework.beans.PropertyEditorRegistry)
      */
     public void registerCustomEditors(PropertyEditorRegistry registry) {
 
-        for (Entry<Class<?>, GenericDao<?, Serializable>> entry : daoMap
-                .entrySet()) {
+        for (Entry<Class<?>, GenericDao<?, Serializable>> entry : daoMap.entrySet()) {
 
-            registry.registerCustomEditor(entry.getKey(),
-                    new EntityPropertyEditor<Serializable>(entry.getValue(),
-                            registry));
+            registry.registerCustomEditor(entry.getKey(), new EntityPropertyEditor<Serializable>(entry.getValue(),
+                    registry));
         }
     }
 
@@ -67,26 +62,21 @@ public class GenericDaoPropertyEditorRegistrar implements
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.context.ApplicationContextAware#setApplicationContext
+     * @see org.springframework.context.ApplicationContextAware#setApplicationContext
      * (org.springframework.context.ApplicationContext)
      */
     @Override
     @SuppressWarnings("unchecked")
-    public void setApplicationContext(ApplicationContext applicationContext)
-            throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 
         Collection<GenericDao> daos =
-                BeanFactoryUtils.beansOfTypeIncludingAncestors(
-                        applicationContext, GenericDao.class).values();
+                BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext, GenericDao.class).values();
 
-        this.daoMap =
-                new HashMap<Class<?>, GenericDao<?, Serializable>>(daos.size());
+        this.daoMap = new HashMap<Class<?>, GenericDao<?, Serializable>>(daos.size());
 
         for (GenericDao<?, ?> dao : daos) {
 
-            this.daoMap.put(getDomainClass(dao),
-                    (GenericDao<?, Serializable>) dao);
+            this.daoMap.put(getDomainClass(dao), (GenericDao<?, Serializable>) dao);
         }
     }
 }

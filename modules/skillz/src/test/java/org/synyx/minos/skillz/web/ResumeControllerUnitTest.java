@@ -61,9 +61,7 @@ public class ResumeControllerUnitTest {
     @Before
     public void setUp() {
 
-        controller =
-                new ResumeController(resumeManagement, skillManagement, null,
-                        pdfDocbookCreator, null);
+        controller = new ResumeController(resumeManagement, skillManagement, null, pdfDocbookCreator, null);
 
         errors = new BeanPropertyBindingResult(null, "");
         model = new ExtendedModelMap();
@@ -84,9 +82,7 @@ public class ResumeControllerUnitTest {
     @Test
     public void rejectsInvalidFileExtension() throws Exception {
 
-        MultipartFile multipartFile =
-                new MockMultipartFile("foobar.exe", "foobar.exe", "", ""
-                        .getBytes());
+        MultipartFile multipartFile = new MockMultipartFile("foobar.exe", "foobar.exe", "", "".getBytes());
 
         controller.saveResumePhoto(resume, errors, model, multipartFile);
 
@@ -103,19 +99,14 @@ public class ResumeControllerUnitTest {
         File file = mock(File.class);
         when(filter.getMessageKey()).thenReturn("xyz");
         when(webRequest.getParameter(filter.getMessageKey())).thenReturn("1");
-        when(resumeManagement.getResumeAttributeFilters()).thenReturn(
-                Collections.singletonList(filter));
-        when(
-                pdfDocbookCreator.createTempPdfFile((File) anyObject(),
-                        (Resume) anyObject(), (List<Level>) anyObject()))
+        when(resumeManagement.getResumeAttributeFilters()).thenReturn(Collections.singletonList(filter));
+        when(pdfDocbookCreator.createTempPdfFile((File) anyObject(), (Resume) anyObject(), (List<Level>) anyObject()))
                 .thenReturn(file);
 
         controller.resumePdf(null, null, new MockHttpSession(), webRequest);
 
         ArgumentCaptor<List> argument = ArgumentCaptor.forClass(List.class);
-        verify(resumeManagement).getFilteredResume((User) anyObject(),
-                argument.capture());
-        assertEquals(filter.getMessageKey(), ((ResumeAttributeFilter) argument
-                .getValue().get(0)).getMessageKey());
+        verify(resumeManagement).getFilteredResume((User) anyObject(), argument.capture());
+        assertEquals(filter.getMessageKey(), ((ResumeAttributeFilter) argument.getValue().get(0)).getMessageKey());
     }
 }

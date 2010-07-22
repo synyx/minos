@@ -45,8 +45,7 @@ public class ValueObjectPropertyEditorUnitTest {
     @Test
     public void createEditorForFactoryMethod() throws Exception {
 
-        ValueObjectPropertyEditor editor =
-                new ValueObjectPropertyEditor(ValueObject.class, "fromValue");
+        ValueObjectPropertyEditor editor = new ValueObjectPropertyEditor(ValueObject.class, "fromValue");
 
         assertFooValueObject(editor);
     }
@@ -55,8 +54,7 @@ public class ValueObjectPropertyEditorUnitTest {
     @Test
     public void bindsStringValueCorrectly() throws Exception {
 
-        ValueObjectPropertyEditor editor =
-                new ValueObjectPropertyEditor(ValueObject.class);
+        ValueObjectPropertyEditor editor = new ValueObjectPropertyEditor(ValueObject.class);
 
         assertFooValueObject(editor);
     }
@@ -81,21 +79,17 @@ public class ValueObjectPropertyEditorUnitTest {
         Map<String, String> properties = new HashMap<String, String>();
         properties.put("exceptionValue", "fooValue");
 
-        DataBinder binder =
-                prepareBinder(ExceptionValueObject.class, properties,
-                        new TestClass());
+        DataBinder binder = prepareBinder(ExceptionValueObject.class, properties, new TestClass());
 
         BindingResult result = binder.getBindingResult();
         assertTrue(result.hasFieldErrors("exceptionValue"));
     }
 
 
-    private DataBinder prepareBinder(Class<?> valueObjectClazz,
-            Map<String, String> properties, Object target) {
+    private DataBinder prepareBinder(Class<?> valueObjectClazz, Map<String, String> properties, Object target) {
 
         WebDataBinder binder = new WebDataBinder(target, "foo");
-        binder.registerCustomEditor(valueObjectClazz,
-                new ValueObjectPropertyEditor(valueObjectClazz));
+        binder.registerCustomEditor(valueObjectClazz, new ValueObjectPropertyEditor(valueObjectClazz));
 
         PropertyValues values = new MutablePropertyValues(properties);
         binder.bind(values);
@@ -105,8 +99,8 @@ public class ValueObjectPropertyEditorUnitTest {
 
 
     /**
-     * Asserts that setting a particular {@link String} on the given editor
-     * results in a {@link ValueObject} wrapped around.
+     * Asserts that setting a particular {@link String} on the given editor results in a {@link ValueObject} wrapped
+     * around.
      * 
      * @param editor
      */

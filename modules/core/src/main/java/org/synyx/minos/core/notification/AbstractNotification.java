@@ -6,11 +6,9 @@ import java.util.Set;
 import org.synyx.minos.core.domain.User;
 
 
-
 /**
- * Abstract base implementation of {@code Notification} that handles sender and
- * recipient management. This allows subclasses to implement various strategies
- * to provide the notification message.
+ * Abstract base implementation of {@code Notification} that handles sender and recipient management. This allows
+ * subclasses to implement various strategies to provide the notification message.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -21,8 +19,7 @@ public abstract class AbstractNotification implements Notification {
 
 
     /**
-     * Creates an {@code AbstractNotification} with the given {@code User} as
-     * recipient.
+     * Creates an {@code AbstractNotification} with the given {@code User} as recipient.
      * 
      * @param recipient
      */
@@ -33,8 +30,7 @@ public abstract class AbstractNotification implements Notification {
 
 
     /**
-     * Creates an {@code AbstractNotification} with a sender and a single
-     * recipient.
+     * Creates an {@code AbstractNotification} with a sender and a single recipient.
      * 
      * @param sender
      * @param recipient
@@ -49,8 +45,7 @@ public abstract class AbstractNotification implements Notification {
 
 
     /**
-     * Creates an {@code AbstractNotification} with the given {@code User}s as
-     * recipients.
+     * Creates an {@code AbstractNotification} with the given {@code User}s as recipients.
      * 
      * @param recipients
      */
@@ -61,8 +56,7 @@ public abstract class AbstractNotification implements Notification {
 
 
     /**
-     * Creates an {@code AbstractNotification} with a single sender and a list
-     * of recipients.
+     * Creates an {@code AbstractNotification} with a single sender and a list of recipients.
      * 
      * @param sender
      * @param recipients

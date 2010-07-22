@@ -5,10 +5,8 @@ import org.synyx.hades.dao.Query;
 import org.synyx.minos.core.domain.Role;
 
 
-
 /**
- * Interface for a DAO for {@code Role}. Defines no further methods as it is
- * just needed to ensure type safety.
+ * Interface for a DAO for {@code Role}. Defines no further methods as it is just needed to ensure type safety.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */

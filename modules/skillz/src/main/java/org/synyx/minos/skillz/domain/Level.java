@@ -10,8 +10,7 @@ import org.synyx.minos.core.domain.User;
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Entity
-public class Level extends AbstractAuditable<User, Long> implements
-        Comparable<Level> {
+public class Level extends AbstractAuditable<User, Long> implements Comparable<Level> {
 
     private static final long serialVersionUID = 123978123526845L;
 

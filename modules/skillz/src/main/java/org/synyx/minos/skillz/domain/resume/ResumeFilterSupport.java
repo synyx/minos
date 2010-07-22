@@ -10,9 +10,8 @@ import org.synyx.minos.skillz.domain.Resume;
 
 
 /**
- * Base class for {@link ResumeFilter} providing defaults and thus leaving only
- * really required methods to be implemented by subclasses. This class will not
- * filter {@link Resume}s on the database level and return the plain
+ * Base class for {@link ResumeFilter} providing defaults and thus leaving only really required methods to be
+ * implemented by subclasses. This class will not filter {@link Resume}s on the database level and return the plain
  * {@link Resume} list as result for object level filtering.
  * 
  * @author Markus Knittig - knittig@synyx.de
@@ -23,13 +22,10 @@ public abstract class ResumeFilterSupport implements ResumeFilter {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.skillz.domain.resume.ResumeFilter#filter(java.util.List,
-     * java.util.Map)
+     * @see org.synyx.minos.skillz.domain.resume.ResumeFilter#filter(java.util.List, java.util.Map)
      */
     @Override
-    public List<Resume> filter(List<Resume> resumes,
-            Map<String, Object> paramaters) {
+    public List<Resume> filter(List<Resume> resumes, Map<String, Object> paramaters) {
 
         return resumes;
     }
@@ -38,8 +34,7 @@ public abstract class ResumeFilterSupport implements ResumeFilter {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.skillz.domain.resume.ResumeFilter#getQueryPartString()
+     * @see org.synyx.minos.skillz.domain.resume.ResumeFilter#getQueryPartString()
      */
     @Override
     public String getQueryPartString() {
@@ -49,10 +44,8 @@ public abstract class ResumeFilterSupport implements ResumeFilter {
 
 
     /**
-     * Default implementation simply binds the given parameters by name as is.
-     * In case you declare non-primitive {@link ResumeFilterParameters} in
-     * {@link ResumeFilter#getParameters()} you have to implement custom binding
-     * here.
+     * Default implementation simply binds the given parameters by name as is. In case you declare non-primitive
+     * {@link ResumeFilterParameters} in {@link ResumeFilter#getParameters()} you have to implement custom binding here.
      * 
      * @see ResumeFilter#bindParameters(Query, Map)
      */

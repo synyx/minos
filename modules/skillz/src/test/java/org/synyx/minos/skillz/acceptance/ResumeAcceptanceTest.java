@@ -43,8 +43,7 @@ public class ResumeAcceptanceTest extends AbstractCoreAcceptanceTest {
 
         uploadPhoto();
 
-        clickElementByXPath("//div[@id='photo']//form/input[@alt='"
-                + translateMessage("core.ui.delete") + "']");
+        clickElementByXPath("//div[@id='photo']//form/input[@alt='" + translateMessage("core.ui.delete") + "']");
 
         assertSuccessMessage("skillz.resume.photo.delete.success");
         assertElementNotPresentByXPath("//div[@id='photo']/table");
@@ -53,11 +52,8 @@ public class ResumeAcceptanceTest extends AbstractCoreAcceptanceTest {
 
     private void uploadPhoto() {
 
-        setTextField(
-                "photoBinary",
-                new File(
-                        "../minos-core/src/test/resources/org/synyx/minos/util/logo.png")
-                        .getAbsolutePath());
+        setTextField("photoBinary", new File("../minos-core/src/test/resources/org/synyx/minos/util/logo.png")
+                .getAbsolutePath());
         submit();
     }
 

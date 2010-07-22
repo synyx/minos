@@ -20,13 +20,12 @@ import com.google.common.collect.Multimap;
 
 
 /**
- * Custom {@link AuthenticationSuccessHandler} that allows defining target views
- * based on the authenticated {@link User}s {@link Role}.
+ * Custom {@link AuthenticationSuccessHandler} that allows defining target views based on the authenticated {@link User}
+ * s {@link Role}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class MappingAuthenticationSuccessHandler extends
-        SavedRequestAwareAuthenticationSuccessHandler {
+public class MappingAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     private static final String DUPLICATE_ROLE_MAPPING_TEMPLATE =
             "Role %s mapped twice! Check your maping configuration!";
@@ -35,8 +34,8 @@ public class MappingAuthenticationSuccessHandler extends
 
 
     /**
-     * Configure the target views depending on the assigned {@link Role}. Be
-     * sure not to map a {@link Role} to two target views.
+     * Configure the target views depending on the assigned {@link Role}. Be sure not to map a {@link Role} to two
+     * target views.
      * 
      * @param mappings the mappings to set
      */
@@ -46,8 +45,7 @@ public class MappingAuthenticationSuccessHandler extends
 
             for (String role : entry.getValue()) {
                 if (this.mapping.containsValue(role)) {
-                    throw new IllegalArgumentException(String.format(
-                            DUPLICATE_ROLE_MAPPING_TEMPLATE, role));
+                    throw new IllegalArgumentException(String.format(DUPLICATE_ROLE_MAPPING_TEMPLATE, role));
                 } else {
 
                     this.mapping.put(entry.getKey(), role);
@@ -60,15 +58,12 @@ public class MappingAuthenticationSuccessHandler extends
     /*
      * (non-Javadoc)
      * 
-     * @seeorg.springframework.security.web.authentication.
-     * AbstractAuthenticationTargetUrlRequestHandler
-     * #handle(javax.servlet.http.HttpServletRequest,
-     * javax.servlet.http.HttpServletResponse,
+     * @seeorg.springframework.security.web.authentication. AbstractAuthenticationTargetUrlRequestHandler
+     * #handle(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
      * org.springframework.security.core.Authentication)
      */
     @Override
-    protected void handle(HttpServletRequest request,
-            HttpServletResponse response, Authentication authentication)
+    protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
 
         Object principal = authentication.getPrincipal();
@@ -83,8 +78,7 @@ public class MappingAuthenticationSuccessHandler extends
         for (Entry<String, String> entry : mapping.entries()) {
 
             if (user.hasRole(entry.getValue())) {
-                getRedirectStrategy().sendRedirect(request, response,
-                        entry.getKey());
+                getRedirectStrategy().sendRedirect(request, response, entry.getKey());
                 return;
             }
         }

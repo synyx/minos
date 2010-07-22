@@ -10,8 +10,7 @@ import org.synyx.minos.core.domain.User;
 
 
 /**
- * Like {@link AccountUserForm} but with mapping for all {@link User}
- * properties.
+ * Like {@link AccountUserForm} but with mapping for all {@link User} properties.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -79,9 +78,7 @@ public class UserForm {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.synyx.minos.core.web.DomainObjectForm#getDomainObject(java.lang.Object
-     * )
+     * @see com.synyx.minos.core.web.DomainObjectForm#getDomainObject(java.lang.Object )
      */
     public User mapProperties(User user) {
 

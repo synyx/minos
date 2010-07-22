@@ -14,8 +14,7 @@ public interface EventHandler<T extends Event> {
      * @param context
      * @throws Exception
      */
-    public abstract void handleEvent(T event, EventContext context)
-            throws Exception;
+    public abstract void handleEvent(T event, EventContext context) throws Exception;
 
 
     /**

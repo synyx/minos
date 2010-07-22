@@ -5,7 +5,6 @@
 // Generated on: 2008.12.18 at 05:32:54 PM CET 
 //
 
-
 package org.synyx.minos.core.remoting.rest.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -15,22 +14,21 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for identifyable complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * Java class for identifyable complex type.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="identifyable">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;attribute name="href" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
- *       &lt;attribute name="id" type="{http://www.w3.org/2001/XMLSchema}long" />
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name=&quot;identifyable&quot;&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;attribute name=&quot;href&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}anyURI&quot; /&gt;
+ *       &lt;attribute name=&quot;id&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}long&quot; /&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "identifyable")
@@ -41,51 +39,47 @@ public class IdentifyableDto {
     @XmlAttribute
     protected Long id;
 
+
     /**
      * Gets the value of the href property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
      */
     public String getHref() {
+
         return href;
     }
+
 
     /**
      * Sets the value of the href property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
      */
     public void setHref(String value) {
+
         this.href = value;
     }
+
 
     /**
      * Gets the value of the id property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
+     * @return possible object is {@link Long }
      */
     public Long getId() {
+
         return id;
     }
+
 
     /**
      * Sets the value of the id property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
+     * @param value allowed object is {@link Long }
      */
     public void setId(Long value) {
+
         this.id = value;
     }
 

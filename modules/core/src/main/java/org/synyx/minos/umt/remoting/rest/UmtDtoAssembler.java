@@ -54,8 +54,7 @@ public class UmtDtoAssembler extends AbstractDtoAssembler {
             return null;
         }
 
-        UserDto userDto =
-                mapBasicProperties(user, new UserDto(), request, USERS);
+        UserDto userDto = mapBasicProperties(user, new UserDto(), request, USERS);
         userDto.setFirstname(user.getFirstname());
         userDto.setLastname(user.getLastname());
         userDto.setUsername(user.getUsername());
@@ -78,8 +77,7 @@ public class UmtDtoAssembler extends AbstractDtoAssembler {
 
 
     /**
-     * Transforms the given {@link List} of {@link User}s into a
-     * {@link UsersDto} instance allowing it to marshalled.
+     * Transforms the given {@link List} of {@link User}s into a {@link UsersDto} instance allowing it to marshalled.
      * 
      * @param users
      * @param request
@@ -105,8 +103,7 @@ public class UmtDtoAssembler extends AbstractDtoAssembler {
      */
     public User toDomainObject(UserDto userDto) {
 
-        return toDomainObject(userDto, new User(userDto.getUsername(), userDto
-                .getEmailAddress(), null), false);
+        return toDomainObject(userDto, new User(userDto.getUsername(), userDto.getEmailAddress(), null), false);
     }
 
 
@@ -128,8 +125,8 @@ public class UmtDtoAssembler extends AbstractDtoAssembler {
      * 
      * @param userDto
      * @param user
-     * @param mapId whether to map the id property of the DTO. Should be {@code
-     *            false} for {@link User} instances to be newly created.
+     * @param mapId whether to map the id property of the DTO. Should be {@code false} for {@link User} instances to be
+     *            newly created.
      * @return
      */
     private User toDomainObject(UserDto userDto, User user, boolean mapId) {

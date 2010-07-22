@@ -14,8 +14,7 @@ import org.synyx.minos.core.Core;
 
 
 /**
- * Utility class for web layer tests. Provides sophisticated means to validate
- * {@code ModelMap}s
+ * Utility class for web layer tests. Provides sophisticated means to validate {@code ModelMap}s
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -30,8 +29,7 @@ public abstract class WebTestUtils {
 
 
     /**
-     * Asserts that the given model contains an object of the given type under
-     * the given key.
+     * Asserts that the given model contains an object of the given type under the given key.
      * 
      * @param model
      * @param key
@@ -41,14 +39,11 @@ public abstract class WebTestUtils {
     @SuppressWarnings("unchecked")
     public static <T> T assertContains(Model model, String key, Class<T> type) {
 
-        Assert.assertTrue(String.format("Model does not contain %s!", key),
-                model.containsAttribute(key));
+        Assert.assertTrue(String.format("Model does not contain %s!", key), model.containsAttribute(key));
 
         Object value = model.asMap().get(key);
-        Assert.assertTrue(String.format("Value %s "
-                + "found for key %s is not an instance of %s but rather %s!",
-                value, key, type.getName(), value.getClass().getName()), type
-                .isInstance(value));
+        Assert.assertTrue(String.format("Value %s " + "found for key %s is not an instance of %s but rather %s!",
+                value, key, type.getName(), value.getClass().getName()), type.isInstance(value));
 
         return (T) value;
     }
@@ -86,15 +81,13 @@ public abstract class WebTestUtils {
      */
     private static Message assertMessage(Model model) {
 
-        Assert.assertTrue(String.format("No value found for message key %s!",
-                Core.MESSAGE), model.containsAttribute(Core.MESSAGE));
+        Assert.assertTrue(String.format("No value found for message key %s!", Core.MESSAGE), model
+                .containsAttribute(Core.MESSAGE));
 
         Object messageCandidate = model.asMap().get(Core.MESSAGE);
 
-        Assert.assertTrue(String.format(
-                "Value found under %s is not an instance of %s!",
-                Core.MESSAGE, Message.class.getName()),
-                messageCandidate instanceof Message);
+        Assert.assertTrue(String.format("Value found under %s is not an instance of %s!", Core.MESSAGE, Message.class
+                .getName()), messageCandidate instanceof Message);
 
         return (Message) model.asMap().get(Core.MESSAGE);
     }
@@ -104,8 +97,7 @@ public abstract class WebTestUtils {
      * Asserts that the given model has a message of the given error type.
      * 
      * @param model
-     * @param error true, if you want to check for error message, false if you
-     *            want to check for a success message
+     * @param error true, if you want to check for error message, false if you want to check for a success message
      * @return
      */
     private static Message assertMessage(Model model, boolean error) {
@@ -118,15 +110,13 @@ public abstract class WebTestUtils {
 
 
     /**
-     * Asserts that the model contains an error message and carries the given
-     * arguments.
+     * Asserts that the model contains an error message and carries the given arguments.
      * 
      * @param model
      * @param arguments
      * @return
      */
-    public static Message assertErrorMessageWithArguments(Model model,
-            Object... arguments) {
+    public static Message assertErrorMessageWithArguments(Model model, Object... arguments) {
 
         return assertMessageWithArguments(model, true, arguments);
     }
@@ -140,8 +130,7 @@ public abstract class WebTestUtils {
      * @param arguments
      * @return
      */
-    private static Message assertMessageWithArguments(Model model,
-            boolean error, Object... arguments) {
+    private static Message assertMessageWithArguments(Model model, boolean error, Object... arguments) {
 
         Message message = assertMessage(model, error);
 
@@ -152,15 +141,13 @@ public abstract class WebTestUtils {
 
 
     /**
-     * Asserts that the given model contains a success message with the given
-     * arguments.
+     * Asserts that the given model contains a success message with the given arguments.
      * 
      * @param model
      * @param arguments
      * @return
      */
-    public static Message assertSuccessMessageWithArguments(Model model,
-            Object... arguments) {
+    public static Message assertSuccessMessageWithArguments(Model model, Object... arguments) {
 
         return assertMessageWithArguments(model, false, arguments);
     }
@@ -175,25 +162,22 @@ public abstract class WebTestUtils {
     public static void assertArguments(Message message, Object... arguments) {
 
         for (Object argument : arguments) {
-            Assert.assertTrue(String.format("Argument %s not found in [%s]!",
-                    argument, StringUtils.arrayToCommaDelimitedString(message
-                            .getArguments())), ArrayUtils.contains(message
-                    .getArguments(), argument));
+            Assert.assertTrue(String.format("Argument %s not found in [%s]!", argument, StringUtils
+                    .arrayToCommaDelimitedString(message.getArguments())), ArrayUtils.contains(message.getArguments(),
+                    argument));
         }
     }
 
 
     /**
-     * Asserts that an {@code Errors} instance contains a field error for the
-     * given field name. The field error has to be equiped with the given error
-     * code if it is not {@literal null}.
+     * Asserts that an {@code Errors} instance contains a field error for the given field name. The field error has to
+     * be equiped with the given error code if it is not {@literal null}.
      * 
      * @param errors
      * @param fieldName
      * @param errorCode
      */
-    public static void assertContainsFieldErrorWithCode(Errors errors,
-            String fieldName, String errorCode) {
+    public static void assertContainsFieldErrorWithCode(Errors errors, String fieldName, String errorCode) {
 
         Assert.assertTrue(errors.hasFieldErrors(fieldName));
 
@@ -206,8 +190,7 @@ public abstract class WebTestUtils {
 
 
     /**
-     * Asserts that the given {@link Errors} instance contains a field error for
-     * the given field.
+     * Asserts that the given {@link Errors} instance contains a field error for the given field.
      * 
      * @param errors
      * @param fieldName
@@ -219,14 +202,12 @@ public abstract class WebTestUtils {
 
 
     /**
-     * Utility method to assert that the given {@link Errors} instance carries
-     * the provided error code as global error.
+     * Utility method to assert that the given {@link Errors} instance carries the provided error code as global error.
      * 
      * @param errors
      * @param errorCode
      */
-    public static void assertContainsObjectErrorWithCode(Errors errors,
-            String errorCode) {
+    public static void assertContainsObjectErrorWithCode(Errors errors, String errorCode) {
 
         Assert.assertTrue(errors.hasErrors());
 

@@ -16,8 +16,7 @@ import org.synyx.minos.skillz.domain.Resume;
 public interface ResumeZipCreator {
 
     /**
-     * Creates a temporary (aka 'with a unique file name') ZIP {@link File} from
-     * a {@link Resume} instance.
+     * Creates a temporary (aka 'with a unique file name') ZIP {@link File} from a {@link Resume} instance.
      * 
      * @param tempDirectory
      * @param resume
@@ -25,8 +24,7 @@ public interface ResumeZipCreator {
      * @return
      * @throws DocbookCreationException
      */
-    File createTempZipFile(File tempDirectory, Resume resume, List<Level> levels)
-            throws ZipCreationException;
+    File createTempZipFile(File tempDirectory, Resume resume, List<Level> levels) throws ZipCreationException;
 
 
     /**
@@ -37,7 +35,6 @@ public interface ResumeZipCreator {
      * @param outputStream
      * @throws ZipCreationException
      */
-    void streamZip(Resume resume, List<Level> levels, OutputStream outputStream)
-            throws ZipCreationException;
+    void streamZip(Resume resume, List<Level> levels, OutputStream outputStream) throws ZipCreationException;
 
 }

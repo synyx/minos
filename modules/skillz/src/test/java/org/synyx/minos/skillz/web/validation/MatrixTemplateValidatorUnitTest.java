@@ -53,14 +53,12 @@ public class MatrixTemplateValidatorUnitTest {
         prepareErrorsAndExecute();
 
         Assert.assertTrue("Found errors: " + errors, errors.hasErrors());
-        assertContainsFieldErrorWithCode(errors, "name",
-                MatrixTemplateValidator.MATRIX_TEMPLATE_NAME_EMPTY);
+        assertContainsFieldErrorWithCode(errors, "name", MatrixTemplateValidator.MATRIX_TEMPLATE_NAME_EMPTY);
     }
 
 
     /**
-     * Creates a new {@code Errors} instance that binds the {@code
-     * MatrixTemplate} instance and triggers validation.
+     * Creates a new {@code Errors} instance that binds the {@code MatrixTemplate} instance and triggers validation.
      */
     private void prepareErrorsAndExecute() {
 

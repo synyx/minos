@@ -5,10 +5,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 
-
 /**
- * Base event handler. Invokes callback method
- * {@code AbstractEventHandler#prepareEvent(Event, EventContext)} before
+ * Base event handler. Invokes callback method {@code AbstractEventHandler#prepareEvent(Event, EventContext)} before
  * triggering a controller with its full lifecycle.
  * <p>
  * <em>
@@ -18,8 +16,7 @@ import org.springframework.web.servlet.mvc.Controller;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public abstract class AbstractEventHandler<T extends Event> implements
-        EventHandler<T> {
+public abstract class AbstractEventHandler<T extends Event> implements EventHandler<T> {
 
     private Class<T> supportedEvent;
 
@@ -53,7 +50,8 @@ public abstract class AbstractEventHandler<T extends Event> implements
     /*
      * (non-Javadoc)
      * 
-     * @see com.synyx.minos.core.web.support.EventHandlerInterface#handleEvent(com.synyx.minos.core.web.support.EvenContext)
+     * @see
+     * com.synyx.minos.core.web.support.EventHandlerInterface#handleEvent(com.synyx.minos.core.web.support.EvenContext)
      */
     public void handleEvent(T event, EventContext context) throws Exception {
 
@@ -64,17 +62,15 @@ public abstract class AbstractEventHandler<T extends Event> implements
 
         prepareEvent(event, context);
 
-        ModelAndView mav = controller.handleRequest(context.getRequest(),
-                context.getResponse());
+        ModelAndView mav = controller.handleRequest(context.getRequest(), context.getResponse());
 
         context.getModelAndView().addAllObjects(mav.getModelMap());
     }
 
 
     /**
-     * Callback method to prepare execution of the controller. Override this
-     * method to prepare the request according to the event that was thrown and
-     * the controller to be executed.
+     * Callback method to prepare execution of the controller. Override this method to prepare the request according to
+     * the event that was thrown and the controller to be executed.
      * 
      * @param event
      * @param context
@@ -104,7 +100,7 @@ public abstract class AbstractEventHandler<T extends Event> implements
     @Override
     public String toString() {
 
-        return "SimpleEventHandler: triggering " + controller.toString()
-                + " on events of type " + supportedEvent.getName();
+        return "SimpleEventHandler: triggering " + controller.toString() + " on events of type "
+                + supportedEvent.getName();
     }
 }

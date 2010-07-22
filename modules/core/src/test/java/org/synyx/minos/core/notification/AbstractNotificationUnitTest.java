@@ -32,8 +32,7 @@ public class AbstractNotificationUnitTest {
 
 
     /**
-     * Tests, that {@link AbstractNotification#hasSender()} only returns {@code
-     * true} if a sender is set.
+     * Tests, that {@link AbstractNotification#hasSender()} only returns {@code true} if a sender is set.
      */
     @Test
     public void senderFlag() {

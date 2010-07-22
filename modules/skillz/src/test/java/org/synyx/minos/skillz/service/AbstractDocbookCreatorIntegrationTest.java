@@ -30,9 +30,7 @@ public abstract class AbstractDocbookCreatorIntegrationTest {
     public void setUp() throws Exception {
 
         User user = new User("username", "test@test.com", "password");
-        resume =
-                new Resume(user, new MatrixTemplate("name"),
-                        new ArrayList<Activity>());
+        resume = new Resume(user, new MatrixTemplate("name"), new ArrayList<Activity>());
         Category category = new Category("categoryname");
         Skill skill = new Skill("skillname", category);
         Level level = new Level("levelname", 0);
@@ -40,11 +38,8 @@ public abstract class AbstractDocbookCreatorIntegrationTest {
         resume.setTitle("Dr.");
 
         docbookTemplateService = mock(DocbookTemplateService.class);
-        when(
-                docbookTemplateService.createDocbookXml((Resume) anyObject(),
-                        (List<Level>) anyObject(), anyString())).thenReturn(
-                IOUtils.toString(new ClassPathResource("/docbookexample.xml")
-                        .getInputStream()));
+        when(docbookTemplateService.createDocbookXml((Resume) anyObject(), (List<Level>) anyObject(), anyString()))
+                .thenReturn(IOUtils.toString(new ClassPathResource("/docbookexample.xml").getInputStream()));
     }
 
 }

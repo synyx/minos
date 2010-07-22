@@ -16,8 +16,7 @@ import org.synyx.minos.skillz.domain.MatrixTemplate;
  */
 public class MatrixTemplateValidator implements Validator {
 
-    public static final String MATRIX_TEMPLATE_NAME_EMPTY =
-            "skillz.template.name.error.empty";
+    public static final String MATRIX_TEMPLATE_NAME_EMPTY = "skillz.template.name.error.empty";
 
 
     /*
@@ -35,8 +34,7 @@ public class MatrixTemplateValidator implements Validator {
     /*
      * (non-Javadoc)
      * 
-     * @see org.springframework.validation.Validator#validate(java.lang.Object,
-     * org.springframework.validation.Errors)
+     * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
      */
     @Override
     public void validate(Object target, Errors errors) {

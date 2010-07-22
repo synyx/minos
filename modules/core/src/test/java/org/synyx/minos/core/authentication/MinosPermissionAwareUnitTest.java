@@ -25,7 +25,6 @@ public class MinosPermissionAwareUnitTest {
         ModulePermissionAware declarator = new ModulePermissionAware(module);
         declarator.afterPropertiesSet();
 
-        assertThat(declarator.getPermissions(),
-                hasItem(UmtPermissions.UMT_ADMIN));
+        assertThat(declarator.getPermissions(), hasItem(UmtPermissions.UMT_ADMIN));
     }
 }

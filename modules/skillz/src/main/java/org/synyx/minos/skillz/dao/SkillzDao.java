@@ -7,7 +7,6 @@ import org.synyx.minos.skillz.domain.Category;
 import org.synyx.minos.skillz.domain.Skill;
 
 
-
 /**
  * @author Oliver Gierke - gierke@synyx.de
  */

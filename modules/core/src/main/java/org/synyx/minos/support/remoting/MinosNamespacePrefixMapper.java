@@ -6,19 +6,16 @@ import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 
 
 /**
- * JAXB {@link NamespacePrefixMapper} to create nice namespace prefixes on XML
- * marshalling. The class allows you to configure an unprefixed namespace by
- * specifying either a module name or the entire namespace URI. The module name
- * will be resolved using the configured {@code namespaceTemplate} which
- * defaults to {@value #DEFAULT_NAMESPACE_TEMPLATE}.
+ * JAXB {@link NamespacePrefixMapper} to create nice namespace prefixes on XML marshalling. The class allows you to
+ * configure an unprefixed namespace by specifying either a module name or the entire namespace URI. The module name
+ * will be resolved using the configured {@code namespaceTemplate} which defaults to
+ * {@value #DEFAULT_NAMESPACE_TEMPLATE}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
-        InitializingBean {
+public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements InitializingBean {
 
-    private static final String DEFAULT_NAMESPACE_TEMPLATE =
-            "http://schemas.synyx.de/minos/%s/rest";
+    private static final String DEFAULT_NAMESPACE_TEMPLATE = "http://schemas.synyx.de/minos/%s/rest";
 
     private static final String PLACEHOLDER = "%s";
     private static final String DELIMITER = "/";
@@ -41,8 +38,7 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
 
 
     /**
-     * Creates a new {@link MinosNamespacePrefixMapper} with the given module
-     * name to be the unprefixed one.
+     * Creates a new {@link MinosNamespacePrefixMapper} with the given module name to be the unprefixed one.
      * 
      * @param unprefixedModuleName
      */
@@ -54,22 +50,20 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
 
 
     /**
-     * Returns the namespace to be unprefixed, independent from the way he was
-     * configured.
+     * Returns the namespace to be unprefixed, independent from the way he was configured.
      * 
      * @return
      */
     private String getUnprefixedNamespace() {
 
-        return null == unprefixedNamespace ? String.format(namespaceTemplate,
-                unprefixedModuleName) : unprefixedNamespace;
+        return null == unprefixedNamespace ? String.format(namespaceTemplate, unprefixedModuleName)
+                : unprefixedNamespace;
     }
 
 
     /**
-     * Sets the namespace that shall not be prefixed. This will reset any
-     * confiurations made to {@link #setUnprefixedModuleName(String)} and
-     * {@link #setNamespaceTemplate(String)}.
+     * Sets the namespace that shall not be prefixed. This will reset any confiurations made to
+     * {@link #setUnprefixedModuleName(String)} and {@link #setNamespaceTemplate(String)}.
      * 
      * @param unprefixedNamespace the unprefixedNamespace to set
      */
@@ -80,30 +74,24 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
 
 
     /**
-     * Setter to configure the namespace template to be used when
-     * {@link #setUnprefixedModuleName(String)} is to be configured. Defaults to
-     * {@value #DEFAULT_NAMESPACE_TEMPLATE}.
+     * Setter to configure the namespace template to be used when {@link #setUnprefixedModuleName(String)} is to be
+     * configured. Defaults to {@value #DEFAULT_NAMESPACE_TEMPLATE}.
      * <p>
-     * The configured template will be used to construct the unprefixed
-     * namespace by using the module name and inject it into the template
-     * string. Setting the template to {@code null} will reset the default
-     * template
+     * The configured template will be used to construct the unprefixed namespace by using the module name and inject it
+     * into the template string. Setting the template to {@code null} will reset the default template
      * 
      * @param namespaceTemplate the namespaceTemplate to set
      */
     public void setNamespaceTemplate(String namespaceTemplate) {
 
-        this.namespaceTemplate =
-                null == namespaceTemplate ? DEFAULT_NAMESPACE_TEMPLATE
-                        : namespaceTemplate;
+        this.namespaceTemplate = null == namespaceTemplate ? DEFAULT_NAMESPACE_TEMPLATE : namespaceTemplate;
 
         initModulePosition();
     }
 
 
     /**
-     * Sets the module that should not be prefixed. Will be used in conjunction
-     * with {@code namespaceTemplate}.
+     * Sets the module that should not be prefixed. Will be used in conjunction with {@code namespaceTemplate}.
      * 
      * @param unprefixedModuleName the unprefixedModuleName to set
      */
@@ -117,13 +105,11 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.sun.xml.bind.marshaller.NamespacePrefixMapper#getPreferredPrefix(
-     * java.lang.String, java.lang.String, boolean)
+     * @see com.sun.xml.bind.marshaller.NamespacePrefixMapper#getPreferredPrefix( java.lang.String, java.lang.String,
+     * boolean)
      */
     @Override
-    public String getPreferredPrefix(String namespaceUri, String suggestion,
-            boolean requirePrefix) {
+    public String getPreferredPrefix(String namespaceUri, String suggestion, boolean requirePrefix) {
 
         if (namespaceUri.equals(getUnprefixedNamespace())) {
             return "";
@@ -135,9 +121,8 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
 
 
     /**
-     * Detects the module placeholder position from the template. This will be
-     * used to extract the prefix for all namespace URIs that are not
-     * unprefixed.
+     * Detects the module placeholder position from the template. This will be used to extract the prefix for all
+     * namespace URIs that are not unprefixed.
      */
     private void initModulePosition() {
 
@@ -155,14 +140,12 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
     public void afterPropertiesSet() throws Exception {
 
         if (null == unprefixedModuleName && null == unprefixedNamespace) {
-            throw new IllegalStateException(
-                    "Either module name or namespace have to be configured!");
+            throw new IllegalStateException("Either module name or namespace have to be configured!");
         }
     }
 }

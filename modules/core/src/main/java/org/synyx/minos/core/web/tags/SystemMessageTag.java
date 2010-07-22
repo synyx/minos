@@ -8,10 +8,9 @@ import org.synyx.minos.core.Core;
 import org.synyx.minos.core.web.Message;
 
 
-
 /**
- * Tag to display minos system messages. Looks up {@code Message}s under
- * {@value Core#MESSAGE} in the request and renders it if found.
+ * Tag to display minos system messages. Looks up {@code Message}s under {@value Core#MESSAGE} in the request and
+ * renders it if found.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -60,11 +59,12 @@ public class SystemMessageTag extends AbstractHtmlElementBodyTag {
     /*
      * (non-Javadoc)
      * 
-     * @see org.springframework.web.servlet.tags.form.AbstractHtmlElementBodyTag#renderDefaultContent(org.springframework.web.servlet.tags.form.TagWriter)
+     * @see
+     * org.springframework.web.servlet.tags.form.AbstractHtmlElementBodyTag#renderDefaultContent(org.springframework
+     * .web.servlet.tags.form.TagWriter)
      */
     @Override
-    protected void renderDefaultContent(TagWriter tagWriter)
-            throws JspException {
+    protected void renderDefaultContent(TagWriter tagWriter) throws JspException {
 
         if (!hasMessage()) {
             return;

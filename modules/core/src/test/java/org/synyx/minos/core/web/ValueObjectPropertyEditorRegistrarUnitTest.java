@@ -19,14 +19,11 @@ public class ValueObjectPropertyEditorRegistrarUnitTest {
     @Test
     public void registersPropertyEditorForEmailAddress() throws Exception {
 
-        PropertyEditorRegistrar registrar =
-                new ValueObjectPropertyEditorRegistrar(
-                        "org.synyx.minos.core.domain");
+        PropertyEditorRegistrar registrar = new ValueObjectPropertyEditorRegistrar("org.synyx.minos.core.domain");
         PropertyEditorRegistry registry = mock(PropertyEditorRegistry.class);
 
         registrar.registerCustomEditors(registry);
 
-        verify(registry).registerCustomEditor(eq(EmailAddress.class),
-                isA(ValueObjectPropertyEditor.class));
+        verify(registry).registerCustomEditor(eq(EmailAddress.class), isA(ValueObjectPropertyEditor.class));
     }
 }

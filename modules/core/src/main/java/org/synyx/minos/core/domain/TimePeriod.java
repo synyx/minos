@@ -16,15 +16,13 @@ import org.synyx.minos.util.Assert;
 
 
 /**
- * Encapsulation for a time period that carries a start and an end date. This
- * class is mainly used to abstract the JodaTime concept of an {@link Interval}
- * and make it usable with JPA.
+ * Encapsulation for a time period that carries a start and an end date. This class is mainly used to abstract the
+ * JodaTime concept of an {@link Interval} and make it usable with JPA.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Embeddable
-public class TimePeriod implements Overlapable<DateTime>,
-        Comparable<TimePeriod> {
+public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod> {
 
     // Needed because "start" might be a database keyword
     @Column(name = "period_start")
@@ -72,8 +70,7 @@ public class TimePeriod implements Overlapable<DateTime>,
 
 
     /**
-     * Creates a new {@code TimePeriod} for the given date. The period will
-     * include the complete day.
+     * Creates a new {@code TimePeriod} for the given date. The period will include the complete day.
      * 
      * @param date
      */
@@ -94,9 +91,8 @@ public class TimePeriod implements Overlapable<DateTime>,
 
 
     /**
-     * Creates a new {@link TimePeriod} lasting the duration of the given
-     * {@link ReadablePeriod}. Mostly used with {@link Hours}, {@link Minutes}
-     * and so on.
+     * Creates a new {@link TimePeriod} lasting the duration of the given {@link ReadablePeriod}. Mostly used with
+     * {@link Hours}, {@link Minutes} and so on.
      * 
      * @param start
      * @param period
@@ -140,8 +136,7 @@ public class TimePeriod implements Overlapable<DateTime>,
 
 
     /**
-     * Returns a new {@code TimePeriod} that spans all days from start date to
-     * (including) end date.
+     * Returns a new {@code TimePeriod} that spans all days from start date to (including) end date.
      * 
      * @param start
      * @param end
@@ -152,8 +147,7 @@ public class TimePeriod implements Overlapable<DateTime>,
         Assert.notNull(start, "Start must not be null!");
         Assert.notNull(end, "End must not be null!");
 
-        return new TimePeriod(start.toDateMidnight().toDateTime(), end
-                .plusDays(1).toDateMidnight().toDateTime());
+        return new TimePeriod(start.toDateMidnight().toDateTime(), end.plusDays(1).toDateMidnight().toDateTime());
     }
 
 
@@ -249,8 +243,7 @@ public class TimePeriod implements Overlapable<DateTime>,
 
 
     /**
-     * Returns a {@link TimePeriod} that has it's end date given by the given
-     * {@link ReadablePeriod}.
+     * Returns a {@link TimePeriod} that has it's end date given by the given {@link ReadablePeriod}.
      * 
      * @param period
      * @return
@@ -279,8 +272,7 @@ public class TimePeriod implements Overlapable<DateTime>,
 
 
     /**
-     * Returns a new {@code TimePeriod} that is expanded to teh entire day based
-     * on the current {@code TimePeriod}.
+     * Returns a new {@code TimePeriod} that is expanded to teh entire day based on the current {@code TimePeriod}.
      */
     public TimePeriod toAllDay() {
 
@@ -291,9 +283,7 @@ public class TimePeriod implements Overlapable<DateTime>,
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.synyx.minos.calendar.domain.Overlapable#overlaps(com.synyx.minos.
-     * calendar.domain.Overlapable)
+     * @see com.synyx.minos.calendar.domain.Overlapable#overlaps(com.synyx.minos. calendar.domain.Overlapable)
      */
     public boolean overlaps(Overlapable<DateTime> that) {
 
@@ -376,14 +366,12 @@ public class TimePeriod implements Overlapable<DateTime>,
 
 
     /**
-     * Returns the current date if the given {@code date} is {@code null} or the
-     * date itself otherwise.
+     * Returns the current date if the given {@code date} is {@code null} or the date itself otherwise.
      * 
      * @param date
      * @return
      */
-    private static <T extends BaseDateTime> T defaultForNull(T subject,
-            T devault) {
+    private static <T extends BaseDateTime> T defaultForNull(T subject, T devault) {
 
         return null == subject ? devault : subject;
     }

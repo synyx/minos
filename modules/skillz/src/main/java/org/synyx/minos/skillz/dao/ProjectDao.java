@@ -25,8 +25,7 @@ public interface ProjectDao extends GenericDao<Project, Long> {
 
 
     /**
-     * Returns all {@link Project}s that are customly created by the given
-     * {@link User}.
+     * Returns all {@link Project}s that are customly created by the given {@link User}.
      * 
      * @param user
      * @return

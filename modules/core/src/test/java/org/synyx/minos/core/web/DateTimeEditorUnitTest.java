@@ -105,37 +105,29 @@ public class DateTimeEditorUnitTest {
     @Test
     public void parsesTwoDigitYearsCorrectly() throws Exception {
 
-        assertDateForParsers(new DateMidnight(1910, 1, 12), "12.01.1910",
-                "dd.MM.yy", "dd.MM.yyyy");
+        assertDateForParsers(new DateMidnight(1910, 1, 12), "12.01.1910", "dd.MM.yy", "dd.MM.yyyy");
 
-        assertDateForParsers(new DateMidnight(2029, 12, 31), "31.12.29",
-                "dd.MM.yy");
-        assertDateForParsers(new DateMidnight(1930, 1, 1), "01.01.30",
-                "dd.MM.yy");
+        assertDateForParsers(new DateMidnight(2029, 12, 31), "31.12.29", "dd.MM.yy");
+        assertDateForParsers(new DateMidnight(1930, 1, 1), "01.01.30", "dd.MM.yy");
     }
 
 
     @Test
     public void prefersAdditionalParsersIfConfigured() throws Exception {
 
-        DateTimeEditor editor =
-                new DateTimeEditor(Locale.GERMAN, "dd.MM.yyyy")
-                        .forDateMidnight();
+        DateTimeEditor editor = new DateTimeEditor(Locale.GERMAN, "dd.MM.yyyy").forDateMidnight();
         editor.withAdditionalParsersFor("dd.MM.yy");
         editor.preferAdditionalPatternsForParsing(true).setAsText("12.01.10");
 
-        assertThat((DateMidnight) editor.getValue(), is(new DateMidnight(2010,
-                1, 12)));
+        assertThat((DateMidnight) editor.getValue(), is(new DateMidnight(2010, 1, 12)));
     }
 
 
-    private void assertDateForParsers(DateMidnight date, String dateAsString,
-            String pattern, String... additionalPatterns) {
+    private void assertDateForParsers(DateMidnight date, String dateAsString, String pattern,
+            String... additionalPatterns) {
 
-        DateTimeEditor editor =
-                new DateTimeEditor(Locale.GERMAN, pattern).forDateMidnight();
-        editor.withAdditionalParsersFor(additionalPatterns).setAsText(
-                dateAsString);
+        DateTimeEditor editor = new DateTimeEditor(Locale.GERMAN, pattern).forDateMidnight();
+        editor.withAdditionalParsersFor(additionalPatterns).setAsText(dateAsString);
 
         assertThat((DateMidnight) editor.getValue(), is(date));
     }

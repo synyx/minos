@@ -23,8 +23,7 @@ public interface MatrixTemplateDao extends GenericDao<MatrixTemplate, Long> {
 
 
     /**
-     * Removes the default flag from all {@link MatrixTemplate}s but the given
-     * one.
+     * Removes the default flag from all {@link MatrixTemplate}s but the given one.
      * 
      * @param template
      */

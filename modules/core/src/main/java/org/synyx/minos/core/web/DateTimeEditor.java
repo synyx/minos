@@ -18,18 +18,16 @@ import org.joda.time.format.DateTimeFormatter;
 
 
 /**
- * {@link PropertyEditor} to turn web request parameters into {@link DateTime}
- * or {@link DateMidnight} instances. Allows configuring additional parsing
- * patterns to be tried on {@link String} to {@link DateTime}/
- * {@link DateMidnight} conversion to be more lenient on the incoming way.
+ * {@link PropertyEditor} to turn web request parameters into {@link DateTime} or {@link DateMidnight} instances. Allows
+ * configuring additional parsing patterns to be tried on {@link String} to {@link DateTime}/ {@link DateMidnight}
+ * conversion to be more lenient on the incoming way.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class DateTimeEditor extends PropertyEditorSupport {
 
     private static final Log LOG = LogFactory.getLog(DateTimeEditor.class);
-    private static final DateTimeFormatter DEFAULT_FORMATTER =
-            DateTimeFormat.mediumDateTime();
+    private static final DateTimeFormatter DEFAULT_FORMATTER = DateTimeFormat.mediumDateTime();
 
     private DateTimeFormatter formatter;
     private List<DateTimeFormatter> additionalParsers;
@@ -39,8 +37,7 @@ public class DateTimeEditor extends PropertyEditorSupport {
 
 
     /**
-     * Creates a new {@link DateTimeEditor} with default formatter of
-     * {@value #DEFAULT_FORMATTER}.
+     * Creates a new {@link DateTimeEditor} with default formatter of {@value #DEFAULT_FORMATTER}.
      */
     public DateTimeEditor(Locale locale) {
 
@@ -49,8 +46,7 @@ public class DateTimeEditor extends PropertyEditorSupport {
 
 
     /**
-     * Creates a new {@link DateTimeEditor} for the given {@link Locale} and
-     * {@link String} pattern.
+     * Creates a new {@link DateTimeEditor} for the given {@link Locale} and {@link String} pattern.
      * 
      * @param locale
      * @param pattern
@@ -62,9 +58,8 @@ public class DateTimeEditor extends PropertyEditorSupport {
 
 
     /**
-     * Creates a new {@link DateTimeEditor}. If {@code null} is provided as
-     * {@code formatter} a default formatter of {@value #DEFAULT_FORMATTER} will
-     * be used.
+     * Creates a new {@link DateTimeEditor}. If {@code null} is provided as {@code formatter} a default formatter of
+     * {@value #DEFAULT_FORMATTER} will be used.
      * 
      * @param formatter
      */
@@ -76,9 +71,8 @@ public class DateTimeEditor extends PropertyEditorSupport {
 
 
     /**
-     * Enables the editor to return a {@link DateMidnight} over a
-     * {@link DateTime} on parsing. This will automagically drop any prior
-     * settings of parsing to {@link LocalTime}.
+     * Enables the editor to return a {@link DateMidnight} over a {@link DateTime} on parsing. This will automagically
+     * drop any prior settings of parsing to {@link LocalTime}.
      * 
      * @see #forLocalTime()
      * @return
@@ -92,9 +86,8 @@ public class DateTimeEditor extends PropertyEditorSupport {
 
 
     /**
-     * Enables the editor to return a {@link LocalTime} over a {@link DateTime}
-     * on parsing. This will automagically drop prior settings of parsing to
-     * {@link DateMidnight}.
+     * Enables the editor to return a {@link LocalTime} over a {@link DateTime} on parsing. This will automagically drop
+     * prior settings of parsing to {@link DateMidnight}.
      * 
      * @see #forDateMidnight()
      * @return
@@ -108,8 +101,7 @@ public class DateTimeEditor extends PropertyEditorSupport {
 
 
     /**
-     * Allows to register additional parsing patterns to act more lenient on
-     * parsing incoming {@link String} values.
+     * Allows to register additional parsing patterns to act more lenient on parsing incoming {@link String} values.
      * 
      * @param patterns
      * @return
@@ -185,24 +177,19 @@ public class DateTimeEditor extends PropertyEditorSupport {
 
 
     /**
-     * Configure whether to prefer configured additional patterns for parsing.
-     * Might be useful in cases where main pattern is to lenient on parsing
-     * String values and would cause invalid results otherwise.
+     * Configure whether to prefer configured additional patterns for parsing. Might be useful in cases where main
+     * pattern is to lenient on parsing String values and would cause invalid results otherwise.
      * <p>
-     * E.g. 'dd.MM.yyyy' would parse '01.01.10' to 01.01.0010, which is
-     * apparently not desired. Thus, if you need to deal with short year values
-     * for parsing you need to configure the additional pattern and set {@code
-     * #preferAdditionalPatternsForParsing} to {@literal true} to let this one
-     * kick in first.
+     * E.g. 'dd.MM.yyyy' would parse '01.01.10' to 01.01.0010, which is apparently not desired. Thus, if you need to
+     * deal with short year values for parsing you need to configure the additional pattern and set {@code
+     * #preferAdditionalPatternsForParsing} to {@literal true} to let this one kick in first.
      * 
      * @param b
      * @return
      */
-    public DateTimeEditor preferAdditionalPatternsForParsing(
-            boolean preferAdditionalPatternsForParsing) {
+    public DateTimeEditor preferAdditionalPatternsForParsing(boolean preferAdditionalPatternsForParsing) {
 
-        this.preferAdditionalParsersForParsing =
-                preferAdditionalPatternsForParsing;
+        this.preferAdditionalParsersForParsing = preferAdditionalPatternsForParsing;
         return this;
     }
 }

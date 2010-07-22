@@ -16,8 +16,7 @@ import org.synyx.minos.skillz.domain.Resume;
 public interface ResumeFilter {
 
     /**
-     * Message key for displaying the filter name on the page and identifying
-     * the filter in the request.
+     * Message key for displaying the filter name on the page and identifying the filter in the request.
      * 
      * @return
      */
@@ -25,11 +24,10 @@ public interface ResumeFilter {
 
 
     /**
-     * Returns the query part after the SELECT FROM part for filtering of
-     * {@link Resume}s on database level. E.g. <code>
+     * Returns the query part after the SELECT FROM part for filtering of {@link Resume}s on database level. E.g. <code>
      * JOIN x.skillz.entries skillz WHERE skillz.skill.name = :name
-     * </code>, {@literal null} or empty
-     * if to disable filtering on database level.
+     * </code>
+     * , {@literal null} or empty if to disable filtering on database level.
      * 
      * @return
      */
@@ -47,8 +45,7 @@ public interface ResumeFilter {
 
 
     /**
-     * Returns an instance of {@link ResumeFilterParameters} which wraps the
-     * {@link ResumeFilterParameter}s.
+     * Returns an instance of {@link ResumeFilterParameters} which wraps the {@link ResumeFilterParameter}s.
      * 
      * @return
      */

@@ -13,13 +13,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.synyx.minos.test.database.DatabasePopulatorConnectionCallback;
 
 
-
 /**
- * Abstract test class that takes care of inserting data from SQL-Scripts into
- * the database before each test is executed. Override
- * {@link #getSqlFilesToPolulate()} to return the script-resources to be
- * executed. For now this needs exactly one {@link DataSource} configured in the
- * {@link ApplicationContext}.
+ * Abstract test class that takes care of inserting data from SQL-Scripts into the database before each test is
+ * executed. Override {@link #getSqlFilesToPolulate()} to return the script-resources to be executed. For now this needs
+ * exactly one {@link DataSource} configured in the {@link ApplicationContext}.
  * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  * @author Oliver Gierke - gierke@synyx.de
@@ -50,15 +47,14 @@ public abstract class DatabasePopulationAwareTest {
         if (populationRequired) {
 
             JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-            jdbcTemplate.execute(new DatabasePopulatorConnectionCallback(
-                    resources));
+            jdbcTemplate.execute(new DatabasePopulatorConnectionCallback(resources));
         }
     }
 
 
     /**
-     * Returns an array of resources that will be handled as sql-scripts and
-     * inserted into the database before any tests are executed.
+     * Returns an array of resources that will be handled as sql-scripts and inserted into the database before any tests
+     * are executed.
      * 
      * @return resources to be inserted into the database
      */

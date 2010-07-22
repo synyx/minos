@@ -25,8 +25,7 @@ public class UrlUtilsUnitTest {
 
 
     /**
-     * Creates a {@link MockHttpServletRequest} as well as an empty parameters
-     * map.
+     * Creates a {@link MockHttpServletRequest} as well as an empty parameters map.
      */
     @Before
     public void setUp() {
@@ -37,8 +36,7 @@ public class UrlUtilsUnitTest {
 
 
     /**
-     * Asserts that providing {@code null} as module raises an
-     * {@link IllegalArgumentException}.
+     * Asserts that providing {@code null} as module raises an {@link IllegalArgumentException}.
      */
     @Test(expected = IllegalArgumentException.class)
     public void preventsMissingModuleOnToUrl() {
@@ -48,8 +46,7 @@ public class UrlUtilsUnitTest {
 
 
     /**
-     * Asserts that providing {@code null} as request raises an
-     * {@link IllegalArgumentException}.
+     * Asserts that providing {@code null} as request raises an {@link IllegalArgumentException}.
      */
     @Test(expected = IllegalArgumentException.class)
     public void preventsMissingRequestOnToUrl() {
@@ -77,20 +74,17 @@ public class UrlUtilsUnitTest {
         parameters.put("foo", "bar");
         parameters.put("bar", "foo");
 
-        assertEndsWith("module?foo=bar&bar=foo", UrlUtils.toUrl("module",
-                request, parameters));
+        assertEndsWith("module?foo=bar&bar=foo", UrlUtils.toUrl("module", request, parameters));
     }
 
 
     /**
-     * Asserts that a {@code null} parameter map gets handled correctly by
-     * simply not applying it.
+     * Asserts that a {@code null} parameter map gets handled correctly by simply not applying it.
      */
     @Test
     public void doesNotAppendNullParameterMap() {
 
-        assertEndsWith("module", UrlUtils.toUrl("module", request,
-                (Map<String, Object>) null));
+        assertEndsWith("module", UrlUtils.toUrl("module", request, (Map<String, Object>) null));
     }
 
 
@@ -110,8 +104,7 @@ public class UrlUtilsUnitTest {
     @Test
     public void handlesNullEntityCorrectly() {
 
-        assertEndsWith("module", UrlUtils.toUrl("module", request,
-                (Persistable<?>) null));
+        assertEndsWith("module", UrlUtils.toUrl("module", request, (Persistable<?>) null));
     }
 
 

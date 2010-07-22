@@ -53,14 +53,12 @@ public class ReferenceValidatorUnitTest {
         prepareErrorsAndExecute();
 
         Assert.assertTrue("Found errors: " + errors, errors.hasErrors());
-        assertContainsFieldErrorWithCode(errors, "project",
-                ReferenceValidator.REFERENCE_PROJECT_EMPTY);
+        assertContainsFieldErrorWithCode(errors, "project", ReferenceValidator.REFERENCE_PROJECT_EMPTY);
     }
 
 
     /**
-     * Creates a new {@code Errors} instance that binds the {@code Activity}
-     * instance and triggers validation.
+     * Creates a new {@code Errors} instance that binds the {@code Activity} instance and triggers validation.
      */
     private void prepareErrorsAndExecute() {
 

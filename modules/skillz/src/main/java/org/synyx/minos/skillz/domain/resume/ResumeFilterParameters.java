@@ -10,8 +10,7 @@ import org.synyx.hades.dao.GenericDao;
 
 
 /**
- * Wrapper class to capture {@link ResumeFilterParameter}s and provide a single
- * point for type conversion.
+ * Wrapper class to capture {@link ResumeFilterParameter}s and provide a single point for type conversion.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  * @author Markus Knittig - knittig@synyx.de
@@ -42,15 +41,13 @@ public class ResumeFilterParameters {
 
 
     /**
-     * Converts the given plain parameters into a typed parameter map using the
-     * given conversion service.
+     * Converts the given plain parameters into a typed parameter map using the given conversion service.
      * 
      * @param plainParameters
      * @param conversionService
      * @return
      */
-    public Map<String, Object> getTypedParameters(
-            Map<String, String[]> plainParameters,
+    public Map<String, Object> getTypedParameters(Map<String, String[]> plainParameters,
             ConversionService conversionService) {
 
         Map<String, Object> result = new HashMap<String, Object>();
@@ -64,8 +61,7 @@ public class ResumeFilterParameters {
                 List<Object> list = new ArrayList<Object>();
                 if (stringValues != null) {
                     for (String stringValue : stringValues) {
-                        list.add(conversionService.convert(stringValue,
-                                parameter.getType()));
+                        list.add(conversionService.convert(stringValue, parameter.getType()));
                     }
                 }
                 result.put(key, list);
@@ -75,8 +71,7 @@ public class ResumeFilterParameters {
                 if (parameter.getType().equals(String.class)) {
                     result.put(key, stringValues[0]);
                 } else {
-                    result.put(key, conversionService.convert(stringValues[0],
-                            parameter.getType()));
+                    result.put(key, conversionService.convert(stringValues[0], parameter.getType()));
                 }
             }
         }
@@ -121,8 +116,7 @@ public class ResumeFilterParameters {
         /**
          * Adds a parameter with the given name, type and resource bundle key.
          * 
-         * @see ResumeFilterParameter#ResumeFilterParameter(String, Class,
-         *      String)
+         * @see ResumeFilterParameter#ResumeFilterParameter(String, Class, String)
          * @param name
          * @param type
          * @param messageKey
@@ -130,90 +124,75 @@ public class ResumeFilterParameters {
          */
         public Builder add(String name, Class<?> type, String messageKey) {
 
-            this.instance.parameters.add(new ResumeFilterParameter(name, type,
-                    messageKey));
+            this.instance.parameters.add(new ResumeFilterParameter(name, type, messageKey));
             return this;
         }
 
 
         /**
-         * Adds a single choice parameter with the given name, type and
-         * reference data container.
+         * Adds a single choice parameter with the given name, type and reference data container.
          * 
-         * @see SingleChoiceParameter#SingleChoiceParameter(String, Class,
-         *      GenericDao)
+         * @see SingleChoiceParameter#SingleChoiceParameter(String, Class, GenericDao)
          * @param name
          * @param type
          * @param referenceDataContainer
          * @return
          */
-        public Builder addSingleChoice(String name, Class<?> type,
-                ReferenceDataContainer referenceDataContainer) {
+        public Builder addSingleChoice(String name, Class<?> type, ReferenceDataContainer referenceDataContainer) {
 
-            this.instance.parameters.add(new SingleChoiceParameter(name, type,
-                    referenceDataContainer, name));
+            this.instance.parameters.add(new SingleChoiceParameter(name, type, referenceDataContainer, name));
             return this;
         }
 
 
         /**
-         * Adds a single choice parameter with the given name, type, reference
-         * data container and resource bundle key.
+         * Adds a single choice parameter with the given name, type, reference data container and resource bundle key.
          * 
-         * @see SingleChoiceParameter#SingleChoiceParameter(String, Class,
-         *      GenericDao, String)
+         * @see SingleChoiceParameter#SingleChoiceParameter(String, Class, GenericDao, String)
          * @param name
          * @param type
          * @param referenceDataContainer
          * @param messageKey
          * @return
          */
-        public Builder addSingleChoice(String name, Class<?> type,
-                ReferenceDataContainer referenceDataContainer, String messageKey) {
+        public Builder addSingleChoice(String name, Class<?> type, ReferenceDataContainer referenceDataContainer,
+                String messageKey) {
 
-            this.instance.parameters.add(new SingleChoiceParameter(name, type,
-                    referenceDataContainer, messageKey));
+            this.instance.parameters.add(new SingleChoiceParameter(name, type, referenceDataContainer, messageKey));
             return this;
         }
 
 
         /**
-         * Adds a multiple choice parameter with the given name, type and
-         * reference data container.
+         * Adds a multiple choice parameter with the given name, type and reference data container.
          * 
-         * @see MultipleChoiceParameter#MultipleChoiceParameter(String, Class,
-         *      GenericDao)
+         * @see MultipleChoiceParameter#MultipleChoiceParameter(String, Class, GenericDao)
          * @param name
          * @param type
          * @param referenceDataContainer
          * @return
          */
-        public Builder addMultipleChoice(String name, Class<?> type,
-                ReferenceDataContainer referenceDataContainer) {
+        public Builder addMultipleChoice(String name, Class<?> type, ReferenceDataContainer referenceDataContainer) {
 
-            this.instance.parameters.add(new MultipleChoiceParameter(name,
-                    type, referenceDataContainer, name));
+            this.instance.parameters.add(new MultipleChoiceParameter(name, type, referenceDataContainer, name));
             return this;
         }
 
 
         /**
-         * Adds a multiple choice parameter with the given name, type, reference
-         * data container and resource bundle key.
+         * Adds a multiple choice parameter with the given name, type, reference data container and resource bundle key.
          * 
-         * @see MultipleChoiceParameter#MultipleChoiceParameter(String, Class,
-         *      GenericDao, String)
+         * @see MultipleChoiceParameter#MultipleChoiceParameter(String, Class, GenericDao, String)
          * @param name
          * @param type
          * @param referenceDataContainer
          * @param messageKey
          * @return
          */
-        public Builder addMultipleChoice(String name, Class<?> type,
-                ReferenceDataContainer referenceDataContainer, String messageKey) {
+        public Builder addMultipleChoice(String name, Class<?> type, ReferenceDataContainer referenceDataContainer,
+                String messageKey) {
 
-            this.instance.parameters.add(new MultipleChoiceParameter(name,
-                    type, referenceDataContainer, messageKey));
+            this.instance.parameters.add(new MultipleChoiceParameter(name, type, referenceDataContainer, messageKey));
             return this;
         }
 

@@ -26,8 +26,7 @@ public interface ResumeDao extends GenericDao<Resume, Long>, ResumeDaoCustom {
 
 
     /**
-     * Returns a {@link Resume}s containing references to the given
-     * {@link Project}.
+     * Returns a {@link Resume}s containing references to the given {@link Project}.
      * 
      * @param project
      * @return

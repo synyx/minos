@@ -35,19 +35,11 @@ public class PageableArgumentResolverUnitTest {
     @Before
     public void setUp() throws SecurityException, NoSuchMethodException {
 
-        correctMethod =
-                SampleController.class.getMethod("correctMethod",
-                        Pageable.class, Pageable.class);
-        failedMethod =
-                SampleController.class.getMethod("failedMethod",
-                        Pageable.class, Pageable.class);
-        invalidQualifiers =
-                SampleController.class.getMethod("invalidQualifiers",
-                        Pageable.class, Pageable.class);
+        correctMethod = SampleController.class.getMethod("correctMethod", Pageable.class, Pageable.class);
+        failedMethod = SampleController.class.getMethod("failedMethod", Pageable.class, Pageable.class);
+        invalidQualifiers = SampleController.class.getMethod("invalidQualifiers", Pageable.class, Pageable.class);
 
-        defaultsMethod =
-                SampleController.class.getMethod("defaultsMethod",
-                        Pageable.class);
+        defaultsMethod = SampleController.class.getMethod("defaultsMethod", Pageable.class);
 
         request = new MockHttpServletRequest();
 
@@ -93,8 +85,7 @@ public class PageableArgumentResolverUnitTest {
     public void assertDefaults() throws Exception {
 
         MethodParameter parameter = new MethodParameter(defaultsMethod, 0);
-        NativeWebRequest webRequest =
-                new ServletWebRequest(new MockHttpServletRequest());
+        NativeWebRequest webRequest = new ServletWebRequest(new MockHttpServletRequest());
         PageableArgumentResolver resolver = new PageableArgumentResolver();
         Object argument = resolver.resolveArgument(parameter, webRequest);
 
@@ -102,8 +93,7 @@ public class PageableArgumentResolverUnitTest {
 
         Pageable pageable = (Pageable) argument;
         assertEquals(SampleController.DEFAULT_PAGESIZE, pageable.getPageSize());
-        assertEquals(SampleController.DEFAULT_PAGENUMBER, pageable
-                .getPageNumber());
+        assertEquals(SampleController.DEFAULT_PAGENUMBER, pageable.getPageNumber());
     }
 
 
@@ -128,8 +118,7 @@ public class PageableArgumentResolverUnitTest {
     }
 
 
-    private void assertSizeForPrefix(int size, Sort sort, int index)
-            throws Exception {
+    private void assertSizeForPrefix(int size, Sort sort, int index) throws Exception {
 
         MethodParameter parameter = new MethodParameter(correctMethod, index);
         NativeWebRequest webRequest = new ServletWebRequest(request);
@@ -160,8 +149,7 @@ public class PageableArgumentResolverUnitTest {
         }
 
 
-        public void correctMethod(@Qualifier("foo") Pageable first,
-                @Qualifier("bar") Pageable second) {
+        public void correctMethod(@Qualifier("foo") Pageable first, @Qualifier("bar") Pageable second) {
 
         }
 
@@ -171,8 +159,7 @@ public class PageableArgumentResolverUnitTest {
         }
 
 
-        public void invalidQualifiers(@Qualifier("foo") Pageable first,
-                @Qualifier("foo") Pageable second) {
+        public void invalidQualifiers(@Qualifier("foo") Pageable first, @Qualifier("foo") Pageable second) {
 
         }
     }

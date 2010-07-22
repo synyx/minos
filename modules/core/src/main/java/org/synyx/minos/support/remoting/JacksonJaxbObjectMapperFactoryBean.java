@@ -7,13 +7,11 @@ import org.springframework.beans.factory.FactoryBean;
 
 
 /**
- * {@link FactoryBean} to create a JAXB annotation aware Jackson
- * {@link ObjectMapper}.
+ * {@link FactoryBean} to create a JAXB annotation aware Jackson {@link ObjectMapper}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class JacksonJaxbObjectMapperFactoryBean implements
-        FactoryBean<ObjectMapper> {
+public class JacksonJaxbObjectMapperFactoryBean implements FactoryBean<ObjectMapper> {
 
     /*
      * (non-Javadoc)
@@ -27,8 +25,7 @@ public class JacksonJaxbObjectMapperFactoryBean implements
         AnnotationIntrospector introspector = new JaxbAnnotationIntrospector();
 
         mapper.getSerializationConfig().setAnnotationIntrospector(introspector);
-        mapper.getDeserializationConfig().setAnnotationIntrospector(
-                introspector);
+        mapper.getDeserializationConfig().setAnnotationIntrospector(introspector);
 
         return mapper;
     }

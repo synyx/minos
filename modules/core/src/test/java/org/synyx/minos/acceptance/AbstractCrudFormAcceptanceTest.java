@@ -6,25 +6,22 @@ import net.sourceforge.jwebunit.junit.WebTester;
 
 
 /**
- * An abstract class for acceptance testing Minos CRUD forms. Tests if the table
- * is shown and if an entity can be successfully create, edited and deleted. To
- * exclude a test override it and leave it empty.
+ * An abstract class for acceptance testing Minos CRUD forms. Tests if the table is shown and if an entity can be
+ * successfully create, edited and deleted. To exclude a test override it and leave it empty.
  * 
  * @author Markus Knittig - knittig@synyx.de
  */
-public abstract class AbstractCrudFormAcceptanceTest extends
-        AbstractCoreAcceptanceTest {
+public abstract class AbstractCrudFormAcceptanceTest extends AbstractCoreAcceptanceTest {
 
     /**
-     * @return The message source prefix, normally made up of the module name
-     *         and the form name, separated by a dot e.g. "umt.user"
+     * @return The message source prefix, normally made up of the module name and the form name, separated by a dot e.g.
+     *         "umt.user"
      */
     protected abstract String getMessageSourcePrefix();
 
 
     /**
-     * @return The unique URL part at the end of the URL, which is used in all
-     *         URLs of the form, e.g. "users"
+     * @return The unique URL part at the end of the URL, which is used in all URLs of the form, e.g. "users"
      */
     protected abstract String getFormIdentifier();
 
@@ -41,8 +38,7 @@ public abstract class AbstractCrudFormAcceptanceTest extends
      * @param tester Instance of {@link WebTester} for filling out form fields
      * @param identifier Unique identifier for the entity
      */
-    protected abstract void fillCreateFormFields(WebTester tester,
-            String identifier);
+    protected abstract void fillCreateFormFields(WebTester tester, String identifier);
 
 
     /**
@@ -54,8 +50,7 @@ public abstract class AbstractCrudFormAcceptanceTest extends
 
 
     /**
-     * Tests if the table is shown by looking it up with the corresponding CSS
-     * id.
+     * Tests if the table is shown by looking it up with the corresponding CSS id.
      */
     public void testShowTable() throws Exception {
 
@@ -113,8 +108,8 @@ public abstract class AbstractCrudFormAcceptanceTest extends
 
     protected void clickDeleteButton(String name) {
 
-        clickElementByXPath("//form[@action='" + getPathFromTable(name)
-                + "']/input[@alt='" + translateMessage("core.ui.delete") + "']");
+        clickElementByXPath("//form[@action='" + getPathFromTable(name) + "']/input[@alt='"
+                + translateMessage("core.ui.delete") + "']");
     }
 
 
@@ -126,8 +121,7 @@ public abstract class AbstractCrudFormAcceptanceTest extends
 
     protected String getPathFromTable(String name) {
 
-        return getElementAttributeByXPath("//td/a[text()='" + name + "']",
-                "href");
+        return getElementAttributeByXPath("//td/a[text()='" + name + "']", "href");
     }
 
 

@@ -1,10 +1,7 @@
 package org.synyx.minos.core.notification;
 
-
-
 /**
- * Bean style implementation of a {@link NotificationContext}. Stores a
- * configuration key.
+ * Bean style implementation of a {@link NotificationContext}. Stores a configuration key.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -14,8 +11,7 @@ public class ConfigBasedNotificationContext implements NotificationContext {
 
 
     /**
-     * Creates a new {@code NotificationContext} based on the given {@code
-     * PluginMetadata}.
+     * Creates a new {@code NotificationContext} based on the given {@code PluginMetadata}.
      * 
      * @param metadata
      */
@@ -28,9 +24,7 @@ public class ConfigBasedNotificationContext implements NotificationContext {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.synyx.minos.core.notification.NotificationContext#getConfigurationKey
-     * ()
+     * @see com.synyx.minos.core.notification.NotificationContext#getConfigurationKey ()
      */
     public String getConfigurationKey() {
 

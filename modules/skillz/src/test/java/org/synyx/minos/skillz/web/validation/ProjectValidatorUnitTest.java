@@ -15,6 +15,7 @@ import org.springframework.validation.Errors;
 import org.synyx.minos.skillz.domain.Project;
 import org.synyx.minos.skillz.service.SkillManagement;
 
+
 /**
  * Unit test for {@code ProjectValidator}.
  * 
@@ -23,112 +24,113 @@ import org.synyx.minos.skillz.service.SkillManagement;
 @RunWith(MockitoJUnitRunner.class)
 public class ProjectValidatorUnitTest {
 
-	private ProjectValidator validator;
-	@Mock
-	private SkillManagement skillManagement;
+    private ProjectValidator validator;
+    @Mock
+    private SkillManagement skillManagement;
 
-	private Errors errors;
+    private Errors errors;
 
-	private Project project;
+    private Project project;
 
-	private String name = "ProjectName";
-	private String description = "ProjectDescription";
-	private String customer = "ProjectCustomer";
-	private String industry = "ProjectIndustry";
-	private String platform = "ProjectPlatform";
+    private String name = "ProjectName";
+    private String description = "ProjectDescription";
+    private String customer = "ProjectCustomer";
+    private String industry = "ProjectIndustry";
+    private String platform = "ProjectPlatform";
 
-	/**
-	 * Sets up mocks, configures the validator and creates a default {@code
-	 * Project} instance.
-	 */
-	@Before
-	public void setUp() {
 
-		validator = new ProjectValidator(skillManagement);
+    /**
+     * Sets up mocks, configures the validator and creates a default {@code Project} instance.
+     */
+    @Before
+    public void setUp() {
 
-		project = BeanUtils.instantiateClass(Project.class);
-		project.setId(0L);
-		project.setName(name);
-		project.setDescription(description);
-		project.setCustomer(customer);
-		project.setIndustry(industry);
-		project.setPlatform(platform);
+        validator = new ProjectValidator(skillManagement);
 
-	}
+        project = BeanUtils.instantiateClass(Project.class);
+        project.setId(0L);
+        project.setName(name);
+        project.setDescription(description);
+        project.setCustomer(customer);
+        project.setIndustry(industry);
+        project.setPlatform(platform);
 
-	/**
-	 * Tests that the validator does not raise errors on a valid project.
-	 */
-	@Test
-	public void passesValidProject() {
+    }
 
-		prepareErrorsAndExecute();
 
-		skillManagement.save(project);
-		Assert.assertFalse("Found errors: " + errors, errors.hasErrors());
-	}
+    /**
+     * Tests that the validator does not raise errors on a valid project.
+     */
+    @Test
+    public void passesValidProject() {
 
-	/**
-	 * Asserts that the validator rejects projects with an empty name.
-	 */
-	@Test
-	public void rejectEmptyProjectName() {
+        prepareErrorsAndExecute();
 
-		// change name
-		project.setName("");
+        skillManagement.save(project);
+        Assert.assertFalse("Found errors: " + errors, errors.hasErrors());
+    }
 
-		prepareErrorsAndExecute();
 
-		skillManagement.save(project);
-		Assert.assertTrue("Found errors: " + errors, errors.hasErrors());
-		assertContainsFieldErrorWithCode(errors, "name",
-				ProjectValidator.PROJECT_NAME_EMPTY);
-	}
+    /**
+     * Asserts that the validator rejects projects with an empty name.
+     */
+    @Test
+    public void rejectEmptyProjectName() {
 
-	/**
-	 * Asserts that the validator rejects projects with an invalid name.
-	 */
-	@Test
-	public void rejectInvalidProjectName() {
+        // change name
+        project.setName("");
 
-		// change name
-		project.setName(ProjectValidator.INVALID_NAME_VALUE);
+        prepareErrorsAndExecute();
 
-		prepareErrorsAndExecute();
+        skillManagement.save(project);
+        Assert.assertTrue("Found errors: " + errors, errors.hasErrors());
+        assertContainsFieldErrorWithCode(errors, "name", ProjectValidator.PROJECT_NAME_EMPTY);
+    }
 
-		skillManagement.save(project);
-		Assert.assertTrue("Found errors: " + errors, errors.hasErrors());
-		assertContainsFieldErrorWithCode(errors, "name",
-				ProjectValidator.PROJECT_NAME_INVALID);
-	}
 
-	/**
-	 * Checks, that a new project with an existing projectname is rejected.
-	 */
-	@Test
-	public void rejectsNewProjectsWithExistingProjectsname() {
+    /**
+     * Asserts that the validator rejects projects with an invalid name.
+     */
+    @Test
+    public void rejectInvalidProjectName() {
 
-		// Mark new project
-		project.setId(null);
+        // change name
+        project.setName(ProjectValidator.INVALID_NAME_VALUE);
 
-		// Expect lookup for project name
-		when(skillManagement.getProject(name)).thenReturn(new Project(name));
+        prepareErrorsAndExecute();
 
-		prepareErrorsAndExecute();
+        skillManagement.save(project);
+        Assert.assertTrue("Found errors: " + errors, errors.hasErrors());
+        assertContainsFieldErrorWithCode(errors, "name", ProjectValidator.PROJECT_NAME_INVALID);
+    }
 
-		skillManagement.save(project);
-		assertContainsFieldErrorWithCode(errors, "name",
-				ProjectValidator.PROJECT_NAME_ALREADY_EXISTS);
-	}
 
-	/**
-	 * Creates a new {@code Errors} instance that binds the {@code Project}
-	 * instance and triggers validation.
-	 */
-	private void prepareErrorsAndExecute() {
+    /**
+     * Checks, that a new project with an existing projectname is rejected.
+     */
+    @Test
+    public void rejectsNewProjectsWithExistingProjectsname() {
 
-		errors = new BeanPropertyBindingResult(project, "project");
-		validator.validate(project, errors);
-	}
+        // Mark new project
+        project.setId(null);
+
+        // Expect lookup for project name
+        when(skillManagement.getProject(name)).thenReturn(new Project(name));
+
+        prepareErrorsAndExecute();
+
+        skillManagement.save(project);
+        assertContainsFieldErrorWithCode(errors, "name", ProjectValidator.PROJECT_NAME_ALREADY_EXISTS);
+    }
+
+
+    /**
+     * Creates a new {@code Errors} instance that binds the {@code Project} instance and triggers validation.
+     */
+    private void prepareErrorsAndExecute() {
+
+        errors = new BeanPropertyBindingResult(project, "project");
+        validator.validate(project, errors);
+    }
 
 }

@@ -48,8 +48,7 @@ public class NotificationFactoryBeanDefintionParserTest {
 
         Element dummyElement = fillDummyElementWithMessage();
 
-        assertEquals(SimpleMessageNotificationFactory.class, classUnderTest
-                .getBeanClass(dummyElement));
+        assertEquals(SimpleMessageNotificationFactory.class, classUnderTest.getBeanClass(dummyElement));
     }
 
 
@@ -58,8 +57,7 @@ public class NotificationFactoryBeanDefintionParserTest {
 
         Element dummyElement = fillDummyElementWithKey();
 
-        assertEquals(MessageSourceNotificationFactory.class, classUnderTest
-                .getBeanClass(dummyElement));
+        assertEquals(MessageSourceNotificationFactory.class, classUnderTest.getBeanClass(dummyElement));
     }
 
 
@@ -76,11 +74,9 @@ public class NotificationFactoryBeanDefintionParserTest {
 
         Element dummyElement = fillDummyElementWithMessage();
 
-        classUnderTest.doParse(dummyElement, new ParserContext(null, null),
-                mockBeanDefinitionBuilder);
+        classUnderTest.doParse(dummyElement, new ParserContext(null, null), mockBeanDefinitionBuilder);
 
-        verify(mockBeanDefinitionBuilder).addConstructorArgValue(
-                dummyElement.getAttribute(ATTR_MESSAGE));
+        verify(mockBeanDefinitionBuilder).addConstructorArgValue(dummyElement.getAttribute(ATTR_MESSAGE));
     }
 
 
@@ -89,11 +85,9 @@ public class NotificationFactoryBeanDefintionParserTest {
 
         Element dummyElement = fillDummyElementWithKey();
 
-        classUnderTest.doParse(dummyElement, new ParserContext(null, null),
-                mockBeanDefinitionBuilder);
+        classUnderTest.doParse(dummyElement, new ParserContext(null, null), mockBeanDefinitionBuilder);
 
-        verify(mockBeanDefinitionBuilder).addConstructorArgValue(
-                dummyElement.getAttribute(ATTR_KEY));
+        verify(mockBeanDefinitionBuilder).addConstructorArgValue(dummyElement.getAttribute(ATTR_KEY));
     }
 
 
@@ -102,8 +96,7 @@ public class NotificationFactoryBeanDefintionParserTest {
 
         Element dummyElement = new DOMElement("");
 
-        classUnderTest.doParse(dummyElement, new ParserContext(
-                mockXmlReaderContext, null), mockBeanDefinitionBuilder);
+        classUnderTest.doParse(dummyElement, new ParserContext(mockXmlReaderContext, null), mockBeanDefinitionBuilder);
 
         verify(mockXmlReaderContext).error((String) anyObject(), anyObject());
     }
@@ -115,8 +108,7 @@ public class NotificationFactoryBeanDefintionParserTest {
         Element dummyElement = fillDummyElementWithKey();
         dummyElement.setAttribute(ATTR_MESSAGE, "User %s has password %s now!");
 
-        classUnderTest.doParse(dummyElement, new ParserContext(
-                mockXmlReaderContext, null), mockBeanDefinitionBuilder);
+        classUnderTest.doParse(dummyElement, new ParserContext(mockXmlReaderContext, null), mockBeanDefinitionBuilder);
 
         verify(mockXmlReaderContext).error((String) anyObject(), anyObject());
     }

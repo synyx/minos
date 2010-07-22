@@ -27,8 +27,7 @@ public class AbstractWebRequestEnricherUnitTest {
         assertTrue(enricher.supports(request));
     }
 
-    private static class SampleWebRequestEnricher extends
-            AbstractWebRequestEnricher {
+    private static class SampleWebRequestEnricher extends AbstractWebRequestEnricher {
 
         @Override
         protected String getPathPattern() {

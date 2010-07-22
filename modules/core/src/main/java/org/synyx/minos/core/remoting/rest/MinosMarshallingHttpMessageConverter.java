@@ -16,18 +16,15 @@ import org.synyx.minos.util.Assert;
 
 
 /**
- * Custom {@link org.springframework.http.converter.HttpMessageConverter} based
- * on a {@link PluginRegistry} of {@link ModuleAwareMarshaller}s. This one will
- * select an appropriate {@link Marshaller} and {@link Unmarshaller} based on
- * the target class.
+ * Custom {@link org.springframework.http.converter.HttpMessageConverter} based on a {@link PluginRegistry} of
+ * {@link ModuleAwareMarshaller}s. This one will select an appropriate {@link Marshaller} and {@link Unmarshaller} based
+ * on the target class.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class MinosMarshallingHttpMessageConverter extends
-        AbstractXmlHttpMessageConverter<Object> {
+public class MinosMarshallingHttpMessageConverter extends AbstractXmlHttpMessageConverter<Object> {
 
-    private static final String NO_MARSHALLER_FOUND_TEMPLATE =
-            "Could not find a (un)marshaller for class %s!";
+    private static final String NO_MARSHALLER_FOUND_TEMPLATE = "Could not find a (un)marshaller for class %s!";
 
     private final PluginRegistry<ModuleAwareMarshaller, Class<?>> marshallers;
 
@@ -37,8 +34,7 @@ public class MinosMarshallingHttpMessageConverter extends
      * 
      * @param marshallers
      */
-    public MinosMarshallingHttpMessageConverter(
-            PluginRegistry<ModuleAwareMarshaller, Class<?>> marshallers) {
+    public MinosMarshallingHttpMessageConverter(PluginRegistry<ModuleAwareMarshaller, Class<?>> marshallers) {
 
         Assert.notNull(marshallers);
         this.marshallers = marshallers;
@@ -48,19 +44,16 @@ public class MinosMarshallingHttpMessageConverter extends
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.http.converter.xml.AbstractXmlHttpMessageConverter
-     * #readFromSource(java.lang.Class, org.springframework.http.HttpHeaders,
-     * javax.xml.transform.Source)
+     * @see org.springframework.http.converter.xml.AbstractXmlHttpMessageConverter #readFromSource(java.lang.Class,
+     * org.springframework.http.HttpHeaders, javax.xml.transform.Source)
      */
     @Override
-    protected Object readFromSource(Class<? extends Object> clazz,
-            HttpHeaders headers, Source source) throws IOException {
+    protected Object readFromSource(Class<? extends Object> clazz, HttpHeaders headers, Source source)
+            throws IOException {
 
         Unmarshaller marshaller =
-                marshallers.getPluginFor(clazz,
-                        new UnmarshallingFailureException(String.format(
-                                NO_MARSHALLER_FOUND_TEMPLATE, clazz)));
+                marshallers.getPluginFor(clazz, new UnmarshallingFailureException(String.format(
+                        NO_MARSHALLER_FOUND_TEMPLATE, clazz)));
         return marshaller.unmarshal(source);
     }
 
@@ -68,20 +61,17 @@ public class MinosMarshallingHttpMessageConverter extends
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.http.converter.xml.AbstractXmlHttpMessageConverter
-     * #writeToResult(java.lang.Object, org.springframework.http.HttpHeaders,
-     * javax.xml.transform.Result)
+     * @see org.springframework.http.converter.xml.AbstractXmlHttpMessageConverter #writeToResult(java.lang.Object,
+     * org.springframework.http.HttpHeaders, javax.xml.transform.Result)
      */
     @Override
-    protected void writeToResult(Object t, HttpHeaders headers, Result result)
-            throws IOException {
+    protected void writeToResult(Object t, HttpHeaders headers, Result result) throws IOException {
 
         Class<?> type = t.getClass();
 
         Marshaller marshaller =
-                marshallers.getPluginFor(type, new MarshallingFailureException(
-                        String.format(NO_MARSHALLER_FOUND_TEMPLATE, type)));
+                marshallers.getPluginFor(type, new MarshallingFailureException(String.format(
+                        NO_MARSHALLER_FOUND_TEMPLATE, type)));
         marshaller.marshal(t, result);
     }
 
@@ -89,9 +79,7 @@ public class MinosMarshallingHttpMessageConverter extends
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.http.converter.AbstractHttpMessageConverter#supports
-     * (java.lang.Class)
+     * @see org.springframework.http.converter.AbstractHttpMessageConverter#supports (java.lang.Class)
      */
     @Override
     protected boolean supports(Class<? extends Object> clazz) {

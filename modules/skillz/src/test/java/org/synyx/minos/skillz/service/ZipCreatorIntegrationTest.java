@@ -18,8 +18,7 @@ import org.synyx.minos.skillz.domain.Level;
  * 
  * @author Markus Knittig - knittig@synyx.de
  */
-public class ZipCreatorIntegrationTest extends
-        AbstractDocbookCreatorIntegrationTest {
+public class ZipCreatorIntegrationTest extends AbstractDocbookCreatorIntegrationTest {
 
     private ResumeZipCreator docbookCreator;
 

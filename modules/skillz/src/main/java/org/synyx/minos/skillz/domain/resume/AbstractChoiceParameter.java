@@ -6,8 +6,7 @@ import org.springframework.util.Assert;
 
 
 /**
- * Abstract class for describing {@link ResumeFilter} parameters with one ore
- * more choices.
+ * Abstract class for describing {@link ResumeFilter} parameters with one ore more choices.
  * 
  * @author Markus Knittig - knittig@synyx.de
  */
@@ -17,9 +16,8 @@ public abstract class AbstractChoiceParameter extends ResumeFilterParameter {
 
 
     /**
-     * Constructor for {@link AbstractChoiceParameter} with the given name type,
-     * and reference data container. The name will also be used as resource
-     * bundle key for i18n lookup.
+     * Constructor for {@link AbstractChoiceParameter} with the given name type, and reference data container. The name
+     * will also be used as resource bundle key for i18n lookup.
      * 
      * @see ResumeFilterParameter#ResumeFilterParameter(String, Class, String)
      * @param name
@@ -27,8 +25,8 @@ public abstract class AbstractChoiceParameter extends ResumeFilterParameter {
      * @param genericDao
      * @param messageKey
      */
-    public AbstractChoiceParameter(String name, Class<?> type,
-            ReferenceDataContainer referenceDataContainer, String messageKey) {
+    public AbstractChoiceParameter(String name, Class<?> type, ReferenceDataContainer referenceDataContainer,
+            String messageKey) {
 
         super(name, type, messageKey);
 

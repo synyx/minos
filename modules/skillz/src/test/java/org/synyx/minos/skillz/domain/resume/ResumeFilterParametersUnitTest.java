@@ -32,24 +32,20 @@ public class ResumeFilterParametersUnitTest {
     @Before
     public void setUp() {
 
-        when(conversionService.convert(isA(String.class), eq(Long.class)))
-                .thenReturn(1L);
+        when(conversionService.convert(isA(String.class), eq(Long.class))).thenReturn(1L);
     }
 
 
     @Test
     public void convertsValuesCorrectly() throws Exception {
 
-        ResumeFilterParameters parameters =
-                new Builder().add("foo", String.class).add("bar", Long.class)
-                        .build();
+        ResumeFilterParameters parameters = new Builder().add("foo", String.class).add("bar", Long.class).build();
 
         Map<String, String[]> params = new HashMap<String, String[]>();
         params.put("foo", new String[] { "fooValue" });
         params.put("bar", new String[] { "barValue" });
 
-        Map<String, Object> result =
-                parameters.getTypedParameters(params, conversionService);
+        Map<String, Object> result = parameters.getTypedParameters(params, conversionService);
 
         Object value = result.get("bar");
         assertThat(value, is(instanceOf(Long.class)));

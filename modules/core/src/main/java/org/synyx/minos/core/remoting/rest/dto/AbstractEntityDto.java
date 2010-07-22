@@ -5,7 +5,6 @@
 // Generated on: 2008.12.18 at 05:32:54 PM CET 
 //
 
-
 package org.synyx.minos.core.remoting.rest.dto;
 
 import java.util.ArrayList;
@@ -21,37 +20,30 @@ import org.w3._2001.xmlschema.Adapter1;
 
 
 /**
- * <p>Java class for abstract-entity complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * Java class for abstract-entity complex type.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="abstract-entity">
- *   &lt;complexContent>
- *     &lt;extension base="{http://schemas.synyx.de/minos/core/rest}identifyable">
- *       &lt;sequence>
- *         &lt;element name="created-by" type="{http://schemas.synyx.de/minos/core/rest}identifyable" minOccurs="0"/>
- *         &lt;element name="modified-by" type="{http://schemas.synyx.de/minos/core/rest}identifyable" minOccurs="0"/>
- *         &lt;element name="link" type="{http://schemas.synyx.de/minos/core/rest}link" maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *       &lt;attribute name="created" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
- *       &lt;attribute name="last-modified" type="{http://www.w3.org/2001/XMLSchema}dateTime" />
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name=&quot;abstract-entity&quot;&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;extension base=&quot;{http://schemas.synyx.de/minos/core/rest}identifyable&quot;&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name=&quot;created-by&quot; type=&quot;{http://schemas.synyx.de/minos/core/rest}identifyable&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;element name=&quot;modified-by&quot; type=&quot;{http://schemas.synyx.de/minos/core/rest}identifyable&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;element name=&quot;link&quot; type=&quot;{http://schemas.synyx.de/minos/core/rest}link&quot; maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot;/&gt;
+ *       &lt;/sequence&gt;
+ *       &lt;attribute name=&quot;created&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}dateTime&quot; /&gt;
+ *       &lt;attribute name=&quot;last-modified&quot; type=&quot;{http://www.w3.org/2001/XMLSchema}dateTime&quot; /&gt;
+ *     &lt;/extension&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "abstract-entity", propOrder = {
-    "createdBy",
-    "modifiedBy",
-    "link"
-})
-public class AbstractEntityDto
-    extends IdentifyableDto
-{
+@XmlType(name = "abstract-entity", propOrder = { "createdBy", "modifiedBy", "link" })
+public class AbstractEntityDto extends IdentifyableDto {
 
     @XmlElement(name = "created-by")
     protected IdentifyableDto createdBy;
@@ -59,134 +51,121 @@ public class AbstractEntityDto
     protected IdentifyableDto modifiedBy;
     protected List<LinkDto> link;
     @XmlAttribute
-    @XmlJavaTypeAdapter(Adapter1 .class)
+    @XmlJavaTypeAdapter(Adapter1.class)
     protected DateTime created;
     @XmlAttribute(name = "last-modified")
-    @XmlJavaTypeAdapter(Adapter1 .class)
+    @XmlJavaTypeAdapter(Adapter1.class)
     protected DateTime lastModified;
+
 
     /**
      * Gets the value of the createdBy property.
      * 
-     * @return
-     *     possible object is
-     *     {@link IdentifyableDto }
-     *     
+     * @return possible object is {@link IdentifyableDto }
      */
     public IdentifyableDto getCreatedBy() {
+
         return createdBy;
     }
+
 
     /**
      * Sets the value of the createdBy property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link IdentifyableDto }
-     *     
+     * @param value allowed object is {@link IdentifyableDto }
      */
     public void setCreatedBy(IdentifyableDto value) {
+
         this.createdBy = value;
     }
+
 
     /**
      * Gets the value of the modifiedBy property.
      * 
-     * @return
-     *     possible object is
-     *     {@link IdentifyableDto }
-     *     
+     * @return possible object is {@link IdentifyableDto }
      */
     public IdentifyableDto getModifiedBy() {
+
         return modifiedBy;
     }
+
 
     /**
      * Sets the value of the modifiedBy property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link IdentifyableDto }
-     *     
+     * @param value allowed object is {@link IdentifyableDto }
      */
     public void setModifiedBy(IdentifyableDto value) {
+
         this.modifiedBy = value;
     }
 
+
     /**
      * Gets the value of the link property.
-     * 
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the link property.
-     * 
+     * This accessor method returns a reference to the live list, not a snapshot. Therefore any modification you make to
+     * the returned list will be present inside the JAXB object. This is why there is not a <CODE>set</CODE> method for
+     * the link property.
      * <p>
      * For example, to add a new item, do as follows:
+     * 
      * <pre>
-     *    getLink().add(newItem);
+     * getLink().add(newItem);
      * </pre>
-     * 
-     * 
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link LinkDto }
-     * 
-     * 
+     * Objects of the following type(s) are allowed in the list {@link LinkDto }
      */
     public List<LinkDto> getLink() {
+
         if (link == null) {
             link = new ArrayList<LinkDto>();
         }
         return this.link;
     }
 
+
     /**
      * Gets the value of the created property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
      */
     public DateTime getCreated() {
+
         return created;
     }
+
 
     /**
      * Sets the value of the created property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
      */
     public void setCreated(DateTime value) {
+
         this.created = value;
     }
+
 
     /**
      * Gets the value of the lastModified property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     * @return possible object is {@link String }
      */
     public DateTime getLastModified() {
+
         return lastModified;
     }
+
 
     /**
      * Sets the value of the lastModified property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * @param value allowed object is {@link String }
      */
     public void setLastModified(DateTime value) {
+
         this.lastModified = value;
     }
 

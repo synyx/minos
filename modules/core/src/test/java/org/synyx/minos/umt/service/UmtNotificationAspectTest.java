@@ -38,8 +38,7 @@ public class UmtNotificationAspectTest {
     @Before
     public void setUp() {
 
-        configBasedNotificationContext =
-                new ConfigBasedNotificationContext("blah");
+        configBasedNotificationContext = new ConfigBasedNotificationContext("blah");
 
         classUnderTest = new UmtNotificationAspect() {
 
@@ -59,12 +58,9 @@ public class UmtNotificationAspectTest {
     public void send_new_password() throws Throwable {
 
         classUnderTest.createNewPassword("blah1");
-        SimpleMessageNotification notification =
-                new SimpleMessageNotification(dummy, "new pw");
-        when(notificationFactory.create(dummy, "dlinsin", "blah1")).thenReturn(
-                notification);
-        notificationService
-                .notify(notification, configBasedNotificationContext);
+        SimpleMessageNotification notification = new SimpleMessageNotification(dummy, "new pw");
+        when(notificationFactory.create(dummy, "dlinsin", "blah1")).thenReturn(notification);
+        notificationService.notify(notification, configBasedNotificationContext);
 
         classUnderTest.sendNewPassword(joinPoint, dummy);
 

@@ -8,13 +8,11 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 
 /**
- * {@link HandlerInterceptor} to poulate a {@link HttpServletRequest} with a
- * conversation key.
+ * {@link HandlerInterceptor} to poulate a {@link HttpServletRequest} with a conversation key.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class ConversationManagementHandlerInterceptor extends
-        HandlerInterceptorAdapter {
+public class ConversationManagementHandlerInterceptor extends HandlerInterceptorAdapter {
 
     private ConversationManager conversationManager;
 
@@ -24,8 +22,7 @@ public class ConversationManagementHandlerInterceptor extends
      * 
      * @param conversationManager
      */
-    public ConversationManagementHandlerInterceptor(
-            ConversationManager conversationManager) {
+    public ConversationManagementHandlerInterceptor(ConversationManager conversationManager) {
 
         this.conversationManager = conversationManager;
     }
@@ -34,14 +31,11 @@ public class ConversationManagementHandlerInterceptor extends
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.web.servlet.handler.HandlerInterceptorAdapter#preHandle
-     * (javax.servlet.http.HttpServletRequest,
-     * javax.servlet.http.HttpServletResponse, java.lang.Object)
+     * @see org.springframework.web.servlet.handler.HandlerInterceptorAdapter#preHandle
+     * (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object)
      */
     @Override
-    public boolean preHandle(HttpServletRequest request,
-            HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         conversationManager.setConversationKey(request);
 

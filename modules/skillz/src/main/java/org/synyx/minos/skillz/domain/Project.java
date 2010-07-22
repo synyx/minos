@@ -11,9 +11,8 @@ import org.synyx.minos.util.Assert;
 
 
 /**
- * Captures high level project information. This is a rather textual description
- * of the project and issues and problems the project deals with. Primarily used
- * to have a consistent project description in various {@link Resume}s.
+ * Captures high level project information. This is a rather textual description of the project and issues and problems
+ * the project deals with. Primarily used to have a consistent project description in various {@link Resume}s.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -21,8 +20,7 @@ import org.synyx.minos.util.Assert;
 public class Project extends AbstractAuditable<User, Long> {
 
     private static final long serialVersionUID = -2562908001067672752L;
-    private static final String[] DELIMITERS =
-            new String[] { ".\r", ".\n", ".\r\n" };
+    private static final String[] DELIMITERS = new String[] { ".\r", ".\n", ".\r\n" };
 
     private String name;
 
@@ -230,8 +228,8 @@ public class Project extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Returns the abstract of the project. This will include the first
-     * paragraph of the description delimited by a dot and a newline.
+     * Returns the abstract of the project. This will include the first paragraph of the description delimited by a dot
+     * and a newline.
      * 
      * @return
      */
@@ -248,8 +246,7 @@ public class Project extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Returns the index of a found delimiter or -1 if none of the delimiters
-     * has been found.
+     * Returns the index of a found delimiter or -1 if none of the delimiters has been found.
      * 
      * @return
      */
@@ -280,8 +277,7 @@ public class Project extends AbstractAuditable<User, Long> {
 
         if (null != description) {
             builder.append(": ");
-            builder.append(StringUtils.substring(getDescription(), 0, 50)
-                    .replaceAll("\n", ""));
+            builder.append(StringUtils.substring(getDescription(), 0, 50).replaceAll("\n", ""));
         }
 
         return builder.toString();

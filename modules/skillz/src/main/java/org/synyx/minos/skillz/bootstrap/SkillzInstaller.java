@@ -28,8 +28,7 @@ import org.synyx.minos.util.Assert;
 /**
  * Installer to setup basic data.
  * <p>
- * FIXME: Use services instead of DAOs to get rid of the {@code @Transactional}
- * annotation.
+ * FIXME: Use services instead of DAOs to get rid of the {@code @Transactional} annotation.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -52,8 +51,8 @@ public class SkillzInstaller extends SimpleNoOpLifecycle {
      * @param resumeManagement
      * @param userManagement
      */
-    public SkillzInstaller(SkillManagement skillManagement,
-            ResumeManagement resumeManagement, UserManagement userManagement) {
+    public SkillzInstaller(SkillManagement skillManagement, ResumeManagement resumeManagement,
+            UserManagement userManagement) {
 
         Assert.notNull(skillManagement);
         Assert.notNull(resumeManagement);
@@ -104,9 +103,8 @@ public class SkillzInstaller extends SimpleNoOpLifecycle {
         skillManagement.save(frameworks);
 
         List<String> responsibilities =
-                Arrays.asList("Architektur", "Design", "Implementierung",
-                        "Test", "User Interface", "Projektmanagement",
-                        "Teamleitung");
+                Arrays.asList("Architektur", "Design", "Implementierung", "Test", "User Interface",
+                        "Projektmanagement", "Teamleitung");
 
         for (String responsibility : responsibilities) {
             skillManagement.save(new Responsibility(responsibility));

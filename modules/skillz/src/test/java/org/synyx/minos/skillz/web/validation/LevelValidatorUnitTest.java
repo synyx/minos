@@ -53,14 +53,12 @@ public class LevelValidatorUnitTest {
         prepareErrorsAndExecute();
 
         Assert.assertTrue("Found errors: " + errors, errors.hasErrors());
-        assertContainsFieldErrorWithCode(errors, "name",
-                LevelValidator.LEVEL_NAME_EMPTY);
+        assertContainsFieldErrorWithCode(errors, "name", LevelValidator.LEVEL_NAME_EMPTY);
     }
 
 
     /**
-     * Creates a new {@code Errors} instance that binds the {@code Level}
-     * instance and triggers validation.
+     * Creates a new {@code Errors} instance that binds the {@code Level} instance and triggers validation.
      */
     private void prepareErrorsAndExecute() {
 

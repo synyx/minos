@@ -5,10 +5,9 @@ import org.synyx.minos.util.Assert;
 
 
 /**
- * Simple value object to capture XML attributes to be bound to Java bean
- * properties. The class expects the name wrapped to be in dash-style and allows
- * determining the according Java bean property from it. Furthermore it will
- * consider names ending with {@value #REF} as references.
+ * Simple value object to capture XML attributes to be bound to Java bean properties. The class expects the name wrapped
+ * to be in dash-style and allows determining the according Java bean property from it. Furthermore it will consider
+ * names ending with {@value #REF} as references.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -49,8 +48,7 @@ public class PropertyAttribute {
      */
     public String asCamelCase() {
 
-        String source =
-                isReference() ? name.substring(0, name.indexOf(REF)) : name;
+        String source = isReference() ? name.substring(0, name.indexOf(REF)) : name;
 
         String[] parts = source.split("-");
 

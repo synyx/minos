@@ -33,8 +33,7 @@ public class MinosModuleUnitTest {
     @Test
     public void returnsCorrectDefaultBasePackage() throws Exception {
 
-        assertThat(new MinosModule(Core.IDENTIFIER).getBasePackage(),
-                is(PACKAGE));
+        assertThat(new MinosModule(Core.IDENTIFIER).getBasePackage(), is(PACKAGE));
     }
 
 
@@ -52,9 +51,7 @@ public class MinosModuleUnitTest {
     @Test
     public void returnsModuleResource() throws Exception {
 
-        Resource resource =
-                new MinosModule(Core.IDENTIFIER)
-                        .getModuleResource("module-context.xml");
+        Resource resource = new MinosModule(Core.IDENTIFIER).getModuleResource("module-context.xml");
 
         assertTrue(resource.getFile().exists());
     }

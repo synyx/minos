@@ -8,8 +8,7 @@ import org.synyx.minos.acceptance.AbstractCrudFormAcceptanceTest;
 /**
  * @author Markus Knittig - knittig@synyx.de
  */
-public class PrivateProjectsAcceptanceTest extends
-        AbstractCrudFormAcceptanceTest {
+public class PrivateProjectsAcceptanceTest extends AbstractCrudFormAcceptanceTest {
 
     @Override
     protected void setUp() throws Exception {

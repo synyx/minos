@@ -15,8 +15,7 @@ import org.synyx.minos.test.AbstractDaoIntegrationTest;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class ModuleDescriptorDaoIntegrationTest extends
-        AbstractDaoIntegrationTest {
+public class ModuleDescriptorDaoIntegrationTest extends AbstractDaoIntegrationTest {
 
     @Autowired
     private ModuleDescriptorDao dao;

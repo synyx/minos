@@ -5,8 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 /**
- * Exception being thrown when a request can not be processed due to errors in
- * the provided payload.
+ * Exception being thrown when a request can not be processed due to errors in the provided payload.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */

@@ -94,9 +94,7 @@ public class ModuleAwareMarshallerAdapterUnitTest {
 
         when(unmarshaller.supports(UserDto.class)).thenReturn(true);
 
-        Marshaller adapter =
-                new ModuleAwareMarshallerAdapter(unmarshaller, new MinosModule(
-                        "core"));
+        Marshaller adapter = new ModuleAwareMarshallerAdapter(unmarshaller, new MinosModule("core"));
 
         assertFalse(adapter.supports(UserDto.class));
     }

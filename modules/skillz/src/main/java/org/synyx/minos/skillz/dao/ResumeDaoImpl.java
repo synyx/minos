@@ -29,25 +29,21 @@ public class ResumeDaoImpl implements ResumeDaoCustom {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.skillz.dao.ResumeDaoCustom#findByFilter(org.synyx.hades
-     * .domain.Pageable, org.synyx.minos.skillz.domain.resume.ResumeFilter,
-     * java.util.Map)
+     * @see org.synyx.minos.skillz.dao.ResumeDaoCustom#findByFilter(org.synyx.hades .domain.Pageable,
+     * org.synyx.minos.skillz.domain.resume.ResumeFilter, java.util.Map)
      */
     @SuppressWarnings("unchecked")
     @Override
-    public List<Resume> findByFilter(Pageable pageable,
-            ResumeFilter resumeFilter, Map<String, Object> parameters) {
+    public List<Resume> findByFilter(Pageable pageable, ResumeFilter resumeFilter, Map<String, Object> parameters) {
 
         String queryString = createQueryString(pageable, resumeFilter);
-        Query jpaQuery =
-                createJpaQuery(pageable, resumeFilter, parameters, queryString);
+        Query jpaQuery = createJpaQuery(pageable, resumeFilter, parameters, queryString);
         return jpaQuery.getResultList();
     }
 
 
-    private Query createJpaQuery(Pageable pageable, ResumeFilter resumeFilter,
-            Map<String, Object> parameters, String queryString) {
+    private Query createJpaQuery(Pageable pageable, ResumeFilter resumeFilter, Map<String, Object> parameters,
+            String queryString) {
 
         Query jpaQuery = entityManager.createQuery(queryString);
 
@@ -63,7 +59,6 @@ public class ResumeDaoImpl implements ResumeDaoCustom {
     private String createQueryString(Pageable pageable, ResumeFilter resumeQuery) {
 
         return applySorting(getQueryString(READ_ALL_QUERY, Resume.class) + " "
-                + StringUtils.defaultString(resumeQuery.getQueryPartString()),
-                pageable.getSort());
+                + StringUtils.defaultString(resumeQuery.getQueryPartString()), pageable.getSort());
     }
 }

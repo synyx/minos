@@ -8,8 +8,8 @@ import org.synyx.minos.core.web.conversation.ConversationManager;
 
 
 /**
- * Custom {@link SessionAttributeStore} to prefix session attributes with a
- * conversation key determined via the underlying {@link ConversationManager}.
+ * Custom {@link SessionAttributeStore} to prefix session attributes with a conversation key determined via the
+ * underlying {@link ConversationManager}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -32,18 +32,15 @@ public class MinosSessionAttributeStore extends DefaultSessionAttributeStore {
     /*
      * (non-Javadoc)
      * 
-     * @seeorg.springframework.web.bind.support.DefaultSessionAttributeStore#
-     * getAttributeNameInSession
+     * @seeorg.springframework.web.bind.support.DefaultSessionAttributeStore# getAttributeNameInSession
      * (org.springframework.web.context.request.WebRequest, java.lang.String)
      */
     @Override
-    protected String getAttributeNameInSession(WebRequest request,
-            String attributeName) {
+    protected String getAttributeNameInSession(WebRequest request, String attributeName) {
 
         String conversationKey = manager.getConversationKey(request);
 
-        return StringUtils.hasText(conversationKey) ? String.format("%s.%s",
-                conversationKey, attributeName) : super
+        return StringUtils.hasText(conversationKey) ? String.format("%s.%s", conversationKey, attributeName) : super
                 .getAttributeNameInSession(request, attributeName);
     }
 }

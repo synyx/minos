@@ -19,8 +19,8 @@ import org.synyx.hades.util.ClassUtils;
  * @author Markus Knittig - knittig@synyx.de
  */
 @SuppressWarnings("unchecked")
-public class StringToPersistableConverterFactory implements
-        ConverterFactory<String, Persistable<Long>>, ApplicationContextAware {
+public class StringToPersistableConverterFactory implements ConverterFactory<String, Persistable<Long>>,
+        ApplicationContextAware {
 
     private Collection<GenericDao> daos;
 
@@ -28,19 +28,15 @@ public class StringToPersistableConverterFactory implements
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.core.convert.converter.ConverterFactory#getConverter
-     * (java.lang.Class)
+     * @see org.springframework.core.convert.converter.ConverterFactory#getConverter (java.lang.Class)
      */
     @Override
-    public <T extends Persistable<Long>> Converter<String, T> getConverter(
-            Class<T> targetType) {
+    public <T extends Persistable<Long>> Converter<String, T> getConverter(Class<T> targetType) {
 
         return new StringToPersistableConverter(targetType);
     }
 
-    private class StringToPersistableConverter<T extends Persistable<Long>>
-            implements Converter<String, T> {
+    private class StringToPersistableConverter<T extends Persistable<Long>> implements Converter<String, T> {
 
         private final Class<T> persistableType;
 
@@ -54,9 +50,7 @@ public class StringToPersistableConverterFactory implements
         /*
          * (non-Javadoc)
          * 
-         * @see
-         * org.springframework.core.convert.converter.Converter#convert(java
-         * .lang.Object)
+         * @see org.springframework.core.convert.converter.Converter#convert(java .lang.Object)
          */
         @Override
         public T convert(String source) {
@@ -68,8 +62,7 @@ public class StringToPersistableConverterFactory implements
     }
 
 
-    private GenericDao<?, ? extends Persistable<Long>> getDaoForType(
-            Class<? extends Persistable<Long>> type) {
+    private GenericDao<?, ? extends Persistable<Long>> getDaoForType(Class<? extends Persistable<Long>> type) {
 
         for (GenericDao<?, ? extends Persistable<Long>> dao : daos) {
             if (ClassUtils.getDomainClass(dao.getClass()).equals(type)) {
@@ -83,17 +76,13 @@ public class StringToPersistableConverterFactory implements
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.context.ApplicationContextAware#setApplicationContext
+     * @see org.springframework.context.ApplicationContextAware#setApplicationContext
      * (org.springframework.context.ApplicationContext)
      */
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext)
-            throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 
-        daos =
-                BeanFactoryUtils.beansOfTypeIncludingAncestors(
-                        applicationContext, GenericDao.class).values();
+        daos = BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext, GenericDao.class).values();
     }
 
 }

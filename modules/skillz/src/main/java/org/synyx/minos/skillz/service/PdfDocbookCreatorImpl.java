@@ -34,8 +34,7 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
     private final FopXsltService fopService;
 
 
-    public PdfDocbookCreatorImpl(DocbookTemplateService docbookTemplateService,
-            FopXsltService fopService) {
+    public PdfDocbookCreatorImpl(DocbookTemplateService docbookTemplateService, FopXsltService fopService) {
 
         this.docbookTemplateService = docbookTemplateService;
         this.fopService = fopService;
@@ -45,13 +44,11 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.skillz.service.PdfDocbookCreator#streamPdf(java.lang.
-     * String, java.io.File, java.io.OutputStream)
+     * @see org.synyx.minos.skillz.service.PdfDocbookCreator#streamPdf(java.lang. String, java.io.File,
+     * java.io.OutputStream)
      */
     @Override
-    public void streamPdf(Resume resume, List<Level> levels,
-            OutputStream outputStream) throws DocbookCreationException {
+    public void streamPdf(Resume resume, List<Level> levels, OutputStream outputStream) throws DocbookCreationException {
 
         File tmpPhotoFile = null;
         String tmpPhotoFileName = null;
@@ -60,9 +57,7 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
             tmpPhotoFileName = tmpPhotoFile.getAbsolutePath();
         }
 
-        String docbookXml =
-                docbookTemplateService.createDocbookXml(resume, levels,
-                        tmpPhotoFileName);
+        String docbookXml = docbookTemplateService.createDocbookXml(resume, levels, tmpPhotoFileName);
         streamPdf(docbookXml, null, outputStream);
 
         if (tmpPhotoFile != null) {
@@ -78,17 +73,14 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
      * @return
      * @throws DocbookCreationException
      */
-    private File createTmpPhotoFile(Image image)
-            throws DocbookCreationException {
+    private File createTmpPhotoFile(Image image) throws DocbookCreationException {
 
         File tmpPhotoFile = null;
         try {
             tmpPhotoFile = File.createTempFile("photo", null);
-            IOUtils.write(image.getOriginalImage(), new FileOutputStream(
-                    tmpPhotoFile));
+            IOUtils.write(image.getOriginalImage(), new FileOutputStream(tmpPhotoFile));
         } catch (Exception e) {
-            throw new DocbookCreationException(
-                    "Failed to create temporary photo file!", e);
+            throw new DocbookCreationException("Failed to create temporary photo file!", e);
         }
         return tmpPhotoFile;
     }
@@ -97,13 +89,11 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.skillz.service.PdfDocbookCreator#streamPdf(org.synyx.
-     * minos.skillz.domain.Resume, java.io.OutputStream)
+     * @see org.synyx.minos.skillz.service.PdfDocbookCreator#streamPdf(org.synyx. minos.skillz.domain.Resume,
+     * java.io.OutputStream)
      */
     @Override
-    public void streamPdf(String xmlString, File xsltFile,
-            OutputStream outputStream) throws DocbookCreationException {
+    public void streamPdf(String xmlString, File xsltFile, OutputStream outputStream) throws DocbookCreationException {
 
         Assert.notNull(xmlString);
         Assert.notNull(outputStream);
@@ -119,8 +109,7 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
 
             transformer.transform(source, result);
         } catch (Exception e) {
-            throw new DocbookCreationException(
-                    "Failed to apply FOP XSLT transformation!", e);
+            throw new DocbookCreationException("Failed to apply FOP XSLT transformation!", e);
         }
     }
 
@@ -128,23 +117,20 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.skillz.service.PdfDocbookCreator#createTempPdfFile(org
-     * .synyx.minos.skillz.domain.Resume, java.util.List)
+     * @see org.synyx.minos.skillz.service.PdfDocbookCreator#createTempPdfFile(org .synyx.minos.skillz.domain.Resume,
+     * java.util.List)
      */
     @Override
-    public File createTempPdfFile(File tempDirectory, Resume resume,
-            List<Level> levels) throws DocbookCreationException {
+    public File createTempPdfFile(File tempDirectory, Resume resume, List<Level> levels)
+            throws DocbookCreationException {
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         streamPdf(resume, levels, outputStream);
 
         try {
-            return FileUtils.createTempFile(tempDirectory, outputStream
-                    .toByteArray());
+            return FileUtils.createTempFile(tempDirectory, outputStream.toByteArray());
         } catch (IOException e) {
-            throw new DocbookCreationException(
-                    "Failed to create temporary file!", e);
+            throw new DocbookCreationException("Failed to create temporary file!", e);
         }
     }
 

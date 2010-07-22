@@ -78,8 +78,7 @@ public class ConversationManagerUnitTest {
 
         manager.setConversationKey(mock);
 
-        verify(mock, never()).setAttribute(eq(DEFAULT_CONVERSATION_KEY_ID),
-                any());
+        verify(mock, never()).setAttribute(eq(DEFAULT_CONVERSATION_KEY_ID), any());
     }
 
 
@@ -91,13 +90,11 @@ public class ConversationManagerUnitTest {
 
         manager.setConversationKey(mock);
 
-        verify(mock, times(1)).setAttribute(eq(DEFAULT_CONVERSATION_KEY_ID),
-                anyString());
+        verify(mock, times(1)).setAttribute(eq(DEFAULT_CONVERSATION_KEY_ID), anyString());
     }
 
 
-    private void assertResultForParameterAndAttribute(String parameter,
-            String attribute, String result) {
+    private void assertResultForParameterAndAttribute(String parameter, String attribute, String result) {
 
         request.addParameter(DEFAULT_CONVERSATION_KEY_ID, parameter);
         request.setAttribute(DEFAULT_CONVERSATION_KEY_ID, attribute);

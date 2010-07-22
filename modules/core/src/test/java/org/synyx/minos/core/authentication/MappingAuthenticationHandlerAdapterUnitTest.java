@@ -52,8 +52,7 @@ public class MappingAuthenticationHandlerAdapterUnitTest {
     @Before
     public void setUp() {
 
-        when(authentication.getPrincipal()).thenReturn(
-                new MinosUserDetails(user));
+        when(authentication.getPrincipal()).thenReturn(new MinosUserDetails(user));
 
         Map<String, String[]> mappings = new HashMap<String, String[]>();
         mappings.put(ADMIN_VIEW, new String[] { "ADMIN", "FOO" });
@@ -108,14 +107,12 @@ public class MappingAuthenticationHandlerAdapterUnitTest {
         mappings.put(ADMIN_VIEW, new String[] { "ADMIN" });
         mappings.put(USER_VIEW, new String[] { "ADMIN" });
 
-        MappingAuthenticationSuccessHandler handler =
-                new MappingAuthenticationSuccessHandler();
+        MappingAuthenticationSuccessHandler handler = new MappingAuthenticationSuccessHandler();
         handler.setMappings(mappings);
     }
 
 
-    private void assertViewForRole(String view, String role)
-            throws ServletException, IOException {
+    private void assertViewForRole(String view, String role) throws ServletException, IOException {
 
         when(user.hasRole(role)).thenReturn(true);
 

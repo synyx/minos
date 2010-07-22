@@ -40,8 +40,8 @@ public class ReferencesAcceptanceTest extends AbstractCrudFormAcceptanceTest {
     protected String getPathFromTable(String name) {
 
         return getElementAttributeByXPath(
-                "//table[@id='reference']//tr[td/@class='projectDescription' and td//p/text()='"
-                        + name + "']//a", "href");
+                "//table[@id='reference']//tr[td/@class='projectDescription' and td//p/text()='" + name + "']//a",
+                "href");
     }
 
 

@@ -4,7 +4,6 @@ import org.synyx.hades.dao.GenericDao;
 import org.synyx.minos.skillz.domain.Responsibility;
 
 
-
 /**
  * DAO interface to manage {@link Responsibility}s.
  * 

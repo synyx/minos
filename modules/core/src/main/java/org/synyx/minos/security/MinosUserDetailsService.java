@@ -10,11 +10,9 @@ import org.synyx.minos.core.domain.User;
 import org.synyx.minos.umt.dao.UserDao;
 
 
-
 /**
- * Security adapter for Spring Security Framework. Allows the security framework
- * to authenticate against Minos <code>UserDao</code>. See documentation of
- * Spring Security for details.
+ * Security adapter for Spring Security Framework. Allows the security framework to authenticate against Minos
+ * <code>UserDao</code>. See documentation of Spring Security for details.
  * 
  * @author Oliver Gierke
  * @see UserDetailsService
@@ -40,11 +38,9 @@ public class MinosUserDetailsService implements UserDetailsService {
     /*
      * (non-Javadoc)
      * 
-     * @seeorg.springframework.security.userdetails.UserDetailsService#
-     * loadUserByUsername(java.lang.String)
+     * @seeorg.springframework.security.userdetails.UserDetailsService# loadUserByUsername(java.lang.String)
      */
-    public UserDetails loadUserByUsername(String username)
-            throws UsernameNotFoundException, DataAccessException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
 
         // Retrieve user
         User user = userDao.findByUsername(username);

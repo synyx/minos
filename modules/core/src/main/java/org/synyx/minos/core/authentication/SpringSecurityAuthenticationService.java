@@ -28,11 +28,9 @@ import org.synyx.minos.umt.dao.UserDao;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class SpringSecurityAuthenticationService extends
-        AbstractAuthenticationService implements AuditorAware<User> {
+public class SpringSecurityAuthenticationService extends AbstractAuthenticationService implements AuditorAware<User> {
 
-    private static final Log LOG =
-            LogFactory.getLog(SpringSecurityAuthenticationService.class);
+    private static final Log LOG = LogFactory.getLog(SpringSecurityAuthenticationService.class);
 
     private UserDao userDao;
     private AccessDecisionManager accessDecisionManager;
@@ -54,8 +52,7 @@ public class SpringSecurityAuthenticationService extends
      * @param accessDecisionManager
      */
     @Required
-    public void setAccessDecisionManager(
-            AccessDecisionManager accessDecisionManager) {
+    public void setAccessDecisionManager(AccessDecisionManager accessDecisionManager) {
 
         this.accessDecisionManager = accessDecisionManager;
     }
@@ -97,17 +94,14 @@ public class SpringSecurityAuthenticationService extends
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.synyx.minos.core.authentication.AuthenticationService#getCurrentUser
-     * ()
+     * @see com.synyx.minos.core.authentication.AuthenticationService#getCurrentUser ()
      */
     @Override
     public User getCurrentUser() {
 
         UserDetails userDetails = getAuthenticatedUser();
 
-        return null == userDetails ? null : userDao.findByUsername(userDetails
-                .getUsername());
+        return null == userDetails ? null : userDao.findByUsername(userDetails.getUsername());
     }
 
 
@@ -124,9 +118,7 @@ public class SpringSecurityAuthenticationService extends
             return user.getPassword();
         }
 
-        Object salt =
-                saltSource == null ? null : saltSource
-                        .getSalt(new MinosUserDetails(user));
+        Object salt = saltSource == null ? null : saltSource.getSalt(new MinosUserDetails(user));
 
         return passwordEncoder.encodePassword(user.getPassword(), salt);
     }
@@ -136,9 +128,8 @@ public class SpringSecurityAuthenticationService extends
      * Checks the current authentication for the given permissions.
      * 
      * @param permissions
-     * @return whether the currently authenticated {@link User} has the given
-     *         permissions. Will return {@literal false} if {@literal null} or
-     *         an empty collection is given.
+     * @return whether the currently authenticated {@link User} has the given permissions. Will return {@literal false}
+     *         if {@literal null} or an empty collection is given.
      */
     @Override
     protected boolean hasPermissions(Collection<String> permissions) {
@@ -147,16 +138,14 @@ public class SpringSecurityAuthenticationService extends
             return false;
         }
 
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null) {
             return false;
         }
 
         try {
-            accessDecisionManager.decide(authentication, null,
-                    toAttributes(permissions));
+            accessDecisionManager.decide(authentication, null, toAttributes(permissions));
             return true;
         } catch (AccessDeniedException e) {
             LOG.debug("Access denied!", e);
@@ -182,17 +171,16 @@ public class SpringSecurityAuthenticationService extends
 
     private UserDetails getAuthenticatedUser() {
 
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (null == authentication) {
             return null;
         }
 
-	// Principal may be "anonymous", which is a string
-	if (! (authentication.getPrincipal() instanceof UserDetails)) {
-	    return null;
-	}
+        // Principal may be "anonymous", which is a string
+        if (!(authentication.getPrincipal() instanceof UserDetails)) {
+            return null;
+        }
 
         return (UserDetails) authentication.getPrincipal();
     }

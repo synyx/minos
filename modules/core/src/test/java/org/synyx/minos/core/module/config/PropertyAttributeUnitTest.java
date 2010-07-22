@@ -19,8 +19,7 @@ public class PropertyAttributeUnitTest {
         assertThat(new PropertyAttribute("foo").asCamelCase(), is("foo"));
         assertThat(new PropertyAttribute("foo-bar").asCamelCase(), is("fooBar"));
 
-        assertThat(new PropertyAttribute("foo-bar-ref").asCamelCase(),
-                is("fooBar"));
+        assertThat(new PropertyAttribute("foo-bar-ref").asCamelCase(), is("fooBar"));
     }
 
 

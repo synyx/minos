@@ -53,14 +53,12 @@ public class CategoryValidatorUnitTest {
         prepareErrorsAndExecute();
 
         Assert.assertTrue("Found errors: " + errors, errors.hasErrors());
-        assertContainsFieldErrorWithCode(errors, "name",
-                CategoryValidator.CATEGORY_NAME_EMPTY);
+        assertContainsFieldErrorWithCode(errors, "name", CategoryValidator.CATEGORY_NAME_EMPTY);
     }
 
 
     /**
-     * Creates a new {@code Errors} instance that binds the {@code Category}
-     * instance and triggers validation.
+     * Creates a new {@code Errors} instance that binds the {@code Category} instance and triggers validation.
      */
     private void prepareErrorsAndExecute() {
 

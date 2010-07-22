@@ -9,8 +9,7 @@ import org.synyx.hades.domain.Pageable;
 
 
 /**
- * Annotation to set defaults when injecting a {@link Pageable} into a
- * controller method
+ * Annotation to set defaults when injecting a {@link Pageable} into a controller method
  * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
@@ -19,15 +18,15 @@ import org.synyx.hades.domain.Pageable;
 public @interface PageableDefaults {
 
     /**
-     * The default-size the injected {@link Pageable} should get if no corresp.
-     * parameter defined in request (default is 10).
+     * The default-size the injected {@link Pageable} should get if no corresp. parameter defined in request (default is
+     * 10).
      */
     int value() default 10;
 
 
     /**
-     * The default-pagenumber the injected {@link Pageable} should get if no
-     * corresp. parameter defined in request (default is 0).
+     * The default-pagenumber the injected {@link Pageable} should get if no corresp. parameter defined in request
+     * (default is 0).
      */
     int pageNumber() default 0;
 

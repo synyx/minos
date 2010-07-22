@@ -18,8 +18,7 @@ import org.synyx.minos.umt.web.UserForm;
 
 
 /**
- * Unit test for {@link MinosMarshallingHttpMessageConverter}. TODO: add tests
- * for
+ * Unit test for {@link MinosMarshallingHttpMessageConverter}. TODO: add tests for
  * {@link MinosMarshallingHttpMessageConverter#readFromSource(Class, org.springframework.http.HttpHeaders, javax.xml.transform.Source)}
  * .
  * 
@@ -55,8 +54,7 @@ public class MinosMarshallingHttpMessageConverterUnitTest {
     @Test
     public void invokesMarshallerCorrectly() throws Exception {
 
-        when(marshallers.getPluginFor(eq(UserDto.class), any(Exception.class)))
-                .thenReturn(marshaller);
+        when(marshallers.getPluginFor(eq(UserDto.class), any(Exception.class))).thenReturn(marshaller);
 
         UserDto dto = new UserDto();
         Result result = mock(Result.class);

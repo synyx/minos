@@ -107,8 +107,7 @@ public class Category extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Adds the given {@link Skill} to the category. Assigns the category to the
-     * skill if not already assigned.
+     * Adds the given {@link Skill} to the category. Assigns the category to the skill if not already assigned.
      * 
      * @param skill
      * @return

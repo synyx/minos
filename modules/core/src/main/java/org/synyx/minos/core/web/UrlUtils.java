@@ -51,8 +51,8 @@ public abstract class UrlUtils {
 
 
     /**
-     * Creates the redirect view name for the given url. Binds the given
-     * parameters to the placeholders contained in the URL if given.
+     * Creates the redirect view name for the given url. Binds the given parameters to the placeholders contained in the
+     * URL if given.
      * 
      * @param url
      * @param parameters
@@ -75,14 +75,12 @@ public abstract class UrlUtils {
      * @param request
      * @return
      */
-    public static String toUrl(String moduleUrl, HttpServletRequest request,
-            boolean preserveSuffix) {
+    public static String toUrl(String moduleUrl, HttpServletRequest request, boolean preserveSuffix) {
 
         Assert.notNull(moduleUrl, "Module url must not be null!");
         Assert.notNull(request, "Request must not be null!");
 
-        StringBuilder builder =
-                new StringBuilder(request.getScheme()).append("://");
+        StringBuilder builder = new StringBuilder(request.getScheme()).append("://");
         builder.append(request.getServerName());
 
         if (80 != request.getServerPort()) {
@@ -117,8 +115,7 @@ public abstract class UrlUtils {
      * @param parameters
      * @return
      */
-    public static String toUrl(String moduleUrl, HttpServletRequest request,
-            Map<String, Object> parameters) {
+    public static String toUrl(String moduleUrl, HttpServletRequest request, Map<String, Object> parameters) {
 
         StringBuilder builder = new StringBuilder(toUrl(moduleUrl, request));
 
@@ -142,19 +139,16 @@ public abstract class UrlUtils {
 
 
     /**
-     * Returns the url to the given module action adding the id of the given
-     * {@link Persistable} to the link. This can be used to create URLs to
-     * handle the given entity, e.g. edit or delete it. If {@code null} is
-     * provided as {@code entity} this will return {@see #toUrl(String,
-     * HttpServletRequest)}.
+     * Returns the url to the given module action adding the id of the given {@link Persistable} to the link. This can
+     * be used to create URLs to handle the given entity, e.g. edit or delete it. If {@code null} is provided as {@code
+     * entity} this will return {@see #toUrl(String, HttpServletRequest)}.
      * 
      * @param moduleUrl
      * @param request
      * @param entity
      * @return
      */
-    public static String toUrl(String moduleUrl, HttpServletRequest request,
-            Persistable<?> entity) {
+    public static String toUrl(String moduleUrl, HttpServletRequest request, Persistable<?> entity) {
 
         if (null == entity) {
             return toUrl(moduleUrl, request);
@@ -166,16 +160,15 @@ public abstract class UrlUtils {
 
 
     /**
-     * Modifies the given response to tell the client that the given entity has
-     * been successfully created.
+     * Modifies the given response to tell the client that the given entity has been successfully created.
      * 
      * @param url the URL the entity can be retrieved under
      * @param request
      * @param response
      * @param entity the entity that was created successfully
      */
-    public static void markCreated(String url, HttpServletRequest request,
-            HttpServletResponse response, Persistable<?> entity) {
+    public static void markCreated(String url, HttpServletRequest request, HttpServletResponse response,
+            Persistable<?> entity) {
 
         response.setStatus(HttpServletResponse.SC_CREATED);
         response.setHeader("Location", toUrl(url, request, entity));

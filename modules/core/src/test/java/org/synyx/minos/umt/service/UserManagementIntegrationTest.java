@@ -21,14 +21,12 @@ import org.synyx.minos.umt.dao.UserDao;
 
 
 /**
- * Integration test validating correct work of <code>UserManagementImpl</code>,
- * particularly testing security issues.
+ * Integration test validating correct work of <code>UserManagementImpl</code>, particularly testing security issues.
  * 
  * @author Oliver Gierke
  */
 @Transactional
-public class UserManagementIntegrationTest extends
-        AbstractModuleIntegrationTest {
+public class UserManagementIntegrationTest extends AbstractModuleIntegrationTest {
 
     @Autowired
     private UserManagement userManagement;
@@ -50,8 +48,7 @@ public class UserManagementIntegrationTest extends
 
 
     /**
-     * Creates a simple user role and a user with that role in the database.
-     * Sets up an unsaved admin role.
+     * Creates a simple user role and a user with that role in the database. Sets up an unsaved admin role.
      */
     @Before
     public void setUp() {
@@ -81,8 +78,7 @@ public class UserManagementIntegrationTest extends
 
 
     /**
-     * Tests, that invocations of user management methods are prevented if
-     * noboby is authenticated.
+     * Tests, that invocations of user management methods are prevented if noboby is authenticated.
      */
     @Test(expected = AuthenticationCredentialsNotFoundException.class)
     @Ignore
@@ -93,8 +89,8 @@ public class UserManagementIntegrationTest extends
 
 
     /**
-     * Tests, that that calling {@code UserManagement#changePassword(User,
-     * String)} is allowed after authenticating the user.
+     * Tests, that that calling {@code UserManagement#changePassword(User, String)} is allowed after authenticating the
+     * user.
      */
     @Test
     @Ignore
@@ -107,9 +103,8 @@ public class UserManagementIntegrationTest extends
 
 
     /**
-     * Tests, that invocation of {@code UserManagement#save(Role)} with the
-     * dummy user (which has the role {@code ROLE_USER}) raises an {@code
-     * AccessDeniedException}.
+     * Tests, that invocation of {@code UserManagement#save(Role)} with the dummy user (which has the role {@code
+     * ROLE_USER}) raises an {@code AccessDeniedException}.
      */
     @Test(expected = AccessDeniedException.class)
     @Ignore
@@ -122,8 +117,8 @@ public class UserManagementIntegrationTest extends
 
 
     /**
-     * Asserts, that triggering a manipulating operation on the {@code
-     * UserManagement} component attaches auditing information to the entity.
+     * Asserts, that triggering a manipulating operation on the {@code UserManagement} component attaches auditing
+     * information to the entity.
      */
     @Test
     @Ignore
@@ -145,9 +140,7 @@ public class UserManagementIntegrationTest extends
      */
     private void authenticateUser() {
 
-        Authentication authentication =
-                new UsernamePasswordAuthenticationToken(user.getUsername(),
-                        PASSWORD);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), PASSWORD);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

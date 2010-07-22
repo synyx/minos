@@ -14,8 +14,7 @@ import org.synyx.minos.test.AbstractModuleIntegrationTest;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class AuthenticationServiceIntegrationTest extends
-        AbstractModuleIntegrationTest {
+public class AuthenticationServiceIntegrationTest extends AbstractModuleIntegrationTest {
 
     @Autowired
     private AuthenticationService authenticationService;
@@ -29,7 +28,6 @@ public class AuthenticationServiceIntegrationTest extends
 
         user.setUsername("newUsername");
 
-        assertThat(authenticationService.getEncryptedPasswordFor(user),
-                is(password));
+        assertThat(authenticationService.getEncryptedPasswordFor(user), is(password));
     }
 }

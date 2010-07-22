@@ -9,9 +9,9 @@ import org.synyx.minos.core.module.support.ModulePostProcessor;
 
 
 /**
- * Marks a type as module decorator and defines required modules. Use this in
- * combination with {@link ModulePostProcessor} to prevent decorators being
- * instantiated although they are declared in a <code>BeanFactory</code>.
+ * Marks a type as module decorator and defines required modules. Use this in combination with
+ * {@link ModulePostProcessor} to prevent decorators being instantiated although they are declared in a
+ * <code>BeanFactory</code>.
  * 
  * @author Oliver Gierke
  */

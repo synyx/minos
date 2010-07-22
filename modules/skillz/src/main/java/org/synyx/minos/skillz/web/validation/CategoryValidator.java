@@ -16,8 +16,7 @@ import org.synyx.minos.skillz.domain.Category;
  */
 public class CategoryValidator implements Validator {
 
-    public static final String CATEGORY_NAME_EMPTY =
-            "skillz.category.name.error.empty";
+    public static final String CATEGORY_NAME_EMPTY = "skillz.category.name.error.empty";
 
 
     /*
@@ -35,8 +34,7 @@ public class CategoryValidator implements Validator {
     /*
      * (non-Javadoc)
      * 
-     * @see org.springframework.validation.Validator#validate(java.lang.Object,
-     * org.springframework.validation.Errors)
+     * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
      */
     @Override
     public void validate(Object target, Errors errors) {

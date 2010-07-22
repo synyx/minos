@@ -45,8 +45,7 @@ public class EventMechanismUnitTest {
 
 
     /**
-     * Sets up mocks for {@code HttpServletRequest} and
-     * {@code HttpServletResponse}.
+     * Sets up mocks for {@code HttpServletRequest} and {@code HttpServletResponse}.
      * 
      * @throws Exception
      */
@@ -100,18 +99,14 @@ public class EventMechanismUnitTest {
 
 
     /**
-     * Adds expectation for one call to
-     * {@code
-     * Controller#handleRequest(javax.servlet.http.HttpServletRequest,
-     * javax.servlet.http.HttpServletResponse)} returning the given
-     * {@code ModelAndView} as result.
+     * Adds expectation for one call to {@code Controller#handleRequest(javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)} returning the given {@code ModelAndView} as result.
      * 
      * @param advisedController
      * @param mav
      * @throws Exception
      */
-    private void expectControllerToReturn(Controller advisedController,
-            ModelAndView mav) throws Exception {
+    private void expectControllerToReturn(Controller advisedController, ModelAndView mav) throws Exception {
 
         Controller controller = MockUtils.unwrap(advisedController);
 

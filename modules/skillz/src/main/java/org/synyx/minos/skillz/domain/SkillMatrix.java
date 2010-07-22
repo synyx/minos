@@ -72,11 +72,9 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Binds the {@link SkillMatrix} to the given {@link MatrixTemplate}. This
-     * will cause all categories of the {@link MatrixTemplate} not currently
-     * bound to the matrix being assigned to it. Furthermore all
-     * {@link Category}s and thus {@link SkillEntry}s for its {@link Skill}s
-     * will be removed.
+     * Binds the {@link SkillMatrix} to the given {@link MatrixTemplate}. This will cause all categories of the
+     * {@link MatrixTemplate} not currently bound to the matrix being assigned to it. Furthermore all {@link Category}s
+     * and thus {@link SkillEntry}s for its {@link Skill}s will be removed.
      * 
      * @param template
      * @return
@@ -93,10 +91,9 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Sets the given {@link Category} collection. Essentially merges the
-     * currently existing categories with the given ones by leaving the ones
-     * existing in both collections untouched, adding not yet contained ones to
-     * the {@link SkillMatrix} and returning the ones to be removed.
+     * Sets the given {@link Category} collection. Essentially merges the currently existing categories with the given
+     * ones by leaving the ones existing in both collections untouched, adding not yet contained ones to the
+     * {@link SkillMatrix} and returning the ones to be removed.
      * 
      * @param categories
      * @return
@@ -117,8 +114,8 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Adds the given category to the {@link SkillMatrix}. Drops duplicates and
-     * will create {@link SkillEntry}s without any level assigned.
+     * Adds the given category to the {@link SkillMatrix}. Drops duplicates and will create {@link SkillEntry}s without
+     * any level assigned.
      * 
      * @param category
      * @return
@@ -138,9 +135,8 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Returns whether the matrix contains the given {@link Category}. Might not
-     * be the case if it had been created from a {@link MatrixTemplate} not
-     * containing the {@link Category}.
+     * Returns whether the matrix contains the given {@link Category}. Might not be the case if it had been created from
+     * a {@link MatrixTemplate} not containing the {@link Category}.
      * 
      * @param category
      * @return
@@ -189,8 +185,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Adds a new {@link SkillEntry} to the matrix by providing {@link Skill}
-     * and {@link Level}.
+     * Adds a new {@link SkillEntry} to the matrix by providing {@link Skill} and {@link Level}.
      * 
      * @param skill
      * @param level
@@ -311,15 +306,13 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Returns a map of {@link Category}s to their connected {@link SkillEntry}
-     * s.
+     * Returns a map of {@link Category}s to their connected {@link SkillEntry} s.
      * 
      * @return
      */
     public Map<Category, List<SkillEntry>> getMap() {
 
-        Map<Category, List<SkillEntry>> result =
-                new HashMap<Category, List<SkillEntry>>();
+        Map<Category, List<SkillEntry>> result = new HashMap<Category, List<SkillEntry>>();
 
         for (SkillEntry entry : getEntries()) {
 
@@ -349,8 +342,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Returns the average skill {@link Level} through all the
-     * {@link SkillEntry}.
+     * Returns the average skill {@link Level} through all the {@link SkillEntry}.
      * 
      * @return
      */

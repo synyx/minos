@@ -1,8 +1,7 @@
 package org.synyx.minos.core.web;
 
 /**
- * Interface to expect a form for a domain object to be able to return a domain
- * object instance.
+ * Interface to expect a form for a domain object to be able to return a domain object instance.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */

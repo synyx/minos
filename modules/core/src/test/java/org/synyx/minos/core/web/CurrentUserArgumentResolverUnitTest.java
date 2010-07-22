@@ -36,8 +36,7 @@ public class CurrentUserArgumentResolverUnitTest {
     private Method failingMethod;
     private NativeWebRequest request;
 
-    private static final User USER =
-            new User("username", "emailAddress", "password");
+    private static final User USER = new User("username", "emailAddress", "password");
 
 
     @Before
@@ -45,12 +44,8 @@ public class CurrentUserArgumentResolverUnitTest {
 
         resolver = new CurrentUserArgumentResolver(authenticationService);
 
-        succeedingMethod =
-                Foo.class.getMethod("currentUserAware", User.class,
-                        String.class);
-        failingMethod =
-                Foo.class.getMethod("userFromModelAware", User.class,
-                        Role.class);
+        succeedingMethod = Foo.class.getMethod("currentUserAware", User.class, String.class);
+        failingMethod = Foo.class.getMethod("userFromModelAware", User.class, Role.class);
         USER.setId(1L);
 
         request = new ServletWebRequest(new MockHttpServletRequest());

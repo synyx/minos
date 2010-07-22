@@ -10,8 +10,7 @@ import org.synyx.minos.core.domain.User;
  */
 public abstract class TestConstants {
 
-    public static final User USER =
-            new User("username", "email@address.com", "password");
+    public static final User USER = new User("username", "email@address.com", "password");
 
     static {
         USER.setId(1L);

@@ -23,8 +23,7 @@ public class PageWrapper<T> implements PaginatedList {
 
 
     /**
-     * Creates a new wrapper for a {@link Page} to be accessible by the
-     * Displaytag tag library.
+     * Creates a new wrapper for a {@link Page} to be accessible by the Displaytag tag library.
      * 
      * @param page
      */
@@ -136,7 +135,6 @@ public class PageWrapper<T> implements PaginatedList {
 
         Property property = sort.iterator().next();
 
-        return Order.ASCENDING == property.getOrder() ? SortOrderEnum.ASCENDING
-                : SortOrderEnum.DESCENDING;
+        return Order.ASCENDING == property.getOrder() ? SortOrderEnum.ASCENDING : SortOrderEnum.DESCENDING;
     }
 }

@@ -59,13 +59,11 @@ public class ResumeManagementUnitTest {
     public void setUp() {
 
         resumeManagement =
-                new ResumeManagementImpl(resumeDao, mock(ActivityDao.class),
-                        mock(SkillzMatrixDao.class), conversionService);
+                new ResumeManagementImpl(resumeDao, mock(ActivityDao.class), mock(SkillzMatrixDao.class),
+                        conversionService);
 
         User user = new User("username", "test@test.com", "password");
-        resume =
-                new Resume(user, new MatrixTemplate("name"),
-                        new ArrayList<Activity>());
+        resume = new Resume(user, new MatrixTemplate("name"), new ArrayList<Activity>());
         Category category = new Category("categoryname");
         Skill skill = new Skill("skillname", category);
         Level level = new Level("levelname", 2);
@@ -83,20 +81,14 @@ public class ResumeManagementUnitTest {
         parameters.put("level", new String[] { "1" });
         List<Resume> resumes = new ArrayList<Resume>();
         resumes.add(resume);
-        when(conversionService.convert(eq("name"), eq(String.class)))
-                .thenReturn("name");
-        when(conversionService.convert(eq("1"), eq(Integer.class))).thenReturn(
-                1);
-        when(
-                resumeDao.findByFilter(eq(pageable),
-                        (ResumeFilter) anyObject(),
-                        (Map<String, Object>) anyObject())).thenReturn(resumes);
+        when(conversionService.convert(eq("name"), eq(String.class))).thenReturn("name");
+        when(conversionService.convert(eq("1"), eq(Integer.class))).thenReturn(1);
+        when(resumeDao.findByFilter(eq(pageable), (ResumeFilter) anyObject(), (Map<String, Object>) anyObject()))
+                .thenReturn(resumes);
         when(pageable.getPageNumber()).thenReturn(0);
         when(pageable.getPageSize()).thenReturn(20);
 
-        Page<Resume> resumePage =
-                resumeManagement.getResumesByFilter(pageable, resumeQuery,
-                        parameters);
+        Page<Resume> resumePage = resumeManagement.getResumesByFilter(pageable, resumeQuery, parameters);
 
         assertEquals(1, resumePage.getNumberOfElements());
     }
@@ -108,8 +100,7 @@ public class ResumeManagementUnitTest {
         ResumeAttributeFilter filter = mock(ResumeAttributeFilter.class);
         when(resumeManagement.getResume((User) anyObject())).thenReturn(resume);
 
-        resumeManagement.getFilteredResume(null, Collections
-                .singletonList(filter));
+        resumeManagement.getFilteredResume(null, Collections.singletonList(filter));
 
         verify(filter).filter(eq(resume));
     }

@@ -94,8 +94,7 @@ public class ResumeDaoIntegrationTest extends AbstractDaoIntegrationTest {
         parameters.put("skill", "skillname");
         parameters.put("level", level);
 
-        List<Resume> resumes =
-                resumeDao.findByFilter(pageable, resumeFilter, parameters);
+        List<Resume> resumes = resumeDao.findByFilter(pageable, resumeFilter, parameters);
 
         assertEquals(1, resumes.size());
     }
@@ -109,8 +108,7 @@ public class ResumeDaoIntegrationTest extends AbstractDaoIntegrationTest {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("categories", Collections.singletonList(category));
 
-        List<Resume> resumes =
-                resumeDao.findByFilter(pageable, resumeFilter, parameters);
+        List<Resume> resumes = resumeDao.findByFilter(pageable, resumeFilter, parameters);
 
         assertEquals(1, resumes.size());
     }

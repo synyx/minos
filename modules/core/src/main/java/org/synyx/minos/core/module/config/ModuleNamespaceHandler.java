@@ -24,8 +24,7 @@ public class ModuleNamespaceHandler extends NamespaceHandlerSupport {
     public void init() {
 
         registerBeanDefinitionParser(MODULE, new ModuleBeanDefinitionParser());
-        registerBeanDefinitionParser(REST_MODULE,
-                new RestModuleBeanDefinitionParser());
+        registerBeanDefinitionParser(REST_MODULE, new RestModuleBeanDefinitionParser());
     }
 
 }

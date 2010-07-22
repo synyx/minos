@@ -14,8 +14,8 @@ public class ResumeFilterParameter {
 
 
     /**
-     * Creates a {@link ResumeFilterParameter} with the given name and type. The
-     * name will also be used as resource bundle key for i18n lookup.
+     * Creates a {@link ResumeFilterParameter} with the given name and type. The name will also be used as resource
+     * bundle key for i18n lookup.
      * 
      * @param name
      * @param type
@@ -27,8 +27,8 @@ public class ResumeFilterParameter {
 
 
     /**
-     * Creates a new {@link ResumeFilterParameter} with the given name, type and
-     * an resource bundle key to lookup it's name for i18n.
+     * Creates a new {@link ResumeFilterParameter} with the given name, type and an resource bundle key to lookup it's
+     * name for i18n.
      * 
      * @param name
      * @param type

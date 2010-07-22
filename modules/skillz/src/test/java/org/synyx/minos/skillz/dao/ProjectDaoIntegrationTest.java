@@ -16,7 +16,6 @@ import org.synyx.minos.test.AbstractDaoIntegrationTest;
 import org.synyx.minos.umt.dao.UserDao;
 
 
-
 /**
  * Integration test for {@link ProjectDao}.
  * 

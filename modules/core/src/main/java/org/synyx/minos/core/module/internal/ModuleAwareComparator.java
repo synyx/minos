@@ -7,8 +7,8 @@ import org.synyx.minos.core.module.ModuleAware;
 
 
 /**
- * {@link Comparator} implementation to order implementations of
- * {@link ModuleAware} by comparing the underlying {@link Module} instances.
+ * {@link Comparator} implementation to order implementations of {@link ModuleAware} by comparing the underlying
+ * {@link Module} instances.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */

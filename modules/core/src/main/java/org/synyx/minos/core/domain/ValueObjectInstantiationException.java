@@ -6,8 +6,7 @@ import org.synyx.minos.core.web.ValueObjectPropertyEditor;
 
 
 /**
- * Excpetion being thrown if a value object cannot be instantiated by
- * {@link ValueObjectPropertyEditor}.
+ * Excpetion being thrown if a value object cannot be instantiated by {@link ValueObjectPropertyEditor}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -20,20 +19,17 @@ public class ValueObjectInstantiationException extends PropertyAccessException {
 
 
     /**
-     * Creates a new {@link ValueObjectInstantiationException}. If the {@code
-     * errorCode} is {@literal null} or empty the default error code @
-     * #ERROR_CODE} will be used.
+     * Creates a new {@link ValueObjectInstantiationException}. If the {@code errorCode} is {@literal null} or empty the
+     * default error code @ #ERROR_CODE} will be used.
      * 
      * @param message
      * @param cause
      * @param errorCode
      */
-    public ValueObjectInstantiationException(String message, Throwable cause,
-            String errorCode) {
+    public ValueObjectInstantiationException(String message, Throwable cause, String errorCode) {
 
         super(message, cause);
-        this.errorCode =
-                !StringUtils.hasText(errorCode) ? ERROR_CODE : errorCode;
+        this.errorCode = !StringUtils.hasText(errorCode) ? ERROR_CODE : errorCode;
     }
 
 

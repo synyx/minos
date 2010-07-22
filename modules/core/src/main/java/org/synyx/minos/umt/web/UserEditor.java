@@ -5,7 +5,6 @@ import java.beans.PropertyEditorSupport;
 import org.synyx.minos.umt.service.UserManagement;
 
 
-
 /**
  * @author Oliver Gierke - gierke@synyx.de
  */

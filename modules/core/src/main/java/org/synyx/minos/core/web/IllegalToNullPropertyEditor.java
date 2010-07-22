@@ -8,16 +8,14 @@ import org.springframework.beans.propertyeditors.CustomNumberEditor;
 
 
 /**
- * Custom {@link java.beans.PropertyEditor} that uses {@code null} as default
- * value if invalid values (nun numbers or numbers in a inappropriate format)
- * are bound to a parameter.
+ * Custom {@link java.beans.PropertyEditor} that uses {@code null} as default value if invalid values (nun numbers or
+ * numbers in a inappropriate format) are bound to a parameter.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class IllegalToNullPropertyEditor extends CustomNumberEditor {
 
-    private static final Log log =
-            LogFactory.getLog(IllegalToNullPropertyEditor.class);
+    private static final Log log = LogFactory.getLog(IllegalToNullPropertyEditor.class);
 
 
     /**
@@ -27,8 +25,7 @@ public class IllegalToNullPropertyEditor extends CustomNumberEditor {
      * @param allowEmpty
      * @throws IllegalArgumentException
      */
-    public IllegalToNullPropertyEditor(Class<?> clazz, boolean allowEmpty)
-            throws IllegalArgumentException {
+    public IllegalToNullPropertyEditor(Class<?> clazz, boolean allowEmpty) throws IllegalArgumentException {
 
         super(clazz, allowEmpty);
     }
@@ -42,8 +39,7 @@ public class IllegalToNullPropertyEditor extends CustomNumberEditor {
      * @param allowEmpty
      * @throws IllegalArgumentException
      */
-    public IllegalToNullPropertyEditor(Class<?> clazz,
-            NumberFormat numberFormat, boolean allowEmpty)
+    public IllegalToNullPropertyEditor(Class<?> clazz, NumberFormat numberFormat, boolean allowEmpty)
             throws IllegalArgumentException {
 
         super(clazz, numberFormat, allowEmpty);
@@ -63,8 +59,7 @@ public class IllegalToNullPropertyEditor extends CustomNumberEditor {
 
         } catch (NumberFormatException e) {
 
-            log.debug(String.format("Invalid parameter! Using null! %s", e
-                    .getMessage()));
+            log.debug(String.format("Invalid parameter! Using null! %s", e.getMessage()));
 
             setValue(null);
         }

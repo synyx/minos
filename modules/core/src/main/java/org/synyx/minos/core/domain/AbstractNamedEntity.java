@@ -1,10 +1,8 @@
 package org.synyx.minos.core.domain;
 
 /**
- * Abstract base class for entities centered around a name element. Primarily
- * use of this class is to prevent duplicate {@link #equals(Object)} and
- * {@link #hashCode()} of simple value object implementations abstracting a
- * name.
+ * Abstract base class for entities centered around a name element. Primarily use of this class is to prevent duplicate
+ * {@link #equals(Object)} and {@link #hashCode()} of simple value object implementations abstracting a name.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */

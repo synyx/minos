@@ -11,10 +11,9 @@ import org.synyx.minos.core.domain.User;
 import org.synyx.minos.util.Assert;
 
 
-
 /**
- * A {@link SkillEntry} binds a {@link Level} instance to a {@link Skill}. This
- * expresses the level of ability somebody carries for the references skill.
+ * A {@link SkillEntry} binds a {@link Level} instance to a {@link Skill}. This expresses the level of ability somebody
+ * carries for the references skill.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -82,9 +81,8 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Returns the {@link Level} that is assigned to the underlying
-     * {@link Skill}. Might be {@code null} in cases the {@link SkillEntry} is
-     * freshly created.
+     * Returns the {@link Level} that is assigned to the underlying {@link Skill}. Might be {@code null} in cases the
+     * {@link SkillEntry} is freshly created.
      * 
      * @return the level
      */
@@ -149,8 +147,7 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Returns whether the {@link SkillEntry} is assigned to the given
-     * {@link Skill}.
+     * Returns whether the {@link SkillEntry} is assigned to the given {@link Skill}.
      * 
      * @param skill
      * @return
@@ -173,8 +170,8 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Returns whether the {@link SkillEntry} is acknowledged by the user
-     * meaning he has actively linked the {@link Skill} to the {@link Level}.
+     * Returns whether the {@link SkillEntry} is acknowledged by the user meaning he has actively linked the
+     * {@link Skill} to the {@link Level}.
      * 
      * @return the acknowledged
      */
@@ -196,8 +193,7 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Creates skill entries for all {@link Skill}s of the given
-     * {@link Category}.
+     * Creates skill entries for all {@link Skill}s of the given {@link Category}.
      * 
      * @param category
      * @param matrix

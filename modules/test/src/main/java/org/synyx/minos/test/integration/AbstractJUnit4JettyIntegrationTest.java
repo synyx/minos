@@ -16,8 +16,7 @@ public class AbstractJUnit4JettyIntegrationTest {
 
 
     /**
-     * Returns the location of jetty server configuration file. Defaults to
-     * {@code jetty.xml}.
+     * Returns the location of jetty server configuration file. Defaults to {@code jetty.xml}.
      * 
      * @return
      */
@@ -37,9 +36,7 @@ public class AbstractJUnit4JettyIntegrationTest {
 
         server = new Server();
 
-        URL config =
-                AbstractJUnit4JettyIntegrationTest.class.getClassLoader()
-                        .getResource(getJettyConfigLocation());
+        URL config = AbstractJUnit4JettyIntegrationTest.class.getClassLoader().getResource(getJettyConfigLocation());
 
         new XmlConfiguration(config).configure(server);
         server.start();

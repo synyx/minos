@@ -13,8 +13,8 @@ import org.synyx.minos.util.Assert;
 
 
 /**
- * Simple adapter class to use {@link Marshaller} and {@link Unmarshaller}
- * instance and tie them onto a {@link Module}. The {@link Module} is used to
+ * Simple adapter class to use {@link Marshaller} and {@link Unmarshaller} instance and tie them onto a {@link Module}.
+ * The {@link Module} is used to
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -33,8 +33,7 @@ public class ModuleAwareMarshallerAdapter implements ModuleAwareMarshaller {
      * @param unMarshaller
      * @param module
      */
-    public <T extends Marshaller & Unmarshaller> ModuleAwareMarshallerAdapter(
-            T unMarshaller, Module module) {
+    public <T extends Marshaller & Unmarshaller> ModuleAwareMarshallerAdapter(T unMarshaller, Module module) {
 
         Assert.notNull(unMarshaller);
         Assert.notNull(module);
@@ -57,20 +56,17 @@ public class ModuleAwareMarshallerAdapter implements ModuleAwareMarshaller {
         boolean marshallerSupported = marshaller.supports(delimiter);
         boolean unmarshallerSupported = unmarshaller.supports(delimiter);
 
-        return marshallerSupported && unmarshallerSupported
-                && module.isModuleType(delimiter);
+        return marshallerSupported && unmarshallerSupported && module.isModuleType(delimiter);
     }
 
 
     /*
      * (non-Javadoc)
      * 
-     * @see org.springframework.oxm.Marshaller#marshal(java.lang.Object,
-     * javax.xml.transform.Result)
+     * @see org.springframework.oxm.Marshaller#marshal(java.lang.Object, javax.xml.transform.Result)
      */
     @Override
-    public void marshal(Object graph, Result result) throws IOException,
-            XmlMappingException {
+    public void marshal(Object graph, Result result) throws IOException, XmlMappingException {
 
         marshaller.marshal(graph, result);
     }
@@ -79,13 +75,10 @@ public class ModuleAwareMarshallerAdapter implements ModuleAwareMarshaller {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.oxm.Unmarshaller#unmarshal(javax.xml.transform.Source
-     * )
+     * @see org.springframework.oxm.Unmarshaller#unmarshal(javax.xml.transform.Source )
      */
     @Override
-    public Object unmarshal(Source source) throws IOException,
-            XmlMappingException {
+    public Object unmarshal(Source source) throws IOException, XmlMappingException {
 
         return unmarshaller.unmarshal(source);
     }

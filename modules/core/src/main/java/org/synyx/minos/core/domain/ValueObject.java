@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 
 
 /**
- * Annotation to demarcate value objects. Classes marked with this annotation
- * might be treated in a special way as they are typically immutable.
+ * Annotation to demarcate value objects. Classes marked with this annotation might be treated in a special way as they
+ * are typically immutable.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -19,9 +19,8 @@ import java.lang.annotation.Target;
 public @interface ValueObject {
 
     /**
-     * Defines an error code to be appended when binding fails. Useful if you
-     * want to reject certain {@link String}s and have control over the error
-     * code showed in the UI.
+     * Defines an error code to be appended when binding fails. Useful if you want to reject certain {@link String}s and
+     * have control over the error code showed in the UI.
      * 
      * @return
      */

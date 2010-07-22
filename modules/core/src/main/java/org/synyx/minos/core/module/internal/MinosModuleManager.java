@@ -29,14 +29,12 @@ import org.synyx.minos.core.module.ModuleManager;
 
 
 /**
- * Module manager to notify {@link Lifecycle}s of the appropriate application
- * events. Will consider the order of {@link Lifecycle} implementations if they
- * use {@link Order} or implement {@link Ordered}.
+ * Module manager to notify {@link Lifecycle}s of the appropriate application events. Will consider the order of
+ * {@link Lifecycle} implementations if they use {@link Order} or implement {@link Ordered}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class MinosModuleManager implements ModuleManager,
-        ApplicationContextAware, DisposableBean {
+public class MinosModuleManager implements ModuleManager, ApplicationContextAware, DisposableBean {
 
     private static final Log LOG = LogFactory.getLog(MinosModuleManager.class);
 
@@ -47,8 +45,8 @@ public class MinosModuleManager implements ModuleManager,
 
 
     /**
-     * Creates a new {@link MinosModuleManager} using the given
-     * {@link ModuleDescriptorDao} to persist module installation information.
+     * Creates a new {@link MinosModuleManager} using the given {@link ModuleDescriptorDao} to persist module
+     * installation information.
      * 
      * @param moduleDescriptorDao
      */
@@ -63,12 +61,10 @@ public class MinosModuleManager implements ModuleManager,
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.context.ApplicationContextAware#setApplicationContext
+     * @see org.springframework.context.ApplicationContextAware#setApplicationContext
      * (org.springframework.context.ApplicationContext)
      */
-    public void setApplicationContext(ApplicationContext applicationContext)
-            throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 
         this.context = applicationContext;
     }
@@ -105,8 +101,7 @@ public class MinosModuleManager implements ModuleManager,
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.context.ApplicationListener#onApplicationEvent(org
+     * @see org.springframework.context.ApplicationListener#onApplicationEvent(org
      * .springframework.context.ApplicationEvent)
      */
     @Transactional
@@ -114,8 +109,7 @@ public class MinosModuleManager implements ModuleManager,
 
         if (isStartEvent(event)) {
 
-            LOG.info(String.format("Registered modules: %s", StringUtils
-                    .collectionToCommaDelimitedString(modules)));
+            LOG.info(String.format("Registered modules: %s", StringUtils.collectionToCommaDelimitedString(modules)));
 
             authenticateAsAdmin();
 
@@ -152,12 +146,10 @@ public class MinosModuleManager implements ModuleManager,
 
                 ModuleDescriptor descriptor = getDescriptorFor(module);
 
-                boolean alreadyInstalled =
-                        descriptor == null ? false : descriptor.isInstalled();
+                boolean alreadyInstalled = descriptor == null ? false : descriptor.isInstalled();
 
                 if (alreadyInstalled) {
-                    LOG.debug(String.format("Module %s already installed!",
-                            module));
+                    LOG.debug(String.format("Module %s already installed!", module));
                 }
 
                 return !alreadyInstalled;
@@ -179,14 +171,12 @@ public class MinosModuleManager implements ModuleManager,
                 moduleDescriptorDao.save(descriptor);
             }
 
-        }, "Installation of module %s failed!", "Installing module %s!",
-                "Successfully installed module %s!");
+        }, "Installation of module %s failed!", "Installing module %s!", "Successfully installed module %s!");
     }
 
 
     /**
-     * Returns the {@link ModuleDescriptor} for the given {@link Module} or
-     * {@literal null} if none found.
+     * Returns the {@link ModuleDescriptor} for the given {@link Module} or {@literal null} if none found.
      * 
      * @param module
      * @return
@@ -223,8 +213,7 @@ public class MinosModuleManager implements ModuleManager,
                 boolean alreadyStarted = startedModules.contains(module);
 
                 if (alreadyStarted) {
-                    LOG.debug(String.format("Module %s already started!",
-                            module));
+                    LOG.debug(String.format("Module %s already started!", module));
                 }
 
                 return !alreadyStarted;
@@ -238,8 +227,7 @@ public class MinosModuleManager implements ModuleManager,
 
                 startedModules.add(module);
             }
-        }, "Starting module %s failed!", "Starting module %s",
-                "Successfully started module %s");
+        }, "Starting module %s failed!", "Starting module %s", "Successfully started module %s");
     }
 
 
@@ -266,14 +254,13 @@ public class MinosModuleManager implements ModuleManager,
                 module.getLifecycle().onStop();
                 startedModules.remove(module);
             }
-        }, "Stopping module %s failed!", "Stopping module %s!",
-                "Successfully stopped module %s!");
+        }, "Stopping module %s failed!", "Stopping module %s!", "Successfully stopped module %s!");
     }
 
 
     /**
-     * Returns whether the given {@link ApplicationEvent} is actually from the
-     * {@link ApplicationContext} that contains the {@link MinosModuleManager}.
+     * Returns whether the given {@link ApplicationEvent} is actually from the {@link ApplicationContext} that contains
+     * the {@link MinosModuleManager}.
      * 
      * @param applicationEvent
      * @return
@@ -289,14 +276,10 @@ public class MinosModuleManager implements ModuleManager,
      */
     private void authenticateAsAdmin() {
 
-        List<GrantedAuthority> authorities =
-                Arrays.asList((GrantedAuthority) new GrantedAuthorityImpl(
-                        "ROLE_ADMIN"));
+        List<GrantedAuthority> authorities = Arrays.asList((GrantedAuthority) new GrantedAuthorityImpl("ROLE_ADMIN"));
 
-        SecurityContextHolder.getContext()
-                .setAuthentication(
-                        new UsernamePasswordAuthenticationToken(null, null,
-                                authorities));
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(null, null, authorities));
     }
 
 
@@ -312,20 +295,17 @@ public class MinosModuleManager implements ModuleManager,
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.core.module.ModuleManager#isAvailable(java.lang.String)
+     * @see org.synyx.minos.core.module.ModuleManager#isAvailable(java.lang.String)
      */
     @Override
     public boolean isAvailable(String identifier) {
 
-        return SimplePluginRegistry.create(startedModules).hasPluginFor(
-                identifier);
+        return SimplePluginRegistry.create(startedModules).hasPluginFor(identifier);
     }
 
 
     /**
-     * Callback executing method to implement common behaviour required for all
-     * executions.
+     * Callback executing method to implement common behaviour required for all executions.
      * 
      * @param modules
      * @param callback
@@ -334,9 +314,8 @@ public class MinosModuleManager implements ModuleManager,
      * @param finishInfo
      * @return all {@link Module}s the callback could be invoked successfully
      */
-    private <T> void execute(Iterable<? extends T> modules,
-            Callback<T> callback, String failureInformation, String startInfo,
-            String finishInfo) {
+    private <T> void execute(Iterable<? extends T> modules, Callback<T> callback, String failureInformation,
+            String startInfo, String finishInfo) {
 
         authenticateAsAdmin();
 
@@ -367,8 +346,7 @@ public class MinosModuleManager implements ModuleManager,
     }
 
     /**
-     * Simpl callback interface to implement specific behaviour to applied to
-     * the handed over module.
+     * Simpl callback interface to implement specific behaviour to applied to the handed over module.
      * 
      * @author Oliver Gierke - gierke@synyx.de
      */

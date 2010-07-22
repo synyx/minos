@@ -1,7 +1,5 @@
 package org.synyx.minos.skillz;
 
-
-
 /**
  * Constants class to capture skill module permissions.
  * 

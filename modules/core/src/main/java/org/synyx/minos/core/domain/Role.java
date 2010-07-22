@@ -30,8 +30,7 @@ public class Role extends AbstractAuditable<User, Long> {
     public static final String ADMIN_NAME = "ADMIN";
     public static final String USER_NAME = "USER";
 
-    private static final Collection<String> SYSTEM_ROLES =
-            Arrays.asList(ADMIN_NAME, USER_NAME);
+    private static final Collection<String> SYSTEM_ROLES = Arrays.asList(ADMIN_NAME, USER_NAME);
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -75,8 +74,8 @@ public class Role extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Sets the {@link Role}s name. Will prevent empty {@link String}s and
-     * {@literal null} values and turn the name into uppercase letters.
+     * Sets the {@link Role}s name. Will prevent empty {@link String}s and {@literal null} values and turn the name into
+     * uppercase letters.
      * 
      * @param name the name to set
      */
@@ -148,8 +147,8 @@ public class Role extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Returns whether the role is a system role. This will have further
-     * implications like not being allowed to be deleted a.s.o.
+     * Returns whether the role is a system role. This will have further implications like not being allowed to be
+     * deleted a.s.o.
      * 
      * @return
      */

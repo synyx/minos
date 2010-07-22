@@ -30,8 +30,7 @@ public class ModuleDescriptor extends AbstractPersistable<Long> {
 
 
     /**
-     * Creates a new {@link ModuleDescriptor} for the module with the given
-     * identifier.
+     * Creates a new {@link ModuleDescriptor} for the module with the given identifier.
      * 
      * @param identifier
      */

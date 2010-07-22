@@ -22,30 +22,24 @@ import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 
 
 /**
- * {@link FactoryBean} to create JAXB marshallers aligned to Minos conventions.
- * This class primarily acts as configuration helper to avoid tedious
- * repeatition.
+ * {@link FactoryBean} to create JAXB marshallers aligned to Minos conventions. This class primarily acts as
+ * configuration helper to avoid tedious repeatition.
  * <p>
- * This {@link FactoryBean} will register a {@link Jaxb2Marshaller} with the
- * following configuration:
+ * This {@link FactoryBean} will register a {@link Jaxb2Marshaller} with the following configuration:
  * <ul>
  * <li>contextPath - <code>${module.basePackage}.remoting.rest.dto</code></li>
- * <li>properties - formatted UTF-8 output, custom {@link NamespacePrefixMapper}
- * </li>
+ * <li>properties - formatted UTF-8 output, custom {@link NamespacePrefixMapper}</li>
  * </ul>
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class MinosJaxbMarshallerFactoryBean extends
-        AbstractFactoryBean<ModuleAwareMarshaller> implements Plugin<String> {
+public class MinosJaxbMarshallerFactoryBean extends AbstractFactoryBean<ModuleAwareMarshaller> implements
+        Plugin<String> {
 
-    private static final String PREFIX_MAPPER_PROPERTY =
-            "com.sun.xml.bind.namespacePrefixMapper";
+    private static final String PREFIX_MAPPER_PROPERTY = "com.sun.xml.bind.namespacePrefixMapper";
     private static final String DEFAULT_DTO_SUB_PACKAGE = "remoting.rest.dto";
-    private static final String DEFAULT_SCHEMA_TEMPLATE =
-            "remoting/rest/%s-remoting.xsd";
-    private static final Map<String, Object> PROPERTIES =
-            new HashMap<String, Object>();
+    private static final String DEFAULT_SCHEMA_TEMPLATE = "remoting/rest/%s-remoting.xsd";
+    private static final Map<String, Object> PROPERTIES = new HashMap<String, Object>();
 
     static {
         PROPERTIES.put(JAXB_FORMATTED_OUTPUT, true);
@@ -66,8 +60,7 @@ public class MinosJaxbMarshallerFactoryBean extends
     public void setModule(Module module) {
 
         this.module = module;
-        this.prefixMapper =
-                new MinosNamespacePrefixMapper(module.getIdentifier());
+        this.prefixMapper = new MinosNamespacePrefixMapper(module.getIdentifier());
     }
 
 
@@ -84,8 +77,7 @@ public class MinosJaxbMarshallerFactoryBean extends
 
 
     /**
-     * Returns the context path for the {@link Marshaller}. This is the package
-     * where the JAXB classes are located.
+     * Returns the context path for the {@link Marshaller}. This is the package where the JAXB classes are located.
      * 
      * @return
      */
@@ -122,8 +114,7 @@ public class MinosJaxbMarshallerFactoryBean extends
 
     private void addSchemaFor(Module module, Collection<Resource> resources) {
 
-        String schemaPath =
-                String.format(schemaTemplate, module.getIdentifier());
+        String schemaPath = String.format(schemaTemplate, module.getIdentifier());
         resources.add(module.getModuleResource(schemaPath));
     }
 
@@ -131,9 +122,7 @@ public class MinosJaxbMarshallerFactoryBean extends
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.beans.factory.config.AbstractFactoryBean#createInstance
-     * ()
+     * @see org.springframework.beans.factory.config.AbstractFactoryBean#createInstance ()
      */
     @Override
     protected ModuleAwareMarshaller createInstance() throws Exception {
@@ -142,8 +131,7 @@ public class MinosJaxbMarshallerFactoryBean extends
         marshaller.setContextPath(getContextPath());
         marshaller.setSchemas(getSchemas());
 
-        Map<String, Object> properties =
-                new HashMap<String, Object>(PROPERTIES);
+        Map<String, Object> properties = new HashMap<String, Object>(PROPERTIES);
         properties.put(PREFIX_MAPPER_PROPERTY, prefixMapper);
 
         marshaller.setMarshallerProperties(properties);

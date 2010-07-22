@@ -11,10 +11,9 @@ import org.synyx.hades.domain.Persistable;
 
 
 /**
- * Generic baseclass that is able to handle CRUD requests in an convention over
- * configuration way This reads the subclasses annotations
- * {@link SessionAttributes} and {@link RequestMapping} and uses them to provide
- * the following mappings:
+ * Generic baseclass that is able to handle CRUD requests in an convention over configuration way This reads the
+ * subclasses annotations {@link SessionAttributes} and {@link RequestMapping} and uses them to provide the following
+ * mappings:
  * 
  * <pre>
  *   ($requestmapping is the first value of the RequestMapping-Annotation)
@@ -38,8 +37,8 @@ import org.synyx.hades.domain.Persistable;
  * @param <BeanType>
  */
 @Transactional
-public class GenericCRUDController<BeanType extends Persistable<PK>, PK extends Serializable>
-        extends GenericCrudControllerSupport<BeanType, PK> {
+public class GenericCRUDController<BeanType extends Persistable<PK>, PK extends Serializable> extends
+        GenericCrudControllerSupport<BeanType, PK> {
 
     private GenericDao<BeanType, PK> dao;
 
@@ -59,8 +58,7 @@ public class GenericCRUDController<BeanType extends Persistable<PK>, PK extends 
      * @param beanClass the Class of Beans to provide CRUD for
      * @param dao the Dao
      */
-    public GenericCRUDController(Class<BeanType> beanClass,
-            GenericDao<BeanType, PK> dao) {
+    public GenericCRUDController(Class<BeanType> beanClass, GenericDao<BeanType, PK> dao) {
 
         super(beanClass);
         this.dao = dao;
@@ -70,9 +68,7 @@ public class GenericCRUDController<BeanType extends Persistable<PK>, PK extends 
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.core.web.GenericCrudControllerSupport#save(org.synyx.
-     * hades.domain.Persistable)
+     * @see org.synyx.minos.core.web.GenericCrudControllerSupport#save(org.synyx. hades.domain.Persistable)
      */
     @Override
     protected BeanType save(BeanType bean) {
@@ -84,9 +80,7 @@ public class GenericCRUDController<BeanType extends Persistable<PK>, PK extends 
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.core.web.GenericCrudControllerSupport#delete(org.synyx
-     * .hades.domain.Persistable)
+     * @see org.synyx.minos.core.web.GenericCrudControllerSupport#delete(org.synyx .hades.domain.Persistable)
      */
     @Override
     protected void delete(BeanType bean) {

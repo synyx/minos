@@ -37,9 +37,7 @@ public class MinosPermissionVoter implements AccessDecisionVoter {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.security.vote.AccessDecisionVoter#supports(java.lang
-     * .Class)
+     * @see org.springframework.security.vote.AccessDecisionVoter#supports(java.lang .Class)
      */
     public boolean supports(Class<?> clazz) {
 
@@ -50,8 +48,7 @@ public class MinosPermissionVoter implements AccessDecisionVoter {
     /*
      * (non-Javadoc)
      * 
-     * @seeorg.springframework.security.vote.AccessDecisionVoter#supports(org.
-     * springframework.security.ConfigAttribute)
+     * @seeorg.springframework.security.vote.AccessDecisionVoter#supports(org. springframework.security.ConfigAttribute)
      */
     public boolean supports(ConfigAttribute attribute) {
 
@@ -63,11 +60,9 @@ public class MinosPermissionVoter implements AccessDecisionVoter {
      * (non-Javadoc)
      * 
      * @seeorg.springframework.security.access.AccessDecisionVoter#vote(org.
-     * springframework.security.core.Authentication, java.lang.Object,
-     * java.util.Collection)
+     * springframework.security.core.Authentication, java.lang.Object, java.util.Collection)
      */
-    public int vote(Authentication authentication, Object object,
-            Collection<ConfigAttribute> configAttributes) {
+    public int vote(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) {
 
         if (configAttributes.isEmpty()) {
             return ACCESS_ABSTAIN;
@@ -109,8 +104,7 @@ public class MinosPermissionVoter implements AccessDecisionVoter {
     }
 
 
-    private synchronized void put(Authentication authentication,
-            ConfigAttribute attribute) {
+    private synchronized void put(Authentication authentication, ConfigAttribute attribute) {
 
         Collection<ConfigAttribute> attributes = cache.get(authentication);
 

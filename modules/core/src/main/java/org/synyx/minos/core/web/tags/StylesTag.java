@@ -24,16 +24,14 @@ public class StylesTag extends AbstractHtmlElementTag {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.web.servlet.tags.form.AbstractFormTag#writeTagContent
+     * @see org.springframework.web.servlet.tags.form.AbstractFormTag#writeTagContent
      * (org.springframework.web.servlet.tags.form.TagWriter)
      */
     @Override
     @SuppressWarnings("unchecked")
     protected int writeTagContent(TagWriter tagWriter) throws JspException {
 
-        Set<String> paths =
-                pageContext.getServletContext().getResourcePaths(CSS_FOLDER);
+        Set<String> paths = pageContext.getServletContext().getResourcePaths(CSS_FOLDER);
 
         for (String path : paths) {
 

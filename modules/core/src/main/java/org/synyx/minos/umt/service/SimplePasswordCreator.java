@@ -4,14 +4,15 @@ import java.util.Random;
 
 
 /**
- * Its length will be derived from the configured password length. The alphabet
- * the password is build from and the password length can be configured.
+ * Its length will be derived from the configured password length. The alphabet the password is build from and the
+ * password length can be configured.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class SimplePasswordCreator implements PasswordCreator {
 
-    protected static final String DEFAULT_PASSWORD_ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    protected static final String DEFAULT_PASSWORD_ALPHABET =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     protected static final int DEFAULT_PASSWORD_LENGTH = 8;
 
     private int passwordLength = DEFAULT_PASSWORD_LENGTH;
@@ -19,8 +20,7 @@ public class SimplePasswordCreator implements PasswordCreator {
 
 
     /**
-     * Sets standard password length. Defaults to
-     * {@value #DEFAULT_PASSWORD_LENGTH}.
+     * Sets standard password length. Defaults to {@value #DEFAULT_PASSWORD_LENGTH}.
      * 
      * @param passwordLength the password length to set
      */
@@ -31,8 +31,8 @@ public class SimplePasswordCreator implements PasswordCreator {
 
 
     /**
-     * Configures the alphabet that is used to create random new passwords.
-     * Defaults to {@value #DEFAULT_PASSWORD_ALPHABET}.
+     * Configures the alphabet that is used to create random new passwords. Defaults to
+     * {@value #DEFAULT_PASSWORD_ALPHABET}.
      * 
      * @param passwordAlphabet the passwordAlphabet to set
      */
@@ -53,8 +53,7 @@ public class SimplePasswordCreator implements PasswordCreator {
         Random random = new Random();
 
         for (int i = 0; i < passwordLength; i++) {
-            buffer.append(passwordAlphabet.charAt(random
-                    .nextInt(passwordAlphabet.length())));
+            buffer.append(passwordAlphabet.charAt(random.nextInt(passwordAlphabet.length())));
         }
 
         return buffer.toString();

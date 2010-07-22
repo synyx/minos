@@ -9,18 +9,15 @@ import java.util.Set;
 
 
 /**
- * List of {@link Appointment}s. Allows more sophisticated queries to the list's
- * elements than a basic {@link List} implementation would allow. E.g. {@code
- * AppointmentList} allows detection of overlaps on the {@link Appointment}.
+ * List of {@link Appointment}s. Allows more sophisticated queries to the list's elements than a basic {@link List}
+ * implementation would allow. E.g. {@code AppointmentList} allows detection of overlaps on the {@link Appointment}.
  * <p>
- * This class does <em>not</em> the {@link List} interface as this would expose
- * a too technical API. Nevetheless we expose the most relevant API of the
- * underlying {@link List}.
+ * This class does <em>not</em> the {@link List} interface as this would expose a too technical API. Nevetheless we
+ * expose the most relevant API of the underlying {@link List}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class OverlapableList<T extends Overlapable<S>, S> implements
-        Iterable<T> {
+public class OverlapableList<T extends Overlapable<S>, S> implements Iterable<T> {
 
     protected List<T> overlapables;
 
@@ -35,8 +32,7 @@ public class OverlapableList<T extends Overlapable<S>, S> implements
 
 
     /**
-     * Creates a new {@code OverlapableList} with the given list of
-     * {@link Overlapable}.
+     * Creates a new {@code OverlapableList} with the given list of {@link Overlapable}.
      * 
      * @param overlapable
      */
@@ -65,9 +61,8 @@ public class OverlapableList<T extends Overlapable<S>, S> implements
 
 
     /**
-     * Returns all overlaps from the list that overlap the given {@code
-     * Overlapable}. If the given {@code Overlapable} is from the list, the
-     * overlap with itself will not be considered.
+     * Returns all overlaps from the list that overlap the given {@code Overlapable}. If the given {@code Overlapable}
+     * is from the list, the overlap with itself will not be considered.
      * 
      * @param overlapable
      * @return
@@ -90,8 +85,7 @@ public class OverlapableList<T extends Overlapable<S>, S> implements
 
 
     /**
-     * Returns whether at least one of the {@link Overlapable}s in the list
-     * overlaps another.
+     * Returns whether at least one of the {@link Overlapable}s in the list overlaps another.
      * 
      * @return
      */

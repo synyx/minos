@@ -20,8 +20,7 @@ import org.synyx.minos.core.domain.User;
 
 
 /**
- * Represents a users qualifications in terms of a {@link SkillMatrix} and a
- * list of {@link Activity}.
+ * Represents a users qualifications in terms of a {@link SkillMatrix} and a list of {@link Activity}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -78,10 +77,8 @@ public class Resume extends AbstractAuditable<User, Long> {
 
         if (null != references) {
             for (Activity reference : references) {
-                Assert
-                        .isTrue(
-                                reference.isNew(),
-                                "References must be saved seperatly to prevent missing createdBy and createdDate!");
+                Assert.isTrue(reference.isNew(),
+                        "References must be saved seperatly to prevent missing createdBy and createdDate!");
                 add(reference);
             }
         }
@@ -89,15 +86,14 @@ public class Resume extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Creates a new {@link Resume} for the given {@link User} creating the
-     * {@link SkillMatrix} from the given {@link MatrixTemplate}.
+     * Creates a new {@link Resume} for the given {@link User} creating the {@link SkillMatrix} from the given
+     * {@link MatrixTemplate}.
      * 
      * @param subject
      * @param template
      * @param references
      */
-    public Resume(User subject, MatrixTemplate template,
-            List<Activity> references) {
+    public Resume(User subject, MatrixTemplate template, List<Activity> references) {
 
         this(subject, new SkillMatrix(template), references);
     }
@@ -256,9 +252,8 @@ public class Resume extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Adds the given {@link Activity} to the references. Prevents duplicate
-     * references, thus you can safely call {@link #add(Activity)} multiple
-     * times for a single {@link Activity}.
+     * Adds the given {@link Activity} to the references. Prevents duplicate references, thus you can safely call
+     * {@link #add(Activity)} multiple times for a single {@link Activity}.
      * 
      * @param reference
      * @return
@@ -287,8 +282,7 @@ public class Resume extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Removes all {@link Activity}s assigned to the given {@link Project} from
-     * the {@link Resume}.
+     * Removes all {@link Activity}s assigned to the given {@link Project} from the {@link Resume}.
      * 
      * @param project
      * @return

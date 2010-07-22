@@ -13,13 +13,12 @@ import org.synyx.hades.util.ClassUtils;
 
 
 /**
- * Generic {@link PropertyEditor} to map {@link Persistable}s handled by a
- * {@link GenericDao} to their id's and vice versa.
+ * Generic {@link PropertyEditor} to map {@link Persistable}s handled by a {@link GenericDao} to their id's and vice
+ * versa.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class EntityPropertyEditor<T extends Serializable> extends
-        PropertyEditorSupport {
+public class EntityPropertyEditor<T extends Serializable> extends PropertyEditorSupport {
 
     private final GenericDao<?, T> dao;
     private final PropertyEditorRegistry registry;
@@ -31,8 +30,7 @@ public class EntityPropertyEditor<T extends Serializable> extends
      * @param dao
      * @param registry
      */
-    public EntityPropertyEditor(GenericDao<?, T> dao,
-            PropertyEditorRegistry registry) {
+    public EntityPropertyEditor(GenericDao<?, T> dao, PropertyEditorRegistry registry) {
 
         this.dao = dao;
         this.registry = registry;
@@ -75,9 +73,8 @@ public class EntityPropertyEditor<T extends Serializable> extends
 
 
     /**
-     * Returns the actual typed id. Looks up an available customly registered
-     * {@link PropertyEditor} from the {@link PropertyEditorRegistry} before
-     * falling back on a {@link SimpleTypeConverter} to translate the
+     * Returns the actual typed id. Looks up an available customly registered {@link PropertyEditor} from the
+     * {@link PropertyEditorRegistry} before falling back on a {@link SimpleTypeConverter} to translate the
      * {@link String} id into the type one.
      * 
      * @param idAsString
@@ -95,7 +92,6 @@ public class EntityPropertyEditor<T extends Serializable> extends
             return (T) idEditor.getValue();
         }
 
-        return new SimpleTypeConverter()
-                .convertIfNecessary(idAsString, idClass);
+        return new SimpleTypeConverter().convertIfNecessary(idAsString, idClass);
     }
 }

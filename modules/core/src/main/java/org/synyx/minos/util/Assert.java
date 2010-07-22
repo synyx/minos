@@ -7,8 +7,8 @@ import org.synyx.hades.domain.Persistable;
 
 
 /**
- * Simple wrapper for Spring's {@link org.springframework.util.Assert} class to
- * not directly depend on it in client classes.
+ * Simple wrapper for Spring's {@link org.springframework.util.Assert} class to not directly depend on it in client
+ * classes.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -86,9 +86,8 @@ public abstract class Assert {
 
 
     /**
-     * Returns whether the given {@link String} is not {@literal null} and has
-     * text at all. Returns {@literal true} for whitespace only {@link String}s,
-     * too.
+     * Returns whether the given {@link String} is not {@literal null} and has text at all. Returns {@literal true} for
+     * whitespace only {@link String}s, too.
      * 
      * @param text
      * @param message
@@ -100,8 +99,7 @@ public abstract class Assert {
 
 
     /**
-     * Asserts that the given {@link Persistable} is not {@literal null} and not
-     * new.
+     * Asserts that the given {@link Persistable} is not {@literal null} and not new.
      * 
      * @param persistable
      */

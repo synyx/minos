@@ -27,9 +27,8 @@ public class SimplePasswordCreatorUnitTest {
 
 
     /**
-     * Asserts that the password creator does use the default password length if
-     * nothing else was configured or respects the configured password length
-     * creating new passwords.
+     * Asserts that the password creator does use the default password length if nothing else was configured or respects
+     * the configured password length creating new passwords.
      * 
      * @throws Exception
      */
@@ -38,8 +37,7 @@ public class SimplePasswordCreatorUnitTest {
 
         String password = passwordCreator.generatePassword();
 
-        Assert.assertEquals(SimplePasswordCreator.DEFAULT_PASSWORD_LENGTH,
-                password.length());
+        Assert.assertEquals(SimplePasswordCreator.DEFAULT_PASSWORD_LENGTH, password.length());
 
         passwordCreator.setPasswordLength(25);
         password = passwordCreator.generatePassword();
@@ -55,8 +53,7 @@ public class SimplePasswordCreatorUnitTest {
 
         for (char character : password.toCharArray()) {
 
-            Assert.assertTrue(SimplePasswordCreator.DEFAULT_PASSWORD_ALPHABET
-                    .contains(String.valueOf(character)));
+            Assert.assertTrue(SimplePasswordCreator.DEFAULT_PASSWORD_ALPHABET.contains(String.valueOf(character)));
         }
     }
 }

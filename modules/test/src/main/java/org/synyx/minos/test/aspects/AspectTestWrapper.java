@@ -6,9 +6,8 @@ import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 
 
 /**
- * Helper class to ease testing of {@code @Aspect} pointcut matches. The wrapper
- * will create {@link EasyMock} proxies for the classes handed into the factory
- * method.
+ * Helper class to ease testing of {@code @Aspect} pointcut matches. The wrapper will create {@link EasyMock} proxies
+ * for the classes handed into the factory method.
  * <p>
  * The typical use case looks as follows;
  * <ol>
@@ -30,8 +29,7 @@ public class AspectTestWrapper<Aspect, Target> {
 
 
     /**
-     * Creates a new {@link AspectTestWrapper} for the given aspect type and
-     * target type.
+     * Creates a new {@link AspectTestWrapper} for the given aspect type and target type.
      * 
      * @param aspectType
      * @param targetType
@@ -63,8 +61,8 @@ public class AspectTestWrapper<Aspect, Target> {
      * @param serviceType
      * @return
      */
-    public static <Aspect, Service> AspectTestWrapper<Aspect, Service> create(
-            Class<Aspect> aspectType, Class<Service> serviceType) {
+    public static <Aspect, Service> AspectTestWrapper<Aspect, Service> create(Class<Aspect> aspectType,
+            Class<Service> serviceType) {
 
         return new AspectTestWrapper<Aspect, Service>(aspectType, serviceType);
     }

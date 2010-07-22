@@ -10,10 +10,8 @@ import org.synyx.minos.core.authentication.AuthenticationService;
 import org.synyx.minos.core.domain.User;
 
 
-
 /**
- * {@link WebArgumentResolver} to inject the currently authenticated
- * {@link User} into a web controller method.
+ * {@link WebArgumentResolver} to inject the currently authenticated {@link User} into a web controller method.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -28,8 +26,7 @@ public class CurrentUserArgumentResolver implements WebArgumentResolver {
      * @param authenticationService
      */
     @Autowired
-    public CurrentUserArgumentResolver(
-            AuthenticationService authenticationService) {
+    public CurrentUserArgumentResolver(AuthenticationService authenticationService) {
 
         this.authenticationService = authenticationService;
     }
@@ -38,16 +35,12 @@ public class CurrentUserArgumentResolver implements WebArgumentResolver {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.web.bind.support.WebArgumentResolver#resolveArgument
-     * (org.springframework.core.MethodParameter,
-     * org.springframework.web.context.request.NativeWebRequest)
+     * @see org.springframework.web.bind.support.WebArgumentResolver#resolveArgument
+     * (org.springframework.core.MethodParameter, org.springframework.web.context.request.NativeWebRequest)
      */
-    public Object resolveArgument(MethodParameter methodParameter,
-            NativeWebRequest webRequest) throws Exception {
+    public Object resolveArgument(MethodParameter methodParameter, NativeWebRequest webRequest) throws Exception {
 
-        boolean isUserType =
-                User.class.equals(methodParameter.getParameterType());
+        boolean isUserType = User.class.equals(methodParameter.getParameterType());
         boolean hasAnnotation = false;
 
         for (Annotation annotation : methodParameter.getParameterAnnotations()) {

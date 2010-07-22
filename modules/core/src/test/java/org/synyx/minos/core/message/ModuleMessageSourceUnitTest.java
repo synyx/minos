@@ -27,8 +27,7 @@ public class ModuleMessageSourceUnitTest {
 
 
     @Test
-    public void supportsNonModuleIdPrefixedKeysIfConfiguredLenient()
-            throws Exception {
+    public void supportsNonModuleIdPrefixedKeysIfConfiguredLenient() throws Exception {
 
         Module module = new MinosModule(Core.IDENTIFIER);
 

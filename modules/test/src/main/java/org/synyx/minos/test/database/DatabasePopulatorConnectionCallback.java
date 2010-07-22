@@ -12,21 +12,19 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
 
 /**
- * {@link ConnectionCallback} that populates a {@link Connection} with the given
- * {@link Resource}s using a {@link ResourceDatabasePopulator}.
+ * {@link ConnectionCallback} that populates a {@link Connection} with the given {@link Resource}s using a
+ * {@link ResourceDatabasePopulator}.
  * 
  * @see JdbcTemplate
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
-public class DatabasePopulatorConnectionCallback implements
-        ConnectionCallback<Void> {
+public class DatabasePopulatorConnectionCallback implements ConnectionCallback<Void> {
 
     private ResourceDatabasePopulator polulator;
 
 
     /**
-     * Creates a new {@link DatabasePopulatorConnectionCallback} to populate a
-     * database with the given SQL files.
+     * Creates a new {@link DatabasePopulatorConnectionCallback} to populate a database with the given SQL files.
      * 
      * @param files
      */
@@ -42,13 +40,10 @@ public class DatabasePopulatorConnectionCallback implements
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.jdbc.core.ConnectionCallback#doInConnection(java.
-     * sql.Connection)
+     * @see org.springframework.jdbc.core.ConnectionCallback#doInConnection(java. sql.Connection)
      */
     @Override
-    public Void doInConnection(Connection connection) throws SQLException,
-            DataAccessException {
+    public Void doInConnection(Connection connection) throws SQLException, DataAccessException {
 
         polulator.populate(connection);
         return null;

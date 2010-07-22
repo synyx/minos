@@ -10,9 +10,8 @@ import org.synyx.minos.util.Assert;
 
 
 /**
- * A {@link Skill} captures a name for an activity, technology, habit sombody
- * can be judged about. {@link Skill}s have to be carried in {@link Category}s
- * to group them together.
+ * A {@link Skill} captures a name for an activity, technology, habit sombody can be judged about. {@link Skill}s have
+ * to be carried in {@link Category}s to group them together.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -67,8 +66,7 @@ public class Skill extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Assignes the skill to the given {@link Category}. Removes it from the old
-     * {@link Category}.
+     * Assignes the skill to the given {@link Category}. Removes it from the old {@link Category}.
      * 
      * @param category
      */
@@ -101,8 +99,7 @@ public class Skill extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Returns whether the {@link Skill} is assigned to the given
-     * {@link Category}.
+     * Returns whether the {@link Skill} is assigned to the given {@link Category}.
      * 
      * @param category
      * @return

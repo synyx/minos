@@ -49,8 +49,7 @@ public class ReferencesController {
      * @param skillManagement
      */
     @Autowired
-    public ReferencesController(ResumeManagement resumeManagement,
-            SkillManagement skillManagement,
+    public ReferencesController(ResumeManagement resumeManagement, SkillManagement skillManagement,
             ReferenceValidator referenceValidator) {
 
         this.skillManagement = skillManagement;
@@ -70,38 +69,33 @@ public class ReferencesController {
 
 
     @RequestMapping(value = "/skillz/resume/references/{id}", method = DELETE)
-    public String deleteActivity(@PathVariable("id") Activity reference,
-            Model model) {
+    public String deleteActivity(@PathVariable("id") Activity reference, Model model) {
 
         resumeManagement.delete(reference);
 
-        model.addAttribute(Core.MESSAGE, Message
-                .success("skillz.reference.delete.success"));
+        model.addAttribute(Core.MESSAGE, Message.success("skillz.reference.delete.success"));
 
         return UrlUtils.redirect(RESUME_REFERENCES);
     }
 
 
     @RequestMapping(value = "/skillz/resume/references", method = POST)
-    public String createActivity(
-            @ModelAttribute("reference") Activity reference, Errors errors,
-            Model model, @CurrentUser User user) {
+    public String createActivity(@ModelAttribute("reference") Activity reference, Errors errors, Model model,
+            @CurrentUser User user) {
 
         return saveActivity(reference, errors, model, user);
     }
 
 
     @RequestMapping(value = "/skillz/resume/references/{id}", method = PUT)
-    public String updateActivity(
-            @ModelAttribute("reference") Activity reference, Errors errors,
-            Model model, @CurrentUser User user) {
+    public String updateActivity(@ModelAttribute("reference") Activity reference, Errors errors, Model model,
+            @CurrentUser User user) {
 
         return saveActivity(reference, errors, model, user);
     }
 
 
-    private String saveActivity(Activity reference, Errors errors, Model model,
-            User user) {
+    private String saveActivity(Activity reference, Errors errors, Model model, User user) {
 
         referenceValidator.validate(reference, errors);
 
@@ -111,8 +105,8 @@ public class ReferencesController {
 
         Activity result = resumeManagement.save(reference);
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "skillz.reference.save.success", result.getProject().getName()));
+        model.addAttribute(Core.MESSAGE, Message
+                .success("skillz.reference.save.success", result.getProject().getName()));
 
         return UrlUtils.redirect(RESUME_REFERENCES);
     }
@@ -121,15 +115,12 @@ public class ReferencesController {
     @RequestMapping(value = { "/skillz/resume/references/form" }, method = GET)
     public String showActivityForm(Model model, @CurrentUser User user) {
 
-        return prepareActivtyForm(BeanUtils.instantiateClass(Activity.class),
-                model, user);
+        return prepareActivtyForm(BeanUtils.instantiateClass(Activity.class), model, user);
     }
 
 
     @RequestMapping(value = { "/skillz/resume/references/{id}" }, method = GET)
-    public String showActivityForm(
-            @PathVariable(value = "id") Activity reference, Model model,
-            @CurrentUser User user) {
+    public String showActivityForm(@PathVariable(value = "id") Activity reference, Model model, @CurrentUser User user) {
 
         return prepareActivtyForm(reference, model, user);
     }
@@ -150,8 +141,7 @@ public class ReferencesController {
 
         model.addAttribute("reference", reference);
         model.addAttribute("projects", projects);
-        model.addAttribute("responsibilities", skillManagement
-                .getResponsibilities());
+        model.addAttribute("responsibilities", skillManagement.getResponsibilities());
 
         return "skillz/resume/reference";
     }

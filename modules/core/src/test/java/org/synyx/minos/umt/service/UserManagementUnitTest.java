@@ -50,9 +50,7 @@ public class UserManagementUnitTest {
     @Before
     public void setUp() {
 
-        userManagement =
-                new UserManagementImpl(userDao, roleDao, authenticationService,
-                        passwordCreator);
+        userManagement = new UserManagementImpl(userDao, roleDao, authenticationService, passwordCreator);
 
         // Prepare dummy values
         password = "password";
@@ -80,14 +78,12 @@ public class UserManagementUnitTest {
 
 
     /**
-     * Asserts that new users get a password generated if none has been set
-     * originally.
+     * Asserts that new users get a password generated if none has been set originally.
      */
     @Test
     public void testCreatesPasswordIfNoneSet() {
 
-        when(authenticationService.getEncryptedPasswordFor(user)).thenReturn(
-                encryptedPassword);
+        when(authenticationService.getEncryptedPasswordFor(user)).thenReturn(encryptedPassword);
 
         userManagement.save(user);
 
@@ -110,8 +106,7 @@ public class UserManagementUnitTest {
 
 
     /**
-     * Tests, that the service encrypts the new password of a user on password
-     * change.
+     * Tests, that the service encrypts the new password of a user on password change.
      */
     @Test
     public void testEncryptsNewPassword() {
@@ -128,8 +123,7 @@ public class UserManagementUnitTest {
 
 
     @Test(expected = IllegalArgumentException.class)
-    public void rejectsAttemptToDeleteCurrentlyLoggedInUser()
-            throws UserNotFoundException {
+    public void rejectsAttemptToDeleteCurrentlyLoggedInUser() throws UserNotFoundException {
 
         when(authenticationService.isCurrentUser(user)).thenReturn(true);
 
@@ -158,20 +152,18 @@ public class UserManagementUnitTest {
 
 
     /**
-     * Excpect the {@code EncryptionProvider} to be asked for encoding the
-     * passwords.
+     * Excpect the {@code EncryptionProvider} to be asked for encoding the passwords.
      */
     private void expectEncryptionProviderToBeUsed(String password) {
 
         // Expect the encryption provider to return the encrypted password
-        when(authenticationService.getEncryptedPasswordFor((User) anyObject()))
-                .thenReturn(password);
+        when(authenticationService.getEncryptedPasswordFor((User) anyObject())).thenReturn(password);
     }
 
 
     /**
-     * Asserts, that saving the currently configured {@code User} instance
-     * results in the user having the given password.
+     * Asserts, that saving the currently configured {@code User} instance results in the user having the given
+     * password.
      * 
      * @param newPassword
      */

@@ -50,8 +50,7 @@ public class PageWrapperUnitTest {
     @Test
     public void returnsFirstOrderIfMultipleAvailable() throws Exception {
 
-        assertSort(new Sort(Arrays.asList(new Property(DESCENDING, "name"),
-                new Property(ASCENDING, "firstname"))));
+        assertSort(new Sort(Arrays.asList(new Property(DESCENDING, "name"), new Property(ASCENDING, "firstname"))));
         assertThat(wrapper.getSortDirection(), is(SortOrderEnum.DESCENDING));
     }
 

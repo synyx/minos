@@ -22,6 +22,7 @@ public class UserUnitTest {
         user = new User("username", "email@adress.com", "password");
     }
 
+
     @Test(expected = IllegalArgumentException.class)
     public void preventsNullValuesForRoles() throws Exception {
 

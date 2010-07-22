@@ -32,8 +32,7 @@ public class CategoriesAcceptanceTest extends AbstractCrudFormAcceptanceTest {
 
         createCategoryAndAddSkill("Spring MVC");
 
-        clickElementByXPath("//form/input[@alt='"
-                + translateMessage("core.ui.delete") + "']");
+        clickElementByXPath("//form/input[@alt='" + translateMessage("core.ui.delete") + "']");
 
         assertSuccessMessage("skillz.skill.delete.success");
         assertTextNotInTable("skills", "Spring MVC");

@@ -35,8 +35,8 @@ public class AbstractNotificationProviderUnitTest {
 
 
     /**
-     * Asserts that the service uses the configured {@link TaskExecutor} for
-     * executing the given {@link NotificationProvider}.
+     * Asserts that the service uses the configured {@link TaskExecutor} for executing the given
+     * {@link NotificationProvider}.
      */
     @Test
     public void usesConfiguredTaskExecutorForNotificationProviders() {
@@ -48,16 +48,14 @@ public class AbstractNotificationProviderUnitTest {
     }
 
 
-    private void expectTaskExecutorToBeExecutedOnce(
-            NotificationProvider notificationProvider) {
+    private void expectTaskExecutorToBeExecutedOnce(NotificationProvider notificationProvider) {
 
         provider.notify(mock(Notification.class), USER);
 
         verify(taskExecutor, only()).execute((Runnable) anyObject());
     }
 
-    private class SampleNotificationProvider extends
-            AbstractNotificationProvider {
+    private class SampleNotificationProvider extends AbstractNotificationProvider {
 
         public SampleNotificationProvider() {
 

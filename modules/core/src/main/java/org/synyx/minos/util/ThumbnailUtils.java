@@ -27,8 +27,7 @@ public abstract class ThumbnailUtils {
 
         double scale = width / image.getWidth();
 
-        AffineTransform transform =
-                AffineTransform.getScaleInstance(scale, scale);
+        AffineTransform transform = AffineTransform.getScaleInstance(scale, scale);
         AffineTransformOp op = new AffineTransformOp(transform, null);
 
         return op.filter(image, null);
@@ -44,8 +43,7 @@ public abstract class ThumbnailUtils {
         InputStream inputStream = new ByteArrayInputStream(image);
 
         try {
-            ImageIO.write(scale(ImageIO.read(inputStream), width), formatName,
-                    outputStream);
+            ImageIO.write(scale(ImageIO.read(inputStream), width), formatName, outputStream);
             return outputStream.toByteArray();
         } catch (IOException e) {
             throw new RuntimeException(e);

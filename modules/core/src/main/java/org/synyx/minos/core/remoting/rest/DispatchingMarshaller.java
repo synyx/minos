@@ -10,8 +10,8 @@ import org.synyx.hera.core.PluginRegistry;
 
 
 /**
- * {@link Marshaller} implementation that delegates to a
- * {@link ModuleAwareMarshaller} depending on the type to be marshalled.
+ * {@link Marshaller} implementation that delegates to a {@link ModuleAwareMarshaller} depending on the type to be
+ * marshalled.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -23,8 +23,7 @@ public class DispatchingMarshaller implements Marshaller {
     /**
      * Creates a new {@link DispatchingMarshaller}.
      */
-    public DispatchingMarshaller(
-            PluginRegistry<ModuleAwareMarshaller, Class<?>> marshallers) {
+    public DispatchingMarshaller(PluginRegistry<ModuleAwareMarshaller, Class<?>> marshallers) {
 
         this.marshallers = marshallers;
     }
@@ -33,12 +32,10 @@ public class DispatchingMarshaller implements Marshaller {
     /*
      * (non-Javadoc)
      * 
-     * @see org.springframework.oxm.Marshaller#marshal(java.lang.Object,
-     * javax.xml.transform.Result)
+     * @see org.springframework.oxm.Marshaller#marshal(java.lang.Object, javax.xml.transform.Result)
      */
     @Override
-    public void marshal(Object graph, Result result) throws IOException,
-            XmlMappingException {
+    public void marshal(Object graph, Result result) throws IOException, XmlMappingException {
 
         marshallers.getPluginFor(graph.getClass()).marshal(graph, result);
     }

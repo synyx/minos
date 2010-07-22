@@ -7,13 +7,11 @@ import org.synyx.minos.util.Assert;
 
 
 /**
- * {@link MessageSourcePlugin} to be configured based on a configured
- * {@link Module}.
+ * {@link MessageSourcePlugin} to be configured based on a configured {@link Module}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class ModuleMessageSource extends ResourceBundleMessageSource implements
-        MessageSourcePlugin, ModuleAware {
+public class ModuleMessageSource extends ResourceBundleMessageSource implements MessageSourcePlugin, ModuleAware {
 
     private final Module module;
 
@@ -35,8 +33,7 @@ public class ModuleMessageSource extends ResourceBundleMessageSource implements
 
 
     /**
-     * Sets whether the {@link MessageSourcePlugin} shall act lenient on support
-     * requests.
+     * Sets whether the {@link MessageSourcePlugin} shall act lenient on support requests.
      * 
      * @param lenient the lenient to set
      */

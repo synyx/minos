@@ -37,12 +37,10 @@ import com.meterware.httpunit.WebResponse;
  * 
  * @author Oliver Gierke
  */
-public class UmtRemotingIntegrationTest extends
-        AbstractJUnit4JettyIntegrationTest {
+public class UmtRemotingIntegrationTest extends AbstractJUnit4JettyIntegrationTest {
 
-    private static final String USER_URL = "http://localhost:"
-            + System.getProperty("jetty.testport", "7070")
-            + "/rest/v1/umt/users";
+    private static final String USER_URL =
+            "http://localhost:" + System.getProperty("jetty.testport", "7070") + "/rest/v1/umt/users";
 
     private Jaxb2Marshaller unmarshaller;
 
@@ -68,8 +66,7 @@ public class UmtRemotingIntegrationTest extends
 
 
     @After
-    public void tearDown() throws MalformedURLException, IOException,
-            SAXException {
+    public void tearDown() throws MalformedURLException, IOException, SAXException {
 
         if (user == null) {
             return;
@@ -84,8 +81,7 @@ public class UmtRemotingIntegrationTest extends
 
 
     @Test
-    public void userLifecycle() throws MalformedURLException, IOException,
-            SAXException {
+    public void userLifecycle() throws MalformedURLException, IOException, SAXException {
 
         // Set up user instance
         user = new UserDto();
@@ -105,68 +101,56 @@ public class UmtRemotingIntegrationTest extends
 
 
     @Test(expected = HttpNotFoundException.class)
-    public void getUnavailableUser() throws MalformedURLException, IOException,
-            SAXException {
+    public void getUnavailableUser() throws MalformedURLException, IOException, SAXException {
 
         conversation.getResponse(USER_URL + "/4711");
     }
 
 
-    private void putUserInternal(UserDto user) throws MalformedURLException,
-            IOException, SAXException {
+    private void putUserInternal(UserDto user) throws MalformedURLException, IOException, SAXException {
 
         String selfUrl = user.getHref();
 
         WebResponse response =
-                conversation.getResponse(new PutMethodWebRequest(selfUrl,
-                        fromUser(user), "application/xml"));
+                conversation.getResponse(new PutMethodWebRequest(selfUrl, fromUser(user), "application/xml"));
 
         assertThat(response.getResponseCode(), is(SC_OK));
     }
 
 
-    private WebResponse postAndAssert(UserDto user)
-            throws MalformedURLException, IOException, SAXException {
+    private WebResponse postAndAssert(UserDto user) throws MalformedURLException, IOException, SAXException {
 
-        PostMethodWebRequest request =
-                new PostMethodWebRequest(USER_URL, fromUser(user),
-                        "application/xml");
+        PostMethodWebRequest request = new PostMethodWebRequest(USER_URL, fromUser(user), "application/xml");
 
         WebResponse response = conversation.getResponse(request);
 
         assertThat(response.getResponseCode(), is(SC_CREATED));
-        assertThat(response.getHeaderField(HttpHeaders.LOCATION),
-                is(notNullValue()));
+        assertThat(response.getHeaderField(HttpHeaders.LOCATION), is(notNullValue()));
 
         return response;
     }
 
 
-    private void delete(String url) throws MalformedURLException, IOException,
-            SAXException {
+    private void delete(String url) throws MalformedURLException, IOException, SAXException {
 
-        WebResponse response =
-                conversation.getResponse(new HeaderOnlyWebRequest(url) {
+        WebResponse response = conversation.getResponse(new HeaderOnlyWebRequest(url) {
 
-                    @Override
-                    public String getMethod() {
+            @Override
+            public String getMethod() {
 
-                        return RequestMethod.DELETE.toString();
-                    }
-                });
+                return RequestMethod.DELETE.toString();
+            }
+        });
 
         assertThat(response.getResponseCode(), is(SC_OK));
     }
 
 
-    private UserDto getUserInternal(String url) throws MalformedURLException,
-            IOException, SAXException {
+    private UserDto getUserInternal(String url) throws MalformedURLException, IOException, SAXException {
 
         WebResponse response = conversation.getResponse(url);
 
-        UserDto user =
-                (UserDto) unmarshaller.unmarshal(new StreamSource(response
-                        .getInputStream()));
+        UserDto user = (UserDto) unmarshaller.unmarshal(new StreamSource(response.getInputStream()));
 
         assertThat(user, is(notNullValue()));
 
@@ -175,8 +159,7 @@ public class UmtRemotingIntegrationTest extends
 
 
     /**
-     * Marshals the given {@link UserDto} to an {@link InputStream} to act as
-     * payload for {@link WebRequest}s.
+     * Marshals the given {@link UserDto} to an {@link InputStream} to act as payload for {@link WebRequest}s.
      * 
      * @param user
      * @return
@@ -186,7 +169,6 @@ public class UmtRemotingIntegrationTest extends
         StreamResult result = new StreamResult(new ByteArrayOutputStream());
         unmarshaller.marshal(user, result);
 
-        return new ByteArrayInputStream(result.getOutputStream().toString()
-                .getBytes());
+        return new ByteArrayInputStream(result.getOutputStream().toString().getBytes());
     }
 }

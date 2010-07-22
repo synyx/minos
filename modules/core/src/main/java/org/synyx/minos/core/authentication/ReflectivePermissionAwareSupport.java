@@ -10,15 +10,13 @@ import org.springframework.beans.factory.InitializingBean;
 
 
 /**
- * Abstract base class to lookup permissions from constants. Implement
- * {@link #getClassesToScan()} to provide all classes to be scanned for
- * permissions. Each of them has to be declared as {@code public}, {@code
- * static}, {@code final} fields.
+ * Abstract base class to lookup permissions from constants. Implement {@link #getClassesToScan()} to provide all
+ * classes to be scanned for permissions. Each of them has to be declared as {@code public}, {@code static}, {@code
+ * final} fields.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public abstract class ReflectivePermissionAwareSupport implements
-        PermissionAware, InitializingBean {
+public abstract class ReflectivePermissionAwareSupport implements PermissionAware, InitializingBean {
 
     protected static final Collection<Class<?>> NONE = Collections.emptyList();
 
@@ -63,8 +61,7 @@ public abstract class ReflectivePermissionAwareSupport implements
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -81,9 +78,8 @@ public abstract class ReflectivePermissionAwareSupport implements
 
 
     /**
-     * Returns whether the given field is to be considered as permission
-     * constant. Therefore it has to be public static final and of type
-     * {@link String}.
+     * Returns whether the given field is to be considered as permission constant. Therefore it has to be public static
+     * final and of type {@link String}.
      * 
      * @param field
      * @return
@@ -101,9 +97,8 @@ public abstract class ReflectivePermissionAwareSupport implements
 
 
     /**
-     * Returns the {@link Permission} captured in the given {@link Field} or
-     * {@literal null} if the given {@link Field} according to the spec tied to
-     * {@link #isPermissionConstant(Field)}.
+     * Returns the {@link Permission} captured in the given {@link Field} or {@literal null} if the given {@link Field}
+     * according to the spec tied to {@link #isPermissionConstant(Field)}.
      * 
      * @param field
      * @return
@@ -126,8 +121,7 @@ public abstract class ReflectivePermissionAwareSupport implements
 
 
     /**
-     * Return the classes to be scanned for {@link Permission} instances
-     * declared in constant fields.
+     * Return the classes to be scanned for {@link Permission} instances declared in constant fields.
      * 
      * @return
      */

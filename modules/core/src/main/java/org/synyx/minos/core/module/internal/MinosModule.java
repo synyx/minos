@@ -41,8 +41,7 @@ public class MinosModule implements Module {
      */
     public MinosModule(String identifier) {
 
-        Assert.hasText(identifier,
-                "Module identifier must not be empty or null!");
+        Assert.hasText(identifier, "Module identifier must not be empty or null!");
 
         this.identifier = identifier;
         this.basePackage = String.format(DEFAULT_PACKAGE_TEMPLATE, identifier);
@@ -51,8 +50,7 @@ public class MinosModule implements Module {
 
 
     /**
-     * Sets the base package of the module. This package will be used for all
-     * kinds of lookups.
+     * Sets the base package of the module. This package will be used for all kinds of lookups.
      * 
      * @param basePackage the basePackage to set
      */
@@ -63,9 +61,8 @@ public class MinosModule implements Module {
 
 
     /**
-     * Sets the {@link Module}s the current {@link Module} depends on. Will
-     * filter {@literal null} values and apply {@link Set} semantics to avoid
-     * duplicates.
+     * Sets the {@link Module}s the current {@link Module} depends on. Will filter {@literal null} values and apply
+     * {@link Set} semantics to avoid duplicates.
      * 
      * @param modules the modules to set
      */
@@ -118,8 +115,7 @@ public class MinosModule implements Module {
      * @param alreadyFound
      * @return
      */
-    private static List<Module> getDependants(Module module,
-            Set<Module> alreadyFound) {
+    private static List<Module> getDependants(Module module, Set<Module> alreadyFound) {
 
         List<Module> result = new ArrayList<Module>();
         List<Module> toDigDeeper = new ArrayList<Module>();
@@ -181,8 +177,7 @@ public class MinosModule implements Module {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.core.module.Module#getModuleResource(java.lang.String)
+     * @see org.synyx.minos.core.module.Module#getModuleResource(java.lang.String)
      */
     @Override
     public Resource getModuleResource(String moduleResource) {
@@ -194,9 +189,7 @@ public class MinosModule implements Module {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.core.module.Module#getModuleResourcePath(java.lang.String
-     * )
+     * @see org.synyx.minos.core.module.Module#getModuleResourcePath(java.lang.String )
      */
     @Override
     public String getModuleResourcePath(String moduleResource) {

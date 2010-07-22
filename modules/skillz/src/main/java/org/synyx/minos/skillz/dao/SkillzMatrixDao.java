@@ -21,8 +21,7 @@ public interface SkillzMatrixDao extends GenericDao<SkillMatrix, Long> {
 
 
     /**
-     * Returns all {@link SkillMatrix} instances that own {@link SkillEntry}s of
-     * the given {@link Category}.
+     * Returns all {@link SkillMatrix} instances that own {@link SkillEntry}s of the given {@link Category}.
      * 
      * @param category
      */
@@ -31,8 +30,7 @@ public interface SkillzMatrixDao extends GenericDao<SkillMatrix, Long> {
 
 
     /**
-     * Returns all {@link SkillMatrix} instances that own {@link SkillEntry}s
-     * for the given {@link Skill}.
+     * Returns all {@link SkillMatrix} instances that own {@link SkillEntry}s for the given {@link Skill}.
      * 
      * @param skill
      * @return

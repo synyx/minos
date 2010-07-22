@@ -28,20 +28,18 @@ interface FopXsltService {
      * @throws SAXException
      * @throws ConfigurationException
      */
-    Fop createFop(OutputStream outputStream) throws SAXException, IOException,
-            ConfigurationException;
+    Fop createFop(OutputStream outputStream) throws SAXException, IOException, ConfigurationException;
 
 
     /**
-     * Creates a {@link Transformer} instance with the given XSLT file or a
-     * default XSLT file if <code>null</code> was given.
+     * Creates a {@link Transformer} instance with the given XSLT file or a default XSLT file if <code>null</code> was
+     * given.
      * 
      * @param xsltFile
      * @return
      * @throws TransformerConfigurationException
      * @throws IOException
      */
-    Transformer createTransformer(File xsltFile)
-            throws TransformerConfigurationException, IOException;
+    Transformer createTransformer(File xsltFile) throws TransformerConfigurationException, IOException;
 
 }

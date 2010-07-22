@@ -11,8 +11,8 @@ import org.apache.commons.lang.StringUtils;
 public abstract class EnumUtils {
 
     /**
-     * Returns the enum for the given value or the {@code defaultValue}.
-     * Transforms the value to UPPERCASE prior to value parsing.
+     * Returns the enum for the given value or the {@code defaultValue}. Transforms the value to UPPERCASE prior to
+     * value parsing.
      * 
      * @param <T>
      * @param value
@@ -22,8 +22,7 @@ public abstract class EnumUtils {
     public static <T extends Enum<T>> T valueOf(String value, T defaultValue) {
 
         if (null == defaultValue) {
-            throw new IllegalArgumentException(
-                    "Default value must not be null!");
+            throw new IllegalArgumentException("Default value must not be null!");
         }
 
         if (null == value) {
@@ -31,8 +30,7 @@ public abstract class EnumUtils {
         }
 
         try {
-            return Enum.valueOf(defaultValue.getDeclaringClass(), StringUtils
-                    .upperCase(value));
+            return Enum.valueOf(defaultValue.getDeclaringClass(), StringUtils.upperCase(value));
         } catch (IllegalArgumentException ex) {
             return defaultValue;
         }

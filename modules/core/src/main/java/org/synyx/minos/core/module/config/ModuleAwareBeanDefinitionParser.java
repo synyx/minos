@@ -11,28 +11,23 @@ import org.w3c.dom.Element;
 
 
 /**
- * Base class to create beans that need to be made aware of a module by adding a
- * reference to the {@link MinosModule} bean with the module identifier
- * configured.
+ * Base class to create beans that need to be made aware of a module by adding a reference to the {@link MinosModule}
+ * bean with the module identifier configured.
  * <p>
- * In the simplest case it is sufficient to instantiate an instance of this
- * class and hand it the bean class to instantiate. If there is further
- * configuration required use
- * {@link #parseAdditionalAttributes(Element, BeanDefinitionBuilder)}. As the
- * class is primarily used to create anonymous beans picked up by type,
- * {@link #shouldGenerateIdAsFallback()} is retuning {@literal true} by default.
+ * In the simplest case it is sufficient to instantiate an instance of this class and hand it the bean class to
+ * instantiate. If there is further configuration required use
+ * {@link #parseAdditionalAttributes(Element, BeanDefinitionBuilder)}. As the class is primarily used to create
+ * anonymous beans picked up by type, {@link #shouldGenerateIdAsFallback()} is retuning {@literal true} by default.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class ModuleAwareBeanDefinitionParser extends
-        AbstractSingleBeanDefinitionParser {
+public class ModuleAwareBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
     private static final String DEFAULT_MODULE_PROPERTY = "module";
 
     private static final String CONSTRUCTOR_TEMPLATE =
             "Bean class %s has to provide a constructor with an %s argument!";
-    private static final String SETTER_TEMPLATE =
-            "Bean class %s does not have a method set%s accepting an %s!";
+    private static final String SETTER_TEMPLATE = "Bean class %s does not have a method set%s accepting an %s!";
 
     private final Class<?> beanClass;
     private final String moduleId;
@@ -42,10 +37,8 @@ public class ModuleAwareBeanDefinitionParser extends
 
 
     /**
-     * Creates a new {@link ModuleAwareBeanDefinitionParser} to bind the module
-     * with the given id. Expects the bean class to have a setter for
-     * {@value #DEFAULT_MODULE_PROPERTY} to accept a {@link Module} as
-     * parameter.
+     * Creates a new {@link ModuleAwareBeanDefinitionParser} to bind the module with the given id. Expects the bean
+     * class to have a setter for {@value #DEFAULT_MODULE_PROPERTY} to accept a {@link Module} as parameter.
      * 
      * @param beanClass
      * @param moduleId
@@ -56,41 +49,34 @@ public class ModuleAwareBeanDefinitionParser extends
     }
 
 
-    public ModuleAwareBeanDefinitionParser(Class<?> beanClass, String moduleId,
-            boolean useConstructor) {
+    public ModuleAwareBeanDefinitionParser(Class<?> beanClass, String moduleId, boolean useConstructor) {
 
         this(beanClass, moduleId, null, useConstructor);
     }
 
 
     /**
-     * Creates a new {@link ModuleAwareBeanDefinitionParser} to bind the module
-     * with the given id and a custom module property. Expects the bean class to
-     * have a setter for the given property accepting a {@link Module} as
-     * parameter.
+     * Creates a new {@link ModuleAwareBeanDefinitionParser} to bind the module with the given id and a custom module
+     * property. Expects the bean class to have a setter for the given property accepting a {@link Module} as parameter.
      * 
      * @param beanClass
      * @param moduleId
      * @param moduleProperty
      */
-    public ModuleAwareBeanDefinitionParser(Class<?> beanClass, String moduleId,
-            String moduleProperty, boolean useConstructor) {
+    public ModuleAwareBeanDefinitionParser(Class<?> beanClass, String moduleId, String moduleProperty,
+            boolean useConstructor) {
 
         this.beanClass = beanClass;
         this.moduleId = moduleId;
-        this.moduleProperty =
-                moduleProperty == null ? DEFAULT_MODULE_PROPERTY
-                        : moduleProperty;
+        this.moduleProperty = moduleProperty == null ? DEFAULT_MODULE_PROPERTY : moduleProperty;
         this.useConstructor = useConstructor;
 
         if (useConstructor) {
-            Assert.isTrue(org.springframework.util.ClassUtils.hasConstructor(
-                    beanClass, Module.class), String.format(
+            Assert.isTrue(org.springframework.util.ClassUtils.hasConstructor(beanClass, Module.class), String.format(
                     CONSTRUCTOR_TEMPLATE, beanClass, Module.class));
         } else {
-            Assert.isTrue(ClassUtils.hasSetter(beanClass, this.moduleProperty,
-                    Module.class), String.format(SETTER_TEMPLATE, beanClass,
-                    StringUtils.capitalize(this.moduleProperty), Module.class));
+            Assert.isTrue(ClassUtils.hasSetter(beanClass, this.moduleProperty, Module.class), String.format(
+                    SETTER_TEMPLATE, beanClass, StringUtils.capitalize(this.moduleProperty), Module.class));
         }
     }
 
@@ -98,9 +84,7 @@ public class ModuleAwareBeanDefinitionParser extends
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser
-     * #getBeanClass(org.w3c.dom.Element)
+     * @see org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser #getBeanClass(org.w3c.dom.Element)
      */
     @Override
     protected Class<?> getBeanClass(Element element) {
@@ -112,8 +96,7 @@ public class ModuleAwareBeanDefinitionParser extends
     /*
      * (non-Javadoc)
      * 
-     * @seeorg.springframework.beans.factory.xml.AbstractBeanDefinitionParser#
-     * shouldGenerateId()
+     * @seeorg.springframework.beans.factory.xml.AbstractBeanDefinitionParser# shouldGenerateId()
      */
     @Override
     protected boolean shouldGenerateId() {
@@ -125,9 +108,7 @@ public class ModuleAwareBeanDefinitionParser extends
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser
-     * #doParse(org.w3c.dom.Element,
+     * @see org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser #doParse(org.w3c.dom.Element,
      * org.springframework.beans.factory.support.BeanDefinitionBuilder)
      */
     @Override
@@ -144,14 +125,12 @@ public class ModuleAwareBeanDefinitionParser extends
 
 
     /**
-     * Method to do further configuration on the bean to build. Implementations
-     * can expect the module already wired.
+     * Method to do further configuration on the bean to build. Implementations can expect the module already wired.
      * 
      * @param element
      * @param builder
      */
-    protected void parseAdditionalAttributes(Element element,
-            BeanDefinitionBuilder builder) {
+    protected void parseAdditionalAttributes(Element element, BeanDefinitionBuilder builder) {
 
     }
 

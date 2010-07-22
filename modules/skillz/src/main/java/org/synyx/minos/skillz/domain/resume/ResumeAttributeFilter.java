@@ -11,8 +11,7 @@ import org.synyx.minos.skillz.domain.Resume;
 public interface ResumeAttributeFilter {
 
     /**
-     * Message key for displaying the filter name on the page and identifying
-     * the filter in the request.
+     * Message key for displaying the filter name on the page and identifying the filter in the request.
      * 
      * @return
      */

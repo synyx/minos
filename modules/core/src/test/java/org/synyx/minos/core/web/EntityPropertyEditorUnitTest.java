@@ -61,8 +61,7 @@ public class EntityPropertyEditorUnitTest {
         PropertyEditor customEditor = mock(PropertyEditor.class);
         when(customEditor.getValue()).thenReturn(1);
 
-        when(registry.findCustomEditor(Integer.class, null)).thenReturn(
-                customEditor);
+        when(registry.findCustomEditor(Integer.class, null)).thenReturn(customEditor);
 
         convertsPlainIdTypeCorrectly();
 

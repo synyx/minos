@@ -12,8 +12,7 @@ import org.synyx.minos.skillz.domain.resume.ResumeFilterParameters.Builder;
 
 
 /**
- * A implementation of {@link ResumeFilter} which returns resumes by there name
- * and level.
+ * A implementation of {@link ResumeFilter} which returns resumes by there name and level.
  * 
  * @author Markus Knittig - knittig@synyx.de
  */
@@ -48,18 +47,15 @@ public class CategoriesFilter extends ResumeFilterSupport {
     @Override
     public ResumeFilterParameters getParameters() {
 
-        return new Builder().addMultipleChoice("categories", Category.class,
-                new ReferenceDataContainer(categoryDao), "skillz.categories")
-                .build();
+        return new Builder().addMultipleChoice("categories", Category.class, new ReferenceDataContainer(categoryDao),
+                "skillz.categories").build();
     }
 
 
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.skillz.domain.resume.ResumeFilterSupport#getQueryPartString
-     * ()
+     * @see org.synyx.minos.skillz.domain.resume.ResumeFilterSupport#getQueryPartString ()
      */
     @Override
     public String getQueryPartString() {
@@ -71,9 +67,8 @@ public class CategoriesFilter extends ResumeFilterSupport {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.skillz.domain.resume.ResumeFilterSupport#manualBindParameters
-     * (javax.persistence.Query, java.util.Map)
+     * @see org.synyx.minos.skillz.domain.resume.ResumeFilterSupport#manualBindParameters (javax.persistence.Query,
+     * java.util.Map)
      */
     @SuppressWarnings("unchecked")
     @Override

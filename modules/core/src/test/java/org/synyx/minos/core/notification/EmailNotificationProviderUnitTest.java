@@ -52,7 +52,6 @@ public class EmailNotificationProviderUnitTest {
             provider.notify(notification, recipient);
         }
 
-        verify(mailSender, times(users.size())).send(
-                (SimpleMailMessage) anyObject());
+        verify(mailSender, times(users.size())).send((SimpleMailMessage) anyObject());
     }
 }

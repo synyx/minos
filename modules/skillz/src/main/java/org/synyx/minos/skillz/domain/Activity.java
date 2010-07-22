@@ -21,15 +21,13 @@ import org.synyx.minos.util.Assert;
 
 
 /**
- * An activity abstracts work someone has done for a particular {@link Project}
- * ofer a given frame in time, as well as her responsibilities she took in that
- * project.
+ * An activity abstracts work someone has done for a particular {@link Project} ofer a given frame in time, as well as
+ * her responsibilities she took in that project.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Entity
-public class Activity extends AbstractAuditable<User, Long> implements
-        Comparable<Activity> {
+public class Activity extends AbstractAuditable<User, Long> implements Comparable<Activity> {
 
     private static final long serialVersionUID = 3743848895842525208L;
 
@@ -60,14 +58,12 @@ public class Activity extends AbstractAuditable<User, Long> implements
 
 
     /**
-     * Creates a new {@link Activity} for the given {@link Project} and the
-     * given time frame. Allows to create a {@link Activity} for ongoing project
-     * activity by providing {@code null} as end date.
+     * Creates a new {@link Activity} for the given {@link Project} and the given time frame. Allows to create a
+     * {@link Activity} for ongoing project activity by providing {@code null} as end date.
      * 
      * @param project
      * @param start
-     * @param end the end date of the reference. Might be {@code null} to
-     *            indicate still running project activity.
+     * @param end the end date of the reference. Might be {@code null} to indicate still running project activity.
      */
     public Activity(Project project, DateMidnight start, DateMidnight end) {
 
@@ -83,8 +79,8 @@ public class Activity extends AbstractAuditable<User, Long> implements
 
 
     /**
-     * Creates a new {@link Activity} for the given {@link Project} indicating
-     * that the owner is still actively working in the {@link Project}.
+     * Creates a new {@link Activity} for the given {@link Project} indicating that the owner is still actively working
+     * in the {@link Project}.
      * 
      * @param project
      * @param start
@@ -118,17 +114,15 @@ public class Activity extends AbstractAuditable<User, Long> implements
 
 
     /**
-     * Returns whether the additional description held for this {@link Activity}
-     * shall replace the {@link Project}'s description entirely. Will only
-     * return {@literal true} if there is an additional description at all.
+     * Returns whether the additional description held for this {@link Activity} shall replace the {@link Project}'s
+     * description entirely. Will only return {@literal true} if there is an additional description at all.
      * 
      * @see #getAdditionalDescription()
      * @return the omitProjectDescription
      */
     public boolean isOmitProjectDescription() {
 
-        return omitProjectDescription
-                && !StringUtils.isBlank(additionalDescription);
+        return omitProjectDescription && !StringUtils.isBlank(additionalDescription);
     }
 
 
@@ -142,11 +136,9 @@ public class Activity extends AbstractAuditable<User, Long> implements
 
 
     /**
-     * Returns additional information regarding the {@link Activity} for the
-     * linked {@link Project}. Thus users can leave additional notes privately
-     * held for them. If {@link #setOmitProjectDescription(boolean)} the
-     * additional description will replace the {@link Project}'s description
-     * entirely.
+     * Returns additional information regarding the {@link Activity} for the linked {@link Project}. Thus users can
+     * leave additional notes privately held for them. If {@link #setOmitProjectDescription(boolean)} the additional
+     * description will replace the {@link Project}'s description entirely.
      * 
      * @see #setOmitProjectDescription(boolean)
      * @return the additionalDescription
@@ -189,8 +181,8 @@ public class Activity extends AbstractAuditable<User, Long> implements
 
 
     /**
-     * Returns the end of the {@link Activity} for the {@link Project}. Might
-     * return {@code null} to indicate ongoing involvement.
+     * Returns the end of the {@link Activity} for the {@link Project}. Might return {@code null} to indicate ongoing
+     * involvement.
      * 
      * @return the end
      */
@@ -201,8 +193,8 @@ public class Activity extends AbstractAuditable<User, Long> implements
 
 
     /**
-     * Sets the end of the {@link Activity} for the {@link Project}. Allows to
-     * indicate ongoing involvement by passing {@code null}.
+     * Sets the end of the {@link Activity} for the {@link Project}. Allows to indicate ongoing involvement by passing
+     * {@code null}.
      * 
      * @param end the end to set
      */
@@ -213,8 +205,8 @@ public class Activity extends AbstractAuditable<User, Long> implements
 
 
     /**
-     * Returns whether the project that is referenced is still active, meaning
-     * the owner of this {@link Activity} is still working on the project.
+     * Returns whether the project that is referenced is still active, meaning the owner of this {@link Activity} is
+     * still working on the project.
      * 
      * @return
      */
@@ -285,8 +277,7 @@ public class Activity extends AbstractAuditable<User, Long> implements
 
 
     /**
-     * Returns wheter the {@link Activity} is assigned to the given
-     * {@link Project}.
+     * Returns wheter the {@link Activity} is assigned to the given {@link Project}.
      * 
      * @param project
      * @return

@@ -9,8 +9,7 @@ import org.synyx.minos.umt.service.UserManagement;
 
 
 /**
- * Provides aspects for to manage the relation between {@link User} and
- * {@link Resume}.
+ * Provides aspects for to manage the relation between {@link User} and {@link Resume}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  * @author Markus Knittig - knittig@synyx.de
@@ -28,8 +27,7 @@ class ManageResumeForUserAspect {
      * @param resumeManagement
      * @param skillManagement
      */
-    public ManageResumeForUserAspect(ResumeManagement resumeManagement,
-            SkillManagement skillManagement) {
+    public ManageResumeForUserAspect(ResumeManagement resumeManagement, SkillManagement skillManagement) {
 
         this.resumeManagement = resumeManagement;
         this.skillManagement = skillManagement;
@@ -37,8 +35,8 @@ class ManageResumeForUserAspect {
 
 
     /**
-     * Aspect method that intercept calls to {@link UserManagement#save(User)}
-     * and creates new {@link Resume}s for every {@link User} newly created.
+     * Aspect method that intercept calls to {@link UserManagement#save(User)} and creates new {@link Resume}s for every
+     * {@link User} newly created.
      * 
      * @param joinPoint
      * @param user
@@ -46,11 +44,9 @@ class ManageResumeForUserAspect {
      * @throws Throwable
      */
     @Around("execution(* org.synyx.minos.umt.service.UserManagement.save(..)) && args(user)")
-    public Object createResumeForUser(ProceedingJoinPoint joinPoint, User user)
-            throws Throwable {
+    public Object createResumeForUser(ProceedingJoinPoint joinPoint, User user) throws Throwable {
 
-        boolean moduleNotInstalledYet =
-                null == skillManagement.getDefaultTemplate();
+        boolean moduleNotInstalledYet = null == skillManagement.getDefaultTemplate();
         boolean creationNotRequired = !user.isNew();
 
         if (moduleNotInstalledYet || creationNotRequired) {
@@ -59,16 +55,15 @@ class ManageResumeForUserAspect {
 
         Object result = joinPoint.proceed();
 
-        resumeManagement.save(new Resume(user, skillManagement
-                .getDefaultTemplate(), null));
+        resumeManagement.save(new Resume(user, skillManagement.getDefaultTemplate(), null));
 
         return result;
     }
 
 
     /**
-     * Aspect method that intercept calls to {@link UserManagement#delete(User)}
-     * and deletes the {@link Resume}s for every {@link User} deleted.
+     * Aspect method that intercept calls to {@link UserManagement#delete(User)} and deletes the {@link Resume}s for
+     * every {@link User} deleted.
      * 
      * @param joinPoint
      * @param user
@@ -76,8 +71,7 @@ class ManageResumeForUserAspect {
      * @throws Throwable
      */
     @Around("execution(* org.synyx.minos.umt.service.UserManagement.delete(..)) && args(user)")
-    public Object deleteResumeForUser(ProceedingJoinPoint joinPoint, User user)
-            throws Throwable {
+    public Object deleteResumeForUser(ProceedingJoinPoint joinPoint, User user) throws Throwable {
 
         Object result = joinPoint.proceed();
 

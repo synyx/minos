@@ -30,8 +30,7 @@ public class DispatchingMessageSourceUnitTest {
 
         DispatchingMessageSource dispatcher = new DispatchingMessageSource();
 
-        List<ModuleMessageSource> registry =
-                new ArrayList<ModuleMessageSource>();
+        List<ModuleMessageSource> registry = new ArrayList<ModuleMessageSource>();
 
         Module first = new MinosModule("foo");
 
@@ -54,38 +53,33 @@ public class DispatchingMessageSourceUnitTest {
     public void resolvesMessagesCorrectly() throws Exception {
 
         // Expect "FooMessage" as it has higher precendece
-        assertEquals("FooMessage", dispatcher
-                .getMessage("foo.hust", null, null));
-        assertEquals("BarMessage", dispatcher
-                .getMessage("bar.hust", null, null));
+        assertEquals("FooMessage", dispatcher.getMessage("foo.hust", null, null));
+        assertEquals("BarMessage", dispatcher.getMessage("bar.hust", null, null));
     }
 
 
     @Test(expected = NoSuchMessageException.class)
-    public void throwsMessageNotFoundExceptionIfNoMessageFound()
-            throws Exception {
+    public void throwsMessageNotFoundExceptionIfNoMessageFound() throws Exception {
 
         dispatcher.getMessage("foobar.hust", null, null);
     }
 
 
     /**
-     * Returns a {@link MessageSourcePlugin} that statically returns the given
-     * message for codes prefixed with the given prefix.
+     * Returns a {@link MessageSourcePlugin} that statically returns the given message for codes prefixed with the given
+     * prefix.
      * 
      * @param prefix
      * @param message
      * @param order
      * @return
      */
-    private ModuleMessageSource getMessageSource(Module module,
-            final String message, int order) {
+    private ModuleMessageSource getMessageSource(Module module, final String message, int order) {
 
         ModuleMessageSource source = new ModuleMessageSource(module) {
 
             @Override
-            protected String getMessageInternal(String code, Object[] args,
-                    Locale locale) {
+            protected String getMessageInternal(String code, Object[] args, Locale locale) {
 
                 return message;
             }

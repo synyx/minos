@@ -12,21 +12,17 @@ import org.springframework.beans.factory.support.ManagedList;
 import org.synyx.minos.core.module.support.ModulePostProcessor;
 
 
-
 /**
- * This BeanFactoryPostProcessor registers an {@code Orchestrator} aspect to
- * propagate events thrown by controllers. It scans the bean factory for
- * registered {@code EventHandler} beans and injects them into the orchestrator.
+ * This BeanFactoryPostProcessor registers an {@code Orchestrator} aspect to propagate events thrown by controllers. It
+ * scans the bean factory for registered {@code EventHandler} beans and injects them into the orchestrator.
  * <p>
- * Additionally an {@code AnnotationAwareAspectJAutoProxyCreator} is registered
- * if none can be found already.
+ * Additionally an {@code AnnotationAwareAspectJAutoProxyCreator} is registered if none can be found already.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class EventHandlingActivator extends ModulePostProcessor {
 
-    private static final Log log = LogFactory
-            .getLog(EventHandlingActivator.class);
+    private static final Log log = LogFactory.getLog(EventHandlingActivator.class);
 
     private static final String DEFAULT_ORCHESTRATOR_NAME = "orchestrator";
 
@@ -37,8 +33,7 @@ public class EventHandlingActivator extends ModulePostProcessor {
 
 
     /**
-     * Setter to inject the bean name the orchestrator shall be registered
-     * under;
+     * Setter to inject the bean name the orchestrator shall be registered under;
      * 
      * @param orchestratorName the orchestratorName to set
      */
@@ -49,8 +44,7 @@ public class EventHandlingActivator extends ModulePostProcessor {
 
 
     /**
-     * Sets the key under which the orchestrator will try to find {@code Event}s
-     * being published.
+     * Sets the key under which the orchestrator will try to find {@code Event}s being published.
      * 
      * @param eventKey the eventKey to set
      */
@@ -61,8 +55,7 @@ public class EventHandlingActivator extends ModulePostProcessor {
 
 
     /**
-     * Sets the key under which the orchestrator will place the
-     * {@code EventContext}.
+     * Sets the key under which the orchestrator will place the {@code EventContext}.
      * 
      * @param eventContextKey the eventContextKey to set
      */
@@ -75,11 +68,12 @@ public class EventHandlingActivator extends ModulePostProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see org.springframework.beans.factory.config.BeanFactoryPostProcessor#postProcessBeanFactory(org.springframework.beans.factory.config.ConfigurableListableBeanFactory)
+     * @see
+     * org.springframework.beans.factory.config.BeanFactoryPostProcessor#postProcessBeanFactory(org.springframework.
+     * beans.factory.config.ConfigurableListableBeanFactory)
      */
     @Override
-    public void postProcessBeanFactory(
-            ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 
         // Apply module decoration
         super.postProcessBeanFactory(beanFactory);
@@ -88,10 +82,8 @@ public class EventHandlingActivator extends ModulePostProcessor {
         if (!(beanFactory instanceof DefaultListableBeanFactory)) {
 
             if (log.isWarnEnabled()) {
-                log
-                        .warn("Could not add orchestrator as"
-                                + " the given bean "
-                                + "factory does not allow registration of additional beans!");
+                log.warn("Could not add orchestrator as" + " the given bean "
+                        + "factory does not allow registration of additional beans!");
             }
 
             return;
@@ -99,8 +91,7 @@ public class EventHandlingActivator extends ModulePostProcessor {
 
         DefaultListableBeanFactory factory = (DefaultListableBeanFactory) beanFactory;
 
-        String[] eventHandlerNames = beanFactory
-                .getBeanNamesForType(AbstractEventHandler.class);
+        String[] eventHandlerNames = beanFactory.getBeanNamesForType(AbstractEventHandler.class);
 
         // No handlers found - return
         if (0 == eventHandlerNames.length) {
@@ -111,17 +102,14 @@ public class EventHandlingActivator extends ModulePostProcessor {
         registerAopAutoProxyCreator(factory);
 
         // Create bean definition for Orchestrator
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder
-                .rootBeanDefinition(EventOrchestrator.class);
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(EventOrchestrator.class);
 
-        ManagedList<BeanDefinition> eventHandlers =
-                new ManagedList<BeanDefinition>();
+        ManagedList<BeanDefinition> eventHandlers = new ManagedList<BeanDefinition>();
 
         // Create and add event handlers
         for (String eventHandlerName : eventHandlerNames) {
 
-            BeanDefinition beanDefinition = factory
-                    .getBeanDefinition(eventHandlerName);
+            BeanDefinition beanDefinition = factory.getBeanDefinition(eventHandlerName);
 
             eventHandlers.add(beanDefinition);
 
@@ -132,14 +120,12 @@ public class EventHandlingActivator extends ModulePostProcessor {
         propagateProperties(builder);
 
         // Register Orchestrator bean in the factory
-        factory.registerBeanDefinition(orchestratorName, builder
-                .getBeanDefinition());
+        factory.registerBeanDefinition(orchestratorName, builder.getBeanDefinition());
     }
 
 
     /**
-     * Propagates the properties configured in the PostProcessor the
-     * orchestrator bean.
+     * Propagates the properties configured in the PostProcessor the orchestrator bean.
      * 
      * @param builder
      */
@@ -157,29 +143,25 @@ public class EventHandlingActivator extends ModulePostProcessor {
 
 
     /**
-     * Registers an {@code AnnotationAwareAspectJAutoProxyCreator} if there is
-     * currently none registered. This does not require you to explicitly
-     * declare an &lt;aop:aspectj-auto-proxy /&gt;.
+     * Registers an {@code AnnotationAwareAspectJAutoProxyCreator} if there is currently none registered. This does not
+     * require you to explicitly declare an &lt;aop:aspectj-auto-proxy /&gt;.
      * 
      * @param factory
      */
     private void registerAopAutoProxyCreator(DefaultListableBeanFactory factory) {
 
-        String[] aopAutoProxyNames = factory
-                .getBeanNamesForType(AnnotationAwareAspectJAutoProxyCreator.class);
+        String[] aopAutoProxyNames = factory.getBeanNamesForType(AnnotationAwareAspectJAutoProxyCreator.class);
 
         if (0 == aopAutoProxyNames.length) {
 
             if (log.isDebugEnabled()) {
-                log.debug("No AnnotationAwareAspectJAutoProxyCreator "
-                        + "found! Creating one.");
+                log.debug("No AnnotationAwareAspectJAutoProxyCreator " + "found! Creating one.");
             }
 
-            BeanDefinitionBuilder builder = BeanDefinitionBuilder
-                    .rootBeanDefinition(AnnotationAwareAspectJAutoProxyCreator.class);
+            BeanDefinitionBuilder builder =
+                    BeanDefinitionBuilder.rootBeanDefinition(AnnotationAwareAspectJAutoProxyCreator.class);
 
-            factory.registerBeanDefinition("aopAutoProxyFactory", builder
-                    .getBeanDefinition());
+            factory.registerBeanDefinition("aopAutoProxyFactory", builder.getBeanDefinition());
         }
     }
 }

@@ -7,3 +7,4 @@
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://schemas.synyx.de/minos/umt/rest", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package org.synyx.minos.umt.remoting.rest.dto;
+

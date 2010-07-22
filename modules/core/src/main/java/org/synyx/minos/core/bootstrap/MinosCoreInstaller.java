@@ -11,12 +11,10 @@ import org.synyx.minos.umt.service.UserManagement;
 
 
 /**
- * Simple installer populationg the database with 100 users if none is available
- * actually. Used during development, not aimed to be used in production
- * environments.
+ * Simple installer populationg the database with 100 users if none is available actually. Used during development, not
+ * aimed to be used in production environments.
  * <p>
- * Currently uses quite a hack to enable authenticated access to the injected
- * service.
+ * Currently uses quite a hack to enable authenticated access to the injected service.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */

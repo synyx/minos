@@ -16,9 +16,8 @@ import org.synyx.minos.util.Assert;
 
 
 /**
- * {@link PropertyEditor} to create value objects. The classes to be bound with
- * this {@link PropertyEditor} are required to offer a constructor with a single
- * {@link String} argument.
+ * {@link PropertyEditor} to create value objects. The classes to be bound with this {@link PropertyEditor} are required
+ * to offer a constructor with a single {@link String} argument.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -29,17 +28,15 @@ public class ValueObjectPropertyEditor extends PropertyEditorSupport {
 
 
     /**
-     * Creates a {@link ValueObjectPropertyEditor} for the given type. Expects a
-     * constructor with a single {@link String} argument to be able to create
-     * the value objects from.
+     * Creates a {@link ValueObjectPropertyEditor} for the given type. Expects a constructor with a single
+     * {@link String} argument to be able to create the value objects from.
      * 
      * @param type
      */
     public ValueObjectPropertyEditor(Class<?> type) {
 
-        Assert
-                .isTrue(ClassUtils.hasConstructor(type, String.class),
-                        "The given type must have a constructor with a single String argument!");
+        Assert.isTrue(ClassUtils.hasConstructor(type, String.class),
+                "The given type must have a constructor with a single String argument!");
 
         this.type = type;
         this.method = null;
@@ -48,16 +45,12 @@ public class ValueObjectPropertyEditor extends PropertyEditorSupport {
 
     public ValueObjectPropertyEditor(Class<?> type, String factoryMethodName) {
 
-        Method method =
-                ClassUtils.getMethodIfAvailable(type, factoryMethodName,
-                        String.class);
+        Method method = ClassUtils.getMethodIfAvailable(type, factoryMethodName, String.class);
 
-        Assert.notNull(method, String.format("Method %s does not exist!",
+        Assert.notNull(method, String.format("Method %s does not exist!", factoryMethodName));
+        Assert.isTrue(Modifier.isStatic(method.getModifiers()), String.format("Method %s is not static!",
                 factoryMethodName));
-        Assert.isTrue(Modifier.isStatic(method.getModifiers()), String.format(
-                "Method %s is not static!", factoryMethodName));
-        Assert.isTrue(!method.getReturnType().equals(void.class),
-                "Method must not be void!");
+        Assert.isTrue(!method.getReturnType().equals(void.class), "Method must not be void!");
 
         this.type = type;
         this.method = method;
@@ -91,9 +84,7 @@ public class ValueObjectPropertyEditor extends PropertyEditorSupport {
 
         try {
             if (method == null) {
-                Constructor<?> constructor =
-                        ClassUtils
-                                .getConstructorIfAvailable(type, String.class);
+                Constructor<?> constructor = ClassUtils.getConstructorIfAvailable(type, String.class);
                 setValue(BeanUtils.instantiateClass(constructor, text));
             } else {
 
@@ -105,8 +96,7 @@ public class ValueObjectPropertyEditor extends PropertyEditorSupport {
             String errorCode = null == annotation ? null : annotation.value();
 
             throw new ValueObjectInstantiationException(String.format(
-                    "Could not create an instance of value object %s!", type),
-                    e, errorCode);
+                    "Could not create an instance of value object %s!", type), e, errorCode);
         }
     }
 }

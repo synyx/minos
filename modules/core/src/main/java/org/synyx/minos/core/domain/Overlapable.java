@@ -1,8 +1,8 @@
 package org.synyx.minos.core.domain;
 
 /**
- * Basic interface for overlapable entities. Implementing this interface allows
- * classes to be added to {@link OverlapableList}.
+ * Basic interface for overlapable entities. Implementing this interface allows classes to be added to
+ * {@link OverlapableList}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -25,8 +25,7 @@ public interface Overlapable<T> {
 
 
     /**
-     * Returns, if an {@code Overlapable} overlaps another. Overlapping {@code
-     * null} has to return false.
+     * Returns, if an {@code Overlapable} overlaps another. Overlapping {@code null} has to return false.
      * 
      * @param appointment
      * @return

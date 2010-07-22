@@ -11,12 +11,11 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public interface ModuleManager extends
-        ApplicationListener<ContextRefreshedEvent> {
+public interface ModuleManager extends ApplicationListener<ContextRefreshedEvent> {
 
     /**
-     * Returns whether the module with the given identifier is available, which
-     * means it is installed and successfully started.
+     * Returns whether the module with the given identifier is available, which means it is installed and successfully
+     * started.
      * 
      * @param identifier
      * @return
@@ -25,8 +24,7 @@ public interface ModuleManager extends
 
 
     /**
-     * Returns all registered modules. They will be ordered with the more core
-     * modules returned later.
+     * Returns all registered modules. They will be ordered with the more core modules returned later.
      * 
      * @return
      */

@@ -13,8 +13,7 @@ import org.synyx.minos.core.domain.User;
 public interface AuthenticationService extends PermissionAware {
 
     /**
-     * Returns the currently authenticated user or {@code null} if none
-     * available.
+     * Returns the currently authenticated user or {@code null} if none available.
      * 
      * @return the current user or {@code null} if none available
      */
@@ -22,8 +21,7 @@ public interface AuthenticationService extends PermissionAware {
 
 
     /**
-     * Returns whether the {@link User} with the given username is currently
-     * authenticated.
+     * Returns whether the {@link User} with the given username is currently authenticated.
      * 
      * @param username
      * @return
@@ -59,10 +57,9 @@ public interface AuthenticationService extends PermissionAware {
 
 
     /**
-     * Returns a possibly encrypted password for the given {@link User}.
-     * Encryption dependes on the security configuration of the underlying
-     * implementation and might return the plain password of the user as well.
-     * Does not apply the possibly encrypted password to the given User instance
+     * Returns a possibly encrypted password for the given {@link User}. Encryption dependes on the security
+     * configuration of the underlying implementation and might return the plain password of the user as well. Does not
+     * apply the possibly encrypted password to the given User instance
      * 
      * @param user
      * @return

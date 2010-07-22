@@ -55,8 +55,7 @@ public class MinosUserDetailsServiceUnitTest {
 
 
     /**
-     * Tests, that the service adaptor returns a valid object, if the user can't
-     * be found.
+     * Tests, that the service adaptor returns a valid object, if the user can't be found.
      */
     @Test
     public void testSuccessfulAuthentication() {

@@ -25,8 +25,7 @@ import org.synyx.minos.umt.service.UserManagement;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "test-context.xml")
-public class UmtNotificationIntegrationTest extends
-        AbstractModuleIntegrationTest {
+public class UmtNotificationIntegrationTest extends AbstractModuleIntegrationTest {
 
     @Autowired
     private UserManagement userManagement;
@@ -53,7 +52,6 @@ public class UmtNotificationIntegrationTest extends
 
         userManagement.save(user);
 
-        verify(notificationService).notify((Notification) anyObject(),
-                (NotificationContext) anyObject());
+        verify(notificationService).notify((Notification) anyObject(), (NotificationContext) anyObject());
     }
 }

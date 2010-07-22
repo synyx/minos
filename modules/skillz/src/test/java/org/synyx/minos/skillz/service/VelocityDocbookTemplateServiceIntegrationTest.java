@@ -35,14 +35,11 @@ public class VelocityDocbookTemplateServiceIntegrationTest {
     public void setUp() {
 
         docbookTemplateService =
-                new VelocityDocbookTemplateServiceImpl(createVelocityEngine(),
-                        "resume-template/resume.vm");
+                new VelocityDocbookTemplateServiceImpl(createVelocityEngine(), "resume-template/resume.vm");
         User user = new User("username", "foo@bar.de", "password");
         user.setFirstname("\"foo\"");
         user.setLastname("bar");
-        resume =
-                new Resume(user, new MatrixTemplate("template"),
-                        new ArrayList<Activity>());
+        resume = new Resume(user, new MatrixTemplate("template"), new ArrayList<Activity>());
         resume.setBirthday(new DateMidnight(1982, 1, 1));
     }
 
@@ -50,27 +47,20 @@ public class VelocityDocbookTemplateServiceIntegrationTest {
     @Test
     public void createsDocbookXml() throws Exception {
 
-        String docbookXml =
-                docbookTemplateService.createDocbookXml(resume,
-                        new ArrayList<Level>(), null);
+        String docbookXml = docbookTemplateService.createDocbookXml(resume, new ArrayList<Level>(), null);
 
-        assertThat(docbookXml, both(containsString("&quot;foo&quot; bar")).and(
-                containsString("1982")));
+        assertThat(docbookXml, both(containsString("&quot;foo&quot; bar")).and(containsString("1982")));
     }
 
 
     @Test
     public void createsDocbookXmlWithReference() throws Exception {
 
-        resume.add(new Activity(new Project("projectname"), new DateMidnight(
-                2010, 2, 12)));
+        resume.add(new Activity(new Project("projectname"), new DateMidnight(2010, 2, 12)));
 
-        String docbookXml =
-                docbookTemplateService.createDocbookXml(resume,
-                        new ArrayList<Level>(), null);
+        String docbookXml = docbookTemplateService.createDocbookXml(resume, new ArrayList<Level>(), null);
 
-        assertThat(docbookXml, both(containsString("projectname")).and(
-                containsString("[Februar 2010 - heute]")));
+        assertThat(docbookXml, both(containsString("projectname")).and(containsString("[Februar 2010 - heute]")));
     }
 
 
@@ -84,13 +74,10 @@ public class VelocityDocbookTemplateServiceIntegrationTest {
         resume.getSkillz().add(new Skill("skill1", category), levels.get(0));
         resume.getSkillz().add(new Skill("skill2", category), levels.get(1));
 
-        String docbookXml =
-                docbookTemplateService.createDocbookXml(resume, levels, null);
+        String docbookXml = docbookTemplateService.createDocbookXml(resume, levels, null);
 
-        assertThat(docbookXml, both(containsString("categoryname")).and(
-                containsString("skill2")));
-        assertThat(docbookXml, both(containsString("level1")).and(
-                containsString("X")));
+        assertThat(docbookXml, both(containsString("categoryname")).and(containsString("skill2")));
+        assertThat(docbookXml, both(containsString("level1")).and(containsString("X")));
     }
 
 
@@ -98,9 +85,8 @@ public class VelocityDocbookTemplateServiceIntegrationTest {
 
         VelocityEngine velocityEngine = new VelocityEngine();
         velocityEngine.setProperty("resource.loader", "class");
-        velocityEngine
-                .setProperty("class.resource.loader.class",
-                        "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        velocityEngine.setProperty("class.resource.loader.class",
+                "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         velocityEngine.setProperty("class.resource.loader.cache", "false");
         velocityEngine.setProperty("input.encoding", "utf-8");
         velocityEngine.setProperty("output.encoding", "utf-8");

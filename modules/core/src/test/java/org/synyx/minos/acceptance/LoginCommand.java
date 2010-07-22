@@ -6,8 +6,7 @@ import org.synyx.minos.test.WebtestCommand;
 
 
 /**
- * Performances a login with the given user data (standard admin user by
- * default).
+ * Performances a login with the given user data (standard admin user by default).
  * 
  * @author Markus Knittig - knittig@synyx.de
  */
@@ -35,8 +34,7 @@ public class LoginCommand implements WebtestCommand {
     /**
      * Sets the username to login.
      * 
-     * @param username The username, reset to default if set to
-     *            <code>null</code>
+     * @param username The username, reset to default if set to <code>null</code>
      */
     public LoginCommand withUsername(String username) {
 
@@ -48,8 +46,7 @@ public class LoginCommand implements WebtestCommand {
     /**
      * Sets the password to login.
      * 
-     * @param password The password, reset to default if set to
-     *            <code>null</code>
+     * @param password The password, reset to default if set to <code>null</code>
      */
     public LoginCommand withPassword(String password) {
 

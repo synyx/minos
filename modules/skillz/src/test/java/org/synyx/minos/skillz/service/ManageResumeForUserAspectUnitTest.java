@@ -40,8 +40,7 @@ public class ManageResumeForUserAspectUnitTest {
     @Before
     public void setUp() {
 
-        aspect =
-                new ManageResumeForUserAspect(resumeManagement, skillManagement);
+        aspect = new ManageResumeForUserAspect(resumeManagement, skillManagement);
         user = new User("username", "foo@bar.de", "password");
     }
 
@@ -49,8 +48,7 @@ public class ManageResumeForUserAspectUnitTest {
     @Test
     public void createsResumeForNewUser() throws Throwable {
 
-        when(skillManagement.getDefaultTemplate()).thenReturn(
-                new MatrixTemplate("template"));
+        when(skillManagement.getDefaultTemplate()).thenReturn(new MatrixTemplate("template"));
 
         aspect.createResumeForUser(joinPoint, user);
 
@@ -61,8 +59,7 @@ public class ManageResumeForUserAspectUnitTest {
     @Test
     public void doesNotCreateResumesForUserUpdates() throws Throwable {
 
-        when(skillManagement.getDefaultTemplate()).thenReturn(
-                new MatrixTemplate("template"));
+        when(skillManagement.getDefaultTemplate()).thenReturn(new MatrixTemplate("template"));
         user.setId(1L);
 
         aspect.createResumeForUser(joinPoint, user);
@@ -84,8 +81,7 @@ public class ManageResumeForUserAspectUnitTest {
     public void deletesResumeForDeletedUser() throws Throwable {
 
         when(resumeManagement.getResume(user)).thenReturn(
-                new Resume(user, new MatrixTemplate("name"),
-                        new ArrayList<Activity>()));
+                new Resume(user, new MatrixTemplate("name"), new ArrayList<Activity>()));
 
         aspect.deleteResumeForUser(joinPoint, user);
 

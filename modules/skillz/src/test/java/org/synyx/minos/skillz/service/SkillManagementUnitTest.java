@@ -55,8 +55,7 @@ public class SkillManagementUnitTest {
     @Test
     public void setsOrdinalWithOneLevel() throws Exception {
 
-        when(levelDao.readAll(any(Sort.class))).thenReturn(
-                Arrays.asList(new Level("Test", 0)));
+        when(levelDao.readAll(any(Sort.class))).thenReturn(Arrays.asList(new Level("Test", 0)));
 
         Level level = new Level("Test2", null);
 

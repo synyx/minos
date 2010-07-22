@@ -7,15 +7,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 /**
- * Abstract base class for DAO tests. Configures an application context from all
- * files named {@code dao-context.xml} in the classpath.
+ * Abstract base class for DAO tests. Configures an application context from all files named {@code dao-context.xml} in
+ * the classpath.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:META-INF/minos/**/dao-context.xml")
 @Transactional
-public abstract class AbstractDaoIntegrationTest extends
-        DatabasePopulationAwareTest {
+public abstract class AbstractDaoIntegrationTest extends DatabasePopulationAwareTest {
 
 }

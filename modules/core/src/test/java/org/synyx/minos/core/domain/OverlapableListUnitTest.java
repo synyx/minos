@@ -54,8 +54,7 @@ public class OverlapableListUnitTest {
     @Test
     public void assertFindsOverlaps() {
 
-        OverlapableList<TimePeriod, DateTime> result =
-                appointments.getOverlapsFor(oneHourAppointment(19, 0));
+        OverlapableList<TimePeriod, DateTime> result = appointments.getOverlapsFor(oneHourAppointment(19, 0));
 
         Assert.assertNotNull(result);
         Assert.assertEquals(2, result.size());
@@ -66,14 +65,13 @@ public class OverlapableListUnitTest {
 
 
     /**
-     * Asserts that the list does not falsely take the given {@link Overlapable}
-     * into account if it comes from the list itself.
+     * Asserts that the list does not falsely take the given {@link Overlapable} into account if it comes from the list
+     * itself.
      */
     @Test
     public void assertHonoursSelfReferencesOnGetOverlapsFor() {
 
-        OverlapableList<TimePeriod, DateTime> result =
-                appointments.getOverlapsFor(appointments.get(1));
+        OverlapableList<TimePeriod, DateTime> result = appointments.getOverlapsFor(appointments.get(1));
 
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());

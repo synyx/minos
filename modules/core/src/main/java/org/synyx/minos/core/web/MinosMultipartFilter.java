@@ -9,11 +9,10 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 
 /**
- * Custom {@link MultipartFilter} to lookup the {@link MultipartResolver} from
- * the {@link org.springframework.web.servlet.DispatcherServlet}'s
- * {@link org.springframework.web.context.WebApplicationContext} the request
- * actually is targeted to. Looks up beans named {@code multipartResolver} as
- * suggested by the Spring reference documentation.
+ * Custom {@link MultipartFilter} to lookup the {@link MultipartResolver} from the
+ * {@link org.springframework.web.servlet.DispatcherServlet}'s
+ * {@link org.springframework.web.context.WebApplicationContext} the request actually is targeted to. Looks up beans
+ * named {@code multipartResolver} as suggested by the Spring reference documentation.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -35,13 +34,10 @@ public class MinosMultipartFilter extends MultipartFilter {
      * lookupMultipartResolver(javax.servlet.http.HttpServletRequest)
      */
     @Override
-    protected MultipartResolver lookupMultipartResolver(
-            HttpServletRequest request) {
+    protected MultipartResolver lookupMultipartResolver(HttpServletRequest request) {
 
-        BeanFactory context =
-                RequestContextUtils.getWebApplicationContext(request);
+        BeanFactory context = RequestContextUtils.getWebApplicationContext(request);
 
-        return context.getBean(getMultipartResolverBeanName(),
-                MultipartResolver.class);
+        return context.getBean(getMultipartResolverBeanName(), MultipartResolver.class);
     }
 }

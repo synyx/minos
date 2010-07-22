@@ -13,17 +13,15 @@ import org.synyx.minos.core.module.internal.ModuleAwareComparator;
 
 
 /**
- * MessageSource implementation that delegates to a list of sources by the
- * messages prefix. If a message starts with {@code something.} this delegates
- * to a MinosMessageSource that returns something on getPrefix()
+ * MessageSource implementation that delegates to a list of sources by the messages prefix. If a message starts with
+ * {@code something.} this delegates to a MinosMessageSource that returns something on getPrefix()
  * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class DispatchingMessageSource extends AbstractMessageSource {
 
-    private PluginRegistry<ModuleMessageSource, String> sources =
-            OrderAwarePluginRegistry.create();
+    private PluginRegistry<ModuleMessageSource, String> sources = OrderAwarePluginRegistry.create();
 
 
     /**
@@ -33,9 +31,7 @@ public class DispatchingMessageSource extends AbstractMessageSource {
      */
     public void setSources(List<ModuleMessageSource> sources) {
 
-        this.sources =
-                OrderAwarePluginRegistry.create(sources,
-                        new ModuleAwareComparator());
+        this.sources = OrderAwarePluginRegistry.create(sources, new ModuleAwareComparator());
     }
 
 
@@ -49,23 +45,19 @@ public class DispatchingMessageSource extends AbstractMessageSource {
 
         int firstDotPosition = code.indexOf(".");
 
-        return firstDotPosition > 0 ? code.substring(0, firstDotPosition)
-                : code;
+        return firstDotPosition > 0 ? code.substring(0, firstDotPosition) : code;
     }
 
 
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.context.support.AbstractMessageSource#resolveCode
-     * (java.lang.String, java.util.Locale)
+     * @see org.springframework.context.support.AbstractMessageSource#resolveCode (java.lang.String, java.util.Locale)
      */
     @Override
     protected MessageFormat resolveCode(String code, Locale locale) {
 
-        List<ModuleMessageSource> candidates =
-                sources.getPluginsFor(getPrefixFromCode(code));
+        List<ModuleMessageSource> candidates = sources.getPluginsFor(getPrefixFromCode(code));
 
         // No message source at all found
         if (candidates.isEmpty()) {
@@ -74,8 +66,7 @@ public class DispatchingMessageSource extends AbstractMessageSource {
 
         for (MessageSourcePlugin source : candidates) {
 
-            MessageFormat format =
-                    resolveMessageWithSource(source, code, locale);
+            MessageFormat format = resolveMessageWithSource(source, code, locale);
 
             if (null != format) {
                 return format;
@@ -87,16 +78,14 @@ public class DispatchingMessageSource extends AbstractMessageSource {
 
 
     /**
-     * Resolves the message with the given {@link MessageSource}. Returns
-     * {@literal null} if no message could be resolved or the code was returned
-     * itself.
+     * Resolves the message with the given {@link MessageSource}. Returns {@literal null} if no message could be
+     * resolved or the code was returned itself.
      * 
      * @param source
      * @param code
      * @param locale
      */
-    private MessageFormat resolveMessageWithSource(MessageSource source,
-            String code, Locale locale) {
+    private MessageFormat resolveMessageWithSource(MessageSource source, String code, Locale locale) {
 
         try {
             String message = source.getMessage(code, null, locale);

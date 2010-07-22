@@ -14,7 +14,6 @@ import org.synyx.minos.skillz.domain.Resume;
 import org.synyx.minos.skillz.domain.SkillMatrix;
 
 
-
 /**
  * Unit test for {@link Resume}.
  * 
@@ -37,9 +36,7 @@ public class ResumeUnitTest {
     @Test
     public void removesProjectCorrectly() throws Exception {
 
-        Resume resume =
-                new Resume(TestConstants.USER, new SkillMatrix(), Arrays
-                        .asList(activityOne, activityTwo));
+        Resume resume = new Resume(TestConstants.USER, new SkillMatrix(), Arrays.asList(activityOne, activityTwo));
 
         resume.remove(activityOne.getProject());
 

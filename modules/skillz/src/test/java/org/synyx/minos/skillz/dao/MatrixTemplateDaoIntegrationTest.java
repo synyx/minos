@@ -14,8 +14,7 @@ import org.synyx.minos.test.AbstractDaoIntegrationTest;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class MatrixTemplateDaoIntegrationTest extends
-        AbstractDaoIntegrationTest {
+public class MatrixTemplateDaoIntegrationTest extends AbstractDaoIntegrationTest {
 
     @Autowired
     private MatrixTemplateDao templateDao;

@@ -9,11 +9,10 @@ import org.synyx.minos.core.module.Module;
 
 
 /**
- * {@link PermissionAware} that looks up permissions for the configured
- * {@link Module} doing reflection lookups on a class matching the pattern
- * <code>${module.basePackage}.${module.id}Permissions</code> with the id
- * capitalized, e.g. the permissions constant class for {@code umt} module would
- * be expected in {@link org.synyx.minos.umt.UmtPermissions}.
+ * {@link PermissionAware} that looks up permissions for the configured {@link Module} doing reflection lookups on a
+ * class matching the pattern <code>${module.basePackage}.${module.id}Permissions</code> with the id capitalized, e.g.
+ * the permissions constant class for {@code umt} module would be expected in {@link org.synyx.minos.umt.UmtPermissions}
+ * .
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -38,18 +37,14 @@ public class ModulePermissionAware extends ReflectivePermissionAwareSupport {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.core.authentication.ReflectivePermissionAwareSupport#
-     * getClassesToScan()
+     * @see org.synyx.minos.core.authentication.ReflectivePermissionAwareSupport# getClassesToScan()
      */
     @Override
     protected Collection<Class<?>> getClassesToScan() {
 
         String id = StringUtils.capitalize(module.getIdentifier());
 
-        String className =
-                String.format(PERMISSION_CLASS_TEMPLATE, module
-                        .getBasePackage(), id);
+        String className = String.format(PERMISSION_CLASS_TEMPLATE, module.getBasePackage(), id);
 
         if (ClassUtils.isPresent(className, null)) {
 

@@ -62,11 +62,9 @@ public class SkillzController {
      * Creates a new {@link SkillzController} instance.
      */
     @Autowired
-    public SkillzController(SkillManagement skillManagement,
-            UserManagement userManagement, ProjectValidator projectValidator,
-            CategoryValidator categoryValidator,
-            MatrixTemplateValidator matrixTemplateValidator,
-            LevelValidator levelValidator) {
+    public SkillzController(SkillManagement skillManagement, UserManagement userManagement,
+            ProjectValidator projectValidator, CategoryValidator categoryValidator,
+            MatrixTemplateValidator matrixTemplateValidator, LevelValidator levelValidator) {
 
         this.skillManagement = skillManagement;
         this.userManagement = userManagement;
@@ -80,8 +78,7 @@ public class SkillzController {
     @InitBinder
     public void initBinder(DataBinder binder, Locale locale) {
 
-        binder.registerCustomEditor(DateMidnight.class, new DateTimeEditor(
-                locale, "MM/yyyy").forDateMidnight());
+        binder.registerCustomEditor(DateMidnight.class, new DateTimeEditor(locale, "MM/yyyy").forDateMidnight());
     }
 
 
@@ -107,12 +104,10 @@ public class SkillzController {
 
     // Manage categories
 
-    @RequestMapping(value = { "/skillz/categories/{id}",
-            "/skillz/categories/form{id}" }, method = GET)
+    @RequestMapping(value = { "/skillz/categories/{id}", "/skillz/categories/form{id}" }, method = GET)
     public String category(@PathVariable("id") Category category, Model model) {
 
-        model.addAttribute("category", null == category ? BeanUtils
-                .instantiateClass(Category.class) : category);
+        model.addAttribute("category", null == category ? BeanUtils.instantiateClass(Category.class) : category);
         model.addAttribute("categories", skillManagement.getCategories());
 
         return "skillz/category";
@@ -120,18 +115,14 @@ public class SkillzController {
 
 
     @RequestMapping(value = "/skillz/categories", method = POST)
-    public String saveNewCategory(
-            @ModelAttribute("category") Category category, Errors errors,
-            Model model) {
+    public String saveNewCategory(@ModelAttribute("category") Category category, Errors errors, Model model) {
 
         return saveCategory(category, errors, model);
     }
 
 
     @RequestMapping(value = "/skillz/categories/{id}", method = PUT)
-    public String saveExistingCategory(
-            @ModelAttribute("category") Category category, Errors errors,
-            Model model) {
+    public String saveExistingCategory(@ModelAttribute("category") Category category, Errors errors, Model model) {
 
         return saveCategory(category, errors, model);
     }
@@ -147,26 +138,22 @@ public class SkillzController {
 
         skillManagement.save(category);
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "skillz.category.save.success", category.getName()));
+        model.addAttribute(Core.MESSAGE, Message.success("skillz.category.save.success", category.getName()));
 
         return UrlUtils.redirect(SKILLZ_CATEGORIES);
     }
 
 
     @RequestMapping(value = "/skillz/categories/{id}", method = DELETE)
-    public String deleteCategory(@PathVariable("id") Category category,
-            Model model) {
+    public String deleteCategory(@PathVariable("id") Category category, Model model) {
 
         if (null == category) {
-            model.addAttribute(Core.MESSAGE, Message
-                    .error("skillz.category.delete.error"));
+            model.addAttribute(Core.MESSAGE, Message.error("skillz.category.delete.error"));
             return null;
         }
 
         skillManagement.delete(category);
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "skillz.category.delete.success", category.getName()));
+        model.addAttribute(Core.MESSAGE, Message.success("skillz.category.delete.success", category.getName()));
         return UrlUtils.redirect(SKILLZ_CATEGORIES);
     }
 
@@ -182,18 +169,15 @@ public class SkillzController {
      * @return
      */
     @RequestMapping(value = "/skillz/skill", method = POST, params = "moveSkill")
-    public String moveSkill(@RequestParam("skill") Skill skill,
-            @RequestParam("category") Category category, Model model) {
+    public String moveSkill(@RequestParam("skill") Skill skill, @RequestParam("category") Category category, Model model) {
 
         Category currentCategory = skill.getCategory();
 
         skillManagement.moveSkill(skill, category);
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "skillz.skill.save.success", skill.getName()));
+        model.addAttribute(Core.MESSAGE, Message.success("skillz.skill.save.success", skill.getName()));
 
-        return UrlUtils.redirect("/skillz/categories/"
-                + currentCategory.getId());
+        return UrlUtils.redirect("/skillz/categories/" + currentCategory.getId());
     }
 
 
@@ -202,8 +186,7 @@ public class SkillzController {
 
         Category savedCategory = skillManagement.save(skill.getCategory());
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "skillz.skill.save.success", skill.getName()));
+        model.addAttribute(Core.MESSAGE, Message.success("skillz.skill.save.success", skill.getName()));
 
         return UrlUtils.redirect("/skillz/categories/" + savedCategory.getId());
     }
@@ -214,11 +197,9 @@ public class SkillzController {
 
         skillManagement.delete(skill);
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "skillz.skill.delete.success", skill.getName()));
+        model.addAttribute(Core.MESSAGE, Message.success("skillz.skill.delete.success", skill.getName()));
 
-        return UrlUtils.redirect("/skillz/categories/"
-                + skill.getCategory().getId());
+        return UrlUtils.redirect("/skillz/categories/" + skill.getCategory().getId());
     }
 
 
@@ -231,13 +212,10 @@ public class SkillzController {
      * @param model
      * @return
      */
-    @RequestMapping(value = { "/skillz/templates/{id}",
-            "/skillz/templates/form{id}" }, method = GET)
-    public String template(@PathVariable("id") MatrixTemplate template,
-            Model model) {
+    @RequestMapping(value = { "/skillz/templates/{id}", "/skillz/templates/form{id}" }, method = GET)
+    public String template(@PathVariable("id") MatrixTemplate template, Model model) {
 
-        model.addAttribute("template", null == template ? BeanUtils
-                .instantiateClass(MatrixTemplate.class) : template);
+        model.addAttribute("template", null == template ? BeanUtils.instantiateClass(MatrixTemplate.class) : template);
         model.addAttribute("categories", skillManagement.getCategories());
 
         return "skillz/template";
@@ -253,9 +231,7 @@ public class SkillzController {
      * @return
      */
     @RequestMapping(value = "/skillz/templates", method = POST)
-    public String saveNewTemplate(
-            @ModelAttribute("template") MatrixTemplate template, Errors errors,
-            Model model) {
+    public String saveNewTemplate(@ModelAttribute("template") MatrixTemplate template, Errors errors, Model model) {
 
         return saveTemplate(template, errors, model);
     }
@@ -270,9 +246,7 @@ public class SkillzController {
      * @return
      */
     @RequestMapping(value = "/skillz/templates/{id}", method = PUT)
-    public String saveExistingTemplate(
-            @ModelAttribute("template") MatrixTemplate template, Errors errors,
-            Model model) {
+    public String saveExistingTemplate(@ModelAttribute("template") MatrixTemplate template, Errors errors, Model model) {
 
         return saveTemplate(template, errors, model);
     }
@@ -286,8 +260,7 @@ public class SkillzController {
      * @param model
      * @return
      */
-    public String saveTemplate(MatrixTemplate template, Errors errors,
-            Model model) {
+    public String saveTemplate(MatrixTemplate template, Errors errors, Model model) {
 
         matrixTemplateValidator.validate(template, errors);
 
@@ -298,21 +271,18 @@ public class SkillzController {
 
         MatrixTemplate result = skillManagement.save(template);
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "skillz.template.save.success", result.getName()));
+        model.addAttribute(Core.MESSAGE, Message.success("skillz.template.save.success", result.getName()));
 
         return UrlUtils.redirect(SKILLZ_TEMPLATES);
     }
 
 
     @RequestMapping(value = "/skillz/templates/{id}", method = DELETE)
-    public String deleteTemplate(@PathVariable("id") MatrixTemplate template,
-            Model model) {
+    public String deleteTemplate(@PathVariable("id") MatrixTemplate template, Model model) {
 
         skillManagement.delete(template);
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "skillz.template.delete.success", template.getName()));
+        model.addAttribute(Core.MESSAGE, Message.success("skillz.template.delete.success", template.getName()));
 
         return UrlUtils.redirect(SKILLZ_TEMPLATES);
     }
@@ -321,9 +291,7 @@ public class SkillzController {
     // Manage projects
 
     @RequestMapping(value = { "/skillz/projects/{usernameOrFormString:[a-zA-Z_]\\w*}" }, method = GET)
-    public String project(
-            @PathVariable("usernameOrFormString") String usernameOrFormString,
-            Model model) {
+    public String project(@PathVariable("usernameOrFormString") String usernameOrFormString, Model model) {
 
         if (usernameOrFormString.equals("form")) {
             return createOrEditProject(null, model);
@@ -333,12 +301,10 @@ public class SkillzController {
     }
 
 
-    public String showUserProjects(@PathVariable("username") String username,
-            Model model) {
+    public String showUserProjects(@PathVariable("username") String username, Model model) {
 
         User user = userManagement.getUser(username);
-        model.addAttribute("projects", skillManagement
-                .getPrivateProjectsFor(user));
+        model.addAttribute("projects", skillManagement.getPrivateProjectsFor(user));
         model.addAttribute("projectsUrl", "/skillz/projects/" + username);
         model.addAttribute("username", username);
 
@@ -347,11 +313,9 @@ public class SkillzController {
 
 
     @RequestMapping(value = { "/skillz/projects/{id:\\d+}" }, method = GET)
-    public String createOrEditProject(@PathVariable("id") Project project,
-            Model model) {
+    public String createOrEditProject(@PathVariable("id") Project project, Model model) {
 
-        model.addAttribute("project", null == project ? BeanUtils
-                .instantiateClass(Project.class) : project);
+        model.addAttribute("project", null == project ? BeanUtils.instantiateClass(Project.class) : project);
         model.addAttribute("projects", skillManagement.getPublicProjects());
         model.addAttribute("skills", skillManagement.getSkills());
 
@@ -368,9 +332,8 @@ public class SkillzController {
      * @return
      */
     @RequestMapping(value = { "/skillz/projects/{username:[a-zA-Z_]\\w*}/form" }, method = GET)
-    public String privateProjectForm(
-            @RequestParam(value = "id", required = false) Project project,
-            Model model, @CurrentUser User user) {
+    public String privateProjectForm(@RequestParam(value = "id", required = false) Project project, Model model,
+            @CurrentUser User user) {
 
         if (null == project) {
 
@@ -402,9 +365,8 @@ public class SkillzController {
      * @return
      */
     @RequestMapping(value = "/skillz/projects", method = POST)
-    public String saveNewPublicProject(
-            @ModelAttribute("project") Project project, Errors errors,
-            Model model, @CurrentUser User user) {
+    public String saveNewPublicProject(@ModelAttribute("project") Project project, Errors errors, Model model,
+            @CurrentUser User user) {
 
         return savePublicProject(project, errors, model, user);
     }
@@ -420,16 +382,14 @@ public class SkillzController {
      * @return
      */
     @RequestMapping(value = "/skillz/projects/{id:\\d+}", method = PUT)
-    public String saveExistingPublicProject(
-            @ModelAttribute("project") Project project, Errors errors,
-            Model model, @CurrentUser User user) {
+    public String saveExistingPublicProject(@ModelAttribute("project") Project project, Errors errors, Model model,
+            @CurrentUser User user) {
 
         return savePublicProject(project, errors, model, user);
     }
 
 
-    private String savePublicProject(Project project, Errors errors,
-            Model model, User user) {
+    private String savePublicProject(Project project, Errors errors, Model model, User user) {
 
         // validate project
         projectValidator.validate(project, errors);
@@ -458,9 +418,8 @@ public class SkillzController {
      * @return
      */
     @RequestMapping(value = { "/skillz/projects/{username:[a-zA-Z_]\\w*}" }, method = POST)
-    public String savePrivateProject(
-            @ModelAttribute("project") Project project, Errors errors,
-            Model model, @CurrentUser User user) {
+    public String savePrivateProject(@ModelAttribute("project") Project project, Errors errors, Model model,
+            @CurrentUser User user) {
 
         // validate project
         projectValidator.validate(project, errors);
@@ -474,8 +433,7 @@ public class SkillzController {
 
         saveProject(project, model);
 
-        return UrlUtils.redirect("../projects/"
-                + project.getOwner().getUsername());
+        return UrlUtils.redirect("../projects/" + project.getOwner().getUsername());
     }
 
 
@@ -489,8 +447,7 @@ public class SkillzController {
 
         project = skillManagement.save(project);
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "skillz.project.save.success", project.getName()));
+        model.addAttribute(Core.MESSAGE, Message.success("skillz.project.save.success", project.getName()));
     }
 
 
@@ -503,13 +460,11 @@ public class SkillzController {
      * @return
      */
     @RequestMapping(value = "/skillz/projects/{id:\\d+}", method = DELETE)
-    public String deleteProject(@PathVariable("id") Project project,
-            Model model, @CurrentUser User user) {
+    public String deleteProject(@PathVariable("id") Project project, Model model, @CurrentUser User user) {
 
         skillManagement.delete(project);
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "skillz.project.delete.success", project.getName()));
+        model.addAttribute(Core.MESSAGE, Message.success("skillz.project.delete.success", project.getName()));
 
         if (project.belongsTo(user)) {
             return UrlUtils.redirect("./" + user.getUsername());
@@ -531,8 +486,7 @@ public class SkillzController {
     @RequestMapping(value = { "/skillz/levels/{id}", "/skillz/levels/form{id}" }, method = GET)
     public String level(@PathVariable("id") Level level, Model model) {
 
-        model.addAttribute("level", null == level ? BeanUtils
-                .instantiateClass(Level.class) : level);
+        model.addAttribute("level", null == level ? BeanUtils.instantiateClass(Level.class) : level);
         model.addAttribute("levels", skillManagement.getLevels());
 
         return "skillz/level";
@@ -540,16 +494,14 @@ public class SkillzController {
 
 
     @RequestMapping(value = "/skillz/levels", method = POST)
-    public String saveNewLevel(@ModelAttribute("level") Level level,
-            Errors errors, Model model) {
+    public String saveNewLevel(@ModelAttribute("level") Level level, Errors errors, Model model) {
 
         return saveLevel(level, errors, model);
     }
 
 
     @RequestMapping(value = "/skillz/levels/{id}", method = PUT)
-    public String saveExisitingLevel(@ModelAttribute("level") Level level,
-            Errors errors, Model model) {
+    public String saveExisitingLevel(@ModelAttribute("level") Level level, Errors errors, Model model) {
 
         return saveLevel(level, errors, model);
     }
@@ -565,8 +517,7 @@ public class SkillzController {
 
         Level result = skillManagement.save(level);
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "skillz.level.save.success", result.getName()));
+        model.addAttribute(Core.MESSAGE, Message.success("skillz.level.save.success", result.getName()));
 
         return UrlUtils.redirect(SKILLZ_LEVELS);
     }
@@ -577,8 +528,7 @@ public class SkillzController {
 
         skillManagement.delete(level);
 
-        model.addAttribute(Core.MESSAGE, Message.success(
-                "skillz.level.delete.success", level.getName()));
+        model.addAttribute(Core.MESSAGE, Message.success("skillz.level.delete.success", level.getName()));
 
         return UrlUtils.redirect(SKILLZ_LEVELS);
     }

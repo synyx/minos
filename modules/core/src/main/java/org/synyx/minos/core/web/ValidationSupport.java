@@ -28,8 +28,8 @@ public abstract class ValidationSupport<T> {
 
 
     /**
-     * Returns if the given object is valid. Invokes the configured validator to
-     * decide. Skips validation, if no validator is set.
+     * Returns if the given object is valid. Invokes the configured validator to decide. Skips validation, if no
+     * validator is set.
      * 
      * @param target
      * @param errors

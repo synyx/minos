@@ -12,9 +12,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 
 /**
- * Custom {@link DecoratorFactory} to lookup decorators from the Spring
- * {@link ApplicationContext}. This allows you to define Spring bean names in
- * {@code column} tags.
+ * Custom {@link DecoratorFactory} to lookup decorators from the Spring {@link ApplicationContext}. This allows you to
+ * define Spring bean names in {@code column} tags.
  * 
  * @see org.synyx.minos.core.web.tags.table.ColumnTag
  * @author Oliver Gierke - gierke@synyx.de
@@ -24,23 +23,19 @@ public class SpringDecoratorFactory extends DefaultDecoratorFactory {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.displaytag.decorator.DefaultDecoratorFactory#loadColumnDecorator(
-     * javax.servlet.jsp.PageContext, java.lang.String)
+     * @see org.displaytag.decorator.DefaultDecoratorFactory#loadColumnDecorator( javax.servlet.jsp.PageContext,
+     * java.lang.String)
      */
     @Override
-    public DisplaytagColumnDecorator loadColumnDecorator(
-            PageContext pageContext, String decoratorName)
+    public DisplaytagColumnDecorator loadColumnDecorator(PageContext pageContext, String decoratorName)
             throws DecoratorInstantiationException {
 
         ApplicationContext context = getApplicationContext(pageContext);
 
-        for (String name : context
-                .getBeanNamesForType(DisplaytagColumnDecorator.class)) {
+        for (String name : context.getBeanNamesForType(DisplaytagColumnDecorator.class)) {
 
             if (name.equals(decoratorName)) {
-                return (DisplaytagColumnDecorator) context
-                        .getBean(decoratorName);
+                return (DisplaytagColumnDecorator) context.getBean(decoratorName);
             }
         }
 
@@ -51,13 +46,12 @@ public class SpringDecoratorFactory extends DefaultDecoratorFactory {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.displaytag.decorator.DefaultDecoratorFactory#loadTableDecorator(javax
-     * .servlet.jsp.PageContext, java.lang.String)
+     * @see org.displaytag.decorator.DefaultDecoratorFactory#loadTableDecorator(javax .servlet.jsp.PageContext,
+     * java.lang.String)
      */
     @Override
-    public TableDecorator loadTableDecorator(PageContext pageContext,
-            String decoratorName) throws DecoratorInstantiationException {
+    public TableDecorator loadTableDecorator(PageContext pageContext, String decoratorName)
+            throws DecoratorInstantiationException {
 
         ApplicationContext context = getApplicationContext(pageContext);
 
@@ -73,15 +67,13 @@ public class SpringDecoratorFactory extends DefaultDecoratorFactory {
 
 
     /**
-     * Returns the {@link ApplicationContext} tied to the given
-     * {@link PageContext}.
+     * Returns the {@link ApplicationContext} tied to the given {@link PageContext}.
      * 
      * @param pageContext
      * @return
      */
     private ApplicationContext getApplicationContext(PageContext pageContext) {
 
-        return WebApplicationContextUtils.getWebApplicationContext(pageContext
-                .getServletContext());
+        return WebApplicationContextUtils.getWebApplicationContext(pageContext.getServletContext());
     }
 }

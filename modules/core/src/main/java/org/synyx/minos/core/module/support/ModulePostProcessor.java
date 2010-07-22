@@ -22,8 +22,8 @@ import org.synyx.minos.core.module.internal.MinosModule;
 
 
 /**
- * This PostProcessor removes beans annotated with {@link ModuleDependent}, if
- * the appropriate modules are not available.
+ * This PostProcessor removes beans annotated with {@link ModuleDependent}, if the appropriate modules are not
+ * available.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -48,13 +48,10 @@ public class ModulePostProcessor implements BeanFactoryPostProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @seeorg.springframework.beans.factory.config.BeanFactoryPostProcessor#
-     * postProcessBeanFactory
-     * (org.springframework.beans.factory.config.ConfigurableListableBeanFactory
-     * )
+     * @seeorg.springframework.beans.factory.config.BeanFactoryPostProcessor# postProcessBeanFactory
+     * (org.springframework.beans.factory.config.ConfigurableListableBeanFactory )
      */
-    public void postProcessBeanFactory(
-            ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 
         if (!(beanFactory instanceof BeanDefinitionRegistry)) {
             return;
@@ -71,22 +68,18 @@ public class ModulePostProcessor implements BeanFactoryPostProcessor {
             // Retrieve modules required by the decorator
             List<String> requiredModules = decorators.get(decoratorName);
 
-            Boolean hasDependencies =
-                    0 != beanFactory.getDependentBeans(decoratorName).length;
+            Boolean hasDependencies = 0 != beanFactory.getDependentBeans(decoratorName).length;
 
             if (hasDependencies) {
-                throw new BeanDefinitionValidationException(
-                        "Cannot remove bean definition "
-                                + decoratorName
-                                + " because at least one other bean depends on it!");
+                throw new BeanDefinitionValidationException("Cannot remove bean definition " + decoratorName
+                        + " because at least one other bean depends on it!");
             }
 
             if (!modules.containsAll(requiredModules)) {
 
                 if (log.isDebugEnabled()) {
-                    log.debug("Removing module decorator " + decoratorName
-                            + " because it requires module " + requiredModules
-                            + " and only " + modules + " were found!");
+                    log.debug("Removing module decorator " + decoratorName + " because it requires module "
+                            + requiredModules + " and only " + modules + " were found!");
                 }
 
                 registry.removeBeanDefinition(decoratorName);
@@ -96,24 +89,20 @@ public class ModulePostProcessor implements BeanFactoryPostProcessor {
 
 
     /**
-     * Retrieves all modules (interfaces annotated with <code>Module</code>) and
-     * decorators (classes annotated with <code>ModuleDecorator</code>) from the
-     * given bean factory and populates member variables.
+     * Retrieves all modules (interfaces annotated with <code>Module</code>) and decorators (classes annotated with
+     * <code>ModuleDecorator</code>) from the given bean factory and populates member variables.
      * 
      * @param beanFactory
      */
-    private void findModulesAndDecorators(
-            ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    private void findModulesAndDecorators(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 
         String[] beanNames = beanFactory.getBeanDefinitionNames();
 
         for (String beanName : beanNames) {
 
-            BeanDefinition beanDefinition =
-                    beanFactory.getBeanDefinition(beanName);
+            BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
 
-            for (Module moduleInformation : beanFactory.getBeansOfType(
-                    MinosModule.class, false, false).values()) {
+            for (Module moduleInformation : beanFactory.getBeansOfType(MinosModule.class, false, false).values()) {
                 modules.add(moduleInformation.getIdentifier());
             }
 
@@ -128,9 +117,7 @@ public class ModulePostProcessor implements BeanFactoryPostProcessor {
                 Class<?> beanClass = Class.forName(beanClassName);
 
                 // Decorator bean?
-                ModuleDependent decorator =
-                        AnnotationUtils.findAnnotation(beanClass,
-                                ModuleDependent.class);
+                ModuleDependent decorator = AnnotationUtils.findAnnotation(beanClass, ModuleDependent.class);
 
                 if (null != decorator) {
                     decorators.put(beanName, Arrays.asList(decorator.value()));

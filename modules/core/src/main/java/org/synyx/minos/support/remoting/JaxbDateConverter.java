@@ -6,8 +6,8 @@ import org.joda.time.DateTime;
 
 
 /**
- * Converter class that can be used to marshal {@link DateTime} instances to
- * XML. Declare this in your JAXB binding customization file.
+ * Converter class that can be used to marshal {@link DateTime} instances to XML. Declare this in your JAXB binding
+ * customization file.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */

@@ -19,8 +19,7 @@ public class ThumbnailUtilsUnitTest {
     @Test
     public void scaleImage() throws Exception {
 
-        BufferedImage image =
-                ImageIO.read(getClass().getResourceAsStream("logo.png"));
+        BufferedImage image = ImageIO.read(getClass().getResourceAsStream("logo.png"));
         BufferedImage scaledImage = ThumbnailUtils.scale(image, 200);
 
         assertEquals(200, scaledImage.getWidth());

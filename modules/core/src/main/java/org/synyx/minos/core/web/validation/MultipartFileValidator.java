@@ -12,17 +12,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 /**
- * Validator for {@link MultipartFile}s. Allows to define a {@link Set} of
- * supported file extensions to upload. Defaults to
- * {@value #DEFAULT_ALLOWED_EXTENSIONS}.
+ * Validator for {@link MultipartFile}s. Allows to define a {@link Set} of supported file extensions to upload. Defaults
+ * to {@value #DEFAULT_ALLOWED_EXTENSIONS}.
  * 
  * @author Markus Knittig - knittig@synyx.de
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class MultipartFileValidator implements Validator {
 
-    private static Set<String> DEFAULT_ALLOWED_EXTENSIONS =
-            new HashSet<String>(Arrays.asList("png", "jpg", "gif"));
+    private static Set<String> DEFAULT_ALLOWED_EXTENSIONS = new HashSet<String>(Arrays.asList("png", "jpg", "gif"));
 
     private Set<String> supportedExceptions = DEFAULT_ALLOWED_EXTENSIONS;
 
@@ -35,8 +33,7 @@ public class MultipartFileValidator implements Validator {
     public void setSupportedExceptions(Set<String> supportedExceptions) {
 
         this.supportedExceptions =
-                CollectionUtils.isEmpty(supportedExceptions) ? DEFAULT_ALLOWED_EXTENSIONS
-                        : supportedExceptions;
+                CollectionUtils.isEmpty(supportedExceptions) ? DEFAULT_ALLOWED_EXTENSIONS : supportedExceptions;
     }
 
 
@@ -55,8 +52,7 @@ public class MultipartFileValidator implements Validator {
     /*
      * (non-Javadoc)
      * 
-     * @see org.springframework.validation.Validator#validate(java.lang.Object,
-     * org.springframework.validation.Errors)
+     * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
      */
     @Override
     public void validate(Object target, Errors errors) {
@@ -64,8 +60,7 @@ public class MultipartFileValidator implements Validator {
         MultipartFile multipartFile = (MultipartFile) target;
 
         String fileName = multipartFile.getOriginalFilename();
-        if (!supportedExceptions.contains(StringUtils
-                .getFilenameExtension(fileName.toLowerCase()))) {
+        if (!supportedExceptions.contains(StringUtils.getFilenameExtension(fileName.toLowerCase()))) {
             errors.reject("core.multipart.invalidExtension");
         }
     }

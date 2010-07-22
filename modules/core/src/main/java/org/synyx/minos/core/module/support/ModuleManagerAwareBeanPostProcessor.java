@@ -9,13 +9,11 @@ import org.synyx.minos.core.module.ModuleManagerAware;
 
 
 /**
- * {@link BeanPostProcessor} that injects a {@link ModuleManager} into any bean
- * implementing {@link ModuleManagerAware}.
+ * {@link BeanPostProcessor} that injects a {@link ModuleManager} into any bean implementing {@link ModuleManagerAware}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class ModuleManagerAwareBeanPostProcessor implements
-        ApplicationContextAware, BeanPostProcessor {
+public class ModuleManagerAwareBeanPostProcessor implements ApplicationContextAware, BeanPostProcessor {
 
     private ModuleManager moduleManager;
 
@@ -23,8 +21,7 @@ public class ModuleManagerAwareBeanPostProcessor implements
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.context.ApplicationContextAware#setApplicationContext
+     * @see org.springframework.context.ApplicationContextAware#setApplicationContext
      * (org.springframework.context.ApplicationContext)
      */
     public void setApplicationContext(ApplicationContext applicationContext) {
@@ -36,12 +33,11 @@ public class ModuleManagerAwareBeanPostProcessor implements
     /*
      * (non-Javadoc)
      * 
-     * @seeorg.springframework.beans.factory.config.BeanPostProcessor#
-     * postProcessAfterInitialization(java.lang.Object, java.lang.String)
+     * @seeorg.springframework.beans.factory.config.BeanPostProcessor# postProcessAfterInitialization(java.lang.Object,
+     * java.lang.String)
      */
     @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName)
-            throws BeansException {
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
         return bean;
     }
@@ -50,12 +46,11 @@ public class ModuleManagerAwareBeanPostProcessor implements
     /*
      * (non-Javadoc)
      * 
-     * @seeorg.springframework.beans.factory.config.BeanPostProcessor#
-     * postProcessBeforeInitialization(java.lang.Object, java.lang.String)
+     * @seeorg.springframework.beans.factory.config.BeanPostProcessor# postProcessBeforeInitialization(java.lang.Object,
+     * java.lang.String)
      */
     @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName)
-            throws BeansException {
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 
         if (bean instanceof ModuleManagerAware) {
             ((ModuleManagerAware) bean).setModuleManager(moduleManager);

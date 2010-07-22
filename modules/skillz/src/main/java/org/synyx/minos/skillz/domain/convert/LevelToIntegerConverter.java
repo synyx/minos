@@ -14,9 +14,7 @@ public class LevelToIntegerConverter implements Converter<Level, Integer> {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.core.convert.converter.Converter#convert(java.lang
-     * .Object)
+     * @see org.springframework.core.convert.converter.Converter#convert(java.lang .Object)
      */
     @Override
     public Integer convert(Level source) {

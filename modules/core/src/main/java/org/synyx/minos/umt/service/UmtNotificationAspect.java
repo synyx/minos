@@ -14,8 +14,7 @@ import org.synyx.minos.core.notification.NotificationService;
 
 
 /**
- * Aspect triggering the following notifications on {@link UserManagement}
- * invocations:
+ * Aspect triggering the following notifications on {@link UserManagement} invocations:
  * <ul>
  * <li>Creation of new users results in a notification of the new password.</li>
  * </ul>
@@ -25,8 +24,7 @@ import org.synyx.minos.core.notification.NotificationService;
 @Aspect
 public class UmtNotificationAspect {
 
-    private static final String USER_NOTIFICATION_CONFIG_KEY =
-            "minos.user.notification.provider";
+    private static final String USER_NOTIFICATION_CONFIG_KEY = "minos.user.notification.provider";
 
     private NotificationService notificationService;
     private NotificationFactory notificationFactory;
@@ -44,15 +42,18 @@ public class UmtNotificationAspect {
         this.notificationService = notificationService;
     }
 
+
     /**
      * Setter injecting factory to create {@link Notification} instance
-     *
+     * 
      * @param argNotificationFactory {@link org.synyx.minos.core.notification.NotificationFactory}
      */
     @Required
     public void setNotificationFactory(NotificationFactory argNotificationFactory) {
+
         notificationFactory = argNotificationFactory;
     }
+
 
     /**
      * Intercepts password creations and stores it in a {@code ThreadLocal}.
@@ -92,12 +93,14 @@ public class UmtNotificationAspect {
         return result;
     }
 
+
     /**
      * Create a notification context with the notification provider the user selected
-     *
+     * 
      * @return {@link ConfigBasedNotificationContext} instance
      */
     protected ConfigBasedNotificationContext createContext() {
+
         return new ConfigBasedNotificationContext(USER_NOTIFICATION_CONFIG_KEY);
     }
 }

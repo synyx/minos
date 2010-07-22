@@ -14,8 +14,7 @@ import org.synyx.hera.core.Plugin;
 public interface Module extends Plugin<String>, Comparable<Module> {
 
     /**
-     * Returns the {@link Lifecycle} of the module. Will never return {@liteal
-     * null}.
+     * Returns the {@link Lifecycle} of the module. Will never return {@liteal null}.
      * 
      * @return the lifecycle
      */
@@ -23,8 +22,7 @@ public interface Module extends Plugin<String>, Comparable<Module> {
 
 
     /**
-     * Returns the base package of the module. Defaults to
-     * <code>org.synyx.minos.${moduleIdentifier}</code>.
+     * Returns the base package of the module. Defaults to <code>org.synyx.minos.${moduleIdentifier}</code>.
      * 
      * @return the basePackage
      */
@@ -41,8 +39,7 @@ public interface Module extends Plugin<String>, Comparable<Module> {
 
 
     /**
-     * Returns the relative path to the given module resource inside the
-     * classpath.
+     * Returns the relative path to the given module resource inside the classpath.
      * 
      * @param moduleResource
      * @return
@@ -51,8 +48,7 @@ public interface Module extends Plugin<String>, Comparable<Module> {
 
 
     /**
-     * Returns all {@link Module}s the current module depends on including
-     * transitive dependencies.
+     * Returns all {@link Module}s the current module depends on including transitive dependencies.
      * 
      * @return
      */
@@ -60,8 +56,7 @@ public interface Module extends Plugin<String>, Comparable<Module> {
 
 
     /**
-     * Returns all {@link Module}s the current {@link Module} directly depends
-     * on.
+     * Returns all {@link Module}s the current {@link Module} directly depends on.
      * 
      * @return
      */

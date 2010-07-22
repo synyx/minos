@@ -82,8 +82,7 @@ public class ResumeController {
     private final PdfDocbookCreator pdfDocbookCreator;
     private final ResumeZipCreator resumeZipCreator;
 
-    private MultipartFileValidator multipartValidator =
-            new MultipartFileValidator();
+    private MultipartFileValidator multipartValidator = new MultipartFileValidator();
 
 
     /**
@@ -96,10 +95,8 @@ public class ResumeController {
      * @param resumeZipCreator
      */
     @Autowired
-    public ResumeController(ResumeManagement resumeManagement,
-            SkillManagement skillManagement,
-            ResumeAdminstration resumeAdminstration,
-            PdfDocbookCreator pdfDocbookCreator,
+    public ResumeController(ResumeManagement resumeManagement, SkillManagement skillManagement,
+            ResumeAdminstration resumeAdminstration, PdfDocbookCreator pdfDocbookCreator,
             ResumeZipCreator resumeZipCreator) {
 
         this.skillManagement = skillManagement;
@@ -111,8 +108,8 @@ public class ResumeController {
 
 
     /**
-     * Configure a custom {@link MultipartFileValidator}. By default the
-     * controller will use a {@link MultipartFileValidator}.
+     * Configure a custom {@link MultipartFileValidator}. By default the controller will use a
+     * {@link MultipartFileValidator}.
      * 
      * @param multipartValidator the multipartValidator to set
      */
@@ -148,8 +145,7 @@ public class ResumeController {
 
 
     @RequestMapping(value = "/skillz/resume/matrix/{id}", method = PUT)
-    public String saveExistingMatrix(
-            @ModelAttribute("matrix") SkillMatrix matrix, SessionStatus session) {
+    public String saveExistingMatrix(@ModelAttribute("matrix") SkillMatrix matrix, SessionStatus session) {
 
         resumeManagement.save(matrix);
         session.setComplete();
@@ -174,9 +170,8 @@ public class ResumeController {
 
 
     /**
-     * Creates the current {@link User}'s {@link Resume} as a PDF file in a
-     * temporary directory and redirects to it if the creation was successful,
-     * show an error message otherwise.
+     * Creates the current {@link User}'s {@link Resume} as a PDF file in a temporary directory and redirects to it if
+     * the creation was successful, show an error message otherwise.
      * 
      * @param user
      * @param response
@@ -185,24 +180,16 @@ public class ResumeController {
      * @return
      */
     @RequestMapping(value = RESUME, method = POST, params = "pdfexport")
-    public String resumePdf(@CurrentUser User user, Model model,
-            HttpSession session, WebRequest webRequest) {
+    public String resumePdf(@CurrentUser User user, Model model, HttpSession session, WebRequest webRequest) {
 
         File file = null;
         try {
             file =
-                    pdfDocbookCreator
-                            .createTempPdfFile(
-                                    getServletTempDirectory(session
-                                            .getServletContext()),
-                                    resumeManagement
-                                            .getFilteredResume(
-                                                    user,
-                                                    getResumeAttributeFilters(webRequest)),
-                                    skillManagement.getLevels());
+                    pdfDocbookCreator.createTempPdfFile(getServletTempDirectory(session.getServletContext()),
+                            resumeManagement.getFilteredResume(user, getResumeAttributeFilters(webRequest)),
+                            skillManagement.getLevels());
         } catch (DocbookCreationException e) {
-            model.addAttribute(Core.MESSAGE, Message
-                    .error("skillz.resume.export.pdf.failed"));
+            model.addAttribute(Core.MESSAGE, Message.error("skillz.resume.export.pdf.failed"));
             return resume(model, user);
         }
 
@@ -221,13 +208,11 @@ public class ResumeController {
      * @throws IOException
      */
     @RequestMapping(value = "/skillz/resume/pdf/{filename}", method = GET)
-    public void streamResumePdf(@PathVariable("filename") String filename,
-            HttpServletResponse response, HttpSession session,
-            OutputStream outputStream) throws IOException {
+    public void streamResumePdf(@PathVariable("filename") String filename, HttpServletResponse response,
+            HttpSession session, OutputStream outputStream) throws IOException {
 
         response.setContentType("application/pdf");
-        response.setHeader("Content-disposition",
-                "attachment; filename=resume.pdf");
+        response.setHeader("Content-disposition", "attachment; filename=resume.pdf");
 
         streamFile(session.getServletContext(), filename, outputStream);
 
@@ -235,9 +220,8 @@ public class ResumeController {
 
 
     /**
-     * Creates the current {@link User}'s {@link Resume} as as a ZIP file in a
-     * temporary directory and redirects to it if the creation was successful,
-     * show an error message otherwise.
+     * Creates the current {@link User}'s {@link Resume} as as a ZIP file in a temporary directory and redirects to it
+     * if the creation was successful, show an error message otherwise.
      * 
      * @param user
      * @param response
@@ -246,24 +230,16 @@ public class ResumeController {
      * @return
      */
     @RequestMapping(value = RESUME, method = POST, params = "zipexport")
-    public String resumeZip(@CurrentUser User user, Model model,
-            HttpSession session, WebRequest webRequest) {
+    public String resumeZip(@CurrentUser User user, Model model, HttpSession session, WebRequest webRequest) {
 
         File file = null;
         try {
             file =
-                    resumeZipCreator
-                            .createTempZipFile(
-                                    getServletTempDirectory(session
-                                            .getServletContext()),
-                                    resumeManagement
-                                            .getFilteredResume(
-                                                    user,
-                                                    getResumeAttributeFilters(webRequest)),
-                                    skillManagement.getLevels());
+                    resumeZipCreator.createTempZipFile(getServletTempDirectory(session.getServletContext()),
+                            resumeManagement.getFilteredResume(user, getResumeAttributeFilters(webRequest)),
+                            skillManagement.getLevels());
         } catch (ZipCreationException e) {
-            model.addAttribute(Core.MESSAGE, Message
-                    .error("skillz.resume.export.zip.failed"));
+            model.addAttribute(Core.MESSAGE, Message.error("skillz.resume.export.zip.failed"));
             return resume(model, user);
         }
 
@@ -281,13 +257,11 @@ public class ResumeController {
      * @throws IOException
      */
     @RequestMapping(value = "/skillz/resume/zip/{filename}", method = GET)
-    public void streamResumeZip(@PathVariable("filename") String filename,
-            HttpSession session, HttpServletResponse response,
-            OutputStream outputStream) throws IOException {
+    public void streamResumeZip(@PathVariable("filename") String filename, HttpSession session,
+            HttpServletResponse response, OutputStream outputStream) throws IOException {
 
         response.setContentType("application/zip");
-        response.setHeader("content-disposition",
-                "attachment; filename=resume.zip");
+        response.setHeader("content-disposition", "attachment; filename=resume.zip");
 
         streamFile(session.getServletContext(), filename, outputStream);
 
@@ -295,16 +269,15 @@ public class ResumeController {
 
 
     /**
-     * Streams a {@link File} from the temporary directory of the servlet
-     * container and deletes it afterwards.
+     * Streams a {@link File} from the temporary directory of the servlet container and deletes it afterwards.
      * 
      * @param servletContext
      * @param filename
      * @param outputStream
      * @throws IOException
      */
-    private void streamFile(ServletContext servletContext, String filename,
-            OutputStream outputStream) throws IOException {
+    private void streamFile(ServletContext servletContext, String filename, OutputStream outputStream)
+            throws IOException {
 
         File file = new File(getServletTempDirectory(servletContext), filename);
         InputStream inputStream = null;
@@ -319,36 +292,29 @@ public class ResumeController {
 
 
     /**
-     * Gets the temporary directory of the servlet container from a
-     * {@link ServletContext}.
+     * Gets the temporary directory of the servlet container from a {@link ServletContext}.
      * 
      * @param servletContext
      * @return
      */
     private File getServletTempDirectory(ServletContext servletContext) {
 
-        return (File) servletContext
-                .getAttribute("javax.servlet.context.tempdir");
+        return (File) servletContext.getAttribute("javax.servlet.context.tempdir");
     }
 
 
     /**
-     * Returns all {@link ResumeAttributeFilter}s which are requested in the
-     * {@link WebRequest}.
+     * Returns all {@link ResumeAttributeFilter}s which are requested in the {@link WebRequest}.
      * 
      * @param webRequest
      * @return
      */
-    private List<ResumeAttributeFilter> getResumeAttributeFilters(
-            WebRequest webRequest) {
+    private List<ResumeAttributeFilter> getResumeAttributeFilters(WebRequest webRequest) {
 
-        List<ResumeAttributeFilter> filters =
-                new ArrayList<ResumeAttributeFilter>();
+        List<ResumeAttributeFilter> filters = new ArrayList<ResumeAttributeFilter>();
 
-        for (ResumeAttributeFilter filter : resumeManagement
-                .getResumeAttributeFilters()) {
-            String parameterValue =
-                    webRequest.getParameter(filter.getMessageKey());
+        for (ResumeAttributeFilter filter : resumeManagement.getResumeAttributeFilters()) {
+            String parameterValue = webRequest.getParameter(filter.getMessageKey());
             if ("1".equals(parameterValue)) {
                 filters.add(filter);
             }
@@ -376,13 +342,12 @@ public class ResumeController {
      * @return
      */
     @RequestMapping(value = "/skillz/resumes/{id}", method = PUT)
-    public String saveResume(@ModelAttribute("resume") Resume resume,
-            Model model, SessionStatus conversation, @CurrentUser User user) {
+    public String saveResume(@ModelAttribute("resume") Resume resume, Model model, SessionStatus conversation,
+            @CurrentUser User user) {
 
         resumeManagement.save(resume);
 
-        model.addAttribute(Core.MESSAGE, Message
-                .success("skillz.resume.save.success"));
+        model.addAttribute(Core.MESSAGE, Message.success("skillz.resume.save.success"));
         conversation.setComplete();
 
         if (resume.getSubject().equals(user)) {
@@ -394,8 +359,7 @@ public class ResumeController {
 
 
     @RequestMapping(value = "/skillz/resumes/{id}/photo", method = GET)
-    public void showResumePhoto(@PathVariable("id") Long id,
-            OutputStream outputStream) throws IOException {
+    public void showResumePhoto(@PathVariable("id") Long id, OutputStream outputStream) throws IOException {
 
         Resume resume = resumeManagement.getResume(id);
         if (resume.getPhoto() != null) {
@@ -407,26 +371,19 @@ public class ResumeController {
     // TODO: Use only PUT request. Doesn't work currently with multipart
     // requests. See https://jira.springsource.org/browse/SPR-6594
     @RequestMapping(value = "/skillz/resumes/{id}/photo", method = { POST, PUT })
-    public String saveResumePhoto(@ModelAttribute("resume") Resume resume,
-            Errors errors, Model model,
-            @RequestParam("photoBinary") MultipartFile image)
-            throws IOException {
+    public String saveResumePhoto(@ModelAttribute("resume") Resume resume, Errors errors, Model model,
+            @RequestParam("photoBinary") MultipartFile image) throws IOException {
 
         multipartValidator.validate(image, errors);
 
         if (errors.hasErrors()) {
-            model.addAttribute(Core.MESSAGE, Message.error(errors
-                    .getGlobalError().getCode()));
+            model.addAttribute(Core.MESSAGE, Message.error(errors.getGlobalError().getCode()));
         } else {
-            String fileExtension =
-                    StringUtils.getFilenameExtension(image
-                            .getOriginalFilename());
-            resume.setPhoto(new Image(image.getBytes(), THUMBNAIL_WIDTH,
-                    fileExtension));
+            String fileExtension = StringUtils.getFilenameExtension(image.getOriginalFilename());
+            resume.setPhoto(new Image(image.getBytes(), THUMBNAIL_WIDTH, fileExtension));
             resumeManagement.save(resume);
 
-            model.addAttribute(Core.MESSAGE, Message
-                    .success("skillz.resume.photo.save.success"));
+            model.addAttribute(Core.MESSAGE, Message.success("skillz.resume.photo.save.success"));
         }
 
         return UrlUtils.redirect(RESUME);
@@ -434,14 +391,12 @@ public class ResumeController {
 
 
     @RequestMapping(value = "/skillz/resumes/{id}/photo", method = DELETE)
-    public String deleteResumePhoto(@PathVariable("id") Resume resume,
-            Model model) {
+    public String deleteResumePhoto(@PathVariable("id") Resume resume, Model model) {
 
         resume.setPhoto(null);
         resumeManagement.save(resume);
 
-        model.addAttribute(Core.MESSAGE, Message
-                .success("skillz.resume.photo.delete.success"));
+        model.addAttribute(Core.MESSAGE, Message.success("skillz.resume.photo.delete.success"));
 
         return UrlUtils.redirect(RESUME);
     }
@@ -453,42 +408,33 @@ public class ResumeController {
         Page<Resume> resumes = resumeAdminstration.getResumes(pageable);
         model.addAttribute("resumes", PageWrapper.wrap(resumes));
         model.addAttribute("templates", skillManagement.getTemplates());
-        if (!model.containsAttribute("resumeFilter")
-                && !resumeAdminstration.getResumeFilters().isEmpty()) {
-            ResumeFilter resumeFilter =
-                    resumeAdminstration.getResumeFilters().get(0);
+        if (!model.containsAttribute("resumeFilter") && !resumeAdminstration.getResumeFilters().isEmpty()) {
+            ResumeFilter resumeFilter = resumeAdminstration.getResumeFilters().get(0);
             model.addAttribute("resumeFilter", resumeFilter);
         }
-        model.addAttribute("resumeFilters", resumeAdminstration
-                .getResumeFilters());
+        model.addAttribute("resumeFilters", resumeAdminstration.getResumeFilters());
 
         return "skillz/resumes";
     }
 
 
     @RequestMapping(value = RESUMES, method = GET, params = "selectFilter")
-    public String resumes(Model model, Pageable pageable,
-            @RequestParam String selectFilter) {
+    public String resumes(Model model, Pageable pageable, @RequestParam String selectFilter) {
 
-        ResumeFilter resumeFilter =
-                resumeAdminstration.getResumeFilter(selectFilter);
+        ResumeFilter resumeFilter = resumeAdminstration.getResumeFilter(selectFilter);
         model.addAttribute("resumeFilter", resumeFilter);
         return resumes(model, pageable);
     }
 
 
     @RequestMapping(value = RESUMES, method = GET, params = "filterName")
-    public String resumes(Model model, Pageable pageable,
-            @RequestParam String filterName, WebRequest webRequest) {
+    public String resumes(Model model, Pageable pageable, @RequestParam String filterName, WebRequest webRequest) {
 
-        ResumeFilter resumeFilter =
-                resumeAdminstration.getResumeFilter(filterName);
+        ResumeFilter resumeFilter = resumeAdminstration.getResumeFilter(filterName);
         Page<Resume> resumes =
-                resumeAdminstration.getResumesByFilter(pageable, resumeFilter,
-                        requestParametersAsMap(webRequest));
+                resumeAdminstration.getResumesByFilter(pageable, resumeFilter, requestParametersAsMap(webRequest));
         model.addAttribute("resumeFilter", resumeFilter);
-        model.addAttribute("resumeFilters", resumeAdminstration
-                .getResumeFilters());
+        model.addAttribute("resumeFilters", resumeAdminstration.getResumeFilters());
         model.addAttribute("resumes", PageWrapper.wrap(resumes));
         model.addAttribute("templates", skillManagement.getTemplates());
 
@@ -502,8 +448,7 @@ public class ResumeController {
         Iterator<String> iter = webRequest.getParameterNames();
         while (iter.hasNext()) {
             String parameterName = iter.next();
-            parameters.put(parameterName, webRequest
-                    .getParameterValues(parameterName));
+            parameters.put(parameterName, webRequest.getParameterValues(parameterName));
 
         }
         return parameters;
@@ -511,8 +456,7 @@ public class ResumeController {
 
 
     @RequestMapping(value = RESUMES, method = POST, params = "resumes")
-    public String assignResumesToTemplate(
-            @RequestParam("resumes") List<Resume> resumes,
+    public String assignResumesToTemplate(@RequestParam("resumes") List<Resume> resumes,
             @RequestParam("template") MatrixTemplate template) {
 
         for (Resume resume : resumes) {
@@ -532,8 +476,7 @@ public class ResumeController {
             return null;
         }
 
-        model.addAttribute("filters", resumeManagement
-                .getResumeAttributeFilters());
+        model.addAttribute("filters", resumeManagement.getResumeAttributeFilters());
         model.addAttribute("resume", resume);
         model.addAttribute("levels", skillManagement.getLevels());
 

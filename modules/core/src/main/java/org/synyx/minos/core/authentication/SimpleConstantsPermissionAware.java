@@ -6,20 +6,19 @@ import org.synyx.minos.util.Assert;
 
 
 /**
- * {@link ReflectivePermissionAwareSupport} to use the collection of
- * {@link Class}es configured for reflective permission lookup.
+ * {@link ReflectivePermissionAwareSupport} to use the collection of {@link Class}es configured for reflective
+ * permission lookup.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class SimpleConstantsPermissionAware extends
-        ReflectivePermissionAwareSupport {
+public class SimpleConstantsPermissionAware extends ReflectivePermissionAwareSupport {
 
     private final Collection<Class<?>> classes;
 
 
     /**
-     * Creates a new {@link SimpleConstantsPermissionAware} with the given
-     * collection of {@link Class} to scan for permissions.
+     * Creates a new {@link SimpleConstantsPermissionAware} with the given collection of {@link Class} to scan for
+     * permissions.
      * 
      * @param classes
      */
@@ -33,9 +32,7 @@ public class SimpleConstantsPermissionAware extends
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.core.authentication.ReflectivePermissionAwareSupport#
-     * getClassesToScan()
+     * @see org.synyx.minos.core.authentication.ReflectivePermissionAwareSupport# getClassesToScan()
      */
     @Override
     protected Collection<Class<?>> getClassesToScan() {

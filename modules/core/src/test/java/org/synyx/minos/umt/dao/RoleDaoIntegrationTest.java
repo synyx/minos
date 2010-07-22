@@ -7,7 +7,6 @@ import org.synyx.minos.test.AbstractDaoIntegrationTest;
 import org.synyx.minos.umt.dao.RoleDao;
 
 
-
 /**
  * Integration test for <code>RoleDao</code>.
  * 

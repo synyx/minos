@@ -7,10 +7,9 @@ import org.synyx.minos.core.domain.User;
 import org.synyx.minos.util.Assert;
 
 
-
 /**
- * Abstracts a responsibility one took in a {@link Project}. Used to specify
- * what the subject did for that project in particular.
+ * Abstracts a responsibility one took in a {@link Project}. Used to specify what the subject did for that project in
+ * particular.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */

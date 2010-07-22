@@ -24,8 +24,7 @@ public class MessageViaRedirectInterceptorUnitTest {
 
     private static final String MESSAGE_KEY = "messageKey";
     private static final String NON_REDIRECT_VIEW = "view";
-    private static final String REDIRECT_VIEW =
-            UrlBasedViewResolver.REDIRECT_URL_PREFIX + NON_REDIRECT_VIEW;
+    private static final String REDIRECT_VIEW = UrlBasedViewResolver.REDIRECT_URL_PREFIX + NON_REDIRECT_VIEW;
 
     private MessageViaRedirectInterceptor interceptor;
 
@@ -55,8 +54,7 @@ public class MessageViaRedirectInterceptorUnitTest {
 
 
     /**
-     * Tests whether the interceptor stores an available {@link Message} in the
-     * session on redirect calls.
+     * Tests whether the interceptor stores an available {@link Message} in the session on redirect calls.
      * 
      * @throws Exception
      */
@@ -71,14 +69,13 @@ public class MessageViaRedirectInterceptorUnitTest {
 
         Object result = session.getAttribute(MESSAGE_KEY);
         assertNotNull("Message not stored in session!", result);
-        assertEquals("Result is not the message put into the model!", message,
-                result);
+        assertEquals("Result is not the message put into the model!", message, result);
     }
 
 
     /**
-     * Tests whether the interceptor retrieves the old message if the controller
-     * did not produce a new one on a non-redirect view.
+     * Tests whether the interceptor retrieves the old message if the controller did not produce a new one on a
+     * non-redirect view.
      * 
      * @throws Exception
      */
@@ -90,8 +87,8 @@ public class MessageViaRedirectInterceptorUnitTest {
 
 
     /**
-     * Tests whether the interceptor uses the new message if the controller call
-     * produced a new message, even if there is a old message stored.
+     * Tests whether the interceptor uses the new message if the controller call produced a new message, even if there
+     * is a old message stored.
      * 
      * @throws Exception
      */
@@ -105,8 +102,7 @@ public class MessageViaRedirectInterceptorUnitTest {
 
 
     /**
-     * Tests, whether the interceptor cleans up the {@link HttpSession} on
-     * non-redirect calls.
+     * Tests, whether the interceptor cleans up the {@link HttpSession} on non-redirect calls.
      * 
      * @throws Exception
      */
@@ -131,18 +127,16 @@ public class MessageViaRedirectInterceptorUnitTest {
 
 
     /**
-     * Asserts that the message {@code toBeFound} is found in the model after a
-     * controller invocation that produces the new message while already having
-     * the {@code oldMessage}. This can be used to verify overwriting behaviour
-     * of the {@link MessageViaRedirectInterceptor}.
+     * Asserts that the message {@code toBeFound} is found in the model after a controller invocation that produces the
+     * new message while already having the {@code oldMessage}. This can be used to verify overwriting behaviour of the
+     * {@link MessageViaRedirectInterceptor}.
      * 
      * @param toBeFound
      * @param newMessage
      * @param oldMessage
      * @throws Exception
      */
-    private void assertMessageFound(Message toBeFound, Message newMessage,
-            Message oldMessage) throws Exception {
+    private void assertMessageFound(Message toBeFound, Message newMessage, Message oldMessage) throws Exception {
 
         // Suppose old message being stored
         session.setAttribute(MESSAGE_KEY, oldMessage);

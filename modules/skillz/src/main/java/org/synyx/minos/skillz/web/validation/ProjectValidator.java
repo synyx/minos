@@ -7,6 +7,7 @@ import org.springframework.validation.Validator;
 import org.synyx.minos.skillz.domain.Project;
 import org.synyx.minos.skillz.service.SkillManagement;
 
+
 /**
  * Validator for {@code Project}. Checks the following criteria:
  * <ul>
@@ -22,21 +23,18 @@ public class ProjectValidator implements Validator {
     private final SkillManagement skillManagement;
 
     /** error message for empty project name. */
-    public static final String PROJECT_NAME_EMPTY =
-            "skillz.project.name.error.empty";
+    public static final String PROJECT_NAME_EMPTY = "skillz.project.name.error.empty";
 
     /** error message for already used project name. */
-    public static final String PROJECT_NAME_ALREADY_EXISTS =
-            "skillz.project.name.error.alreadyexists";
+    public static final String PROJECT_NAME_ALREADY_EXISTS = "skillz.project.name.error.alreadyexists";
 
     /** error message for 'form' as project name. */
-    public static final String PROJECT_NAME_INVALID =
-            "skillz.project.name.error.invalid";
-    
+    public static final String PROJECT_NAME_INVALID = "skillz.project.name.error.invalid";
+
     /** invalid project name value. */
     public static final String INVALID_NAME_VALUE = "form";
 
-    
+
     /**
      * Creates a new {@link ProjectValidator} instance.
      */
@@ -46,7 +44,7 @@ public class ProjectValidator implements Validator {
         this.skillManagement = skillManagement;
     }
 
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -61,8 +59,7 @@ public class ProjectValidator implements Validator {
     /*
      * (non-Javadoc)
      * 
-     * @see org.springframework.validation.Validator#validate(java.lang.Object,
-     * org.springframework.validation.Errors)
+     * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
      */
     public void validate(Object target, Errors errors) {
 
@@ -73,8 +70,7 @@ public class ProjectValidator implements Validator {
             errors.rejectValue("name", PROJECT_NAME_EMPTY);
         } else {
             // validate project name - not used already
-            if (project.isNew()
-                    && null != skillManagement.getProject(project.getName())) {
+            if (project.isNew() && null != skillManagement.getProject(project.getName())) {
                 errors.rejectValue("name", PROJECT_NAME_ALREADY_EXISTS);
             }
 

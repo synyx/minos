@@ -11,8 +11,8 @@ import org.synyx.minos.core.domain.User;
 
 
 /**
- * {@link UserDetails} implementation based on a {@link User}. Maps the
- * {@link User}'s roles to its {@link GrantedAuthority}s.
+ * {@link UserDetails} implementation based on a {@link User}. Maps the {@link User}'s roles to its
+ * {@link GrantedAuthority}s.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -42,8 +42,7 @@ public class MinosUserDetails implements UserDetails {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.security.userdetails.UserDetails#getAuthorities()
+     * @see org.springframework.security.userdetails.UserDetails#getAuthorities()
      */
     public List<GrantedAuthority> getAuthorities() {
 
@@ -88,9 +87,7 @@ public class MinosUserDetails implements UserDetails {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.security.userdetails.UserDetails#isAccountNonExpired
-     * ()
+     * @see org.springframework.security.userdetails.UserDetails#isAccountNonExpired ()
      */
     public boolean isAccountNonExpired() {
 
@@ -101,8 +98,7 @@ public class MinosUserDetails implements UserDetails {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.security.userdetails.UserDetails#isAccountNonLocked()
+     * @see org.springframework.security.userdetails.UserDetails#isAccountNonLocked()
      */
     public boolean isAccountNonLocked() {
 
@@ -113,9 +109,7 @@ public class MinosUserDetails implements UserDetails {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.security.userdetails.UserDetails#isCredentialsNonExpired
-     * ()
+     * @see org.springframework.security.userdetails.UserDetails#isCredentialsNonExpired ()
      */
     public boolean isCredentialsNonExpired() {
 

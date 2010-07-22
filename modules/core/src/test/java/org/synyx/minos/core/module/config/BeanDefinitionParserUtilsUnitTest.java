@@ -76,8 +76,7 @@ public class BeanDefinitionParserUtilsUnitTest {
 
 
     @Test
-    public void doesNotSetValueOrReferenceWhenAttributeValueIsEmpty()
-            throws Exception {
+    public void doesNotSetValueOrReferenceWhenAttributeValueIsEmpty() throws Exception {
 
         assertNoPropertySetForAttributeValue(null);
         assertNoPropertySetForAttributeValue("");

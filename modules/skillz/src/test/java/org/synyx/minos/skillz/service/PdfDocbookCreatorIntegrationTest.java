@@ -20,8 +20,7 @@ import org.synyx.minos.skillz.domain.Level;
  * 
  * @author Markus Knittig - knittig@synyx.de
  */
-public class PdfDocbookCreatorIntegrationTest extends
-        AbstractDocbookCreatorIntegrationTest {
+public class PdfDocbookCreatorIntegrationTest extends AbstractDocbookCreatorIntegrationTest {
 
     private PdfDocbookCreatorImpl docbookCreator;
     private File pdf;
@@ -34,11 +33,8 @@ public class PdfDocbookCreatorIntegrationTest extends
 
         super.setUp();
         docbookCreator =
-                new PdfDocbookCreatorImpl(
-                        docbookTemplateService,
-                        new FopXsltServiceImpl(
-                                new ClassPathResource(
-                                        "/resume-template/maven/src/docbkx-stylesheet/fo/docbook.xsl")));
+                new PdfDocbookCreatorImpl(docbookTemplateService, new FopXsltServiceImpl(new ClassPathResource(
+                        "/resume-template/maven/src/docbkx-stylesheet/fo/docbook.xsl")));
         pdf = File.createTempFile("test", "pdf");
         outputStream = new FileOutputStream(pdf);
     }
@@ -58,9 +54,8 @@ public class PdfDocbookCreatorIntegrationTest extends
         long lastModified = pdf.lastModified();
 
         Thread.sleep(1500);
-        docbookCreator.streamPdf(IOUtils.toString(new ClassPathResource(
-                "/projectteam.xml").getInputStream()), new ClassPathResource(
-                "/projectteam2fo.xsl").getFile(), outputStream);
+        docbookCreator.streamPdf(IOUtils.toString(new ClassPathResource("/projectteam.xml").getInputStream()),
+                new ClassPathResource("/projectteam2fo.xsl").getFile(), outputStream);
         outputStream.flush();
 
         assertTrue(pdf.lastModified() > lastModified);

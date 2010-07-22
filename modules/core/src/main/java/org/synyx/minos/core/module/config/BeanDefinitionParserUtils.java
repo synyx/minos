@@ -9,25 +9,23 @@ import org.w3c.dom.Element;
 
 
 /**
- * Utility methods to ease creating {@link BeanDefinition}s within
- * {@link BeanDefinitionParser} implementations.
+ * Utility methods to ease creating {@link BeanDefinition}s within {@link BeanDefinitionParser} implementations.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class BeanDefinitionParserUtils {
 
     /**
-     * Adds a property value to the given {@link BeanDefinitionBuilder} if the
-     * given {@link Element} contains a value at the attribute with the given
-     * name.
+     * Adds a property value to the given {@link BeanDefinitionBuilder} if the given {@link Element} contains a value at
+     * the attribute with the given name.
      * 
      * @param builder
      * @param propertyName
      * @param element
      * @param xmlAttribute
      */
-    public static void addPropertyValue(BeanDefinitionBuilder builder,
-            String propertyName, Element element, String xmlAttribute) {
+    public static void addPropertyValue(BeanDefinitionBuilder builder, String propertyName, Element element,
+            String xmlAttribute) {
 
         String value = element.getAttribute(xmlAttribute);
 
@@ -38,17 +36,16 @@ public class BeanDefinitionParserUtils {
 
 
     /**
-     * Adds a property reference to the given {@link BeanDefinitionBuilder} if
-     * the given {@link Element} contains a value at the attribute with the
-     * given name.
+     * Adds a property reference to the given {@link BeanDefinitionBuilder} if the given {@link Element} contains a
+     * value at the attribute with the given name.
      * 
      * @param builder
      * @param propertyName
      * @param element
      * @param xmlAttribute
      */
-    public static void addPropertyReference(BeanDefinitionBuilder builder,
-            String propertyName, Element element, String xmlAttribute) {
+    public static void addPropertyReference(BeanDefinitionBuilder builder, String propertyName, Element element,
+            String xmlAttribute) {
 
         String reference = element.getAttribute(xmlAttribute);
 
@@ -59,16 +56,14 @@ public class BeanDefinitionParserUtils {
 
 
     /**
-     * Adds the value or reference of the given {@link PropertyAttribute} to the
-     * given {@link BeanDefinitionBuilder} if it contains a value inside the
-     * given {@link Element}.
+     * Adds the value or reference of the given {@link PropertyAttribute} to the given {@link BeanDefinitionBuilder} if
+     * it contains a value inside the given {@link Element}.
      * 
      * @param builder
      * @param element
      * @param xmlAttribute
      */
-    public static void addPropertyIfSet(BeanDefinitionBuilder builder,
-            Element element, PropertyAttribute xmlAttribute) {
+    public static void addPropertyIfSet(BeanDefinitionBuilder builder, Element element, PropertyAttribute xmlAttribute) {
 
         Assert.notNull(builder);
         Assert.notNull(element);

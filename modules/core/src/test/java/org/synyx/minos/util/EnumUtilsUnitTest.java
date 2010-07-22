@@ -46,8 +46,7 @@ public class EnumUtilsUnitTest {
 
 
     /**
-     * Asserts that the class returns the given default value if the value to
-     * parse is null.
+     * Asserts that the class returns the given default value if the value to parse is null.
      */
     @Test
     public void usesDefaultValueForNullValues() {

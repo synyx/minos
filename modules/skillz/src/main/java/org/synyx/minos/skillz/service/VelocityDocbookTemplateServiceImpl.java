@@ -18,15 +18,13 @@ import org.synyx.minos.skillz.domain.Resume;
  * 
  * @author Markus Knittig - knittig@synyx.de
  */
-public class VelocityDocbookTemplateServiceImpl implements
-        DocbookTemplateService {
+public class VelocityDocbookTemplateServiceImpl implements DocbookTemplateService {
 
     private final VelocityEngine velocityEngine;
     private final String templateFile;
 
 
-    public VelocityDocbookTemplateServiceImpl(VelocityEngine velocityEngine,
-            String templateFile) {
+    public VelocityDocbookTemplateServiceImpl(VelocityEngine velocityEngine, String templateFile) {
 
         this.velocityEngine = velocityEngine;
         this.templateFile = templateFile;
@@ -36,13 +34,12 @@ public class VelocityDocbookTemplateServiceImpl implements
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.skillz.service.DocbookTemplateService#createDocbookXml
+     * @see org.synyx.minos.skillz.service.DocbookTemplateService#createDocbookXml
      * (org.synyx.minos.skillz.domain.Resume)
      */
     @Override
-    public String createDocbookXml(Resume resume, List<Level> levels,
-            String photoFilename) throws DocbookCreationException {
+    public String createDocbookXml(Resume resume, List<Level> levels, String photoFilename)
+            throws DocbookCreationException {
 
         VelocityContext context = new VelocityContext();
         context.put("esc", new EscapeTool());

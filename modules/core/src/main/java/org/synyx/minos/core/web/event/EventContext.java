@@ -10,22 +10,24 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 /**
- * Context to carry a common  {@code  ModelAndView}  instance through an orchestration of  {@code  EventHandler}  executions. Allows registering already executed  {@code  Controller}  instances to avoid circular execution references.
- * @author  Oliver Gierke - gierke@synyx.de
+ * Context to carry a common {@code ModelAndView} instance through an orchestration of {@code EventHandler} executions.
+ * Allows registering already executed {@code Controller} instances to avoid circular execution references.
+ * 
+ * @author Oliver Gierke - gierke@synyx.de
  */
 public class EventContext {
 
     /**
-     * @uml.property  name="request"
+     * @uml.property name="request"
      */
     private HttpServletRequest request;
     /**
-     * @uml.property  name="response"
+     * @uml.property name="response"
      */
     private HttpServletResponse response;
 
     /**
-     * @uml.property  name="modelAndView"
+     * @uml.property name="modelAndView"
      */
     private ModelAndView modelAndView;
 
@@ -39,8 +41,7 @@ public class EventContext {
      * @param response
      * @param modelAndView
      */
-    public EventContext(HttpServletRequest request,
-            HttpServletResponse response, ModelAndView modelAndView) {
+    public EventContext(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
 
         this.request = request;
         this.response = response;
@@ -51,9 +52,10 @@ public class EventContext {
 
 
     /**
-     * Returns the current  {@code  HttpServletRequest} .
-     * @return  the request
-     * @uml.property  name="request"
+     * Returns the current {@code HttpServletRequest} .
+     * 
+     * @return the request
+     * @uml.property name="request"
      */
     public HttpServletRequest getRequest() {
 
@@ -62,9 +64,10 @@ public class EventContext {
 
 
     /**
-     * Returns the current  {@code  HttpServletResponse} .
-     * @return  the response
-     * @uml.property  name="response"
+     * Returns the current {@code HttpServletResponse} .
+     * 
+     * @return the response
+     * @uml.property name="response"
      */
     public HttpServletResponse getResponse() {
 
@@ -73,9 +76,10 @@ public class EventContext {
 
 
     /**
-     * Returns the  {@code  ModelAndView}  instance associated with the context.
-     * @return  the modelAndView
-     * @uml.property  name="modelAndView"
+     * Returns the {@code ModelAndView} instance associated with the context.
+     * 
+     * @return the modelAndView
+     * @uml.property name="modelAndView"
      */
     public ModelAndView getModelAndView() {
 

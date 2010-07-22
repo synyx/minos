@@ -31,26 +31,23 @@ public class ZipDocbookCreatorImpl implements ResumeZipCreator {
     /*
      * (non-Javadoc)
      * 
-     * @see org.synyx.minos.skillz.service.ResumeZipCreator#streamZip(
-     * org.synyx.minos.skillz.domain.Resume, java.io.OutputStream)
+     * @see org.synyx.minos.skillz.service.ResumeZipCreator#streamZip( org.synyx.minos.skillz.domain.Resume,
+     * java.io.OutputStream)
      */
     @Override
-    public void streamZip(Resume resume, List<Level> levels,
-            OutputStream outputStream) throws ZipCreationException {
+    public void streamZip(Resume resume, List<Level> levels, OutputStream outputStream) throws ZipCreationException {
 
-        Zipper zipper =
-                new Zipper(new BufferedOutputStream(outputStream), "/resume");
+        Zipper zipper = new Zipper(new BufferedOutputStream(outputStream), "/resume");
 
         try {
             zipper.writeClasspathResource("/resume-template/maven");
 
             if (resume.getPhoto() != null) {
-                zipper.writeEntry(resume.getPhoto().getOriginalImage(),
-                        "src/docbkx/media/photo.png");
+                zipper.writeEntry(resume.getPhoto().getOriginalImage(), "src/docbkx/media/photo.png");
             }
 
-            zipper.writeEntry(docbookTemplateService.createDocbookXml(resume,
-                    levels, "media/photo.png"), "src/docbkx/resume.xml");
+            zipper.writeEntry(docbookTemplateService.createDocbookXml(resume, levels, "media/photo.png"),
+                    "src/docbkx/resume.xml");
         } catch (Exception e) {
             throw new ZipCreationException("Failed to create Resume ZIP!", e);
         } finally {
@@ -62,23 +59,19 @@ public class ZipDocbookCreatorImpl implements ResumeZipCreator {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.synyx.minos.skillz.service.ResumeZipCreator#createTempZipFile(java
-     * .io.File, org.synyx.minos.skillz.domain.Resume, java.util.List)
+     * @see org.synyx.minos.skillz.service.ResumeZipCreator#createTempZipFile(java .io.File,
+     * org.synyx.minos.skillz.domain.Resume, java.util.List)
      */
     @Override
-    public File createTempZipFile(File tempDirectory, Resume resume,
-            List<Level> levels) throws ZipCreationException {
+    public File createTempZipFile(File tempDirectory, Resume resume, List<Level> levels) throws ZipCreationException {
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         streamZip(resume, levels, outputStream);
 
         try {
-            return FileUtils.createTempFile(tempDirectory, outputStream
-                    .toByteArray());
+            return FileUtils.createTempFile(tempDirectory, outputStream.toByteArray());
         } catch (IOException e) {
-            throw new ZipCreationException("Failed to create temporary file!",
-                    e);
+            throw new ZipCreationException("Failed to create temporary file!", e);
         }
     }
 

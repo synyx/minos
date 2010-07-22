@@ -7,11 +7,9 @@ import org.synyx.minos.core.domain.EmailAddress;
 
 
 /**
- * Basic validator implementation to validate email addresses. This class should
- * be mainly used via delegation from domain object validators as it rejects the
- * current path's field. As the validator can not really assume the field name,
- * clients have to push the property name to the nested path stack of the
- * provided {@code Errors} instance.
+ * Basic validator implementation to validate email addresses. This class should be mainly used via delegation from
+ * domain object validators as it rejects the current path's field. As the validator can not really assume the field
+ * name, clients have to push the property name to the nested path stack of the provided {@code Errors} instance.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -48,9 +46,8 @@ public class EmailValidator implements Validator {
 
 
     /**
-     * Configures whether the validator should reject empty email addresses.
-     * This mainly corresponds to the decision if an email address is mandatory
-     * or not. Defaults to {@code true}.
+     * Configures whether the validator should reject empty email addresses. This mainly corresponds to the decision if
+     * an email address is mandatory or not. Defaults to {@code true}.
      * 
      * @param rejectEmptyEmailAddresses
      */
@@ -61,16 +58,14 @@ public class EmailValidator implements Validator {
 
 
     /**
-     * Configures a prefix to be prepended before the error code. Defaults to an
-     * empty string meaning no prefix is used. One commonly uses this to create
-     * error codes logically grouped with the parent object.
+     * Configures a prefix to be prepended before the error code. Defaults to an empty string meaning no prefix is used.
+     * One commonly uses this to create error codes logically grouped with the parent object.
      * 
      * @param errorPrefix the errorPrefix to set
      */
     public void setErrorPrefix(String errorPrefix) {
 
-        this.errorPrefix =
-                StringUtils.isBlank(errorPrefix) ? null : errorPrefix;
+        this.errorPrefix = StringUtils.isBlank(errorPrefix) ? null : errorPrefix;
     }
 
 
@@ -88,8 +83,7 @@ public class EmailValidator implements Validator {
     /*
      * (non-Javadoc)
      * 
-     * @see org.springframework.validation.Validator#validate(java.lang.Object,
-     * org.springframework.validation.Errors)
+     * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
      */
     public void validate(Object target, Errors errors) {
 
@@ -116,7 +110,6 @@ public class EmailValidator implements Validator {
      */
     private String eventuallyPrefix(String errorCode) {
 
-        return null == errorPrefix ? errorCode : String.format("%s.%s",
-                errorPrefix, errorCode);
+        return null == errorPrefix ? errorCode : String.format("%s.%s", errorPrefix, errorCode);
     }
 }

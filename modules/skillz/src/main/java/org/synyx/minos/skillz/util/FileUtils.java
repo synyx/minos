@@ -15,16 +15,14 @@ import org.apache.commons.io.IOUtils;
 public abstract class FileUtils {
 
     /**
-     * Creates a temporary file in the given directory with the given byte array
-     * data.
+     * Creates a temporary file in the given directory with the given byte array data.
      * 
      * @param tempDirectory
      * @param data
      * @return
      * @throws IOException
      */
-    public static File createTempFile(File tempDirectory, byte[] data)
-            throws IOException {
+    public static File createTempFile(File tempDirectory, byte[] data) throws IOException {
 
         FileOutputStream fileOutputStream = null;
         File tempFile = null;

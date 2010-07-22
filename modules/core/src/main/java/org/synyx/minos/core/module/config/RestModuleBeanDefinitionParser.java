@@ -7,13 +7,15 @@ import org.w3c.dom.Element;
 
 
 /**
- *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class RestModuleBeanDefinitionParser implements BeanDefinitionParser {
 
-    /* (non-Javadoc)
-     * @see org.springframework.beans.factory.xml.BeanDefinitionParser#parse(org.w3c.dom.Element, org.springframework.beans.factory.xml.ParserContext)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.springframework.beans.factory.xml.BeanDefinitionParser#parse(org.w3c.dom.Element,
+     * org.springframework.beans.factory.xml.ParserContext)
      */
     @Override
     public BeanDefinition parse(Element element, ParserContext parserContext) {

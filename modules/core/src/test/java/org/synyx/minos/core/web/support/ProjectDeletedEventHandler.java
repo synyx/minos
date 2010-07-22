@@ -8,6 +8,5 @@ import org.synyx.minos.core.web.event.AbstractEventHandler;
  * @author Oliver Gierke - gierke@synyx.de
  */
 @ModuleDependent("pmt")
-public class ProjectDeletedEventHandler extends
-        AbstractEventHandler<ProjectDeletedEvent> {
+public class ProjectDeletedEventHandler extends AbstractEventHandler<ProjectDeletedEvent> {
 }

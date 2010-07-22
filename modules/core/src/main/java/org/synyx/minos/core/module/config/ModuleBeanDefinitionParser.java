@@ -30,9 +30,8 @@ public class ModuleBeanDefinitionParser implements BeanDefinitionParser {
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * org.springframework.beans.factory.xml.BeanDefinitionParser#parse(org.
-     * w3c.dom.Element, org.springframework.beans.factory.xml.ParserContext)
+     * @see org.springframework.beans.factory.xml.BeanDefinitionParser#parse(org. w3c.dom.Element,
+     * org.springframework.beans.factory.xml.ParserContext)
      */
     @Override
     public BeanDefinition parse(Element element, ParserContext parserContext) {
@@ -53,21 +52,17 @@ public class ModuleBeanDefinitionParser implements BeanDefinitionParser {
 
         String moduleId = element.getAttribute("id");
 
-        new ModuleMessageSourceBeanDefinitionParser(moduleId).parse(element,
-                context);
-        new ModuleAwareBeanDefinitionParser(ModulePermissionAware.class,
-                moduleId, true).parse(element, context);
+        new ModuleMessageSourceBeanDefinitionParser(moduleId).parse(element, context);
+        new ModuleAwareBeanDefinitionParser(ModulePermissionAware.class, moduleId, true).parse(element, context);
     }
 
     /**
-     * {@link BeanDefinitionParser} to declare {@link ModuleMessageSource}
-     * beans. Sets the {@link ModuleMessageSource} to be lenient for the core
-     * module.
+     * {@link BeanDefinitionParser} to declare {@link ModuleMessageSource} beans. Sets the {@link ModuleMessageSource}
+     * to be lenient for the core module.
      * 
      * @author Oliver Gierke - gierke@synyx.de
      */
-    private static class ModuleMessageSourceBeanDefinitionParser extends
-            ModuleAwareBeanDefinitionParser {
+    private static class ModuleMessageSourceBeanDefinitionParser extends ModuleAwareBeanDefinitionParser {
 
         public ModuleMessageSourceBeanDefinitionParser(String moduleId) {
 
@@ -78,14 +73,12 @@ public class ModuleBeanDefinitionParser implements BeanDefinitionParser {
         /*
          * (non-Javadoc)
          * 
-         * @see
-         * org.synyx.minos.core.module.config.ModuleAwareBeanDefinitionParser
+         * @see org.synyx.minos.core.module.config.ModuleAwareBeanDefinitionParser
          * #parseAdditionalAttributes(org.w3c.dom.Element,
          * org.springframework.beans.factory.support.BeanDefinitionBuilder)
          */
         @Override
-        protected void parseAdditionalAttributes(Element element,
-                BeanDefinitionBuilder builder) {
+        protected void parseAdditionalAttributes(Element element, BeanDefinitionBuilder builder) {
 
             if (Core.IDENTIFIER.equals(getModuleId())) {
                 builder.addPropertyValue("lenient", true);
@@ -98,22 +91,17 @@ public class ModuleBeanDefinitionParser implements BeanDefinitionParser {
      * 
      * @author Oliver Gierke - gierke@synyx.de
      */
-    private static class MinosModuleBeanDefinitionParser extends
-            AbstractSingleBeanDefinitionParser {
+    private static class MinosModuleBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
-        private static final PropertyAttribute LIFECYCLE_REF =
-                new PropertyAttribute("lifecycle-ref");
-        private static final PropertyAttribute BASE_PACKAGE =
-                new PropertyAttribute("base-package");
-        private static final PropertyAttribute DEPENDS_ON =
-                new PropertyAttribute("depends-on");
+        private static final PropertyAttribute LIFECYCLE_REF = new PropertyAttribute("lifecycle-ref");
+        private static final PropertyAttribute BASE_PACKAGE = new PropertyAttribute("base-package");
+        private static final PropertyAttribute DEPENDS_ON = new PropertyAttribute("depends-on");
 
 
         /*
          * (non-Javadoc)
          * 
-         * @see
-         * org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser
+         * @see org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser
          * #getBeanClass(org.w3c.dom.Element)
          */
         @Override
@@ -126,9 +114,7 @@ public class ModuleBeanDefinitionParser implements BeanDefinitionParser {
         /*
          * (non-Javadoc)
          * 
-         * @see
-         * org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser
-         * #doParse(org.w3c.dom.Element,
+         * @see org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser #doParse(org.w3c.dom.Element,
          * org.springframework.beans.factory.support.BeanDefinitionBuilder)
          */
         @Override
@@ -144,8 +130,7 @@ public class ModuleBeanDefinitionParser implements BeanDefinitionParser {
             if (StringUtils.hasText(dependsOn)) {
 
                 String[] parts = dependsOn.split(",");
-                ManagedList<RuntimeBeanReference> references =
-                        new ManagedList<RuntimeBeanReference>(parts.length);
+                ManagedList<RuntimeBeanReference> references = new ManagedList<RuntimeBeanReference>(parts.length);
 
                 for (String dependant : parts) {
                     references.add(new RuntimeBeanReference(dependant.trim()));

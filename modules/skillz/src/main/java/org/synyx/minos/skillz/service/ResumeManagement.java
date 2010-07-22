@@ -53,10 +53,9 @@ public interface ResumeManagement {
 
 
     /**
-     * Applies the given {@link MatrixTemplate} to the given {@link Resume}.
-     * Will update an already existing {@link SkillMatrix} linked to the
-     * {@link Resume} according to the {@link MatrixTemplate} or create a
-     * completely new {@link SkillMatrix} for a new {@link Resume}.
+     * Applies the given {@link MatrixTemplate} to the given {@link Resume}. Will update an already existing
+     * {@link SkillMatrix} linked to the {@link Resume} according to the {@link MatrixTemplate} or create a completely
+     * new {@link SkillMatrix} for a new {@link Resume}.
      * 
      * @param resume
      * @param template
@@ -108,8 +107,7 @@ public interface ResumeManagement {
 
 
     /**
-     * Returns a given {@link User}s {@link Resume} filtered by the given
-     * {@link ResumeAttributeFilter}s {@link List}.
+     * Returns a given {@link User}s {@link Resume} filtered by the given {@link ResumeAttributeFilter}s {@link List}.
      * 
      * @param filters
      * @return

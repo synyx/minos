@@ -27,10 +27,8 @@ import org.synyx.minos.umt.web.UmtUrls;
 
 
 /**
- * Controller handling REST requests for user management module. The controller
- * is mapped to {@code $ RestUrl}
- * /umt/**}. Instance methods specify detailed urls, where the functionality can
- * be found.
+ * Controller handling REST requests for user management module. The controller is mapped to {@code $ RestUrl}
+ * /umt/**}. Instance methods specify detailed urls, where the functionality can be found.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -45,8 +43,7 @@ public class UmtRestController {
      * Creates a new {@link UmtRestController}.
      */
     @Autowired
-    public UmtRestController(UserManagement userManagement,
-            UmtDtoAssembler dtoAssembler) {
+    public UmtRestController(UserManagement userManagement, UmtDtoAssembler dtoAssembler) {
 
         this.userManagement = userManagement;
         this.dtoAssembler = dtoAssembler;
@@ -60,9 +57,7 @@ public class UmtRestController {
      */
     public void setDtoAssembler(UmtDtoAssembler dtoAssembler) {
 
-        this.dtoAssembler =
-                dtoAssembler == null ? new UmtDtoAssembler(userManagement)
-                        : dtoAssembler;
+        this.dtoAssembler = dtoAssembler == null ? new UmtDtoAssembler(userManagement) : dtoAssembler;
     }
 
 
@@ -88,8 +83,7 @@ public class UmtRestController {
      * @throws IOException
      */
     @RequestMapping(value = USER, method = GET)
-    public UserDto getUser(@PathVariable("id") User user,
-            HttpServletResponse response, HttpServletRequest request)
+    public UserDto getUser(@PathVariable("id") User user, HttpServletResponse response, HttpServletRequest request)
             throws IOException {
 
         if (null == user) {
@@ -108,8 +102,7 @@ public class UmtRestController {
      * @return
      */
     @RequestMapping(value = USERS, method = POST)
-    public void createUser(@RequestBody UserDto userDto,
-            HttpServletRequest request, HttpServletResponse response) {
+    public void createUser(@RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) {
 
         User user = dtoAssembler.toDomainObject(userDto);
 
@@ -127,8 +120,7 @@ public class UmtRestController {
 
 
     /**
-     * Updates a particular {@link User}. Returns 404 if the given id was not
-     * found.
+     * Updates a particular {@link User}. Returns 404 if the given id was not found.
      * 
      * @param id
      * @param userDto
@@ -136,8 +128,7 @@ public class UmtRestController {
      * @param response
      */
     @RequestMapping(value = USER, method = PUT)
-    public void updateUser(@PathVariable("id") User user,
-            @RequestBody UserDto userDto, HttpServletResponse response) {
+    public void updateUser(@PathVariable("id") User user, @RequestBody UserDto userDto, HttpServletResponse response) {
 
         if (null == user) {
 
@@ -158,8 +149,7 @@ public class UmtRestController {
      */
     @RequestMapping(value = USER, method = DELETE)
     @ResponseBody
-    public void deleteUser(@PathVariable("id") User user,
-            HttpServletResponse response) {
+    public void deleteUser(@PathVariable("id") User user, HttpServletResponse response) {
 
         try {
             userManagement.delete(user);

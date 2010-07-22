@@ -8,8 +8,7 @@ package org.synyx.minos.umt.service;
 public interface PasswordCreator {
 
     /**
-     * Generates a random password, that is used as initial password for a new
-     * user after successful registration.
+     * Generates a random password, that is used as initial password for a new user after successful registration.
      * 
      * @return a random password
      */

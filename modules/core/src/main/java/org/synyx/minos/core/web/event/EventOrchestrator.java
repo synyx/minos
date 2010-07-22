@@ -15,16 +15,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.synyx.minos.core.Core;
 
 
-
 /**
- * Aspect to decorate {@code Controller} and
- * {@code AnnotationMethodHandlerAdapter} invocations with an event handling
- * mechanism. Thus controllers can simply put instances of {@code Event} under
- * an event key into the model. These will be picked up by the orchestrator and
- * handed to registered {@code EventHandler}s.
+ * Aspect to decorate {@code Controller} and {@code AnnotationMethodHandlerAdapter} invocations with an event handling
+ * mechanism. Thus controllers can simply put instances of {@code Event} under an event key into the model. These will
+ * be picked up by the orchestrator and handed to registered {@code EventHandler}s.
  * <p>
- * If you declare an {@code OrchestrationPostProcessor} declarations of
- * {@code EventHandler}s will automatically be registered.
+ * If you declare an {@code OrchestrationPostProcessor} declarations of {@code EventHandler}s will automatically be
+ * registered.
  * <p>
  * Default keys:
  * <ul>
@@ -37,16 +34,14 @@ import org.synyx.minos.core.Core;
 @Aspect
 public class EventOrchestrator {
 
-    private static final String EVENT_CONTEXT_KEY = Core.EVENT_KEY
-            + ".context";
+    private static final String EVENT_CONTEXT_KEY = Core.EVENT_KEY + ".context";
 
     private List<EventHandler<Event>> eventHandlers;
 
 
     /**
-     * Sets all event h safaandlers the orchestrator shall be aware of. If you
-     * set up event handling via {@code OrchestrationPostProcessor} this will be
-     * automatically populated.
+     * Sets all event h safaandlers the orchestrator shall be aware of. If you set up event handling via {@code
+     * OrchestrationPostProcessor} this will be automatically populated.
      * 
      * @param eventHandlers the eventHandlers to set
      */
@@ -58,8 +53,8 @@ public class EventOrchestrator {
 
 
     /**
-     * Pointcut matching all {@code Controller} invocations. This allows
-     * decoration of the legacy Spring WebMVC programming model.
+     * Pointcut matching all {@code Controller} invocations. This allows decoration of the legacy Spring WebMVC
+     * programming model.
      */
     @Pointcut("execution(* org.springframework.web.servlet.mvc.Controller.handleRequest(..))")
     @SuppressWarnings("unused")
@@ -69,8 +64,7 @@ public class EventOrchestrator {
 
 
     /**
-     * Pointcut matching invocations of {@code AnnotationMethodHandlerAdapter}.
-     * This is the equivalent to
+     * Pointcut matching invocations of {@code AnnotationMethodHandlerAdapter}. This is the equivalent to
      */
     @Pointcut("execution(* org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter.handle(..))")
     @SuppressWarnings("unused")
@@ -90,9 +84,8 @@ public class EventOrchestrator {
      * @throws Throwable
      */
     @Around("(controllerInvocation() || annotationMethodHandlerInvocation()) && args(request, response) && this(controller)")
-    public ModelAndView orchestrate(ProceedingJoinPoint joinPoint,
-            HttpServletRequest request, HttpServletResponse response,
-            Object controller) throws Throwable {
+    public ModelAndView orchestrate(ProceedingJoinPoint joinPoint, HttpServletRequest request,
+            HttpServletResponse response, Object controller) throws Throwable {
 
         // Pre execution
 
@@ -125,16 +118,14 @@ public class EventOrchestrator {
 
 
     /**
-     * Retrieves the current event context from the request or creates a new
-     * one.
+     * Retrieves the current event context from the request or creates a new one.
      * 
      * @param request
      * @param response
      * @param mav
      * @return
      */
-    public EventContext retrieveEventContext(HttpServletRequest request,
-            HttpServletResponse response, ModelAndView mav) {
+    public EventContext retrieveEventContext(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
 
         EventContext context = null;
 

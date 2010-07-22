@@ -5,7 +5,6 @@ import java.util.Set;
 import org.synyx.minos.core.domain.User;
 
 
-
 /**
  * Interface for the abstraction of a notification.
  * 
@@ -14,8 +13,8 @@ import org.synyx.minos.core.domain.User;
 public interface Notification {
 
     /**
-     * Returns the sender of the notification. If {@link #hasSender()} returns
-     * {@code true} this method does not return {@code null}.
+     * Returns the sender of the notification. If {@link #hasSender()} returns {@code true} this method does not return
+     * {@code null}.
      * 
      * @return the sender of the notification or {@code null} if none available
      */
@@ -39,8 +38,7 @@ public interface Notification {
 
 
     /**
-     * Returns the message to be sent. Implementations can build it from various
-     * sources or strategies.
+     * Returns the message to be sent. Implementations can build it from various sources or strategies.
      * 
      * @return the notification message
      */

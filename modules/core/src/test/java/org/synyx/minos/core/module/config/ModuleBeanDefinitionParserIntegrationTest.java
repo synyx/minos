@@ -42,8 +42,7 @@ public class ModuleBeanDefinitionParserIntegrationTest {
     public void registersMessageSourcesForEachModule() throws Exception {
 
         // 3 module ones + ApplicationContext itself
-        assertThat(context.getBeanNamesForType(MessageSource.class).length,
-                is(4));
+        assertThat(context.getBeanNamesForType(MessageSource.class).length, is(4));
     }
 
 
@@ -64,16 +63,14 @@ public class ModuleBeanDefinitionParserIntegrationTest {
 
         Module foo = context.getBean("foo", Module.class);
 
-        assertThat(foo.getLifecycle(),
-                is(not(instanceOf(SimpleNoOpLifecycle.class))));
+        assertThat(foo.getLifecycle(), is(not(instanceOf(SimpleNoOpLifecycle.class))));
     }
 
 
     @Test
     public void registersPermissionAwareBeansForModules() throws Exception {
 
-        Map<String, ModulePermissionAware> beans =
-                context.getBeansOfType(ModulePermissionAware.class);
+        Map<String, ModulePermissionAware> beans = context.getBeansOfType(ModulePermissionAware.class);
 
         assertThat(beans.entrySet().size(), is(3));
     }

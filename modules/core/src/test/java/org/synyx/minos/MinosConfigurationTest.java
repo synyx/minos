@@ -14,10 +14,8 @@ import org.synyx.minos.umt.dao.RoleDao;
 import org.synyx.minos.umt.service.UserManagement;
 
 
-
 /**
- * Simple unit test to launch a basic Minos instance. Mainly to check
- * configuration integrity.
+ * Simple unit test to launch a basic Minos instance. Mainly to check configuration integrity.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -33,14 +31,14 @@ public class MinosConfigurationTest extends AbstractModuleIntegrationTest {
 
     @Test
     public void testname() throws Exception {
-        
+
         Role adminRole = roleDao.findAdminRole();
-        
+
         assertNotNull(adminRole);
         assertNotNull(roleDao.findUserRole());
 
         List<User> users = userManagement.getUsers();
-        
+
         assertEquals(1, users.size());
         assertTrue(users.get(0).has(adminRole));
     }
