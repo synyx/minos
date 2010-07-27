@@ -12,7 +12,7 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.StringUtils;
 import org.synyx.minos.core.Core;
 import org.synyx.minos.core.authentication.ModulePermissionAware;
-import org.synyx.minos.core.message.ModuleMessageSource;
+import org.synyx.minos.core.message.ModuleMessageSourceImpl;
 import org.synyx.minos.core.module.internal.MinosModule;
 import org.w3c.dom.Element;
 
@@ -57,7 +57,7 @@ public class ModuleBeanDefinitionParser implements BeanDefinitionParser {
     }
 
     /**
-     * {@link BeanDefinitionParser} to declare {@link ModuleMessageSource} beans. Sets the {@link ModuleMessageSource}
+     * {@link BeanDefinitionParser} to declare {@link ModuleMessageSourceImpl} beans. Sets the {@link ModuleMessageSourceImpl}
      * to be lenient for the core module.
      * 
      * @author Oliver Gierke - gierke@synyx.de
@@ -66,7 +66,7 @@ public class ModuleBeanDefinitionParser implements BeanDefinitionParser {
 
         public ModuleMessageSourceBeanDefinitionParser(String moduleId) {
 
-            super(ModuleMessageSource.class, moduleId, true);
+            super(ModuleMessageSourceImpl.class, moduleId, true);
         }
 
 

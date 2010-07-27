@@ -76,7 +76,7 @@ public class DispatchingMessageSourceUnitTest {
      */
     private ModuleMessageSource getMessageSource(Module module, final String message, int order) {
 
-        ModuleMessageSource source = new ModuleMessageSource(module) {
+        ModuleMessageSource source = new ModuleMessageSourceImpl(module) {
 
             @Override
             protected String getMessageInternal(String code, Object[] args, Locale locale) {

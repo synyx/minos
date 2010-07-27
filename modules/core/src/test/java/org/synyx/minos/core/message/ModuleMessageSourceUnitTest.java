@@ -10,7 +10,7 @@ import org.synyx.minos.core.module.internal.MinosModule;
 
 
 /**
- * Unit test for {@link ModuleMessageSource}.
+ * Unit test for {@link ModuleMessageSourceImpl}.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -21,7 +21,7 @@ public class ModuleMessageSourceUnitTest {
 
         Module module = new MinosModule(Core.IDENTIFIER);
 
-        MessageSourcePlugin plugin = new ModuleMessageSource(module);
+        MessageSourcePlugin plugin = new ModuleMessageSourceImpl(module);
         assertThat(plugin.supports("core"), is(true));
     }
 
@@ -31,7 +31,7 @@ public class ModuleMessageSourceUnitTest {
 
         Module module = new MinosModule(Core.IDENTIFIER);
 
-        ModuleMessageSource plugin = new ModuleMessageSource(module);
+        ModuleMessageSourceImpl plugin = new ModuleMessageSourceImpl(module);
         plugin.setLenient(true);
 
         assertThat(plugin.supports("core"), is(true));

@@ -69,7 +69,7 @@
         <property name="useCodeAsDefaultMessage" value="true" />
 	</bean>
     
-    <bean class="org.synyx.minos.core.message.ModuleMessageSource">
+    <bean class="org.synyx.minos.core.message.ModuleMessageSourceImpl">
         <constructor-arg ref="core" />
     </bean>
     

@@ -25,7 +25,7 @@ public class DispatchingMessageSource extends AbstractMessageSource {
 
 
     /**
-     * Inject all {@link ModuleMessageSource}es available in the system.
+     * Inject all {@link ModuleMessageSourceImpl}es available in the system.
      * 
      * @param sources
      */
