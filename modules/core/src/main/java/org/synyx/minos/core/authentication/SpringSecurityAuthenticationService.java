@@ -101,7 +101,13 @@ public class SpringSecurityAuthenticationService extends AbstractAuthenticationS
 
         UserDetails userDetails = getAuthenticatedUser();
 
-        return null == userDetails ? null : userDao.findByUsername(userDetails.getUsername());
+        if (userDetails == null) {
+            return null;
+        } else if (userDetails instanceof MinosUserDetails) {
+            return userDao.readByPrimaryKey(((MinosUserDetails) userDetails).getId());
+        } else {
+            return userDao.findByUsername(userDetails.getUsername());
+        }
     }
 
 
