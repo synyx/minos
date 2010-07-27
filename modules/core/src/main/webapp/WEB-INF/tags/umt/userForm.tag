@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <%@ taglib prefix="minos" tagdir="/WEB-INF/tags/core" %>
@@ -12,25 +12,45 @@
 	<table class="form">
 		<tr>
 			<th><label for="userform_username"><spring:message code="umt.user.username" />:</label></th>
-			<core:if test="${myaccount}">
+			<c:if test="${myaccount}">
 			<td>
 				${userForm.username}
 				<form:hidden path="username" />
 			</td>
-			</core:if>
-			<core:if test="${!myaccount}">
+			</c:if>
+			<c:if test="${!myaccount}">
 			<td>
-				<core:if test="${!userForm.new}">
+				<c:if test="${!userForm.new}">
 					${userForm.username}
 					<form:hidden path="username" />
-				</core:if>
-				<core:if test="${userForm.new}">
+					
+				</c:if>
+				<c:if test="${userForm.new}">
 					<form:input path="username" id="userform_username"/>
-				</core:if>
+					
+				</c:if>
 			</td>
-			</core:if>
+			</c:if>
 			<td><form:errors path="username" /></td>
 		</tr>
+		
+		<c:choose>
+		<c:when test="${!myaccount}">
+		<tr>
+			<th><label for="userform_active"><spring:message code="umt.user.active" />:</label></th>
+			<td><form:checkbox path="active" id="userform_active"/></td>
+			<td><form:errors path="active" /></td>
+		</tr>
+		</c:when>
+		
+		<c:otherwise>
+		<tr>
+			<td colspan="3">
+				<form:hidden path="active"/>
+			</td>
+		</tr>
+		</c:otherwise>
+		</c:choose>
 		<tr>
 			<th><label for="userform_firstname"><spring:message code="umt.user.firstname" />:</label></th>
 			<td><form:input path="firstname" id="userform_firstname"/></td>
@@ -46,7 +66,7 @@
 			<td><form:input path="emailAddress" id="userform_emailaddress"/></td>
 			<td><form:errors path="emailAddress" /></td>
 		</tr>
-		<core:if test="${!myaccount}">
+		<c:if test="${!myaccount}">
 		<tr>
 			<th><label for="userform_roles"><spring:message code="umt.user.roles" />:</label></th>
 			<td>
@@ -54,7 +74,7 @@
 			</td>
 			<td><form:errors path="roles" /></td>
 		</tr>
-		</core:if>
+		</c:if>
 		<tr>
 			<th><label for="userform_newpassword"><spring:message code="umt.user.newPassword" />:</label></th>
 			<td><form:password path="newPassword" id="userform_newpassword"/></td>
@@ -70,9 +90,9 @@
 				<td></td>
 				<td>
 					<input type="submit" value="<spring:message code="core.ui.ok" />" />
-					<core:if test="${!myaccount}">
+					<c:if test="${!myaccount}">
 					<a href="../users"><spring:message code="core.ui.cancel" /></a>
-					</core:if>
+					</c:if>
 				</td>
 				<td></td>
 			</tr>

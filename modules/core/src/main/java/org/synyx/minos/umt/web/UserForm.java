@@ -50,6 +50,7 @@ public class UserForm {
         lastname = user.getLastname();
         emailAddress = user.getEmailAddress();
         roles = user.getRoles();
+        active = user.isActive();
     }
 
 
