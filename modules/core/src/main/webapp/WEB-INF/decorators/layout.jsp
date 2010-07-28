@@ -11,7 +11,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<script type="text/javascript" src="<c:url value="/js/jquery-1.3.2.min.js" />"> </script>
 	<script type="text/javascript" src="<c:url value="/js/jquery-ui-1.7.2.custom.min.js" />"> </script>
-	<script type="text/javascript" src="<c:url value="/js/jquery-autogrow-1.2.2.js" />"> </script>
+	<script type="text/javascript" src="<c:url value="/js/jquery.simpleautogrow-0.1.1.js" />"> </script>
 	<script type="text/javascript" src="<c:url value="/js/minos-core.js" />"> </script>
 	<title><decorator:title default="Minos 2" /></title>
 	<minos:styles />
