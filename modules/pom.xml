@@ -19,6 +19,7 @@
 		<module>core</module>
 		<module>skillz</module>
 		<module>test</module>
+		<module>i18n</module>
 	</modules>
 
 	<properties>
