@@ -423,6 +423,10 @@
 			<id>nexus.synyx.org</id>
 			<name>Synyx OpenSource Repository</name>
 			<url>http://repo.synyx.org</url>
+			<snapshots>
+                                <enabled>true</enabled>
+                        </snapshots>
+
 		</repository>
 
 		<repository>
