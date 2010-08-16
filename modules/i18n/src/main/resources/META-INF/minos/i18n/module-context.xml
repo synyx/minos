@@ -49,14 +49,17 @@
 		<property name="keyColumn" value="keyName"/>
 	</bean>
 	
+	<bean id="messageMetaAcceptor" class="org.synyx.minos.i18n.importer.MessageMetaAcceptor">
+		<constructor-arg ref="messageDao" />
+		<constructor-arg ref="messageMetaDao" />
+	</bean>
 	
 	<bean id="importer" class="org.synyx.messagesource.importer.Importer">
 		<constructor-arg>
 			<value>${i18n.path.import}</value>
 		</constructor-arg>
-		<constructor-arg ref="jdbcMessageProvider" />
+		<constructor-arg ref="messageMetaAcceptor" />
 	</bean>
-	
 	
 	<bean id="filessystemMessageProviderForExport" class="org.synyx.messagesource.filesystem.FileSystemMessageProvider">
 		<constructor-arg>
