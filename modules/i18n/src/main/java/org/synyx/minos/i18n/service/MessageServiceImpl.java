@@ -31,17 +31,14 @@ public class MessageServiceImpl implements MessageService {
 
     private Importer importer;
 
-    private Importer exporter;
-
     private MessageDao messageDao;
 
     private List<InitializableMessageSource> messageSources;
 
 
-    public MessageServiceImpl(Importer importer, Importer exporter, MessageDao messageDao) {
+    public MessageServiceImpl(Importer importer, MessageDao messageDao) {
 
         this.importer = importer;
-        this.exporter = exporter;
         this.messageDao = messageDao;
     }
 
@@ -103,8 +100,9 @@ public class MessageServiceImpl implements MessageService {
 
         while (message == null) {
             List<Message> messages =
-                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename, LocaleUtils
-                            .getLanguage(locale), LocaleUtils.getCountry(locale), LocaleUtils.getVariant(locale), key);
+                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename,
+                            LocaleUtils.getLanguage(locale), LocaleUtils.getCountry(locale),
+                            LocaleUtils.getVariant(locale), key);
             if (!messages.isEmpty()) {
 
                 // this is done because of case-insensitive collation that is mostly used
@@ -283,18 +281,6 @@ public class MessageServiceImpl implements MessageService {
         }
 
         return map;
-    }
-
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.synyx.minos.i18n.service.MessageService#exportMessages()
-     */
-    @Override
-    public void exportMessages() {
-
-        exporter.importMessages();
     }
 
 

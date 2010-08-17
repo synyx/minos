@@ -42,13 +42,6 @@ public class I18nLifecycle extends SimpleNoOpLifecycle {
     }
 
 
-    @Override
-    public void onStop() throws ModuleLifecycleException {
-
-        messageService.exportMessages();
-    }
-
-
     /*
      * (non-Javadoc)
      * 

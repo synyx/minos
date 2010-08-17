@@ -34,8 +34,5 @@ public interface MessageService {
     public List<LocaleWrapper> getLocales(String basename);
 
 
-    public void exportMessages();
-
-
     public void importMessages();
 }

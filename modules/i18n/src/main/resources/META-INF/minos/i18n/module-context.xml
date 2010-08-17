@@ -30,8 +30,7 @@
 
 
 	<bean id="messageService" class="org.synyx.minos.i18n.service.MessageServiceImpl">
-	<constructor-arg ref="importer" />
-		<constructor-arg ref="exporter" />
+		<constructor-arg ref="importer" />
 		<constructor-arg ref="messageDao" />
 		<property name="messageSources">
 			<plugin:list class="org.synyx.messagesource.InitializableMessageSource" />
@@ -61,15 +60,4 @@
 		<constructor-arg ref="messageMetaAcceptor" />
 	</bean>
 	
-	<bean id="filessystemMessageProviderForExport" class="org.synyx.messagesource.filesystem.FileSystemMessageProvider">
-		<constructor-arg>
-			<value>${i18n.path.export}</value>
-		</constructor-arg>
-	</bean>
-	<bean id="exporter" class="org.synyx.messagesource.importer.Importer">
-		<constructor-arg ref="jdbcMessageProvider" />
-		<constructor-arg ref="filessystemMessageProviderForExport"/>
-	</bean>
-
-
 </beans>

@@ -90,10 +90,13 @@ public class I18nController {
     @RequestMapping(value = URL_EXPORT, method = RequestMethod.GET)
     public String exportMessages(Model model) {
 
-        messageService.exportMessages();
+        // TODO export me
 
-        model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message.success("i18n.messagesources.exported"));
-        return UrlUtils.redirect(URL_MAIN);
+        // model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message.success("i18n.messagesources.exported"));
+
+        throw new RuntimeException("Export is not yet implemented!");
+
+        // return UrlUtils.redirect(URL_MAIN);
     }
 
 
