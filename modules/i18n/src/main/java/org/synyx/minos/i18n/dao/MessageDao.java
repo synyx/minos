@@ -6,6 +6,7 @@ package org.synyx.minos.i18n.dao;
 import java.util.List;
 
 import org.synyx.hades.dao.GenericDao;
+import org.synyx.hades.dao.Modifying;
 import org.synyx.hades.dao.Query;
 import org.synyx.minos.i18n.domain.LocaleWrapper;
 import org.synyx.minos.i18n.domain.Message;
@@ -41,4 +42,13 @@ public interface MessageDao extends GenericDao<Message, Long> {
 
     @Query("select distinct m.locale from Message m where m.basename = ?1")
     List<LocaleWrapper> findLocales(String basename);
+
+
+    @Modifying
+    @Query("delete from Message m where m.basename = ?1 and m.key = ?2")
+    void deleteBy(String basename, String key);
+
+
+    @Query("select count(m) from Message m where m.basename = ?1 and m.locale = ?2")
+    Long countByBasenameAndLocale(String basename, LocaleWrapper locale);
 }

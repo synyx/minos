@@ -7,11 +7,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.synyx.messagesource.MessageAcceptor;
 import org.synyx.messagesource.Messages;
+import org.synyx.minos.i18n.dao.AvailableLanguageDao;
+import org.synyx.minos.i18n.dao.AvailableMessageDao;
 import org.synyx.minos.i18n.dao.MessageDao;
-import org.synyx.minos.i18n.dao.MessageMetaDao;
+import org.synyx.minos.i18n.dao.MessageTranslationDao;
+import org.synyx.minos.i18n.domain.AvailableLanguage;
+import org.synyx.minos.i18n.domain.AvailableMessage;
+import org.synyx.minos.i18n.domain.LocaleWrapper;
 import org.synyx.minos.i18n.domain.Message;
-import org.synyx.minos.i18n.domain.MessageMeta;
-import org.synyx.minos.i18n.domain.MessageMetaStatus;
+import org.synyx.minos.i18n.domain.MessageStatus;
+import org.synyx.minos.i18n.domain.MessageTranslation;
 
 
 /**
@@ -23,13 +28,20 @@ public class MessageMetaAcceptor implements MessageAcceptor {
 
     private MessageDao messageDao;
 
-    private MessageMetaDao messageMetaDao;
+    private AvailableMessageDao availableMessageDao;
+
+    private AvailableLanguageDao availableLanguageDao;
+
+    private MessageTranslationDao messageTranslationDao;
 
 
-    public MessageMetaAcceptor(MessageDao messageDao, MessageMetaDao messageMetaDao) {
+    public MessageMetaAcceptor(MessageDao messageDao, AvailableMessageDao messageMetaDao,
+            MessageTranslationDao messageTranslationDao, AvailableLanguageDao availableLanguageDao) {
 
         this.messageDao = messageDao;
-        this.messageMetaDao = messageMetaDao;
+        this.availableMessageDao = messageMetaDao;
+        this.messageTranslationDao = messageTranslationDao;
+        this.availableLanguageDao = availableLanguageDao;
     }
 
 
@@ -38,59 +50,98 @@ public class MessageMetaAcceptor implements MessageAcceptor {
 
         LOG.info("Syncing messages for basename: " + basename);
 
+        // since the messages imported only represent the "available" (or needed) messages
+        // we ignore any other messages than the "base"
         Map<String, String> messagesKeyValue = messages.getMessages(null);
 
-        // update message meta by messages
+        List<AvailableLanguage> availableLanguages = getAvailableLanguages(basename);
+
+        // update availablemessages by messages
         for (String key : messagesKeyValue.keySet()) {
 
             String message = messagesKeyValue.get(key);
-            setMessage(basename, key, message);
+            setMessage(basename, key, message, availableLanguages);
         }
 
         // find deleted message meta
-        List<MessageMeta> metaMessages = messageMetaDao.findByBasename(basename);
-        for (MessageMeta messageMeta : metaMessages) {
+        List<AvailableMessage> availableMessages = availableMessageDao.findByBasename(basename);
+        for (AvailableMessage availableMessage : availableMessages) {
 
-            String key = messageMeta.getKey();
-            if (messages.getMessage(null, key) == null) {
+            String key = availableMessage.getKey();
+            if (!messages.hasMessage(null, key)) {
 
-                messageMeta.setStatus(MessageMetaStatus.DELETED);
-                messageMetaDao.save(messageMeta);
+                // remove translationinfo
+                messageTranslationDao.deleteBy(availableMessage);
+                // and info about the key
+                availableMessageDao.delete(availableMessage);
+                // and all messages
+                messageDao.deleteBy(basename, key);
 
-                LOG.debug("Deleted message for basename: " + basename + " key: " + key);
+                LOG.debug("Deleted meta-information and all translation-requests for basename: " + basename + " key: "
+                        + key);
             }
         }
     }
 
 
-    protected void setMessage(String basename, String key, String message) {
+    private List<AvailableLanguage> getAvailableLanguages(String basename) {
 
-        MessageMeta messageMeta = messageMetaDao.findByBasenameAndKey(basename, key);
+        List<AvailableLanguage> availableLanguages = availableLanguageDao.findByBasename(basename);
 
-        // new key for the given basename
-        if (null == messageMeta) {
+        if (availableLanguages.isEmpty()) {
+            // first time we "see" this basename
+            // create a "default" language entry for it
 
-            messageMetaDao.save(new MessageMeta(basename, key, message));
+            AvailableLanguage lang = new AvailableLanguage(LocaleWrapper.DEFAULT, basename, true);
+            availableLanguageDao.save(lang);
+            availableLanguages = availableLanguageDao.findByBasename(basename);
+
+            LOG.info("Created new entry for default-language of new basename: " + basename);
+        }
+
+        return availableLanguages;
+    }
+
+
+    protected void setMessage(String basename, String key, String message, List<AvailableLanguage> availableLanguages) {
+
+        AvailableMessage availableMessage = availableMessageDao.findByBasenameAndKey(basename, key);
+
+        MessageStatus status = null;
+        if (null == availableMessage) { // new
+            availableMessage = availableMessageDao.save(new AvailableMessage(basename, key, message));
+
+            // create a (base) message so that the keys get resolved
             messageDao.save(new Message(null, basename, key, message));
+            LOG.debug("Added new message for basename: " + basename + " and key: " + key);
+            status = MessageStatus.NEW;
+        } else if (!availableMessage.getMessage().equals(message)) { // updated
+            status = MessageStatus.UPDATED;
 
-            LOG.debug("Added new message for basename: " + basename + " key: " + key);
+            availableMessage.setMessage(message);
+            availableMessageDao.save(availableMessage);
+            LOG.debug("Updated existing message for basename: " + basename + " and key: " + key);
 
+        } else { // unchanged
             return;
         }
 
-        // existing key with different value
-        if (!messageMeta.getMessage().equals(message)) {
+        // now update the information what has to be translated
+        for (AvailableLanguage lang : availableLanguages) {
+            MessageTranslation translation =
+                    messageTranslationDao.findByAvailableMessageAndAvailableLanguage(availableMessage, lang);
 
-            messageMeta.setMessage(message);
-            messageMeta.setStatus(MessageMetaStatus.UPDATED);
-            messageMetaDao.save(messageMeta);
+            if (translation == null) {
+                translation = new MessageTranslation(availableMessage, lang, status);
+            }
 
-            LOG.debug("Updated existing message for basename: " + basename + " key: " + key);
+            translation.setMessageStatus(status);
 
-            return;
+            messageTranslationDao.save(translation);
+            LOG.debug("Added/Updated new translation (" + lang.getLocale().toString() + ")for basename: " + basename
+                    + " key: " + key);
         }
 
-        // nothing changed
     }
 
 }

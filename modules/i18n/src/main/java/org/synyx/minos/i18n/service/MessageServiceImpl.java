@@ -16,9 +16,17 @@ import org.springframework.util.StringUtils;
 import org.synyx.messagesource.InitializableMessageSource;
 import org.synyx.messagesource.importer.Importer;
 import org.synyx.messagesource.util.LocaleUtils;
+import org.synyx.minos.i18n.dao.AvailableLanguageDao;
+import org.synyx.minos.i18n.dao.AvailableMessageDao;
 import org.synyx.minos.i18n.dao.MessageDao;
+import org.synyx.minos.i18n.dao.MessageTranslationDao;
+import org.synyx.minos.i18n.domain.AvailableLanguage;
+import org.synyx.minos.i18n.domain.AvailableMessage;
 import org.synyx.minos.i18n.domain.LocaleWrapper;
 import org.synyx.minos.i18n.domain.Message;
+import org.synyx.minos.i18n.domain.MessageStatus;
+import org.synyx.minos.i18n.domain.MessageTranslation;
+import org.synyx.minos.i18n.web.LocaleInformation;
 import org.synyx.minos.i18n.web.MessageView;
 
 
@@ -33,13 +41,23 @@ public class MessageServiceImpl implements MessageService {
 
     private MessageDao messageDao;
 
+    private AvailableLanguageDao availableLanguageDao;
+
+    private AvailableMessageDao availableMessageDao;
+
+    private MessageTranslationDao messageTranslationDao;
+
     private List<InitializableMessageSource> messageSources;
 
 
-    public MessageServiceImpl(Importer importer, MessageDao messageDao) {
+    public MessageServiceImpl(Importer importer, MessageDao messageDao, AvailableLanguageDao availableLanguageDao,
+            AvailableMessageDao availableMessageDao, MessageTranslationDao messageTranslationDao) {
 
         this.importer = importer;
         this.messageDao = messageDao;
+        this.availableLanguageDao = availableLanguageDao;
+        this.availableMessageDao = availableMessageDao;
+        this.messageTranslationDao = messageTranslationDao;
     }
 
 
@@ -100,9 +118,8 @@ public class MessageServiceImpl implements MessageService {
 
         while (message == null) {
             List<Message> messages =
-                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename,
-                            LocaleUtils.getLanguage(locale), LocaleUtils.getCountry(locale),
-                            LocaleUtils.getVariant(locale), key);
+                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename, LocaleUtils
+                            .getLanguage(locale), LocaleUtils.getCountry(locale), LocaleUtils.getVariant(locale), key);
             if (!messages.isEmpty()) {
 
                 // this is done because of case-insensitive collation that is mostly used
@@ -181,9 +198,35 @@ public class MessageServiceImpl implements MessageService {
      * @see org.synyx.minos.i18n.service.MessageService#getLocales(java.lang.String)
      */
     @Override
+    @Transactional(readOnly = true)
     public List<LocaleWrapper> getLocales(String basename) {
 
-        return messageDao.findLocales(basename);
+        List<AvailableLanguage> languages = availableLanguageDao.findByBasename(basename);
+        List<LocaleWrapper> locales = new ArrayList<LocaleWrapper>();
+
+        for (AvailableLanguage lang : languages) {
+            locales.add(lang.getLocale());
+        }
+        return locales;
+
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LocaleInformation> getLocaleInformations(String basename) {
+
+        List<LocaleInformation> infos = new ArrayList<LocaleInformation>();
+
+        for (LocaleWrapper locale : getLocales(basename)) {
+            Long newCount = messageTranslationDao.countByStatus(basename, locale, MessageStatus.NEW);
+            Long updatedCount = messageTranslationDao.countByStatus(basename, locale, MessageStatus.UPDATED);
+            Long totalCount = messageDao.countByBasenameAndLocale(basename, locale);
+            infos.add(new LocaleInformation(locale, newCount, updatedCount, totalCount));
+        }
+
+        return infos;
+
     }
 
 
@@ -222,7 +265,15 @@ public class MessageServiceImpl implements MessageService {
         for (String key : knownKeys) {
             for (Map<String, Message> keys : referenceMessageChain) {
                 if (keys.containsKey(key)) {
-                    referenceMessageMap.put(key, new MessageView(new LocaleWrapper(referenceLocale), keys.get(key)));
+
+                    MessageTranslation translation = getTranslationInformation(basename, key, referenceLocale);
+                    // TODO think about referenced keys that have translation-informationes (e.g. are not translated
+                    // correctly)
+                    // if (translation != null) {
+                    // continue;
+                    // }
+                    referenceMessageMap.put(key, new MessageView(new LocaleWrapper(referenceLocale), keys.get(key),
+                            translation));
                     break;
                 }
             }
@@ -232,7 +283,10 @@ public class MessageServiceImpl implements MessageService {
         for (String key : knownKeys) {
             for (Map<String, Message> keys : messageChain) {
                 if (keys.containsKey(key)) {
-                    result.add(new MessageView(new LocaleWrapper(locale), keys.get(key), referenceMessageMap.get(key)));
+
+                    MessageTranslation translation = getTranslationInformation(basename, key, locale);
+                    result.add(new MessageView(new LocaleWrapper(locale), keys.get(key), referenceMessageMap.get(key),
+                            translation));
                     break;
                 }
             }
@@ -247,6 +301,27 @@ public class MessageServiceImpl implements MessageService {
             }
         });
         return result;
+
+    }
+
+
+    /**
+     * @param basename
+     * @param key
+     * @param referenceLocale
+     * @return
+     */
+    private MessageTranslation getTranslationInformation(String basename, String key, Locale locale) {
+
+        AvailableLanguage lang = availableLanguageDao.findByBasenameAndLocale(basename, new LocaleWrapper(locale));
+        AvailableMessage message = availableMessageDao.findByBasenameAndKey(basename, key);
+
+        if (lang == null || message == null) {
+            // TODO think about throwing an exception here
+            return null;
+        }
+
+        return messageTranslationDao.findByAvailableMessageAndAvailableLanguage(message, lang);
 
     }
 

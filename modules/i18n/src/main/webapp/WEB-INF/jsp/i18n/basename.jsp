@@ -9,19 +9,35 @@
 <hr /> <br />
 
 
-<ul>
-<c:forEach items="${locales}" var="locale">
-
-<li><a href="<spring:url value="/web/i18n/basenames/${basename}/messages/${locale}"/>">
+<display:table id="localeInformation" name="localeInformations" requestURI="" >
 
 <c:choose>
-<c:when test="${locale == null }">
-	<spring:message code="i18n.basename.default"/>
+<c:when test="${localeInformation.locale.default}">
+	<spring:url value="/web/i18n/basenames/${basename}/messages/" var="url"/>
 </c:when>
-<c:otherwise><c:out value="${locale}"/></c:otherwise>
+<c:otherwise>
+<spring:url value="/web/i18n/basenames/${basename}/messages/${localeInformation.locale}" var="url"/>
+</c:otherwise>
 </c:choose>
 
-</a></li>
+	<minos:column titleKey="i18n.basename.locale" property="locale"/>
+	<minos:column titleKey="i18n.basename.countNew" property="countNew"/>
+	<minos:column titleKey="i18n.basename.countUpdated" property="countUpdated"/>
+	<minos:column titleKey="i18n.basename.countUnchanged" property="countUnchanged"/>
+	<minos:column titleKey="i18n.basename.countTotal" sortProperty="countTotal">
+		<a href="${url}">${localeInformation.countTotal}</a>
+	</minos:column>
+
+</display:table>
+
+
+<ul>
+<c:forEach items="${localeInformations}" var="localeInformation">
+
+<li>
+
+
+</li>
 
 </c:forEach>
 

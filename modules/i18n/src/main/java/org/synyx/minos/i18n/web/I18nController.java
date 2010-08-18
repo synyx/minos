@@ -113,9 +113,15 @@ public class I18nController {
     @RequestMapping(value = URL_BASENAME, method = RequestMethod.GET)
     public String showBasename(@PathVariable("basename") String basename, Model model) {
 
-        List<LocaleWrapper> locales = messageService.getLocales(basename);
+        List<LocaleInformation> locales = messageService.getLocaleInformations(basename);
+
+        // List<TranslationInformation> infos = new ArrayList<TranslationInformation>();
+        // for (LocaleWrapper wrapper : locales) {
+        //
+        // }
+
         model.addAttribute("basename", basename);
-        model.addAttribute("locales", locales);
+        model.addAttribute("localeInformations", locales);
 
         return "i18n/basename";
     }

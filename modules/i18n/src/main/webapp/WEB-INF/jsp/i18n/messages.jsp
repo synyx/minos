@@ -134,7 +134,13 @@ function toInput(node) {
 		<input type="hidden" name="messages[${status.index}].locale.variant" value="<c:out value="${messageView.currentLocale.variant}"/>"/>
 		<input type="hidden" name="messages[${status.index}].key" value="<c:out value="${messageView.message.key}"/>"/>
 		<h3>
-			<c:out value="${messageView.message.key}"/>
+			<c:out value="${messageView.message.key}"/> 
+			
+			<c:choose>
+				<c:when test="${messageView.newForTranslation}">[new]</c:when>
+				<c:when test="${messageView.updatedForTranslation}">[updated]</c:when>
+			</c:choose>
+			
 		</h3>
 
 		<div class="clearfix">

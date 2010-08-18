@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import org.synyx.minos.i18n.domain.LocaleWrapper;
 import org.synyx.minos.i18n.domain.Message;
+import org.synyx.minos.i18n.web.LocaleInformation;
 import org.synyx.minos.i18n.web.MessageView;
 
 
@@ -35,4 +36,7 @@ public interface MessageService {
 
 
     public void importMessages();
+
+
+    public List<LocaleInformation> getLocaleInformations(String basename);
 }

@@ -32,6 +32,10 @@
 	<bean id="messageService" class="org.synyx.minos.i18n.service.MessageServiceImpl">
 		<constructor-arg ref="importer" />
 		<constructor-arg ref="messageDao" />
+		<constructor-arg ref="availableLanguageDao" />
+		<constructor-arg ref="availableMessageDao"/>
+		<constructor-arg ref="messageTranslationDao"/>
+		
 		<property name="messageSources">
 			<plugin:list class="org.synyx.messagesource.InitializableMessageSource" />
 		</property>
@@ -50,7 +54,9 @@
 	
 	<bean id="messageMetaAcceptor" class="org.synyx.minos.i18n.importer.MessageMetaAcceptor">
 		<constructor-arg ref="messageDao" />
-		<constructor-arg ref="messageMetaDao" />
+		<constructor-arg ref="availableMessageDao" />
+		<constructor-arg ref="messageTranslationDao" />
+		<constructor-arg ref="availableLanguageDao" />
 	</bean>
 	
 	<bean id="importer" class="org.synyx.messagesource.importer.Importer">

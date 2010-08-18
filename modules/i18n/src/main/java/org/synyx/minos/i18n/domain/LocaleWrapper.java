@@ -28,14 +28,10 @@ public class LocaleWrapper {
     @Column(nullable = false, length = 15)
     private String variant;
 
+    public static final LocaleWrapper DEFAULT = new LocaleWrapper();
+
 
     public LocaleWrapper(Locale locale) {
-
-        if (locale == null) {
-            this.language = "";
-            this.country = "";
-            this.variant = "";
-        }
 
         this.language = LocaleUtils.getLanguage(locale);
         this.country = LocaleUtils.getCountry(locale);
