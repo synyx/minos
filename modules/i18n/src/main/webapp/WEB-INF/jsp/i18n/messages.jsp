@@ -5,51 +5,101 @@
 <%@ taglib prefix="minos" uri="http://www.synyx.org/minos/tags" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
+<c:set var="showFormURL" scope="page"><spring:url value="/web/i18n/basenames/${basename}/messages/${locale}/"/></c:set>
+
 <script type="text/javascript">
 
+function showMessageForm(formContainer) {
 
-function toggleSize(fieldid) {
-	var node = $('#' + fieldid);
-	if (node.is('textarea')) {
-		toInput(node);
+	var key = $(formContainer).siblings(".messagekey").text();
+	
+	// hide all other message forms and also remove the forms from dom
+	$(".messageform").hide();
+	$(".messageform").html("");
+
+	// show the desired message form
+	var jsonUrl = "${showFormURL}" + key + "/json?reference=${reference}";
+	$.getJSON(jsonUrl, function (data) {
+
+		updateMessageForm(formContainer, data);
+
+		// finally, show the form
+		$(formContainer).show("fast");	
+	});
+}
+
+function updateMessageForm(formContainer, data) {
+
+	// get form template
+	var template = $('#messageform_template').html();
+
+	// replace template placeholder by json result
+	template = fillTemplate(template, data);
+
+	// add filled template content to form node and show form 
+	$(formContainer).html(template);
+
+	// set style of textarea according to if the key is defined in current locale
+	if (data.definedInCurrent == 'true') {
+		var style = "background-color: #eeeeff;";
+	} 
+	var textArea = $(formContainer).find(".messagetextarea");
+	textArea.attr("style", textArea.attr("style") + style);
+
+	// update status display
+	var statusSpan = $(formContainer).siblings(".messageheader").children(".messagestatus");
+	if (typeof(data.status) !== 'undefined' && data.status != null) {
+		statusSpan.text("[" + data.status + "]");
 	} else {
-		toTextArea(node);
+		statusSpan.text("");
 	}
 }
 
-function toTextArea(node) {
-	
-	var id = node.attr('id');
-	var text = node.val();
-	var style = node.attr('style');
-	var onblur = "toggleSize('"+id+"'); return false;";
-	var name = node.attr('name');
-	var textarea = '<textarea onblur="'+onblur+'" rows="5" id="'+id+'" name="'+name+'" style="'+style+'" ></textarea>';
+function submitMessageForm(form) {
 
-	node.replaceWith(textarea);
-	$('#'+id).text(text);
-	$('#'+id).focus();
-	
+	var formNode = $(form);
+	var formData = formNode.serialize();
+	var url = formNode.attr("action");
+
+	$.ajax({
+		type: "PUT",
+		url: url,
+		data: formData,
+		contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+		success: function(data, textStatus) {
+
+			var formContainer = $(form).parent();
+			updateMessageForm(formContainer, data);
+		},
+		error: function (XMLHttpRequest, textStatus, errorThrown) {
+			alert("ERROR - Status: " + textStatus);
+		}
+	});
 }
 
-function toInput(node) {
+function fillTemplate(template, valueMap) {
 
-	var id = node.attr('id');
-	var text = node.val();
-	
-	if (text.match('\n')) {
-		return;
+	for (var name in valueMap) {
+
+		var regExp = new RegExp("%%" + name + "%%", "g");
+		var value = valueMap[name];
+		template = template.replace(regExp, value);
 	}
-	var style = node.attr('style');
-	var onfocus = "toggleSize('"+id+"'); return false;";
-	var name = node.attr('name');
-	var textarea = '<input  onfocus="'+onfocus+'"  type="text" id="'+id+'" name="'+name+'" style="'+style+'" value="" />';
 
-	node = node.replaceWith(textarea);
-	
-	$('#' + id).attr('value', text);
-
+	return template;
 }
+
+$(document).ready ( function() {
+
+	$(".messageheader").click(
+			function () { 
+				var form = $(this).siblings(".messageform");
+				showMessageForm(form);
+	 		}
+	 );
+
+});
+
 
 </script>
 
@@ -65,25 +115,10 @@ function toInput(node) {
 				<h2>
 					<c:out value="${locale}"/>
 				</h2>
-				
-				<%--
-				<div>
-				<spring:message code="i18n.messages.changeorder"/>: 
-				<form style="display:inline;" method="get">
-					<input type="hidden" name="reference" value="${reference}"/>
-					
-					<select name="order">
-						<option value="keys">keys</option>
-						<option value="keys">keys but undefined first</option>
-						<option value="keys">keys but defined first</option>
-					</select>
-					<input type="submit" value="change"/>
-					</form>
-				</div>
-				 --%>
-							
 			</div>
+			
 			<div style="float: right; width:2%">&nbsp;</div>
+			
 			<div class="otherlanguage" style="float: right; width: 49%; ">
 				<h2>
 					<c:out value="${reference}"/>
@@ -109,95 +144,74 @@ function toInput(node) {
 					</form>
 				</div>
 			</div>
+			
 		</div>
 		
-	</div>
+</div>
 
 <p style="margin-top: 2em;">&nbsp;</p>
-<form action="" method="post">
-
-
-
-<input type="hidden" name="_method" value="put"/>
 
 <c:forEach items="${messages}" var="messageView" varStatus="status">
 
-
-
-	<div class="messagecontainer" id="messages_${status.index}_container">
-		<c:if test="${messageView.definedInCurrent}"> <%-- add id only for existing keys --%>
-			<input type="hidden" name="messages[${status.index}].id" value="<c:out value="${messageView.message.id}"/>"/>
-		</c:if>
-		<input type="hidden" name="messages[${status.index}].basename" value="<c:out value="${messageView.message.basename}"/>"/>
-		<input type="hidden" name="messages[${status.index}].locale.language" value="<c:out value="${messageView.currentLocale.language}"/>"/>
-		<input type="hidden" name="messages[${status.index}].locale.country" value="<c:out value="${messageView.currentLocale.country}"/>"/>
-		<input type="hidden" name="messages[${status.index}].locale.variant" value="<c:out value="${messageView.currentLocale.variant}"/>"/>
-		<input type="hidden" name="messages[${status.index}].key" value="<c:out value="${messageView.message.key}"/>"/>
-		<h3>
+	<div class="messagecontainer" id="message_container_${status.index}">
+		<h3 class="messageheader" id="message_header_${status.index}" style="cursor:pointer;">
 			<c:out value="${messageView.message.key}"/> 
-			
+			<span style="float:right;" class="messagestatus">
 			<c:choose>
-				<c:when test="${messageView.newForTranslation}">[new]</c:when>
-				<c:when test="${messageView.updatedForTranslation}">[updated]</c:when>
+				<c:when test="${messageView.newForTranslation}">[NEW]</c:when>
+				<c:when test="${messageView.updatedForTranslation}">[UPDATED]</c:when>
 			</c:choose>
-			
+			</span>
 		</h3>
+		<div class="messagekey" style="display:none;"><c:out value="${messageView.message.key}"/></div>
 
-		<div class="clearfix">
-			
-			<div class="thislanguage" style="width: 49%; float:right;">
-				<p style="margin-bottom: 0.5em;">
-					<small><spring:message code="i18n.messages.definedin" arguments="${messageView.message.locale}"/></small>
-				</p>
-				
-				<c:choose>
-				<c:when test="${!messageView.definedInCurrent}">
-					<c:set var="style" value="background-color: #eeeeff;"/>
-				</c:when>
-				<c:otherwise>
-					<c:set var="style" value=""/>
-				</c:otherwise>
-				</c:choose>
-				<c:out value="" ></c:out>
-
-				<c:set var="newline" value="\n"/>
-				
-				<%
-					pageContext.setAttribute("newline", "\n");
-				%>		
-				<c:choose>
-				
-
-				<c:when test='${fn:contains(messageView.message.message,newline)}'>
-					<textarea rows="5" onfocus="toggleSize('messages_${status.index}_message'); return false;" id="messages_${status.index}_message" name="messages[${status.index}].message" style="width:100%;border: 1px solid lightgray; ${style}" ><c:out value="${messageView.message.message}"/></textarea>
-				</c:when>
-				<c:otherwise>
-					<input onfocus="toggleSize('messages_${status.index}_message'); return false;" type="text" id="messages_${status.index}_message" name="messages[${status.index}].message" style="width:100%;border: 1px solid lightgray; ${style}" value="<c:out value="${messageView.message.message}"/>"/>
-				
-				</c:otherwise>
-				</c:choose>
-				
-			</div>
-			<div style="float: right; width:2%">&nbsp;</div>
-			<div class="otherlanguage" style="float: right; width: 49%; ">
-				<p style="margin-bottom: 0.5em;">
-					<small><spring:message code="i18n.messages.definedin" arguments="${messageView.reference.message.locale}"/></small>
-				</p>
-				<div style="font-family: monospace; background-color: #fff; width:100%" >
-					<c:out value="${messageView.reference.message.message}"/>
-				</div>
-				
-				
-			</div>
-		</div>
+		<div class="clearfix messageform" style="display:none;" id="message_form_${status.index}"></div>
 		
 	</div>
-
+	
 </c:forEach>
 
-<div class="buttons" style="margin-top: 15px; margin-bottom: 10px;">
-<input type="submit" value="<spring:message code="core.ui.save"/>" />
-</div>
-
-</form>
 <a href="<spring:url value="/web/i18n/basenames/${basename}"/>">&laquo; <c:out value="${basename}"/></a>
+
+<!-- the content of this invisible div is used as a template to display a single keys form -->
+<div id="messageform_template" style="display:none;">
+
+<form action="${showFormURL}%%key%%/json" method="put" onsubmit="submitMessageForm(this); return false;">
+	<input type="hidden" name="_method" value="put"/>
+
+	<input type="hidden" name="reference" value="${reference}" />
+	
+	<%-- TODO add id only for existing keys --%>
+	<input type="hidden" name="id" value="%%id%%" />
+
+	<input type="hidden" name="basename" value="%%basename%%" />
+	<input type="hidden" name="locale.language" value="%%language%%" />
+	<input type="hidden" name="locale.country" value="%%country%%" />
+	<input type="hidden" name="locale.variant" value="%%variant%%" />
+	<input type="hidden" name="key" value="%%key%%" />
+	
+	<div class="thislanguage" style="width: 49%; float:right;">
+		<p style="margin-bottom: 0.5em;">
+			<small><spring:message code="i18n.messages.definedin"/> %%locale%% </small>
+		</p>
+
+		<textarea class="messagetextarea" "rows="5" name="message" style="width:100%;border: 1px solid lightgray;" >%%message%%</textarea>
+		<input type="submit" value="<spring:message code="core.ui.save"/>" /> 
+		<input type="checkbox" checked="checked" name="finished" />
+		<spring:message code="i18n.messages.finished"/>
+	</div>
+	
+	<div style="float: right; width:2%">&nbsp;</div>
+	<div class="otherlanguage" style="float: right; width: 49%; ">
+		<p style="margin-bottom: 0.5em;">
+			<small><spring:message code="i18n.messages.definedin" /> %%reference_locale%%</small>
+		</p>
+		<div style="font-family: monospace; background-color: #fff; width:100%" >
+			%%reference_message%%
+		</div>
+	</div>
+</form>
+
+
+ 
+</div>

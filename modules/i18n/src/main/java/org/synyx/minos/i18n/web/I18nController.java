@@ -49,7 +49,7 @@ public class I18nController {
     public static final String URL_BASENAME = "/i18n/basenames/{basename}";
     public static final String URL_MESSAGES = "/i18n/basenames/{basename}/messages/{locale}";
 
-    public static final String URL_MESSAGE = URL_MESSAGES + "/{key}/json";
+    public static final String URL_MESSAGE_JSON = URL_MESSAGES + "/{key}/json";
 
     public static final String URL_REINITIALIZE = "/i18n/reinitialize";
 
@@ -140,11 +140,11 @@ public class I18nController {
         if (!locales.contains(language.getLocale())) {
             // todo make boolean configurable
             messageService.addLanguage(language);
-            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
-                    .success("i18n.messages.newlanguage.success"));
+            model.addAttribute(Core.MESSAGE,
+                    org.synyx.minos.core.web.Message.success("i18n.messages.newlanguage.success"));
         } else {
-            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
-                    .notice("i18n.messages.newlanguage.alreadyexists"));
+            model.addAttribute(Core.MESSAGE,
+                    org.synyx.minos.core.web.Message.notice("i18n.messages.newlanguage.alreadyexists"));
         }
 
         return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
@@ -168,7 +168,7 @@ public class I18nController {
     }
 
 
-    @RequestMapping(value = URL_MESSAGE, method = RequestMethod.GET)
+    @RequestMapping(value = URL_MESSAGE_JSON, method = RequestMethod.GET)
     public void showMessage(@PathVariable("basename") String basename, @PathVariable("locale") Locale locale,
             @PathVariable("key") String key,
             @RequestParam(value = "reference", required = false) Locale referenceLocale, HttpServletRequest request,
@@ -192,10 +192,32 @@ public class I18nController {
             jsonMap.put("reference_locale", message.getReference().getMessage().getLocale().toString());
 
             jsonMap.put("definedInCurrent", Boolean.toString(message.isDefinedInCurrent()));
+
+            if (message.getTranslation() != null) {
+                jsonMap.put("status", message.getTranslation().getMessageStatus().toString());
+            }
         }
 
         MappingJacksonJsonView jsonView = new MappingJacksonJsonView();
         jsonView.render(jsonMap, request, response);
+    }
+
+
+    @RequestMapping(value = URL_MESSAGE_JSON, method = RequestMethod.PUT)
+    public void saveMessage(@PathVariable("basename") String basename, @PathVariable("locale") Locale locale,
+            @PathVariable("key") String key,
+            @RequestParam(value = "reference", required = false) Locale referenceLocale,
+            @RequestParam(value = "finished", required = false, defaultValue = "FALSE") Boolean finished,
+            @ModelAttribute(value = "message") Message message, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
+        messageService.save(message);
+
+        if (finished) {
+            messageService.removeTranslationInfo(message);
+        }
+
+        showMessage(basename, locale, key, referenceLocale, request, response);
     }
 
 

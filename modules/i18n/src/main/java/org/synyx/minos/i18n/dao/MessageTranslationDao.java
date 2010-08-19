@@ -25,6 +25,11 @@ public interface MessageTranslationDao extends GenericDao<MessageTranslation, Lo
     void deleteBy(AvailableMessage availableMessage);
 
 
+    @Modifying
+    @Query("delete from MessageTranslation t WHERE t.availableMessage = ?1 and t.availableLanguage = ?2")
+    void deleteBy(AvailableMessage availableMessage, AvailableLanguage availableLanguage);
+
+
     @Query("select count(t) from MessageTranslation t join t.availableLanguage l join t.availableMessage m where m.basename = ?1 and l.locale = ?2 and t.messageStatus = ?3")
     Long countByStatus(String basename, LocaleWrapper locale, MessageStatus status);
 

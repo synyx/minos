@@ -44,4 +44,6 @@ public interface MessageService {
 
     public void addLanguage(AvailableLanguage language);
 
+
+    public void removeTranslationInfo(Message message);
 }

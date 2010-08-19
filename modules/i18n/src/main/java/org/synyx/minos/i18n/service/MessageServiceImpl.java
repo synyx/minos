@@ -124,8 +124,9 @@ public class MessageServiceImpl implements MessageService {
 
         while (message == null) {
             List<Message> messages =
-                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename, LocaleUtils
-                            .getLanguage(locale), LocaleUtils.getCountry(locale), LocaleUtils.getVariant(locale), key);
+                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename,
+                            LocaleUtils.getLanguage(locale), LocaleUtils.getCountry(locale),
+                            LocaleUtils.getVariant(locale), key);
             if (!messages.isEmpty()) {
 
                 // this is done because of case-insensitive collation that is mostly used
@@ -378,6 +379,29 @@ public class MessageServiceImpl implements MessageService {
             }
         }
 
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.synyx.minos.i18n.service.MessageService#removeTranslationInfo(org.synyx.minos.i18n.domain.Message)
+     */
+    @Override
+    @Transactional
+    public void removeTranslationInfo(Message message) {
+
+        AvailableMessage availableMessage =
+                availableMessageDao.findByBasenameAndKey(message.getBasename(), message.getKey());
+        AvailableLanguage availableLanguage =
+                availableLanguageDao.findByBasenameAndLocale(message.getBasename(), message.getLocale());
+
+        if (availableMessage == null || availableLanguage == null) {
+            throw new IllegalStateException(
+                    "Missing available Message and/or available Language entry for given message!");
+        }
+
+        messageTranslationDao.deleteBy(availableMessage, availableLanguage);
     }
 
 }
