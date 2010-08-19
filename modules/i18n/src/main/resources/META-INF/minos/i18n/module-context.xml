@@ -59,11 +59,17 @@
 		<constructor-arg ref="availableLanguageDao" />
 	</bean>
 	
-	<bean id="importer" class="org.synyx.messagesource.importer.Importer">
-		<constructor-arg>
-			<value>${i18n.path.import}</value>
-		</constructor-arg>
+	<bean id="importer" class="org.synyx.minos.i18n.importer.MessageImporter">
+
 		<constructor-arg ref="messageMetaAcceptor" />
+		<property name="resources">
+			<map>
+				<entry key="i18n"><value>classpath:META-INF/minos/i18n/messages.properties</value></entry>
+				<entry key="umt"><value>classpath:META-INF/minos/umt/messages.properties</value></entry>
+				<entry key="core"><value>classpath:META-INF/minos/core/messages.properties</value></entry>
+				
+			</map>
+		</property>
 	</bean>
 	
 </beans>
