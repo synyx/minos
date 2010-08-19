@@ -11,7 +11,6 @@
 <p>
 <a href="<spring:url value="/web/i18n/basenames"/>"><spring:message code="i18n.basenames.title"/></a>
 <br />
-<a href="<spring:url value="/web/i18n/test"/>"><spring:message code="i18n.test.title"/></a>
 
 <br />
 <a href="<spring:url value="/web/i18n/reinitialize"/>"><spring:message code="i18n.reinitialize.title"/></a>

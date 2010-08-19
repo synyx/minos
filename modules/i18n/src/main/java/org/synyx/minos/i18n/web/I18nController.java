@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
-import org.synyx.messagesource.Messages;
 import org.synyx.messagesource.jdbc.JdbcMessageProvider;
 import org.synyx.minos.core.Core;
 import org.synyx.minos.core.web.UrlUtils;
@@ -43,7 +42,6 @@ import org.synyx.minos.i18n.service.MessageTransferService;
 public class I18nController {
 
     public static final String URL_MAIN = "/i18n";
-    public static final String URL_TEST = "/i18n/test";
     public static final String URL_IMPORT = "/i18n/import";
     public static final String URL_EXPORT = "/i18n/export";
 
@@ -216,20 +214,6 @@ public class I18nController {
         return UrlUtils.redirect(URL_MESSAGES.replace("{basename}", basename).replace("{locale}",
                 locale == null ? "" : locale.toString()));
 
-    }
-
-
-    @RequestMapping(value = URL_TEST, method = RequestMethod.GET)
-    public String showTestPage(Model model) {
-
-        Collection<String> basenames = messageProvider.getAvailableBaseNames();
-        Map<String, Messages> messagesList = new HashMap<String, Messages>();
-        for (String basename : basenames) {
-            messagesList.put(basename, messageProvider.getMessages(basename));
-        }
-
-        model.addAttribute("availableMessages", messagesList);
-        return "i18n/test";
     }
 
     public static class MessagesView {

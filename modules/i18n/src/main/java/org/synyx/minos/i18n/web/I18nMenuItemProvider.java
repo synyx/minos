@@ -32,15 +32,11 @@ public class I18nMenuItemProvider extends AbstractMenuItemProvider {
                 MenuItem.create(MENU_I18N).withKeyBase("i18n.menu").withPosition(1000).withUrl(I18nController.URL_MAIN)
                         .withPermission(I18nPermissions.I18N_LIST_MESSAGES).build();
 
-        MenuItem testModule =
-                MenuItem.create(MENU_I18N_TEST).withKeyBase("i18n.test.menu").withPosition(9999).withUrl(
-                        I18nController.URL_TEST).withParent(mainMenu).build();
-
         MenuItem baseNames =
                 MenuItem.create(MENU_I18N_BASENAMES).withKeyBase("i18n.basenames.menu").withPosition(1).withUrl(
                         I18nController.URL_BASENAMES).withParent(mainMenu).build();
 
-        return Arrays.asList(mainMenu, testModule, baseNames);
+        return Arrays.asList(mainMenu, baseNames);
 
     }
 }
