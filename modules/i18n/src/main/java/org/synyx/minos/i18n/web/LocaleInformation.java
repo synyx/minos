@@ -54,7 +54,7 @@ public class LocaleInformation {
 
     public Long getCountUnchanged() {
 
-        return countTotal - countUpdated - countNew;
+        return Math.max(0, countTotal - countUpdated - countNew);
     }
 
 }

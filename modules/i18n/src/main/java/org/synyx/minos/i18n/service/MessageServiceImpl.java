@@ -14,7 +14,6 @@ import java.util.Map;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.synyx.messagesource.InitializableMessageSource;
-import org.synyx.messagesource.importer.Importer;
 import org.synyx.messagesource.util.LocaleUtils;
 import org.synyx.minos.i18n.dao.AvailableLanguageDao;
 import org.synyx.minos.i18n.dao.AvailableMessageDao;
@@ -26,6 +25,7 @@ import org.synyx.minos.i18n.domain.LocaleWrapper;
 import org.synyx.minos.i18n.domain.Message;
 import org.synyx.minos.i18n.domain.MessageStatus;
 import org.synyx.minos.i18n.domain.MessageTranslation;
+import org.synyx.minos.i18n.importer.MessageImporter;
 import org.synyx.minos.i18n.web.LocaleInformation;
 import org.synyx.minos.i18n.web.MessageView;
 
@@ -37,7 +37,7 @@ import org.synyx.minos.i18n.web.MessageView;
  */
 public class MessageServiceImpl implements MessageService {
 
-    private Importer importer;
+    private MessageImporter importer;
 
     private MessageDao messageDao;
 
@@ -50,8 +50,9 @@ public class MessageServiceImpl implements MessageService {
     private List<InitializableMessageSource> messageSources;
 
 
-    public MessageServiceImpl(Importer importer, MessageDao messageDao, AvailableLanguageDao availableLanguageDao,
-            AvailableMessageDao availableMessageDao, MessageTranslationDao messageTranslationDao) {
+    public MessageServiceImpl(MessageImporter importer, MessageDao messageDao,
+            AvailableLanguageDao availableLanguageDao, AvailableMessageDao availableMessageDao,
+            MessageTranslationDao messageTranslationDao) {
 
         this.importer = importer;
         this.messageDao = messageDao;
@@ -118,9 +119,8 @@ public class MessageServiceImpl implements MessageService {
 
         while (message == null) {
             List<Message> messages =
-                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename,
-                            LocaleUtils.getLanguage(locale), LocaleUtils.getCountry(locale),
-                            LocaleUtils.getVariant(locale), key);
+                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename, LocaleUtils
+                            .getLanguage(locale), LocaleUtils.getCountry(locale), LocaleUtils.getVariant(locale), key);
             if (!messages.isEmpty()) {
 
                 // this is done because of case-insensitive collation that is mostly used
@@ -396,6 +396,34 @@ public class MessageServiceImpl implements MessageService {
 
         importer.importMessages();
         initializeMessageSources();
+
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.synyx.minos.i18n.service.MessageService#addLanguage(java.lang.String,
+     * org.synyx.minos.i18n.domain.LocaleWrapper)
+     */
+    @Override
+    @Transactional
+    public void addLanguage(String basename, LocaleWrapper localeToAdd, boolean required) {
+
+        if (availableLanguageDao.findByBasenameAndLocale(basename, localeToAdd) == null) {
+
+            AvailableLanguage lang = new AvailableLanguage(localeToAdd, basename, required);
+            lang = availableLanguageDao.save(lang);
+
+            if (required) {
+
+                List<AvailableMessage> messages = availableMessageDao.findByBasename(basename);
+                for (AvailableMessage message : messages) {
+                    MessageTranslation t = new MessageTranslation(message, lang, MessageStatus.NEW);
+                    messageTranslationDao.save(t);
+                }
+            }
+        }
 
     }
 

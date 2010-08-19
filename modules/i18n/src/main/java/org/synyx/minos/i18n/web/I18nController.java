@@ -127,6 +127,28 @@ public class I18nController {
     }
 
 
+    @RequestMapping(value = URL_BASENAME, method = RequestMethod.POST)
+    public String addNewLanguageForBasename(@PathVariable("basename") String basename,
+            @RequestParam("lang") Locale locale, Model model) {
+
+        LocaleWrapper localeToAdd = new LocaleWrapper(locale);
+
+        List<LocaleWrapper> locales = messageService.getLocales(basename);
+
+        if (!locales.contains(localeToAdd)) {
+            // todo make boolean configurable
+            messageService.addLanguage(basename, localeToAdd, true);
+            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
+                    .success("i18n.messages.newlanguage.success"));
+        } else {
+            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
+                    .notice("i18n.messages.newlanguage.alreadyexists"));
+        }
+
+        return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
+    }
+
+
     @RequestMapping(value = URL_MESSAGES, method = RequestMethod.GET)
     public String showMessages(@PathVariable("basename") String basename, @PathVariable("locale") Locale locale,
             @RequestParam(value = "reference", required = false) Locale referenceLocale, Model model) {

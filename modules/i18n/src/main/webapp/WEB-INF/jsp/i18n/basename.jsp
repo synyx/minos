@@ -11,14 +11,8 @@
 
 <display:table id="localeInformation" name="localeInformations" requestURI="" >
 
-<c:choose>
-<c:when test="${localeInformation.locale.default}">
-	<spring:url value="/web/i18n/basenames/${basename}/messages/" var="url"/>
-</c:when>
-<c:otherwise>
+
 <spring:url value="/web/i18n/basenames/${basename}/messages/${localeInformation.locale}" var="url"/>
-</c:otherwise>
-</c:choose>
 
 	<minos:column titleKey="i18n.basename.locale" property="locale"/>
 	<minos:column titleKey="i18n.basename.countNew" property="countNew"/>
@@ -28,20 +22,22 @@
 		<a href="${url}">${localeInformation.countTotal}</a>
 	</minos:column>
 
+	<display:footer>
+	<tr>
+		<td colspan="5">
+		
+			<p><spring:message code="i18n.basename.newlanguage.title"/></p>
+			<form method="post">
+				<input type="text" name="lang" value="" id="newlanguage_name"/> <label for="newlanguage_name"><spring:message code="i18n.basename.newlanguage.title"/></label>
+				<br />
+				<input type="submit" value="<spring:message code="i18n.basename.newlanguage.button"/>"/>
+			</form>
+		</td>
+	</tr>
+	</display:footer>
+
 </display:table>
 
-
-<ul>
-<c:forEach items="${localeInformations}" var="localeInformation">
-
-<li>
-
-
-</li>
-
-</c:forEach>
-
-</ul>
 
 <br />
 <a href="<spring:url value="/web/i18n/basenames"/>">&laquo; <spring:message code="i18n.basenames.title"/></a>

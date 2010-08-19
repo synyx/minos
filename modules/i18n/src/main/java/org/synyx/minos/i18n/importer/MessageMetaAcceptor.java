@@ -45,21 +45,14 @@ public class MessageMetaAcceptor implements MessageAcceptor {
     }
 
 
-    @Override
-    public void setMessages(String basename, Messages messages) {
-
-        LOG.info("Syncing messages for basename: " + basename);
-
-        // since the messages imported only represent the "available" (or needed) messages
-        // we ignore any other messages than the "base"
-        Map<String, String> messagesKeyValue = messages.getMessages(null);
+    public void setMessages(String basename, Map<String, String> messages) {
 
         List<AvailableLanguage> availableLanguages = getAvailableLanguages(basename);
 
         // update availablemessages by messages
-        for (String key : messagesKeyValue.keySet()) {
+        for (String key : messages.keySet()) {
 
-            String message = messagesKeyValue.get(key);
+            String message = messages.get(key);
             setMessage(basename, key, message, availableLanguages);
         }
 
@@ -68,7 +61,7 @@ public class MessageMetaAcceptor implements MessageAcceptor {
         for (AvailableMessage availableMessage : availableMessages) {
 
             String key = availableMessage.getKey();
-            if (!messages.hasMessage(null, key)) {
+            if (!messages.containsKey(key)) {
 
                 // remove translationinfo
                 messageTranslationDao.deleteBy(availableMessage);
@@ -81,6 +74,20 @@ public class MessageMetaAcceptor implements MessageAcceptor {
                         + key);
             }
         }
+    }
+
+
+    @Override
+    public void setMessages(String basename, Messages messages) {
+
+        LOG.info("Syncing messages for basename: " + basename);
+
+        // since the messages imported only represent the "available" (or needed) messages
+        // we ignore any other messages than the "base"
+        Map<String, String> messagesKeyValue = messages.getMessages(null);
+
+        setMessages(basename, messagesKeyValue);
+
     }
 
 

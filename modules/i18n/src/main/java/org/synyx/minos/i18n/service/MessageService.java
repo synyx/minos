@@ -43,4 +43,7 @@ public interface MessageService {
 
     public List<LocaleInformation> getLocaleInformations(String basename);
 
+
+    public void addLanguage(String basename, LocaleWrapper localeToAdd, boolean required);
+
 }
