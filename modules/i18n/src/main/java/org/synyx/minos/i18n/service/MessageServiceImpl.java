@@ -118,8 +118,9 @@ public class MessageServiceImpl implements MessageService {
 
         while (message == null) {
             List<Message> messages =
-                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename, LocaleUtils
-                            .getLanguage(locale), LocaleUtils.getCountry(locale), LocaleUtils.getVariant(locale), key);
+                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename,
+                            LocaleUtils.getLanguage(locale), LocaleUtils.getCountry(locale),
+                            LocaleUtils.getVariant(locale), key);
             if (!messages.isEmpty()) {
 
                 // this is done because of case-insensitive collation that is mostly used
@@ -260,35 +261,12 @@ public class MessageServiceImpl implements MessageService {
         List<Map<String, Message>> messageChain = getMessageChain(basename, locale);
         List<Map<String, Message>> referenceMessageChain = getMessageChain(basename, referenceLocale);
 
-        Map<String, MessageView> referenceMessageMap = new HashMap<String, MessageView>();
-        // Build a Map of referenceMessages
         for (String key : knownKeys) {
-            for (Map<String, Message> keys : referenceMessageChain) {
-                if (keys.containsKey(key)) {
 
-                    MessageTranslation translation = getTranslationInformation(basename, key, referenceLocale);
-                    // TODO think about referenced keys that have translation-informationes (e.g. are not translated
-                    // correctly)
-                    // if (translation != null) {
-                    // continue;
-                    // }
-                    referenceMessageMap.put(key, new MessageView(new LocaleWrapper(referenceLocale), keys.get(key),
-                            translation));
-                    break;
-                }
-            }
-        }
-
-        // add the first message in chain with the given key to the result
-        for (String key : knownKeys) {
-            for (Map<String, Message> keys : messageChain) {
-                if (keys.containsKey(key)) {
-
-                    MessageTranslation translation = getTranslationInformation(basename, key, locale);
-                    result.add(new MessageView(new LocaleWrapper(locale), keys.get(key), referenceMessageMap.get(key),
-                            translation));
-                    break;
-                }
+            MessageView message =
+                    getMessage(basename, key, locale, referenceLocale, messageChain, referenceMessageChain);
+            if (message != null) {
+                result.add(message);
             }
         }
 
@@ -300,8 +278,57 @@ public class MessageServiceImpl implements MessageService {
                 return o1.getMessage().getKey().compareTo(o2.getMessage().getKey());
             }
         });
-        return result;
 
+        return result;
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.synyx.minos.i18n.service.MessageService#getMessage(String, String, Locale, Locale)
+     */
+    @Override
+    public MessageView getMessage(String basename, String key, Locale locale, Locale referenceLocale) {
+
+        List<Map<String, Message>> messageChain = getMessageChain(basename, locale);
+        List<Map<String, Message>> referenceMessageChain = getMessageChain(basename, referenceLocale);
+
+        return getMessage(basename, key, locale, referenceLocale, messageChain, referenceMessageChain);
+    }
+
+
+    private MessageView getMessage(String basename, String key, Locale locale, Locale referenceLocale,
+            List<Map<String, Message>> messageChain, List<Map<String, Message>> referenceMessageChain) {
+
+        // determine reference message
+        MessageView referenceMessage = null;
+        for (Map<String, Message> keys : referenceMessageChain) {
+            if (keys.containsKey(key)) {
+
+                MessageTranslation translation = getTranslationInformation(basename, key, referenceLocale);
+                // TODO think about referenced keys that have translation-informationes (e.g. are not translated
+                // correctly)
+                // if (translation != null) {
+                // continue;
+                // }
+                referenceMessage = new MessageView(new LocaleWrapper(referenceLocale), keys.get(key), translation);
+                break;
+            }
+        }
+
+        // retrieve message (setting the possibly found reference message)
+        MessageView message = null;
+        for (Map<String, Message> keys : messageChain) {
+            if (keys.containsKey(key)) {
+
+                MessageTranslation translation = getTranslationInformation(basename, key, locale);
+                message = new MessageView(new LocaleWrapper(locale), keys.get(key), referenceMessage, translation);
+                break;
+            }
+        }
+
+        return message;
     }
 
 

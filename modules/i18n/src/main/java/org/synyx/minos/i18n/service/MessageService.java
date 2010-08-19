@@ -23,6 +23,9 @@ public interface MessageService {
     public List<MessageView> getMessages(String basename, Locale locale, Locale referenceLocale);
 
 
+    public MessageView getMessage(String basename, String key, Locale locale, Locale referenceLocale);
+
+
     public void saveAll(List<Message> messages);
 
 
@@ -39,4 +42,5 @@ public interface MessageService {
 
 
     public List<LocaleInformation> getLocaleInformations(String basename);
+
 }

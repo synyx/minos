@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 import org.synyx.messagesource.Messages;
 import org.synyx.messagesource.jdbc.JdbcMessageProvider;
 import org.synyx.minos.core.Core;
@@ -41,8 +45,9 @@ public class I18nController {
 
     public static final String URL_BASENAMES = "/i18n/basenames";
     public static final String URL_BASENAME = "/i18n/basenames/{basename}";
-    public static final String URL_DEFAULTMESSAGES = "/i18n/basenames/{basename}/messages/";
     public static final String URL_MESSAGES = "/i18n/basenames/{basename}/messages/{locale}";
+
+    public static final String URL_MESSAGE = URL_MESSAGES + "/{key}/json";
 
     public static final String URL_REINITIALIZE = "/i18n/reinitialize";
 
@@ -56,7 +61,7 @@ public class I18nController {
     @InitBinder
     public void initBinder(DataBinder binder, Locale locale) {
 
-        // binder.registerCustomEditor(DateMidnight.class, new DateTimeEditor(locale, "MM/yyyy").forDateMidnight());
+        binder.registerCustomEditor(Locale.class, new DefaultLocaleEditor());
     }
 
 
@@ -115,23 +120,10 @@ public class I18nController {
 
         List<LocaleInformation> locales = messageService.getLocaleInformations(basename);
 
-        // List<TranslationInformation> infos = new ArrayList<TranslationInformation>();
-        // for (LocaleWrapper wrapper : locales) {
-        //
-        // }
-
         model.addAttribute("basename", basename);
         model.addAttribute("localeInformations", locales);
 
         return "i18n/basename";
-    }
-
-
-    @RequestMapping(value = URL_DEFAULTMESSAGES, method = RequestMethod.GET)
-    public String showMessages(@PathVariable("basename") String basename,
-            @RequestParam(value = "reference", required = false) Locale referenceLocale, Model model) {
-
-        return showMessages(basename, null, referenceLocale, model);
     }
 
 
@@ -152,29 +144,34 @@ public class I18nController {
     }
 
 
-    @RequestMapping(value = URL_DEFAULTMESSAGES, method = RequestMethod.PUT)
-    public String saveMessages(@PathVariable("basename") String basename,
-            @ModelAttribute(value = "messages") MessagesView messages, Model model) {
+    @RequestMapping(value = URL_MESSAGE, method = RequestMethod.GET)
+    public void showMessage(@PathVariable("basename") String basename, @PathVariable("locale") Locale locale,
+            @PathVariable("key") String key,
+            @RequestParam(value = "reference", required = false) Locale referenceLocale, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
 
-        return saveMessages(basename, null, messages, model);
-    }
+        MessageView message = messageService.getMessage(basename, key, locale, referenceLocale);
 
-    public static class MessagesView {
+        Map<String, String> jsonMap = new HashMap<String, String>();
 
-        List<Message> messages = new ArrayList<Message>();
+        if (message != null) {
+            jsonMap.put("id", message.getMessage().getId().toString());
+            jsonMap.put("basename", message.getMessage().getBasename());
+            jsonMap.put("language", message.getCurrentLocale().getLanguage());
+            jsonMap.put("country", message.getCurrentLocale().getCountry());
+            jsonMap.put("variant", message.getCurrentLocale().getVariant());
+            jsonMap.put("key", message.getMessage().getKey());
+            jsonMap.put("locale", message.getMessage().getLocale().toString());
+            jsonMap.put("message", message.getMessage().getMessage());
 
+            jsonMap.put("reference_message", message.getReference().getMessage().getMessage());
+            jsonMap.put("reference_locale", message.getReference().getMessage().getLocale().toString());
 
-        public List<Message> getMessages() {
-
-            return messages;
+            jsonMap.put("definedInCurrent", Boolean.toString(message.isDefinedInCurrent()));
         }
 
-
-        public void setMessages(List<Message> messages) {
-
-            this.messages = messages;
-        }
-
+        MappingJacksonJsonView jsonView = new MappingJacksonJsonView();
+        jsonView.render(jsonMap, request, response);
     }
 
 
@@ -207,6 +204,24 @@ public class I18nController {
 
         model.addAttribute("availableMessages", messagesList);
         return "i18n/test";
+    }
+
+    public static class MessagesView {
+
+        List<Message> messages = new ArrayList<Message>();
+
+
+        public List<Message> getMessages() {
+
+            return messages;
+        }
+
+
+        public void setMessages(List<Message> messages) {
+
+            this.messages = messages;
+        }
+
     }
 
 }
