@@ -29,6 +29,9 @@ public interface MessageService {
     public void saveAll(List<Message> messages);
 
 
+    public void save(Message message);
+
+
     public void initializeMessageSources();
 
 

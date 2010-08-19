@@ -84,25 +84,38 @@ public class MessageServiceImpl implements MessageService {
     public void saveAll(List<Message> messages) {
 
         for (Message message : messages) {
-            if (!message.getLocale().isDefault()) {
-                Locale parent = LocaleUtils.getParent(message.getLocale().getLocale());
-                Message parentMessage = getMessage(message.getBasename(), message.getKey(), parent);
-                if (parentMessage.getMessage().equals(message.getMessage())) {
-                    // skip messages that dont have differences to their parent
-                    if (!message.isNew()) {
-                        messageDao.delete(messageDao.readByPrimaryKey(message.getId()));
-                    }
-                    continue;
+            save(message);
+        }
+    }
 
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.synyx.minos.i18n.service.MessageService#save(org.synyx.minos.i18n.domain.Message)
+     */
+    @Override
+    @Transactional
+    public void save(Message message) {
+
+        if (!message.getLocale().isDefault()) {
+            Locale parent = LocaleUtils.getParent(message.getLocale().getLocale());
+            Message parentMessage = getMessage(message.getBasename(), message.getKey(), parent);
+            if (parentMessage.getMessage().equals(message.getMessage())) {
+                // skip messages that dont have differences to their parent
+                if (!message.isNew()) {
+                    messageDao.delete(messageDao.readByPrimaryKey(message.getId()));
                 }
-            }
+                return;
 
-            if (StringUtils.hasLength(message.getMessage())) {
-                messageDao.save(message);
-
-            } else if (!message.isNew()) {
-                messageDao.delete(messageDao.readByPrimaryKey(message.getId()));
             }
+        }
+
+        if (StringUtils.hasLength(message.getMessage())) {
+            messageDao.save(message);
+
+        } else if (!message.isNew()) {
+            messageDao.delete(messageDao.readByPrimaryKey(message.getId()));
         }
     }
 
