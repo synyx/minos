@@ -187,12 +187,11 @@ public class MessageServiceImpl implements MessageService {
     public List<LocaleInformation> getLocaleInformations(String basename) {
 
         List<LocaleInformation> infos = new ArrayList<LocaleInformation>();
-
         for (LocaleWrapper locale : getLocales(basename)) {
             Long newCount = messageTranslationDao.countByStatus(basename, locale, MessageStatus.NEW);
             Long updatedCount = messageTranslationDao.countByStatus(basename, locale, MessageStatus.UPDATED);
             Long totalCount = messageDao.countByBasenameAndLocale(basename, locale);
-            infos.add(new LocaleInformation(locale, newCount, updatedCount, totalCount));
+            infos.add(new LocaleInformation(basename, locale, newCount, updatedCount, totalCount));
         }
 
         return infos;
@@ -313,8 +312,8 @@ public class MessageServiceImpl implements MessageService {
         AvailableMessage message = availableMessageDao.findByBasenameAndKey(basename, key);
 
         if (lang == null || message == null) {
-            // TODO think about throwing an exception here
-            return null;
+            throw new IllegalArgumentException("Given combination of basename (" + basename + "), locale (" + locale
+                    + ") and key (" + key + ") is invalid.");
         }
 
         return messageTranslationDao.findByAvailableMessageAndAvailableLanguage(message, lang);

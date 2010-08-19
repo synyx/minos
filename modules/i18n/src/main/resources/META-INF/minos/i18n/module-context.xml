@@ -21,6 +21,7 @@
 	<bean id="i18nMessageSourceWrapper" class="org.synyx.minos.i18n.DelegatingModuleMessageSource">
 		<constructor-arg ref="i18n" />
 		<constructor-arg ref="i18nMessageSource" />
+		<property name="lenient" value="true"/>
 	</bean>
 
 	<bean id="i18nMessageSource" class="org.synyx.messagesource.InitializableMessageSource">

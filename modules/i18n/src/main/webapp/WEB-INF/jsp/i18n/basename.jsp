@@ -12,13 +12,15 @@
 <display:table id="localeInformation" name="localeInformations" requestURI="" >
 
 
-<spring:url value="/web/i18n/basenames/${basename}/messages/${localeInformation.locale}" var="url"/>
+
 
 	<minos:column titleKey="i18n.basename.locale" property="locale"/>
 	<minos:column titleKey="i18n.basename.countNew" property="countNew"/>
 	<minos:column titleKey="i18n.basename.countUpdated" property="countUpdated"/>
 	<minos:column titleKey="i18n.basename.countUnchanged" property="countUnchanged"/>
 	<minos:column titleKey="i18n.basename.countTotal" sortProperty="countTotal">
+	
+		<spring:url value="/web/i18n/basenames/${localeInformation.basename}/messages/${localeInformation.locale}" var="url"/>
 		<a href="${url}">${localeInformation.countTotal}</a>
 	</minos:column>
 

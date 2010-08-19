@@ -11,6 +11,8 @@ import org.synyx.minos.i18n.domain.LocaleWrapper;
  */
 public class LocaleInformation {
 
+    private String basename;
+
     private LocaleWrapper locale;
 
     private Long countNew;
@@ -18,13 +20,14 @@ public class LocaleInformation {
     private Long countTotal;
 
 
-    public LocaleInformation(LocaleWrapper locale, Long countNew, Long countUpdated, Long countTotal) {
+    public LocaleInformation(String basename, LocaleWrapper locale, Long countNew, Long countUpdated, Long countTotal) {
 
         super();
         this.locale = locale;
         this.countNew = countNew;
         this.countUpdated = countUpdated;
         this.countTotal = countTotal;
+        this.basename = basename;
     }
 
 
@@ -55,6 +58,12 @@ public class LocaleInformation {
     public Long getCountUnchanged() {
 
         return Math.max(0, countTotal - countUpdated - countNew);
+    }
+
+
+    public String getBasename() {
+
+        return basename;
     }
 
 }
