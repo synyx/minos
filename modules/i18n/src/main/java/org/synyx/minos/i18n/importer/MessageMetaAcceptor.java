@@ -116,7 +116,8 @@ public class MessageMetaAcceptor implements MessageAcceptor {
 
         MessageStatus status = null;
         if (null == availableMessage) { // new
-            availableMessage = availableMessageDao.save(new AvailableMessage(basename, key, message));
+            availableMessage = new AvailableMessage(basename, key, message);
+            availableMessage = availableMessageDao.save(availableMessage);
 
             // create a (base) message so that the keys get resolved
             messageDao.save(new Message(null, basename, key, message));
@@ -139,6 +140,18 @@ public class MessageMetaAcceptor implements MessageAcceptor {
                     messageTranslationDao.findByAvailableMessageAndAvailableLanguage(availableMessage, lang);
 
             if (translation == null) {
+
+                // if the language is not required we need to check if the key is defined
+                if (!lang.isRequired()) {
+                    // check if the key is definied in the current language
+                    Message m = messageDao.findByBasenameAndLocaleAndKey(basename, lang.getLocale(), key);
+                    // if not skip translation for the language
+                    if (m == null) {
+                        continue;
+                    }
+
+                }
+
                 translation = new MessageTranslation(availableMessage, lang, status);
             }
 

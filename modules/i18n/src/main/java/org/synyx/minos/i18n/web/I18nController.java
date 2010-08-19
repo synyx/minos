@@ -1,5 +1,6 @@
 package org.synyx.minos.i18n.web;
 
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,9 +27,11 @@ import org.synyx.messagesource.Messages;
 import org.synyx.messagesource.jdbc.JdbcMessageProvider;
 import org.synyx.minos.core.Core;
 import org.synyx.minos.core.web.UrlUtils;
+import org.synyx.minos.i18n.domain.AvailableLanguage;
 import org.synyx.minos.i18n.domain.LocaleWrapper;
 import org.synyx.minos.i18n.domain.Message;
 import org.synyx.minos.i18n.service.MessageService;
+import org.synyx.minos.i18n.service.MessageTransferService;
 
 
 /**
@@ -57,6 +61,9 @@ public class I18nController {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private MessageTransferService messageTransferService;
+
 
     @InitBinder
     public void initBinder(DataBinder binder, Locale locale) {
@@ -75,7 +82,7 @@ public class I18nController {
     @RequestMapping(value = URL_REINITIALIZE, method = RequestMethod.GET)
     public String reinitializeMessageSources(Model model) {
 
-        messageService.initializeMessageSources();
+        messageTransferService.initializeMessageSources();
 
         model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message.success("i18n.messagesources.reinitialized"));
         return UrlUtils.redirect(URL_MAIN);
@@ -85,7 +92,7 @@ public class I18nController {
     @RequestMapping(value = URL_IMPORT, method = RequestMethod.GET)
     public String importMessages(Model model) {
 
-        messageService.importMessages();
+        messageTransferService.importMessages();
 
         model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message.success("i18n.messagesources.imported"));
         return UrlUtils.redirect(URL_MAIN);
@@ -93,15 +100,14 @@ public class I18nController {
 
 
     @RequestMapping(value = URL_EXPORT, method = RequestMethod.GET)
-    public String exportMessages(Model model) {
+    public void exportMessages(HttpServletResponse response, OutputStream out) {
 
-        // TODO export me
+        response.setContentType("application/zip");
+        String filename = "export_i18n_" + new DateTime().toString("yyyy-MM-dd_HH-mm") + ".zip";
+        response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", filename));
 
-        // model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message.success("i18n.messagesources.exported"));
+        messageTransferService.exportMessages(out);
 
-        throw new RuntimeException("Export is not yet implemented!");
-
-        // return UrlUtils.redirect(URL_MAIN);
     }
 
 
@@ -122,22 +128,20 @@ public class I18nController {
 
         model.addAttribute("basename", basename);
         model.addAttribute("localeInformations", locales);
-
+        model.addAttribute("newLanguage", new AvailableLanguage(LocaleWrapper.DEFAULT, basename, true));
         return "i18n/basename";
     }
 
 
     @RequestMapping(value = URL_BASENAME, method = RequestMethod.POST)
     public String addNewLanguageForBasename(@PathVariable("basename") String basename,
-            @RequestParam("lang") Locale locale, Model model) {
-
-        LocaleWrapper localeToAdd = new LocaleWrapper(locale);
+            @ModelAttribute("newLanguage") AvailableLanguage language, Model model) {
 
         List<LocaleWrapper> locales = messageService.getLocales(basename);
 
-        if (!locales.contains(localeToAdd)) {
+        if (!locales.contains(language.getLocale())) {
             // todo make boolean configurable
-            messageService.addLanguage(basename, localeToAdd, true);
+            messageService.addLanguage(language);
             model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
                     .success("i18n.messages.newlanguage.success"));
         } else {
@@ -208,7 +212,7 @@ public class I18nController {
 
         }
 
-        messageService.initializeMessageSources();
+        messageTransferService.initializeMessageSources();
         return UrlUtils.redirect(URL_MESSAGES.replace("{basename}", basename).replace("{locale}",
                 locale == null ? "" : locale.toString()));
 

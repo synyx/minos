@@ -5,7 +5,7 @@ import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.module.ModuleLifecycleException;
 import org.synyx.minos.core.module.SimpleNoOpLifecycle;
 import org.synyx.minos.i18n.I18nPermissions;
-import org.synyx.minos.i18n.service.MessageService;
+import org.synyx.minos.i18n.service.MessageTransferService;
 import org.synyx.minos.umt.service.UserManagement;
 
 
@@ -18,7 +18,7 @@ import org.synyx.minos.umt.service.UserManagement;
 public class I18nLifecycle extends SimpleNoOpLifecycle {
 
     private final UserManagement userManagement;
-    private final MessageService messageService;
+    private final MessageTransferService messageTransferService;
 
 
     /**
@@ -28,17 +28,17 @@ public class I18nLifecycle extends SimpleNoOpLifecycle {
      * @param resumeManagement
      * @param userManagement
      */
-    public I18nLifecycle(UserManagement userManagement, MessageService messageService) {
+    public I18nLifecycle(UserManagement userManagement, MessageTransferService messageTransferService) {
 
         this.userManagement = userManagement;
-        this.messageService = messageService;
+        this.messageTransferService = messageTransferService;
     }
 
 
     @Override
     public void onStart() throws ModuleLifecycleException {
 
-        messageService.importMessages();
+        messageTransferService.importMessages();
     }
 
 

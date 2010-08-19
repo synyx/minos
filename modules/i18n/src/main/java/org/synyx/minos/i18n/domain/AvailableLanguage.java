@@ -3,6 +3,8 @@
  */
 package org.synyx.minos.i18n.domain;
 
+import java.util.Locale;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -60,6 +62,18 @@ public class AvailableLanguage extends AbstractPersistable<Long> {
     public void setLocale(LocaleWrapper locale) {
 
         this.locale = locale;
+    }
+
+
+    public Locale getRealLocale() {
+
+        return locale.getLocale();
+    }
+
+
+    public void setRealLocale(Locale locale) {
+
+        this.locale = new LocaleWrapper(locale);
     }
 
 

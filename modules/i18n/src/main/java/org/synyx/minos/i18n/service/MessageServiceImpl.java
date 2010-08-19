@@ -13,7 +13,6 @@ import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.synyx.messagesource.InitializableMessageSource;
 import org.synyx.messagesource.util.LocaleUtils;
 import org.synyx.minos.i18n.dao.AvailableLanguageDao;
 import org.synyx.minos.i18n.dao.AvailableMessageDao;
@@ -25,7 +24,6 @@ import org.synyx.minos.i18n.domain.LocaleWrapper;
 import org.synyx.minos.i18n.domain.Message;
 import org.synyx.minos.i18n.domain.MessageStatus;
 import org.synyx.minos.i18n.domain.MessageTranslation;
-import org.synyx.minos.i18n.importer.MessageImporter;
 import org.synyx.minos.i18n.web.LocaleInformation;
 import org.synyx.minos.i18n.web.MessageView;
 
@@ -37,8 +35,6 @@ import org.synyx.minos.i18n.web.MessageView;
  */
 public class MessageServiceImpl implements MessageService {
 
-    private MessageImporter importer;
-
     private MessageDao messageDao;
 
     private AvailableLanguageDao availableLanguageDao;
@@ -47,14 +43,10 @@ public class MessageServiceImpl implements MessageService {
 
     private MessageTranslationDao messageTranslationDao;
 
-    private List<InitializableMessageSource> messageSources;
 
+    public MessageServiceImpl(MessageDao messageDao, AvailableLanguageDao availableLanguageDao,
+            AvailableMessageDao availableMessageDao, MessageTranslationDao messageTranslationDao) {
 
-    public MessageServiceImpl(MessageImporter importer, MessageDao messageDao,
-            AvailableLanguageDao availableLanguageDao, AvailableMessageDao availableMessageDao,
-            MessageTranslationDao messageTranslationDao) {
-
-        this.importer = importer;
         this.messageDao = messageDao;
         this.availableLanguageDao = availableLanguageDao;
         this.availableMessageDao = availableMessageDao;
@@ -155,42 +147,6 @@ public class MessageServiceImpl implements MessageService {
 
         return message;
 
-    }
-
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.synyx.minos.i18n.service.MessageService#initializeMessageSources()
-     */
-    @Override
-    public void initializeMessageSources() {
-
-        if (messageSources == null) {
-            return;
-        }
-
-        for (InitializableMessageSource source : messageSources) {
-            source.initialize();
-        }
-    }
-
-
-    /**
-     * @param messageSources the messageSources to set
-     */
-    public void setMessageSources(List<InitializableMessageSource> messageSources) {
-
-        this.messageSources = messageSources;
-    }
-
-
-    /**
-     * @return the messageSources
-     */
-    public List<InitializableMessageSource> getMessageSources() {
-
-        return messageSources;
     }
 
 
@@ -402,37 +358,22 @@ public class MessageServiceImpl implements MessageService {
     /*
      * (non-Javadoc)
      * 
-     * @see org.synyx.minos.i18n.service.MessageService#importMessages()
-     */
-    @Override
-    public void importMessages() {
-
-        importer.importMessages();
-        initializeMessageSources();
-
-    }
-
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.synyx.minos.i18n.service.MessageService#addLanguage(java.lang.String,
      * org.synyx.minos.i18n.domain.LocaleWrapper)
      */
     @Override
     @Transactional
-    public void addLanguage(String basename, LocaleWrapper localeToAdd, boolean required) {
+    public void addLanguage(AvailableLanguage language) {
 
-        if (availableLanguageDao.findByBasenameAndLocale(basename, localeToAdd) == null) {
+        if (availableLanguageDao.findByBasenameAndLocale(language.getBasename(), language.getLocale()) == null) {
 
-            AvailableLanguage lang = new AvailableLanguage(localeToAdd, basename, required);
-            lang = availableLanguageDao.save(lang);
+            language = availableLanguageDao.save(language);
 
-            if (required) {
+            if (language.isRequired()) {
 
-                List<AvailableMessage> messages = availableMessageDao.findByBasename(basename);
+                List<AvailableMessage> messages = availableMessageDao.findByBasename(language.getBasename());
                 for (AvailableMessage message : messages) {
-                    MessageTranslation t = new MessageTranslation(message, lang, MessageStatus.NEW);
+                    MessageTranslation t = new MessageTranslation(message, language, MessageStatus.NEW);
                     messageTranslationDao.save(t);
                 }
             }

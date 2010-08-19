@@ -30,11 +30,16 @@
 
 
 	<bean id="messageService" class="org.synyx.minos.i18n.service.MessageServiceImpl">
-		<constructor-arg ref="importer" />
 		<constructor-arg ref="messageDao" />
 		<constructor-arg ref="availableLanguageDao" />
 		<constructor-arg ref="availableMessageDao"/>
 		<constructor-arg ref="messageTranslationDao"/>
+	</bean>
+	
+	
+	<bean id="messageTransferService" class="org.synyx.minos.i18n.service.MessageTransferServiceImpl">
+		<constructor-arg ref="importer" />
+		<constructor-arg ref="jdbcMessageProvider" />
 		
 		<property name="messageSources">
 			<plugin:list class="org.synyx.messagesource.InitializableMessageSource" />
@@ -43,7 +48,7 @@
 
 	<bean id="i18nLifeCycle" class="org.synyx.minos.i18n.bootstrap.I18nLifecycle">
 		<constructor-arg ref="userManagement" />
-		<constructor-arg ref="messageService"/>
+		<constructor-arg ref="messageTransferService"/>
 	</bean>
 
 
@@ -64,10 +69,15 @@
 		<constructor-arg ref="messageMetaAcceptor" />
 		<property name="resources">
 			<map>
-				<entry key="i18n"><value>classpath:META-INF/minos/i18n/messages.properties</value></entry>
-				<entry key="umt"><value>classpath:META-INF/minos/umt/messages.properties</value></entry>
-				<entry key="core"><value>classpath:META-INF/minos/core/messages.properties</value></entry>
-				
+				<entry key="i18n">
+					<value>classpath:META-INF/minos/i18n/messages.properties</value>
+				</entry>
+				<entry key="umt">
+					<value>classpath:META-INF/minos/umt/messages.properties</value>
+					</entry>
+				<entry key="core">
+					<value>classpath:META-INF/minos/core/messages.properties</value>
+				</entry>
 			</map>
 		</property>
 	</bean>

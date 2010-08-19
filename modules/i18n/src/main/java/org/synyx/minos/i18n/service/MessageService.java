@@ -6,6 +6,7 @@ package org.synyx.minos.i18n.service;
 import java.util.List;
 import java.util.Locale;
 
+import org.synyx.minos.i18n.domain.AvailableLanguage;
 import org.synyx.minos.i18n.domain.LocaleWrapper;
 import org.synyx.minos.i18n.domain.Message;
 import org.synyx.minos.i18n.web.LocaleInformation;
@@ -32,21 +33,15 @@ public interface MessageService {
     public void save(Message message);
 
 
-    public void initializeMessageSources();
-
-
     public List<String> getBasenames();
 
 
     public List<LocaleWrapper> getLocales(String basename);
 
 
-    public void importMessages();
-
-
     public List<LocaleInformation> getLocaleInformations(String basename);
 
 
-    public void addLanguage(String basename, LocaleWrapper localeToAdd, boolean required);
+    public void addLanguage(AvailableLanguage language);
 
 }

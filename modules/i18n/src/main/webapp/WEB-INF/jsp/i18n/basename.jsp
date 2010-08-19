@@ -22,21 +22,36 @@
 		<a href="${url}">${localeInformation.countTotal}</a>
 	</minos:column>
 
-	<display:footer>
-	<tr>
-		<td colspan="5">
-		
-			<p><spring:message code="i18n.basename.newlanguage.title"/></p>
-			<form method="post">
-				<input type="text" name="lang" value="" id="newlanguage_name"/> <label for="newlanguage_name"><spring:message code="i18n.basename.newlanguage.title"/></label>
-				<br />
-				<input type="submit" value="<spring:message code="i18n.basename.newlanguage.button"/>"/>
-			</form>
-		</td>
-	</tr>
-	</display:footer>
+
 
 </display:table>
+
+
+<h3><spring:message code="i18n.basename.newlanguage.title"/></h3>
+			<form:form modelAttribute="newLanguage" method="post">
+			
+			<table>
+				<tr>
+					<td><label for="newlanguage_lang"><spring:message code="i18n.basename.newlanguage.lang"/></label></td>
+					<td><form:input path="realLocale" id="newlanguage_lang"/> </td>
+					<td><small><spring:message code="i18n.basename.newlanguage.lang.hint"/></small></td>
+				</tr>
+				<tr>
+					<td><label for="newlanguage_required"><spring:message code="i18n.basename.newlanguage.required"/></label></td>
+					<td><form:checkbox path="required" id="newlanguage_required"/> </td>
+					<td><small><spring:message code="i18n.basename.newlanguage.required.hint"/></small></td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<form:hidden path="basename"/>
+						<input type="submit" value="<spring:message code="i18n.basename.newlanguage.button"/>"/>	
+					</td>
+				</tr>
+			</table>
+				
+			
+				
+			</form:form>
 
 
 <br />
