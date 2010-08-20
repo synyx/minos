@@ -124,9 +124,8 @@ public class MessageServiceImpl implements MessageService {
 
         while (message == null) {
             List<Message> messages =
-                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename,
-                            LocaleUtils.getLanguage(locale), LocaleUtils.getCountry(locale),
-                            LocaleUtils.getVariant(locale), key);
+                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename, LocaleUtils
+                            .getLanguage(locale), LocaleUtils.getCountry(locale), LocaleUtils.getVariant(locale), key);
             if (!messages.isEmpty()) {
 
                 // this is done because of case-insensitive collation that is mostly used
@@ -402,6 +401,19 @@ public class MessageServiceImpl implements MessageService {
         }
 
         messageTranslationDao.deleteBy(availableMessage, availableLanguage);
+    }
+
+
+    @Transactional
+    @Override
+    public void removeLanguage(String basename, LocaleWrapper locale) {
+
+        AvailableLanguage language = availableLanguageDao.findByBasenameAndLocale(basename, locale);
+
+        messageTranslationDao.deleteByAvailableLanguage(language);
+        messageDao.deleteBy(language.getBasename(), language.getLocale());
+        availableLanguageDao.delete(language);
+
     }
 
 }

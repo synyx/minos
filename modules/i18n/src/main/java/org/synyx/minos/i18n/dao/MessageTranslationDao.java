@@ -3,6 +3,8 @@
  */
 package org.synyx.minos.i18n.dao;
 
+import java.util.List;
+
 import org.synyx.hades.dao.GenericDao;
 import org.synyx.hades.dao.Modifying;
 import org.synyx.hades.dao.Query;
@@ -26,6 +28,11 @@ public interface MessageTranslationDao extends GenericDao<MessageTranslation, Lo
 
 
     @Modifying
+    @Query("delete from MessageTranslation t WHERE t.availableLanguage = ?1")
+    void deleteByAvailableLanguage(AvailableLanguage language);
+
+
+    @Modifying
     @Query("delete from MessageTranslation t WHERE t.availableMessage = ?1 and t.availableLanguage = ?2")
     void deleteBy(AvailableMessage availableMessage, AvailableLanguage availableLanguage);
 
@@ -36,5 +43,8 @@ public interface MessageTranslationDao extends GenericDao<MessageTranslation, Lo
 
     MessageTranslation findByAvailableMessageAndAvailableLanguage(AvailableMessage availableMessage,
             AvailableLanguage lang);
+
+
+    List<MessageTranslation> findByAvailableLanguage(AvailableLanguage language);
 
 }

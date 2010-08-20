@@ -23,6 +23,14 @@
 		<spring:url value="/web/i18n/basenames/${localeInformation.basename}/messages/${localeInformation.locale}" var="url"/>
 		<a href="${url}">${localeInformation.countTotal}</a>
 	</minos:column>
+	
+	<minos:column titleKey="i18n.basename.actions" sortable="false">
+		
+		<c:if test="${localeInformation.deletable}">
+		
+		<a href="<spring:url value="/web/i18n/basenames/${localeInformation.basename}/messages/${localeInformation.locale}/deleteconfirmation"/>"><spring:message code="i18n.basename.deleteLanguage.link"/></a>
+		</c:if>
+	</minos:column>
 
 
 

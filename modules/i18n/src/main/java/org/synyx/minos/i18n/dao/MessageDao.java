@@ -52,6 +52,12 @@ public interface MessageDao extends GenericDao<Message, Long> {
     void deleteBy(String basename, String key);
 
 
+    @Modifying
+    @Query("delete from Message m where m.basename = ?1 and m.locale = ?2")
+    void deleteBy(String basename, LocaleWrapper locale);
+
+
     @Query("select count(m) from Message m where m.basename = ?1 and m.locale = ?2")
     Long countByBasenameAndLocale(String basename, LocaleWrapper locale);
+
 }

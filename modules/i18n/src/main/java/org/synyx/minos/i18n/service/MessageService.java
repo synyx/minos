@@ -46,4 +46,7 @@ public interface MessageService {
 
 
     public void removeTranslationInfo(Message message);
+
+
+    public void removeLanguage(String basename, LocaleWrapper localeWrapper);
 }

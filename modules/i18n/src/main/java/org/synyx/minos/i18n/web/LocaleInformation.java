@@ -31,6 +31,12 @@ public class LocaleInformation {
     }
 
 
+    public boolean isDeletable() {
+
+        return !locale.isDefault();
+    }
+
+
     public LocaleWrapper getLocale() {
 
         return locale;

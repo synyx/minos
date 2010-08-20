@@ -140,11 +140,43 @@ public class I18nController {
         if (!locales.contains(language.getLocale())) {
             // todo make boolean configurable
             messageService.addLanguage(language);
-            model.addAttribute(Core.MESSAGE,
-                    org.synyx.minos.core.web.Message.success("i18n.messages.newlanguage.success"));
+            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
+                    .success("i18n.messages.newlanguage.success"));
         } else {
-            model.addAttribute(Core.MESSAGE,
-                    org.synyx.minos.core.web.Message.notice("i18n.messages.newlanguage.alreadyexists"));
+            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
+                    .notice("i18n.messages.newlanguage.alreadyexists"));
+        }
+
+        return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
+    }
+
+
+    @RequestMapping(value = URL_MESSAGES + "/deleteconfirmation", method = RequestMethod.GET)
+    public String showConfirmationForRemoveLanguageForBasename(@PathVariable("basename") String basename,
+            @PathVariable("locale") Locale locale, Model model) {
+
+        model.addAttribute("locale", locale);
+        model.addAttribute("basename", basename);
+
+        return "i18n/languagedeleteconfirmation";
+    }
+
+
+    @RequestMapping(value = URL_MESSAGES, method = RequestMethod.DELETE)
+    public String removeLanguageForBasename(@PathVariable("basename") String basename,
+            @PathVariable("locale") Locale locale, Model model) {
+
+        LocaleWrapper lang = new LocaleWrapper(locale);
+        if (!lang.isDefault()) {
+            messageService.removeLanguage(basename, lang);
+
+            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
+                    .success("i18n.basename.deleteLanguage.message.success"));
+
+        } else {
+            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
+                    .error("i18n.basename.deleteLanguage.message.impossiblebecauseofdefault"));
+
         }
 
         return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
