@@ -46,10 +46,10 @@ h2 {
 }
 
 h3 {
-	border-bottom: 0.2em solid #ddd;
+	border-bottom: 0.1em solid #ddd;
 	padding-left: 0.4em;
-	margin-top: 1em;
-	font-size: 1.1em;
+	margin: 0.5em 0;
+	font-size: 0.9em;
 }
 
 img {
