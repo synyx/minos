@@ -43,6 +43,8 @@ public class MessageServiceImpl implements MessageService {
 
     private MessageTranslationDao messageTranslationDao;
 
+    private Locale defaultLocale = Locale.getDefault();
+
 
     public MessageServiceImpl(MessageDao messageDao, AvailableLanguageDao availableLanguageDao,
             AvailableMessageDao availableMessageDao, MessageTranslationDao messageTranslationDao) {
@@ -109,6 +111,7 @@ public class MessageServiceImpl implements MessageService {
         } else if (!message.isNew()) {
             messageDao.delete(messageDao.readByPrimaryKey(message.getId()));
         }
+
     }
 
 
@@ -124,9 +127,8 @@ public class MessageServiceImpl implements MessageService {
 
         while (message == null) {
             List<Message> messages =
-                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename,
-                            LocaleUtils.getLanguage(locale), LocaleUtils.getCountry(locale),
-                            LocaleUtils.getVariant(locale), key);
+                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename, LocaleUtils
+                            .getLanguage(locale), LocaleUtils.getCountry(locale), LocaleUtils.getVariant(locale), key);
             if (!messages.isEmpty()) {
 
                 // this is done because of case-insensitive collation that is mostly used
@@ -326,19 +328,15 @@ public class MessageServiceImpl implements MessageService {
      */
     private List<Map<String, Message>> getMessageChain(String basename, Locale locale) {
 
+        List<Locale> path = LocaleUtils.getPath(locale, defaultLocale);
+
         List<Map<String, Message>> chain = new ArrayList<Map<String, Message>>();
-
-        // add the requested language
-        chain.add(toMap(getMessagesInternal(basename, locale)));
-
-        // add all parents including locale == null
-        do {
-            locale = LocaleUtils.getParent(locale);
-            chain.add(toMap(getMessagesInternal(basename, locale)));
-
-        } while (locale != null);
+        for (Locale loc : path) {
+            chain.add(toMap(getMessagesInternal(basename, loc)));
+        }
 
         return chain;
+
     }
 
 
@@ -413,6 +411,12 @@ public class MessageServiceImpl implements MessageService {
         messageDao.deleteBy(language.getBasename(), language.getLocale());
         availableLanguageDao.delete(language);
 
+    }
+
+
+    public void setDefaultLocale(Locale defaultLocale) {
+
+        this.defaultLocale = defaultLocale;
     }
 
 }

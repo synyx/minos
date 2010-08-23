@@ -140,11 +140,11 @@ public class I18nController {
         if (!locales.contains(language.getLocale())) {
             // todo make boolean configurable
             messageService.addLanguage(language);
-            model.addAttribute(Core.MESSAGE,
-                    org.synyx.minos.core.web.Message.success("i18n.messages.newlanguage.success"));
+            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
+                    .success("i18n.messages.newlanguage.success"));
         } else {
-            model.addAttribute(Core.MESSAGE,
-                    org.synyx.minos.core.web.Message.notice("i18n.messages.newlanguage.alreadyexists"));
+            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
+                    .notice("i18n.messages.newlanguage.alreadyexists"));
         }
 
         return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
@@ -170,8 +170,8 @@ public class I18nController {
         if (!lang.isDefault()) {
             messageService.removeLanguage(basename, lang);
 
-            model.addAttribute(Core.MESSAGE,
-                    org.synyx.minos.core.web.Message.success("i18n.basename.deleteLanguage.message.success"));
+            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
+                    .success("i18n.basename.deleteLanguage.message.success"));
 
         } else {
             model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
@@ -268,6 +268,8 @@ public class I18nController {
         if (finished) {
             messageService.removeTranslationInfo(message);
         }
+
+        messageTransferService.initializeMessageSources();
 
         showMessage(basename, locale, key, referenceLocale, request, response);
     }

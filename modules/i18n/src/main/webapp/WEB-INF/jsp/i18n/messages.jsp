@@ -46,6 +46,21 @@ function updateMessageForm(formContainer, data) {
 	var textArea = $(formContainer).find(".messagetextarea");
 	textArea.attr("style", textArea.attr("style") + style);
 
+	
+
+
+	var inheritedSpan = $(formContainer).siblings(".messageheader").children(".messageinheritanced");
+	
+
+	if (data.resolved == 'true') {
+		inheritedSpan.attr('title', data.locale);
+		inheritedSpan.text("[PARENT]");
+	} else {
+		inheritedSpan.attr('title', "");
+		inheritedSpan.text("");
+	}
+	
+	
 	// update status display
 	var statusSpan = $(formContainer).siblings(".messageheader").children(".messagestatus");
 	if (typeof(data.status) !== 'undefined' && data.status != null) {
@@ -162,6 +177,20 @@ $(document).ready ( function() {
 				<c:when test="${messageView.updatedForTranslation}">[UPDATED]</c:when>
 			</c:choose>
 			</span>
+			
+			<span style="float:right;">&nbsp;</span>
+			
+			<c:choose>
+				<c:when test="${messageView.messageResolved}">
+				<span style="float:right;" class="messageinheritanced" title="${messageView.message.locale}">
+				[PARENT]
+				</span>
+				</c:when>
+				<c:otherwise>
+					<span style="float:right;" class="messageinheritanced"></span>
+				</c:otherwise>
+			</c:choose>
+			
 		</h3>
 		<div class="messagekey" style="display:none;"><c:out value="${messageView.message.key}"/></div>
 
@@ -172,6 +201,23 @@ $(document).ready ( function() {
 </c:forEach>
 
 <a href="<spring:url value="/web/i18n/basenames/${basename}"/>">&laquo; <c:out value="${basename}"/></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!-- the content of this invisible div is used as a template to display a single keys form -->
 <div id="messageform_template" style="display:none;">

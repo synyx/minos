@@ -24,8 +24,15 @@
 		<property name="lenient" value="true"/>
 	</bean>
 
+
+	<bean id="messageSourceDefaultLocale" class="java.util.Locale">
+		<constructor-arg>
+			<value>en</value>
+		</constructor-arg>
+	</bean>
+
 	<bean id="i18nMessageSource" class="org.synyx.messagesource.InitializableMessageSource">
-		<property name="defaultLocale" value="de" />
+		<property name="defaultLocale" ref="messageSourceDefaultLocale" />
 		<property name="messageProvider" ref="jdbcMessageProvider" />
 	</bean>
 
@@ -35,6 +42,7 @@
 		<constructor-arg ref="availableLanguageDao" />
 		<constructor-arg ref="availableMessageDao"/>
 		<constructor-arg ref="messageTranslationDao"/>
+		<property name="defaultLocale" ref="messageSourceDefaultLocale"/>
 	</bean>
 	
 	
