@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.synyx.minos.i18n.domain.AvailableLanguage;
+import org.synyx.minos.i18n.domain.AvailableMessage;
 import org.synyx.minos.i18n.domain.LocaleWrapper;
 import org.synyx.minos.i18n.domain.Message;
 import org.synyx.minos.i18n.web.LocaleInformation;
@@ -21,10 +22,10 @@ public interface MessageService {
     public List<MessageView> getMessages(String basename, Locale locale);
 
 
-    public List<MessageView> getMessages(String basename, Locale locale, Locale referenceLocale);
+    public MessageView getMessage(String basename, String key, Locale locale);
 
 
-    public MessageView getMessage(String basename, String key, Locale locale, Locale referenceLocale);
+    public AvailableMessage getAvailableMessage(String basename, String key);
 
 
     public void saveAll(List<Message> messages);

@@ -40,7 +40,7 @@ function updateMessageForm(formContainer, data) {
 	$(formContainer).html(template);
 
 	// set style of textarea according to if the key is defined in current locale
-	if (data.definedInCurrent == 'true') {
+	if (data.resolved == 'false') {
 		var style = "background-color: #eeeeff;";
 	} 
 	var textArea = $(formContainer).find(".messagetextarea");
@@ -181,7 +181,6 @@ $(document).ready ( function() {
 
 	<input type="hidden" name="reference" value="${reference}" />
 	
-	<%-- TODO add id only for existing keys --%>
 	<input type="hidden" name="id" value="%%id%%" />
 
 	<input type="hidden" name="basename" value="%%basename%%" />
@@ -192,7 +191,7 @@ $(document).ready ( function() {
 	
 	<div class="thislanguage" style="width: 49%; float:right;">
 		<p style="margin-bottom: 0.5em;">
-			<small><spring:message code="i18n.messages.definedin"/> %%locale%% </small>
+			<small><spring:message code="i18n.messages.definedin"/>: %%locale%% </small>
 		</p>
 
 		<textarea class="messagetextarea" "rows="5" name="message" style="width:100%;border: 1px solid lightgray;" >%%message%%</textarea>
@@ -202,13 +201,24 @@ $(document).ready ( function() {
 	</div>
 	
 	<div style="float: right; width:2%">&nbsp;</div>
-	<div class="otherlanguage" style="float: right; width: 49%; ">
-		<p style="margin-bottom: 0.5em;">
-			<small><spring:message code="i18n.messages.definedin" /> %%reference_locale%%</small>
+	<div class="otherlanguage" style="float: right; width: 49%;">
+		<p style="margin-bottom: 0.5em; width: 100%; cursor:pointer;" onclick="$(this).parent().hide(); $(this).parent().siblings('.availableMessage').show(); return false;">
+			<small>
+				<spring:message code="i18n.messages.reference" />&nbsp;-&nbsp;
+				<spring:message code="i18n.messages.reference.locale" />: %%reference_locale%% &nbsp;-&nbsp;
+				<spring:message code="i18n.messages.reference.status" />: %%reference_status%%
+			</small>
 		</p>
-		<div style="font-family: monospace; background-color: #fff; width:100%" >
-			%%reference_message%%
-		</div>
+		<textarea disabled="disabled" rows="5" style="width:100%;border: 1px solid lightgray;">%%reference_message%%</textarea>
+	</div>
+	
+	<div class="availableMessage" style="float: right; width: 49%; display:none;">
+		<p style="margin-bottom: 0.5em; width: 100%; cursor:pointer;" onclick="$(this).parent().hide(); $(this).parent().siblings('.otherlanguage').show(); return false;">
+			<small>
+				<spring:message code="i18n.messages.available" />
+			</small>
+		</p>
+		<textarea disabled="disabled" rows="5" style="width:100%;border: 1px solid lightgray;">%%available_message%%</textarea>
 	</div>
 </form>
 

@@ -92,7 +92,7 @@ public class MessageServiceImpl implements MessageService {
 
         if (!message.getLocale().isDefault()) {
             Locale parent = LocaleUtils.getParent(message.getLocale().getLocale());
-            Message parentMessage = getMessage(message.getBasename(), message.getKey(), parent);
+            Message parentMessage = getMessageEntity(message.getBasename(), message.getKey(), parent);
             if (parentMessage.getMessage().equals(message.getMessage())) {
                 // skip messages that dont have differences to their parent
                 if (!message.isNew()) {
@@ -118,14 +118,15 @@ public class MessageServiceImpl implements MessageService {
      * @param parent
      * @return
      */
-    private Message getMessage(String basename, String key, Locale locale) {
+    private Message getMessageEntity(String basename, String key, Locale locale) {
 
         Message message = null;
 
         while (message == null) {
             List<Message> messages =
-                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename, LocaleUtils
-                            .getLanguage(locale), LocaleUtils.getCountry(locale), LocaleUtils.getVariant(locale), key);
+                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename,
+                            LocaleUtils.getLanguage(locale), LocaleUtils.getCountry(locale),
+                            LocaleUtils.getVariant(locale), key);
             if (!messages.isEmpty()) {
 
                 // this is done because of case-insensitive collation that is mostly used
@@ -202,37 +203,20 @@ public class MessageServiceImpl implements MessageService {
     /*
      * (non-Javadoc)
      * 
-     * @see org.synyx.minos.i18n.service.MessageService#getMessagesHierarchically(java.lang.String, java.util.Locale,
-     * java.util.Locale)
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<MessageView> getMessages(String basename, Locale locale) {
-
-        return getMessages(basename, locale, LocaleUtils.getParent(locale));
-
-    }
-
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.synyx.minos.i18n.service.MessageService#getMessagesHierarchically(java.lang.String, java.util.Locale)
      */
     @Override
-    public List<MessageView> getMessages(String basename, Locale locale, Locale referenceLocale) {
+    public List<MessageView> getMessages(String basename, Locale locale) {
 
         List<MessageView> result = new ArrayList<MessageView>();
 
         List<String> knownKeys = messageDao.getKnownKeys(basename);
 
         List<Map<String, Message>> messageChain = getMessageChain(basename, locale);
-        List<Map<String, Message>> referenceMessageChain = getMessageChain(basename, referenceLocale);
 
         for (String key : knownKeys) {
 
-            MessageView message =
-                    getMessage(basename, key, locale, referenceLocale, messageChain, referenceMessageChain);
+            MessageView message = getMessage(basename, key, locale, messageChain);
             if (message != null) {
                 result.add(message);
             }
@@ -254,49 +238,64 @@ public class MessageServiceImpl implements MessageService {
     /*
      * (non-Javadoc)
      * 
-     * @see org.synyx.minos.i18n.service.MessageService#getMessage(String, String, Locale, Locale)
+     * @see org.synyx.minos.i18n.service.MessageService#getMessage(String, String, Locale)
      */
     @Override
-    public MessageView getMessage(String basename, String key, Locale locale, Locale referenceLocale) {
+    public MessageView getMessage(String basename, String key, Locale locale) {
 
         List<Map<String, Message>> messageChain = getMessageChain(basename, locale);
-        List<Map<String, Message>> referenceMessageChain = getMessageChain(basename, referenceLocale);
 
-        return getMessage(basename, key, locale, referenceLocale, messageChain, referenceMessageChain);
+        return getMessage(basename, key, locale, messageChain);
     }
 
 
-    private MessageView getMessage(String basename, String key, Locale locale, Locale referenceLocale,
-            List<Map<String, Message>> messageChain, List<Map<String, Message>> referenceMessageChain) {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.synyx.minos.i18n.service.MessageService#getMetaMessage(java.lang.String, java.lang.String)
+     */
+    @Override
+    public AvailableMessage getAvailableMessage(String basename, String key) {
 
-        // determine reference message
-        MessageView referenceMessage = null;
-        for (Map<String, Message> keys : referenceMessageChain) {
-            if (keys.containsKey(key)) {
+        AvailableMessage availableMessage = availableMessageDao.findByBasenameAndKey(basename, key);
 
-                MessageTranslation translation = getTranslationInformation(basename, key, referenceLocale);
-                // TODO think about referenced keys that have translation-informationes (e.g. are not translated
-                // correctly)
-                // if (translation != null) {
-                // continue;
-                // }
-                referenceMessage = new MessageView(new LocaleWrapper(referenceLocale), keys.get(key), translation);
-                break;
-            }
+        if (null == availableMessage) {
+            throw new IllegalArgumentException("No Available Message for basename: " + basename + " and key: " + key
+                    + " !");
         }
+
+        return availableMessage;
+    }
+
+
+    private MessageView getMessage(String basename, String key, Locale locale, List<Map<String, Message>> messageChain) {
 
         // retrieve message (setting the possibly found reference message)
-        MessageView message = null;
-        for (Map<String, Message> keys : messageChain) {
-            if (keys.containsKey(key)) {
+        MessageView messageView = null;
+        for (Map<String, Message> messages : messageChain) {
+            if (messages.containsKey(key)) {
+
+                Message message = null;
+                LocaleWrapper resolvingLocale = new LocaleWrapper(locale);
+
+                // if the messages locale does not equal the requested locale, create a new message entity prefilled
+                // by the resolved message text and requested locale
+                if (!resolvingLocale.equals(messages.get(key).getLocale())) {
+                    Message resolvedMessage = messages.get(key);
+                    resolvingLocale = resolvedMessage.getLocale();
+
+                    message = new Message(locale, basename, key, resolvedMessage.getMessage());
+                } else {
+                    message = messages.get(key);
+                }
 
                 MessageTranslation translation = getTranslationInformation(basename, key, locale);
-                message = new MessageView(new LocaleWrapper(locale), keys.get(key), referenceMessage, translation);
+                messageView = new MessageView(resolvingLocale, message, translation);
                 break;
             }
         }
 
-        return message;
+        return messageView;
     }
 
 

@@ -1,7 +1,6 @@
 package org.synyx.minos.i18n.web;
 
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +26,7 @@ import org.synyx.messagesource.jdbc.JdbcMessageProvider;
 import org.synyx.minos.core.Core;
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.i18n.domain.AvailableLanguage;
+import org.synyx.minos.i18n.domain.AvailableMessage;
 import org.synyx.minos.i18n.domain.LocaleWrapper;
 import org.synyx.minos.i18n.domain.Message;
 import org.synyx.minos.i18n.service.MessageService;
@@ -140,11 +140,11 @@ public class I18nController {
         if (!locales.contains(language.getLocale())) {
             // todo make boolean configurable
             messageService.addLanguage(language);
-            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
-                    .success("i18n.messages.newlanguage.success"));
+            model.addAttribute(Core.MESSAGE,
+                    org.synyx.minos.core.web.Message.success("i18n.messages.newlanguage.success"));
         } else {
-            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
-                    .notice("i18n.messages.newlanguage.alreadyexists"));
+            model.addAttribute(Core.MESSAGE,
+                    org.synyx.minos.core.web.Message.notice("i18n.messages.newlanguage.alreadyexists"));
         }
 
         return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
@@ -170,8 +170,8 @@ public class I18nController {
         if (!lang.isDefault()) {
             messageService.removeLanguage(basename, lang);
 
-            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
-                    .success("i18n.basename.deleteLanguage.message.success"));
+            model.addAttribute(Core.MESSAGE,
+                    org.synyx.minos.core.web.Message.success("i18n.basename.deleteLanguage.message.success"));
 
         } else {
             model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
@@ -187,7 +187,7 @@ public class I18nController {
     public String showMessages(@PathVariable("basename") String basename, @PathVariable("locale") Locale locale,
             @RequestParam(value = "reference", required = false) Locale referenceLocale, Model model) {
 
-        List<MessageView> messages = messageService.getMessages(basename, locale, referenceLocale);
+        List<MessageView> messages = messageService.getMessages(basename, locale);
 
         List<LocaleWrapper> locales = messageService.getLocales(basename);
         model.addAttribute("basename", basename);
@@ -206,28 +206,48 @@ public class I18nController {
             @RequestParam(value = "reference", required = false) Locale referenceLocale, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        MessageView message = messageService.getMessage(basename, key, locale, referenceLocale);
+        MessageView message = messageService.getMessage(basename, key, locale);
+        MessageView messageRef = messageService.getMessage(basename, key, referenceLocale);
+        AvailableMessage availableMessage = messageService.getAvailableMessage(basename, key);
 
         Map<String, String> jsonMap = new HashMap<String, String>();
 
         if (message != null) {
-            jsonMap.put("id", message.getMessage().getId().toString());
+
+            // MESSAGE
+            if (message.getMessage().getId() != null) {
+                jsonMap.put("id", message.getMessage().getId().toString());
+            } else {
+                jsonMap.put("id", "");
+            }
+
             jsonMap.put("basename", message.getMessage().getBasename());
-            jsonMap.put("language", message.getCurrentLocale().getLanguage());
-            jsonMap.put("country", message.getCurrentLocale().getCountry());
-            jsonMap.put("variant", message.getCurrentLocale().getVariant());
+            jsonMap.put("language", message.getMessage().getLocale().getLanguage());
+            jsonMap.put("country", message.getMessage().getLocale().getCountry());
+            jsonMap.put("variant", message.getMessage().getLocale().getVariant());
             jsonMap.put("key", message.getMessage().getKey());
-            jsonMap.put("locale", message.getMessage().getLocale().toString());
             jsonMap.put("message", message.getMessage().getMessage());
-
-            jsonMap.put("reference_message", message.getReference().getMessage().getMessage());
-            jsonMap.put("reference_locale", message.getReference().getMessage().getLocale().toString());
-
-            jsonMap.put("definedInCurrent", Boolean.toString(message.isDefinedInCurrent()));
 
             if (message.getTranslation() != null) {
                 jsonMap.put("status", message.getTranslation().getMessageStatus().toString());
             }
+
+            jsonMap.put("locale", message.getResolvingLocale().toString());
+            jsonMap.put("resolved", Boolean.toString(message.isMessageResolved()));
+
+            // REFERENCE MESSAGE
+            jsonMap.put("reference_message", messageRef.getMessage().getMessage());
+            jsonMap.put("reference_locale", messageRef.getResolvingLocale().toString());
+            if (messageRef.getTranslation() != null) {
+                jsonMap.put("reference_status", messageRef.getTranslation().getMessageStatus().toString());
+            } else {
+                jsonMap.put("reference_status", "SYNC");
+            }
+
+            jsonMap.put("reference_locale", messageRef.getResolvingLocale().toString());
+
+            // AVAILABLE MESSAGE
+            jsonMap.put("available_message", availableMessage.getMessage());
         }
 
         MappingJacksonJsonView jsonView = new MappingJacksonJsonView();
@@ -250,42 +270,6 @@ public class I18nController {
         }
 
         showMessage(basename, locale, key, referenceLocale, request, response);
-    }
-
-
-    @RequestMapping(value = URL_MESSAGES, method = RequestMethod.PUT)
-    public String saveMessages(@PathVariable("basename") String basename, @PathVariable("locale") Locale locale,
-            @ModelAttribute(value = "messages") MessagesView messages, Model model) {
-
-        if (messages.getMessages() != null) {
-
-            messageService.saveAll(messages.getMessages());
-            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message.success("i18n.messages.save.success"));
-
-        }
-
-        messageTransferService.initializeMessageSources();
-        return UrlUtils.redirect(URL_MESSAGES.replace("{basename}", basename).replace("{locale}",
-                locale == null ? "" : locale.toString()));
-
-    }
-
-    public static class MessagesView {
-
-        List<Message> messages = new ArrayList<Message>();
-
-
-        public List<Message> getMessages() {
-
-            return messages;
-        }
-
-
-        public void setMessages(List<Message> messages) {
-
-            this.messages = messages;
-        }
-
     }
 
 }
