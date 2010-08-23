@@ -1,11 +1,13 @@
 package org.synyx.minos.i18n.web;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 import org.synyx.messagesource.jdbc.JdbcMessageProvider;
 import org.synyx.minos.core.Core;
@@ -48,6 +51,8 @@ public class I18nController {
     public static final String URL_BASENAMES = "/i18n/basenames";
     public static final String URL_BASENAME = "/i18n/basenames/{basename}";
     public static final String URL_MESSAGES = "/i18n/basenames/{basename}/messages/{locale}";
+
+    public static final String URL_MESSAGEIMPORT = "/i18n/basenames/{basename}/import";
 
     public static final String URL_MESSAGE_JSON = URL_MESSAGES + "/{key}/json";
 
@@ -131,6 +136,33 @@ public class I18nController {
     }
 
 
+    @RequestMapping(value = URL_MESSAGEIMPORT, method = RequestMethod.GET)
+    public String showImportableLanguages(@PathVariable("basename") String basename, Model model) {
+
+        List<LocaleInformation> locales = messageService.getLocaleInformations(basename);
+
+        model.addAttribute("basename", basename);
+        model.addAttribute("localeInformations", locales);
+        return "i18n/import";
+    }
+
+
+    @RequestMapping(value = URL_MESSAGEIMPORT, method = RequestMethod.POST)
+    public String importLanguage(@PathVariable("basename") String basename,
+            @RequestParam(value = "language", required = true) AvailableLanguage language,
+            @RequestParam("file") MultipartFile file, Model model) throws IOException {
+
+        Properties p = new Properties();
+        p.load(file.getInputStream());
+
+        messageService.saveAll(language, p);
+        messageTransferService.initializeMessageSources();
+
+        return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
+
+    }
+
+
     @RequestMapping(value = URL_BASENAME, method = RequestMethod.POST)
     public String addNewLanguageForBasename(@PathVariable("basename") String basename,
             @ModelAttribute("newLanguage") AvailableLanguage language, Model model) {
@@ -140,11 +172,11 @@ public class I18nController {
         if (!locales.contains(language.getLocale())) {
             // todo make boolean configurable
             messageService.addLanguage(language);
-            model.addAttribute(Core.MESSAGE,
-                    org.synyx.minos.core.web.Message.success("i18n.messages.newlanguage.success"));
+            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
+                    .success("i18n.messages.newlanguage.success"));
         } else {
-            model.addAttribute(Core.MESSAGE,
-                    org.synyx.minos.core.web.Message.notice("i18n.messages.newlanguage.alreadyexists"));
+            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
+                    .notice("i18n.messages.newlanguage.alreadyexists"));
         }
 
         return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
@@ -170,8 +202,8 @@ public class I18nController {
         if (!lang.isDefault()) {
             messageService.removeLanguage(basename, lang);
 
-            model.addAttribute(Core.MESSAGE,
-                    org.synyx.minos.core.web.Message.success("i18n.basename.deleteLanguage.message.success"));
+            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
+                    .success("i18n.basename.deleteLanguage.message.success"));
 
         } else {
             model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
@@ -268,11 +300,7 @@ public class I18nController {
             @ModelAttribute(value = "message") Message message, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        messageService.save(message);
-
-        if (finished) {
-            messageService.removeTranslationInfo(message);
-        }
+        messageService.save(message, finished);
 
         messageTransferService.initializeMessageSources();
 

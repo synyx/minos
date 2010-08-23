@@ -29,7 +29,7 @@ public interface MessageDao extends GenericDao<Message, Long> {
             String variant, String key);
 
 
-    Message findByBasenameAndLocaleAndKey(String basename, LocaleWrapper locale, String key);
+    List<Message> findByBasenameAndLocaleAndKey(String basename, LocaleWrapper locale, String key);
 
 
     List<Message> findByBasenameAndLocale(String basename, LocaleWrapper locale);

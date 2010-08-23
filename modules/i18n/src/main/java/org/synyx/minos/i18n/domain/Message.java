@@ -38,23 +38,25 @@ public class Message extends AbstractPersistable<Long> {
     }
 
 
-    public Message(Locale locale, String basename, String key, String message) {
+    public Message(LocaleWrapper locale, String basename, String key, String message) {
 
         super();
-        this.locale = new LocaleWrapper(locale);
+        this.locale = locale;
         this.basename = basename;
         this.key = key;
         this.message = message;
     }
 
 
+    public Message(Locale locale, String basename, String key, String message) {
+
+        this(new LocaleWrapper(locale), basename, key, message);
+    }
+
+
     public Message(String language, String country, String variant, String basename, String key, String message) {
 
-        super();
-        this.locale = new LocaleWrapper(language, country, variant);
-        this.basename = basename;
-        this.key = key;
-        this.message = message;
+        this(new LocaleWrapper(language, country, variant), basename, key, message);
     }
 
 

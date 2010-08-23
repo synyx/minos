@@ -74,5 +74,7 @@
 			</form:form>
 
 
+<a href="<spring:url value="/web/i18n/basenames/${basename}/import"/>"><spring:message code="i18n.basenames.import.title"/></a>
+<br/>
 <br />
 <a href="<spring:url value="/web/i18n/basenames"/>">&laquo; <spring:message code="i18n.basenames.title"/></a>

@@ -17,6 +17,7 @@ import org.synyx.minos.i18n.domain.LocaleWrapper;
 import org.synyx.minos.i18n.domain.Message;
 import org.synyx.minos.i18n.domain.MessageStatus;
 import org.synyx.minos.i18n.domain.MessageTranslation;
+import org.synyx.minos.i18n.util.CollationUtils;
 
 
 /**
@@ -112,7 +113,8 @@ public class MessageMetaAcceptor implements MessageAcceptor {
 
     protected void setMessage(String basename, String key, String message, List<AvailableLanguage> availableLanguages) {
 
-        AvailableMessage availableMessage = availableMessageDao.findByBasenameAndKey(basename, key);
+        AvailableMessage availableMessage =
+                CollationUtils.getRealMatch(availableMessageDao.findByBasenameAndKey(basename, key), "key", key);
 
         MessageStatus status = null;
         if (null == availableMessage) { // new
@@ -120,7 +122,7 @@ public class MessageMetaAcceptor implements MessageAcceptor {
             availableMessage = availableMessageDao.save(availableMessage);
 
             // create a (base) message so that the keys get resolved
-            messageDao.save(new Message(null, basename, key, message));
+            messageDao.save(new Message("", "", "", basename, key, message));
             LOG.debug("Added new message for basename: " + basename + " and key: " + key);
             status = MessageStatus.NEW;
         } else if (!availableMessage.getMessage().equals(message)) { // updated
@@ -143,10 +145,20 @@ public class MessageMetaAcceptor implements MessageAcceptor {
 
                 // if the language is not required we need to check if the key is defined
                 if (!lang.isRequired()) {
+
+                    boolean found = false;
+
                     // check if the key is definied in the current language
-                    Message m = messageDao.findByBasenameAndLocaleAndKey(basename, lang.getLocale(), key);
+                    List<Message> messages = messageDao.findByBasenameAndLocaleAndKey(basename, lang.getLocale(), key);
+                    for (Message msg : messages) {
+                        if (msg.getKey().equals(key)) {
+                            found = true;
+                            break;
+                        }
+                    }
+
                     // if not skip translation for the language
-                    if (m == null) {
+                    if (!found) {
                         continue;
                     }
 

@@ -16,6 +16,6 @@ public interface AvailableMessageDao extends GenericDao<AvailableMessage, Long> 
     List<AvailableMessage> findByBasename(String basename);
 
 
-    AvailableMessage findByBasenameAndKey(String basename, String key);
+    List<AvailableMessage> findByBasenameAndKey(String basename, String key);
 
 }

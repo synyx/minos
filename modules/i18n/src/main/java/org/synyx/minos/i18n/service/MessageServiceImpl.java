@@ -3,15 +3,17 @@
  */
 package org.synyx.minos.i18n.service;
 
-import static com.google.common.collect.Collections2.filter;
+import static com.google.common.collect.Collections2.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -26,6 +28,7 @@ import org.synyx.minos.i18n.domain.LocaleWrapper;
 import org.synyx.minos.i18n.domain.Message;
 import org.synyx.minos.i18n.domain.MessageStatus;
 import org.synyx.minos.i18n.domain.MessageTranslation;
+import org.synyx.minos.i18n.util.CollationUtils;
 import org.synyx.minos.i18n.web.LocaleInformation;
 import org.synyx.minos.i18n.web.MessageView;
 
@@ -76,26 +79,15 @@ public class MessageServiceImpl implements MessageService {
     /*
      * (non-Javadoc)
      * 
-     * @see org.synyx.minos.i18n.service.MessageService#saveAll(java.util.List)
-     */
-    @Override
-    @Transactional
-    public void saveAll(List<Message> messages) {
-
-        for (Message message : messages) {
-            save(message);
-        }
-    }
-
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.synyx.minos.i18n.service.MessageService#save(org.synyx.minos.i18n.domain.Message)
      */
     @Override
     @Transactional
-    public void save(Message message) {
+    public void save(Message message, boolean finished) {
+
+        if (finished) {
+            removeTranslationInfo(message);
+        }
 
         if (!message.getLocale().isDefault()) {
             Locale parent = LocaleUtils.getParent(message.getLocale().getLocale());
@@ -126,35 +118,22 @@ public class MessageServiceImpl implements MessageService {
      * @param parent
      * @return
      */
-    private Message getMessageEntity(String basename, String key, Locale locale) {
+    private Message getMessageEntity(String basename, String key, Locale loc) {
 
-        Message message = null;
+        List<Locale> path = LocaleUtils.getPath(loc, defaultLocale);
+        for (Locale locale : path) {
 
-        while (message == null) {
-            List<Message> messages =
-                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename,
-                            LocaleUtils.getLanguage(locale), LocaleUtils.getCountry(locale),
-                            LocaleUtils.getVariant(locale), key);
-            if (!messages.isEmpty()) {
+            Message message =
+                    CollationUtils.getRealMatch(messageDao.findByBasenameAndLocaleAndKey(basename, new LocaleWrapper(
+                            locale), key), "key", key);
 
-                // this is done because of case-insensitive collation that is mostly used
-                // this leads to non-unique results returned. the easiest way to find out the
-                // correct one is do a manual comparison...
-                for (Message msg : messages) {
-                    if (msg.getKey().equals(key)) {
-                        message = msg;
-                    }
-                }
-
-            }
-
-            if (locale == null) {
+            if (message != null) {
                 return message;
             }
-            locale = LocaleUtils.getParent(locale);
+
         }
 
-        return message;
+        return null;
 
     }
 
@@ -200,9 +179,10 @@ public class MessageServiceImpl implements MessageService {
             Long newCount = messageTranslationDao.countByStatus(basename, locale, MessageStatus.NEW);
             Long updatedCount = messageTranslationDao.countByStatus(basename, locale, MessageStatus.UPDATED);
             Long totalCount = messageDao.countByBasenameAndLocale(basename, locale);
-            boolean required = availableLanguageDao.findByBasenameAndLocale(basename, locale).isRequired();
+            AvailableLanguage language = availableLanguageDao.findByBasenameAndLocale(basename, locale);
+            ;
 
-            infos.add(new LocaleInformation(basename, locale, newCount, updatedCount, totalCount, required));
+            infos.add(new LocaleInformation(language, newCount, updatedCount, totalCount));
         }
 
         return infos;
@@ -286,7 +266,8 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public AvailableMessage getAvailableMessage(String basename, String key) {
 
-        AvailableMessage availableMessage = availableMessageDao.findByBasenameAndKey(basename, key);
+        AvailableMessage availableMessage =
+                CollationUtils.getRealMatch(availableMessageDao.findByBasenameAndKey(basename, key), "key", key);
 
         if (null == availableMessage) {
             throw new IllegalArgumentException("No Available Message for basename: " + basename + " and key: " + key
@@ -337,7 +318,8 @@ public class MessageServiceImpl implements MessageService {
     private MessageTranslation getTranslationInformation(String basename, String key, Locale locale) {
 
         AvailableLanguage lang = availableLanguageDao.findByBasenameAndLocale(basename, new LocaleWrapper(locale));
-        AvailableMessage message = availableMessageDao.findByBasenameAndKey(basename, key);
+        AvailableMessage message =
+                CollationUtils.getRealMatch(availableMessageDao.findByBasenameAndKey(basename, key), "key", key);
 
         if (lang == null || message == null) {
             throw new IllegalArgumentException("Given combination of basename (" + basename + "), locale (" + locale
@@ -415,7 +397,10 @@ public class MessageServiceImpl implements MessageService {
     public void removeTranslationInfo(Message message) {
 
         AvailableMessage availableMessage =
-                availableMessageDao.findByBasenameAndKey(message.getBasename(), message.getKey());
+
+                CollationUtils.getRealMatch(availableMessageDao.findByBasenameAndKey(message.getBasename(), message
+                        .getKey()), "key", message.getKey());
+
         AvailableLanguage availableLanguage =
                 availableLanguageDao.findByBasenameAndLocale(message.getBasename(), message.getLocale());
 
@@ -477,6 +462,51 @@ public class MessageServiceImpl implements MessageService {
             }
 
             return false;
+        }
+
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.synyx.minos.i18n.service.MessageService#saveAll(org.synyx.minos.i18n.domain.AvailableLanguage,
+     * java.util.Properties)
+     */
+    @Override
+    @Transactional
+    public void saveAll(AvailableLanguage language, Properties properties) {
+
+        String basename = language.getBasename();
+        LocaleWrapper locale = language.getLocale();
+
+        Enumeration<Object> keys = properties.keys();
+        while (keys.hasMoreElements()) {
+            String key = (String) keys.nextElement();
+            String value = (String) properties.getProperty(key);
+
+            // check if the key is "known" for the given basename.
+            if (CollationUtils.getRealMatch(availableMessageDao.findByBasenameAndKey(basename, key), "key", key) == null) {
+                // TODO think about "invalid" keys
+                continue;
+            }
+
+            // see if there is already a message for the given key and locale
+
+            Message message =
+                    CollationUtils.getRealMatch(messageDao.findByBasenameAndLocaleAndKey(basename, locale, key), "key",
+                            key);
+
+            if (message == null) {
+                // if not create
+                message = new Message(locale, basename, key, value);
+            } else {
+
+                // otherwise update
+                message.setMessage(value);
+            }
+
+            save(message, true);
         }
 
     }

@@ -3,7 +3,9 @@
  */
 package org.synyx.minos.i18n.web;
 
+import org.synyx.minos.i18n.domain.AvailableLanguage;
 import org.synyx.minos.i18n.domain.LocaleWrapper;
+import org.synyx.minos.util.Assert;
 
 
 /**
@@ -11,38 +13,33 @@ import org.synyx.minos.i18n.domain.LocaleWrapper;
  */
 public class LocaleInformation {
 
-    private String basename;
-
-    private LocaleWrapper locale;
+    private AvailableLanguage language;
 
     private Long countNew;
     private Long countUpdated;
     private Long countTotal;
-    private boolean required;
 
 
-    public LocaleInformation(String basename, LocaleWrapper locale, Long countNew, Long countUpdated, Long countTotal,
-            boolean required) {
+    public LocaleInformation(AvailableLanguage language, Long countNew, Long countUpdated, Long countTotal) {
 
-        super();
-        this.locale = locale;
+        Assert.notNull(language);
+
+        this.language = language;
         this.countNew = countNew;
         this.countUpdated = countUpdated;
         this.countTotal = countTotal;
-        this.basename = basename;
-        this.required = required;
     }
 
 
     public boolean isDeletable() {
 
-        return !locale.isDefault();
+        return !language.getLocale().isDefault();
     }
 
 
     public LocaleWrapper getLocale() {
 
-        return locale;
+        return language.getLocale();
     }
 
 
@@ -72,13 +69,19 @@ public class LocaleInformation {
 
     public String getBasename() {
 
-        return basename;
+        return language.getBasename();
     }
 
 
     public boolean isRequired() {
 
-        return required;
+        return language.isRequired();
+    }
+
+
+    public AvailableLanguage getLanguage() {
+
+        return language;
     }
 
 }

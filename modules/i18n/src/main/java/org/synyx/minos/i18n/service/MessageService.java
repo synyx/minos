@@ -5,6 +5,7 @@ package org.synyx.minos.i18n.service;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 
 import org.synyx.minos.i18n.domain.AvailableLanguage;
 import org.synyx.minos.i18n.domain.AvailableMessage;
@@ -31,10 +32,7 @@ public interface MessageService {
     public AvailableMessage getAvailableMessage(String basename, String key);
 
 
-    public void saveAll(List<Message> messages);
-
-
-    public void save(Message message);
+    public void save(Message message, boolean finished);
 
 
     public List<String> getBasenames();
@@ -53,4 +51,7 @@ public interface MessageService {
 
 
     public void removeLanguage(String basename, LocaleWrapper localeWrapper);
+
+
+    public void saveAll(AvailableLanguage language, Properties p);
 }

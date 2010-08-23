@@ -11,4 +11,7 @@
 	<!--  CONTROLLERS -->
 	<bean class="org.synyx.minos.i18n.web.I18nController" />
 	
+	<!--  MULTIPART-Resolving (for fileupload) -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+	
 </beans>
