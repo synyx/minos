@@ -11,12 +11,23 @@
 
 <display:table id="localeInformation" name="localeInformations" requestURI="" >
 
-
-
-
 	<minos:column titleKey="i18n.basename.locale" property="locale"/>
-	<minos:column titleKey="i18n.basename.countNew" property="countNew"/>
-	<minos:column titleKey="i18n.basename.countUpdated" property="countUpdated"/>
+	<minos:column titleKey="i18n.basename.newlanguage.required" sortProperty="required">
+		<c:if test="${localeInformation.required}">
+			<img src="<spring:url value='/images/core/okay.png' />" />
+		</c:if>
+	</minos:column>
+		
+	<minos:column titleKey="i18n.basename.countNew" sortProperty="countNew">
+
+		<spring:url value="/web/i18n/basenames/${localeInformation.basename}/messages/${localeInformation.locale}?filter=new" var="url"/>
+		<a href="${url}">${localeInformation.countNew}</a>
+	</minos:column>
+	<minos:column titleKey="i18n.basename.countUpdated" sortProperty="countUpdated">
+	
+		<spring:url value="/web/i18n/basenames/${localeInformation.basename}/messages/${localeInformation.locale}?filter=updated" var="url"/>
+		<a href="${url}">${localeInformation.countUpdated}</a>	
+	</minos:column>
 	<minos:column titleKey="i18n.basename.countUnchanged" property="countUnchanged"/>
 	<minos:column titleKey="i18n.basename.countTotal" sortProperty="countTotal">
 	
@@ -31,7 +42,6 @@
 		<a href="<spring:url value="/web/i18n/basenames/${localeInformation.basename}/messages/${localeInformation.locale}/deleteconfirmation"/>"><spring:message code="i18n.basename.deleteLanguage.link"/></a>
 		</c:if>
 	</minos:column>
-
 
 
 </display:table>

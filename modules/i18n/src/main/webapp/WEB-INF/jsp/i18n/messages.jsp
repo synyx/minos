@@ -46,11 +46,7 @@ function updateMessageForm(formContainer, data) {
 	var textArea = $(formContainer).find(".messagetextarea");
 	textArea.attr("style", textArea.attr("style") + style);
 
-	
-
-
 	var inheritedSpan = $(formContainer).siblings(".messageheader").children(".messageinheritanced");
-	
 
 	if (data.resolved == 'true') {
 		inheritedSpan.attr('title', data.locale);
@@ -59,7 +55,6 @@ function updateMessageForm(formContainer, data) {
 		inheritedSpan.attr('title', "");
 		inheritedSpan.text("");
 	}
-	
 	
 	// update status display
 	var statusSpan = $(formContainer).siblings(".messageheader").children(".messagestatus");
@@ -141,6 +136,8 @@ $(document).ready ( function() {
 				<div>
 				<spring:message code="i18n.messages.changereference"/>: 
 				<form style="display:inline;" method="get">
+					<input type="hidden" name="filter" value="${filter}" />
+				
 					<select name="reference">
 					<c:forEach var="refloc" items="${locales}">
 						<c:choose>

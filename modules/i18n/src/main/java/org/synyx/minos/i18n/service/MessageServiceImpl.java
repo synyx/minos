@@ -3,6 +3,8 @@
  */
 package org.synyx.minos.i18n.service;
 
+import static com.google.common.collect.Collections2.filter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,6 +28,9 @@ import org.synyx.minos.i18n.domain.MessageStatus;
 import org.synyx.minos.i18n.domain.MessageTranslation;
 import org.synyx.minos.i18n.web.LocaleInformation;
 import org.synyx.minos.i18n.web.MessageView;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableList;
 
 
 /**
@@ -127,8 +132,9 @@ public class MessageServiceImpl implements MessageService {
 
         while (message == null) {
             List<Message> messages =
-                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename, LocaleUtils
-                            .getLanguage(locale), LocaleUtils.getCountry(locale), LocaleUtils.getVariant(locale), key);
+                    messageDao.findByBasenameAndLanguageAndCountryAndVariantAndKey(basename,
+                            LocaleUtils.getLanguage(locale), LocaleUtils.getCountry(locale),
+                            LocaleUtils.getVariant(locale), key);
             if (!messages.isEmpty()) {
 
                 // this is done because of case-insensitive collation that is mostly used
@@ -194,7 +200,9 @@ public class MessageServiceImpl implements MessageService {
             Long newCount = messageTranslationDao.countByStatus(basename, locale, MessageStatus.NEW);
             Long updatedCount = messageTranslationDao.countByStatus(basename, locale, MessageStatus.UPDATED);
             Long totalCount = messageDao.countByBasenameAndLocale(basename, locale);
-            infos.add(new LocaleInformation(basename, locale, newCount, updatedCount, totalCount));
+            boolean required = availableLanguageDao.findByBasenameAndLocale(basename, locale).isRequired();
+
+            infos.add(new LocaleInformation(basename, locale, newCount, updatedCount, totalCount, required));
         }
 
         return infos;
@@ -234,6 +242,25 @@ public class MessageServiceImpl implements MessageService {
         });
 
         return result;
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.synyx.minos.i18n.service.MessageService#getMessages(java.lang.String, java.util.Locale, boolean,
+     * boolean)
+     */
+    @Override
+    public List<MessageView> getMessages(String basename, Locale locale, boolean includeNew, boolean includeUpdated) {
+
+        List<MessageView> allMessages = getMessages(basename, locale);
+
+        if (!includeNew && !includeUpdated) {
+            return allMessages;
+        }
+
+        return ImmutableList.copyOf(filter(allMessages, new MessageViewStatusPredicate(includeNew, includeUpdated)));
     }
 
 
@@ -417,6 +444,41 @@ public class MessageServiceImpl implements MessageService {
     public void setDefaultLocale(Locale defaultLocale) {
 
         this.defaultLocale = defaultLocale;
+    }
+
+    private class MessageViewStatusPredicate implements Predicate<MessageView> {
+
+        private boolean includeNew = false;
+        private boolean includeUpdated = false;
+
+
+        public MessageViewStatusPredicate(boolean includeNew, boolean includeUpdated) {
+
+            super();
+
+            this.includeNew = includeNew;
+            this.includeUpdated = includeUpdated;
+        }
+
+
+        @Override
+        public boolean apply(MessageView messageView) {
+
+            if (messageView.getTranslation() == null) {
+                return false;
+            }
+
+            if (includeNew && MessageStatus.NEW.equals(messageView.getTranslation().getMessageStatus())) {
+                return true;
+            }
+
+            if (includeUpdated && MessageStatus.UPDATED.equals(messageView.getTranslation().getMessageStatus())) {
+                return true;
+            }
+
+            return false;
+        }
+
     }
 
 }

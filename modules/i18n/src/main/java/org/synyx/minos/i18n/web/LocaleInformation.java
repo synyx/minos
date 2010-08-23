@@ -18,9 +18,11 @@ public class LocaleInformation {
     private Long countNew;
     private Long countUpdated;
     private Long countTotal;
+    private boolean required;
 
 
-    public LocaleInformation(String basename, LocaleWrapper locale, Long countNew, Long countUpdated, Long countTotal) {
+    public LocaleInformation(String basename, LocaleWrapper locale, Long countNew, Long countUpdated, Long countTotal,
+            boolean required) {
 
         super();
         this.locale = locale;
@@ -28,6 +30,7 @@ public class LocaleInformation {
         this.countUpdated = countUpdated;
         this.countTotal = countTotal;
         this.basename = basename;
+        this.required = required;
     }
 
 
@@ -70,6 +73,12 @@ public class LocaleInformation {
     public String getBasename() {
 
         return basename;
+    }
+
+
+    public boolean isRequired() {
+
+        return required;
     }
 
 }

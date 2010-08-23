@@ -22,6 +22,9 @@ public interface MessageService {
     public List<MessageView> getMessages(String basename, Locale locale);
 
 
+    public List<MessageView> getMessages(String basename, Locale locale, boolean includeNew, boolean includeUpdated);
+
+
     public MessageView getMessage(String basename, String key, Locale locale);
 
 

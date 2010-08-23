@@ -140,11 +140,11 @@ public class I18nController {
         if (!locales.contains(language.getLocale())) {
             // todo make boolean configurable
             messageService.addLanguage(language);
-            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
-                    .success("i18n.messages.newlanguage.success"));
+            model.addAttribute(Core.MESSAGE,
+                    org.synyx.minos.core.web.Message.success("i18n.messages.newlanguage.success"));
         } else {
-            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
-                    .notice("i18n.messages.newlanguage.alreadyexists"));
+            model.addAttribute(Core.MESSAGE,
+                    org.synyx.minos.core.web.Message.notice("i18n.messages.newlanguage.alreadyexists"));
         }
 
         return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
@@ -170,8 +170,8 @@ public class I18nController {
         if (!lang.isDefault()) {
             messageService.removeLanguage(basename, lang);
 
-            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
-                    .success("i18n.basename.deleteLanguage.message.success"));
+            model.addAttribute(Core.MESSAGE,
+                    org.synyx.minos.core.web.Message.success("i18n.basename.deleteLanguage.message.success"));
 
         } else {
             model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
@@ -185,14 +185,19 @@ public class I18nController {
 
     @RequestMapping(value = URL_MESSAGES, method = RequestMethod.GET)
     public String showMessages(@PathVariable("basename") String basename, @PathVariable("locale") Locale locale,
+            @RequestParam(value = "filter", required = false) String filter,
             @RequestParam(value = "reference", required = false) Locale referenceLocale, Model model) {
 
-        List<MessageView> messages = messageService.getMessages(basename, locale);
+        boolean onlyNew = filter != null && "new".equalsIgnoreCase(filter);
+        boolean onlyUpd = filter != null && "updated".equalsIgnoreCase(filter);
+
+        List<MessageView> messages = messageService.getMessages(basename, locale, onlyNew, onlyUpd);
 
         List<LocaleWrapper> locales = messageService.getLocales(basename);
         model.addAttribute("basename", basename);
         model.addAttribute("locale", new LocaleWrapper(locale));
         model.addAttribute("reference", new LocaleWrapper(referenceLocale));
+        model.addAttribute("filter", filter);
         model.addAttribute("locales", locales);
         model.addAttribute("messages", messages);
 
