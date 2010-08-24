@@ -239,6 +239,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public MessageView getMessage(String basename, String key, Locale locale) {
 
+        // TODO think about performance
         List<Map<String, Message>> messageChain = getMessageChain(basename, locale);
 
         return getMessage(basename, key, locale, messageChain);

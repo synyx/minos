@@ -6,6 +6,8 @@ package org.synyx.minos.i18n.service;
 import java.io.OutputStream;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.synyx.messagesource.InitializableMessageSource;
 import org.synyx.messagesource.MessageProvider;
@@ -21,6 +23,8 @@ import org.synyx.minos.i18n.importer.MessageImporter;
  */
 public class MessageTransferServiceImpl implements MessageTransferService {
 
+    private static final Log LOG = LogFactory.getLog(MessageTransferServiceImpl.class);
+
     private List<InitializableMessageSource> messageSources;
 
     private MessageImporter importer;
@@ -28,6 +32,12 @@ public class MessageTransferServiceImpl implements MessageTransferService {
     private MessageProvider messageProvider;
 
 
+    /**
+     * Creates a new instance of {@link MessageTransferService}
+     * 
+     * @param importer the importer
+     * @param messageProvider the {@link MessageProvider}
+     */
     public MessageTransferServiceImpl(MessageImporter importer, MessageProvider messageProvider) {
 
         super();
@@ -44,6 +54,8 @@ public class MessageTransferServiceImpl implements MessageTransferService {
     @Override
     @Transactional
     public void exportMessages(OutputStream stream) {
+
+        LOG.info("Exporting all messages to zip.");
 
         ZipMessageAcceptor zipAcceptor = new ZipMessageAcceptor(stream);
         zipAcceptor.initialize();
@@ -66,6 +78,8 @@ public class MessageTransferServiceImpl implements MessageTransferService {
         importer.importMessages();
         initializeMessageSources();
 
+        LOG.info("Imported messages and reinitialized MessageSources.");
+
     }
 
 
@@ -84,6 +98,8 @@ public class MessageTransferServiceImpl implements MessageTransferService {
         for (InitializableMessageSource source : messageSources) {
             source.initialize();
         }
+
+        LOG.info("Reinitialized " + messageSources.size() + " MessageSources.");
     }
 
 
