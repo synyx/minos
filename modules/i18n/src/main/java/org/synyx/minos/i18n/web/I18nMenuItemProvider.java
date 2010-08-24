@@ -16,7 +16,6 @@ import org.synyx.minos.i18n.I18nPermissions;
 public class I18nMenuItemProvider extends AbstractMenuItemProvider {
 
     private static final String MENU_I18N = "MENU_I18N";
-    private static final String MENU_I18N_TEST = "MENU_I18N_TEST";
     private static final String MENU_I18N_BASENAMES = "MENU_I18N_BASENAMES";
 
 

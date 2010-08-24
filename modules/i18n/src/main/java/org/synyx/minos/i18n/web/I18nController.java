@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
-import org.synyx.messagesource.jdbc.JdbcMessageProvider;
 import org.synyx.minos.core.Core;
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.i18n.domain.AvailableLanguage;
@@ -57,9 +56,6 @@ public class I18nController {
     public static final String URL_MESSAGE_JSON = URL_MESSAGES + "/{key}/json";
 
     public static final String URL_REINITIALIZE = "/i18n/reinitialize";
-
-    @Autowired
-    private JdbcMessageProvider messageProvider;
 
     @Autowired
     private MessageService messageService;
@@ -210,7 +206,7 @@ public class I18nController {
                     .error("i18n.basename.deleteLanguage.message.impossiblebecauseofdefault"));
 
         }
-
+        messageTransferService.initializeMessageSources();
         return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
     }
 

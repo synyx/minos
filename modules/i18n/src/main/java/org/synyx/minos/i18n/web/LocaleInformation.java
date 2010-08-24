@@ -9,6 +9,8 @@ import org.synyx.minos.util.Assert;
 
 
 /**
+ * View-Bean around {@link AvailableLanguage} that holds more information (how many keys need to be translatet etc).
+ * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 public class LocaleInformation {
@@ -20,6 +22,14 @@ public class LocaleInformation {
     private Long countTotal;
 
 
+    /**
+     * Creates a new instance
+     * 
+     * @param language the {@link AvailableLanguage}
+     * @param countNew the count of new translations
+     * @param countUpdated the count of updated translations
+     * @param countTotal the total count
+     */
     public LocaleInformation(AvailableLanguage language, Long countNew, Long countUpdated, Long countTotal) {
 
         Assert.notNull(language);
