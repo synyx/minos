@@ -9,8 +9,14 @@
 
 	<module:module id="i18n" depends-on="umt" lifecycle-ref="i18nLifeCycle"
 		base-package="org.synyx.minos.i18n" auto-config="false" />
-	<bean
-		class="org.synyx.minos.core.authentication.SimpleConstantsPermissionAware">
+		
+	<bean id="i18nLifeCycle" class="org.synyx.minos.i18n.bootstrap.I18nLifecycle">
+		<constructor-arg ref="userManagement" />
+		<constructor-arg ref="messageTransferService"/>
+	</bean>
+		
+		
+	<bean class="org.synyx.minos.core.authentication.SimpleConstantsPermissionAware">
 		<constructor-arg>
 			<list>
 				<value>org.synyx.minos.i18n.I18nPermissions</value>
@@ -18,25 +24,32 @@
 		</constructor-arg>
 	</bean>
 
+
+	<!--  the messagesource itself -->
+	<bean id="i18nMessageSource" class="org.synyx.messagesource.InitializableMessageSource">
+		<property name="defaultLocale" ref="messageSourceDefaultLocale" />
+		<property name="messageProvider" ref="jdbcMessageProvider" />
+	</bean>
+	<!--  the messagesources adapter to minos' modulemessagesource -->
 	<bean id="i18nMessageSourceWrapper" class="org.synyx.minos.i18n.DelegatingModuleMessageSource">
 		<constructor-arg ref="i18n" />
 		<constructor-arg ref="i18nMessageSource" />
 		<property name="lenient" value="true"/>
 	</bean>
+	<!--  jdbc-based messageProvider -->
+	<bean id="jdbcMessageProvider" class="org.synyx.messagesource.jdbc.JdbcMessageProvider">
+		<property name="dataSource" ref="dataSource" />
+		<property name="keyColumn" value="keyName"/>
+	</bean>
 
-
+	<!--  default locale used by messageSource and messageService -->
 	<bean id="messageSourceDefaultLocale" class="java.util.Locale">
 		<constructor-arg>
 			<value>en</value>
 		</constructor-arg>
 	</bean>
 
-	<bean id="i18nMessageSource" class="org.synyx.messagesource.InitializableMessageSource">
-		<property name="defaultLocale" ref="messageSourceDefaultLocale" />
-		<property name="messageProvider" ref="jdbcMessageProvider" />
-	</bean>
-
-
+	<!--  the service responsible for editing messages -->
 	<bean id="messageService" class="org.synyx.minos.i18n.service.MessageServiceImpl">
 		<constructor-arg ref="messageDao" />
 		<constructor-arg ref="availableLanguageDao" />
@@ -45,50 +58,37 @@
 		<property name="defaultLocale" ref="messageSourceDefaultLocale"/>
 	</bean>
 	
-	
+	<!--  the service responsible for import/export/initializing of messagesource -->
 	<bean id="messageTransferService" class="org.synyx.minos.i18n.service.MessageTransferServiceImpl">
-		<constructor-arg ref="importer" />
+		<constructor-arg ref="messageImporter" />
 		<constructor-arg ref="jdbcMessageProvider" />
-		
 		<property name="messageSources">
 			<plugin:list class="org.synyx.messagesource.InitializableMessageSource" />
 		</property>
 	</bean>
 
-	<bean id="i18nLifeCycle" class="org.synyx.minos.i18n.bootstrap.I18nLifecycle">
-		<constructor-arg ref="userManagement" />
-		<constructor-arg ref="messageTransferService"/>
-	</bean>
 
-
-	<bean id="jdbcMessageProvider" class="org.synyx.messagesource.jdbc.JdbcMessageProvider">
-		<property name="dataSource" ref="dataSource" />
-		<property name="keyColumn" value="keyName"/>
-	</bean>
-	
-	<bean id="messageMetaAcceptor" class="org.synyx.minos.i18n.importer.MessageMetaAcceptor">
+	<!--  the importer responsible for importing (and keep in sync) all "base" keys -->
+	<bean id="messageImporter" class="org.synyx.minos.i18n.importer.MessageImporter">
 		<constructor-arg ref="messageDao" />
 		<constructor-arg ref="availableMessageDao" />
 		<constructor-arg ref="messageTranslationDao" />
 		<constructor-arg ref="availableLanguageDao" />
+		<property name="resources" ref="databaseMessageResources"/>
 	</bean>
 	
-	<bean id="importer" class="org.synyx.minos.i18n.importer.MessageImporter">
-
-		<constructor-arg ref="messageMetaAcceptor" />
-		<property name="resources">
-			<map>
-				<entry key="i18n">
-					<value>classpath:META-INF/minos/i18n/messages.properties</value>
-				</entry>
-				<entry key="umt">
-					<value>classpath:META-INF/minos/umt/messages.properties</value>
-					</entry>
-				<entry key="core">
-					<value>classpath:META-INF/minos/core/messages.properties</value>
-				</entry>
-			</map>
-		</property>
-	</bean>
+	
+	<util:map id="databaseMessageResources">
+		<entry key="i18n">
+			<value>classpath:META-INF/minos/i18n/messages.properties</value>
+		</entry>
+		<entry key="umt">
+			<value>classpath:META-INF/minos/umt/messages.properties</value>
+		</entry>
+		<entry key="core">
+			<value>classpath:META-INF/minos/core/messages.properties</value>
+		</entry>
+	</util:map>
+	
 	
 </beans>
