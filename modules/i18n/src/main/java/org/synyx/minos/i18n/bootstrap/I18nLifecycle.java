@@ -35,6 +35,11 @@ public class I18nLifecycle extends SimpleNoOpLifecycle {
     }
 
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.synyx.minos.core.module.SimpleNoOpLifecycle#onStart()
+     */
     @Override
     public void onStart() throws ModuleLifecycleException {
 
@@ -56,13 +61,9 @@ public class I18nLifecycle extends SimpleNoOpLifecycle {
 
 
     /**
-     * Initializes basic skill module permissions to the default roles.
+     * Initializes basic module permissions to the default roles.
      */
     private void initPermissions() {
-
-        // Role userRole = userManagement.getRole(Role.USER_NAME);
-        // userRole.add(I18nPermissions.);
-        // userManagement.save(userRole);
 
         Role adminRole = userManagement.getRole(Role.ADMIN_NAME);
         adminRole.add(I18nPermissions.I18N_ADMINISTRATION);
