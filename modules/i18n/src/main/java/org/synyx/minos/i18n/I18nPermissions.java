@@ -12,25 +12,25 @@ import java.util.List;
 public abstract class I18nPermissions {
 
     public static final String I18N_CREATE_LANGUAGES = "I18N_CREATE_LANGUAGES";
-    public static final String I18N_EDIT_LANGUAGES = "I18N_EDIT_LANGUAGES";
     public static final String I18N_DELETE_LANGUAGES = "I18N_DELETE_LANGUAGES";
     public static final String I18N_LIST_LANGUAGES = "I18N_LIST_LANGUAGES";
-    public static final String[] I18N_MANAGE_LANGUAGES =
-            { I18N_CREATE_LANGUAGES, I18N_EDIT_LANGUAGES, I18N_DELETE_LANGUAGES, I18N_LIST_LANGUAGES };
+    public static final String[] I18N_MANAGE_LANGUAGES = { I18N_CREATE_LANGUAGES, I18N_DELETE_LANGUAGES,
+            I18N_LIST_LANGUAGES };
 
-    public static final String I18N_CREATE_BASES = "I18N_CREATE_BASES";
-    public static final String I18N_EDIT_BASES = "I18N_EDIT_BASES";
-    public static final String I18N_DELETE_BASES = "I18N_DELETE_BASES";
     public static final String I18N_LIST_BASES = "I18N_LIST_BASES";
-    public static final String[] I18N_MANAGE_BASES =
-            { I18N_CREATE_BASES, I18N_EDIT_BASES, I18N_DELETE_BASES, I18N_LIST_BASES };
+    public static final String[] I18N_MANAGE_BASES = { I18N_LIST_BASES };
 
-    public static final String I18N_CREATE_MESSAGES = "I18N_CREATE_MESSAGES";
     public static final String I18N_EDIT_MESSAGES = "I18N_EDIT_MESSAGES";
-    public static final String I18N_DELETE_MESSAGES = "I18N_DELETE_MESSAGES";
     public static final String I18N_LIST_MESSAGES = "I18N_LIST_MESSAGES";
-    public static final String[] I18N_MANAGE_MESSAGES =
-            { I18N_CREATE_MESSAGES, I18N_EDIT_MESSAGES, I18N_DELETE_MESSAGES, I18N_LIST_MESSAGES };
+    public static final String[] I18N_MANAGE_MESSAGES = { I18N_EDIT_MESSAGES, I18N_LIST_MESSAGES };
+
+    public static final String I18N_IMPORT_MESSAGES = "I18N_IMPORT_MESSAGES";
+    public static final String I18N_EXPORT_MESSAGES = "I18N_EXPORT_MESSAGES";
+    public static final String I18N_UPLOAD_MESSAGES = "I18N_UPLOAD_MESSAGES";
+    public static final String[] I18N_IMPORT_EXPORT_MESSAGES = { I18N_IMPORT_MESSAGES, I18N_EXPORT_MESSAGES,
+            I18N_UPLOAD_MESSAGES };
+
+    public static final String I18N_REINITIALIZE_MESSAGES = "I18N_REINITIALIZE_MESSAGES";
 
     public static final String[] I18N_ADMINISTRATION;
 
@@ -45,6 +45,10 @@ public abstract class I18nPermissions {
         for (String p : I18N_MANAGE_MESSAGES) {
             allpermissions.add(p);
         }
+        for (String p : I18N_IMPORT_EXPORT_MESSAGES) {
+            allpermissions.add(p);
+        }
+        allpermissions.add(I18N_REINITIALIZE_MESSAGES);
         I18N_ADMINISTRATION = allpermissions.toArray(new String[] {});
     }
 

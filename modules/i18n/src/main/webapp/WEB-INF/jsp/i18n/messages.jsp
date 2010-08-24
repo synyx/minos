@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="minos" uri="http://www.synyx.org/minos/tags" %>
@@ -238,8 +239,11 @@ $(document).ready ( function() {
 		</p>
 
 		<textarea class="messagetextarea" "rows="5" name="message" style="width:100%;border: 1px solid lightgray;" >%%message%%</textarea>
+		
+		<security:authorize ifAllGranted="I18N_EDIT_MESSAGES">
 		<input type="submit" value="<spring:message code="core.ui.save"/>" /> 
 		<input type="checkbox" checked="checked" name="finished" />
+		</security:authorize>
 		<spring:message code="i18n.messages.finished"/>
 	</div>
 	

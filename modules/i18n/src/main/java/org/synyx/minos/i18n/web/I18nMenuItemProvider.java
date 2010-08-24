@@ -32,8 +32,9 @@ public class I18nMenuItemProvider extends AbstractMenuItemProvider {
                         .withPermission(I18nPermissions.I18N_LIST_MESSAGES).build();
 
         MenuItem baseNames =
-                MenuItem.create(MENU_I18N_BASENAMES).withKeyBase("i18n.basenames.menu").withPosition(1).withUrl(
-                        I18nController.URL_BASENAMES).withParent(mainMenu).build();
+                MenuItem.create(MENU_I18N_BASENAMES).withKeyBase("i18n.basenames.menu").withPosition(1)
+                        .withUrl(I18nController.URL_BASENAMES).withParent(mainMenu)
+                        .withPermission(I18nPermissions.I18N_LIST_BASES).build();
 
         return Arrays.asList(mainMenu, baseNames);
 

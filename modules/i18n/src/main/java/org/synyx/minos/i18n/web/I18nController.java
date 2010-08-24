@@ -1,5 +1,14 @@
 package org.synyx.minos.i18n.web;
 
+import static org.synyx.minos.i18n.I18nPermissions.I18N_CREATE_LANGUAGES;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_DELETE_LANGUAGES;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_EDIT_MESSAGES;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_EXPORT_MESSAGES;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_LIST_BASES;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_LIST_LANGUAGES;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_LIST_MESSAGES;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_UPLOAD_MESSAGES;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
@@ -9,6 +18,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -88,6 +98,7 @@ public class I18nController {
     }
 
 
+    @RolesAllowed(I18N_EXPORT_MESSAGES)
     @RequestMapping(value = URL_IMPORT, method = RequestMethod.GET)
     public String importMessages(Model model) {
 
@@ -98,6 +109,7 @@ public class I18nController {
     }
 
 
+    @RolesAllowed(I18N_EXPORT_MESSAGES)
     @RequestMapping(value = URL_EXPORT, method = RequestMethod.GET)
     public void exportMessages(HttpServletResponse response, OutputStream out) {
 
@@ -110,6 +122,7 @@ public class I18nController {
     }
 
 
+    @RolesAllowed(I18N_LIST_BASES)
     @RequestMapping(value = URL_BASENAMES, method = RequestMethod.GET)
     public String showBasenames(Model model) {
 
@@ -120,6 +133,7 @@ public class I18nController {
     }
 
 
+    @RolesAllowed(I18N_LIST_LANGUAGES)
     @RequestMapping(value = URL_BASENAME, method = RequestMethod.GET)
     public String showBasename(@PathVariable("basename") String basename, Model model) {
 
@@ -132,6 +146,7 @@ public class I18nController {
     }
 
 
+    @RolesAllowed(I18N_UPLOAD_MESSAGES)
     @RequestMapping(value = URL_MESSAGEIMPORT, method = RequestMethod.GET)
     public String showImportableLanguages(@PathVariable("basename") String basename, Model model) {
 
@@ -143,6 +158,7 @@ public class I18nController {
     }
 
 
+    @RolesAllowed(I18N_UPLOAD_MESSAGES)
     @RequestMapping(value = URL_MESSAGEIMPORT, method = RequestMethod.POST)
     public String importLanguage(@PathVariable("basename") String basename,
             @RequestParam(value = "language", required = true) AvailableLanguage language,
@@ -159,6 +175,7 @@ public class I18nController {
     }
 
 
+    @RolesAllowed(I18N_CREATE_LANGUAGES)
     @RequestMapping(value = URL_BASENAME, method = RequestMethod.POST)
     public String addNewLanguageForBasename(@PathVariable("basename") String basename,
             @ModelAttribute("newLanguage") AvailableLanguage language, Model model) {
@@ -168,17 +185,18 @@ public class I18nController {
         if (!locales.contains(language.getLocale())) {
             // todo make boolean configurable
             messageService.addLanguage(language);
-            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
-                    .success("i18n.messages.newlanguage.success"));
+            model.addAttribute(Core.MESSAGE,
+                    org.synyx.minos.core.web.Message.success("i18n.messages.newlanguage.success"));
         } else {
-            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
-                    .notice("i18n.messages.newlanguage.alreadyexists"));
+            model.addAttribute(Core.MESSAGE,
+                    org.synyx.minos.core.web.Message.notice("i18n.messages.newlanguage.alreadyexists"));
         }
 
         return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
     }
 
 
+    @RolesAllowed(I18N_DELETE_LANGUAGES)
     @RequestMapping(value = URL_MESSAGES + "/deleteconfirmation", method = RequestMethod.GET)
     public String showConfirmationForRemoveLanguageForBasename(@PathVariable("basename") String basename,
             @PathVariable("locale") Locale locale, Model model) {
@@ -190,6 +208,7 @@ public class I18nController {
     }
 
 
+    @RolesAllowed(I18N_DELETE_LANGUAGES)
     @RequestMapping(value = URL_MESSAGES, method = RequestMethod.DELETE)
     public String removeLanguageForBasename(@PathVariable("basename") String basename,
             @PathVariable("locale") Locale locale, Model model) {
@@ -198,8 +217,8 @@ public class I18nController {
         if (!lang.isDefault()) {
             messageService.removeLanguage(basename, lang);
 
-            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
-                    .success("i18n.basename.deleteLanguage.message.success"));
+            model.addAttribute(Core.MESSAGE,
+                    org.synyx.minos.core.web.Message.success("i18n.basename.deleteLanguage.message.success"));
 
         } else {
             model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
@@ -211,6 +230,7 @@ public class I18nController {
     }
 
 
+    @RolesAllowed(I18N_LIST_MESSAGES)
     @RequestMapping(value = URL_MESSAGES, method = RequestMethod.GET)
     public String showMessages(@PathVariable("basename") String basename, @PathVariable("locale") Locale locale,
             @RequestParam(value = "filter", required = false) String filter,
@@ -233,6 +253,7 @@ public class I18nController {
     }
 
 
+    @RolesAllowed(I18N_LIST_MESSAGES)
     @RequestMapping(value = URL_MESSAGE_JSON, method = RequestMethod.GET)
     public void showMessage(@PathVariable("basename") String basename, @PathVariable("locale") Locale locale,
             @PathVariable("key") String key,
@@ -288,6 +309,7 @@ public class I18nController {
     }
 
 
+    @RolesAllowed(I18N_EDIT_MESSAGES)
     @RequestMapping(value = URL_MESSAGE_JSON, method = RequestMethod.PUT)
     public void saveMessage(@PathVariable("basename") String basename, @PathVariable("locale") Locale locale,
             @PathVariable("key") String key,

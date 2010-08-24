@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="minos" uri="http://www.synyx.org/minos/tags" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
@@ -38,43 +39,44 @@
 	<minos:column titleKey="i18n.basename.actions" sortable="false">
 		
 		<c:if test="${localeInformation.deletable}">
-		
+		<security:authorize ifAllGranted="I18N_DELETE_LANGUAGES">		
 		<a href="<spring:url value="/web/i18n/basenames/${localeInformation.basename}/messages/${localeInformation.locale}/deleteconfirmation"/>"><spring:message code="i18n.basename.deleteLanguage.link"/></a>
+		</security:authorize>
 		</c:if>
 	</minos:column>
 
 
 </display:table>
 
-
+<security:authorize ifAllGranted="I18N_CREATE_LANGUAGES">
 <h3><spring:message code="i18n.basename.newlanguage.title"/></h3>
-			<form:form modelAttribute="newLanguage" method="post">
+	<form:form modelAttribute="newLanguage" method="post">
 			
-			<table>
-				<tr>
-					<td><label for="newlanguage_lang"><spring:message code="i18n.basename.newlanguage.lang"/></label></td>
-					<td><form:input path="realLocale" id="newlanguage_lang"/> </td>
-					<td><small><spring:message code="i18n.basename.newlanguage.lang.hint"/></small></td>
-				</tr>
-				<tr>
-					<td><label for="newlanguage_required"><spring:message code="i18n.basename.newlanguage.required"/></label></td>
-					<td><form:checkbox path="required" id="newlanguage_required"/> </td>
-					<td><small><spring:message code="i18n.basename.newlanguage.required.hint"/></small></td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<form:hidden path="basename"/>
-						<input type="submit" value="<spring:message code="i18n.basename.newlanguage.button"/>"/>	
-					</td>
-				</tr>
-			</table>
+		<table>
+			<tr>
+				<td><label for="newlanguage_lang"><spring:message code="i18n.basename.newlanguage.lang"/></label></td>
+				<td><form:input path="realLocale" id="newlanguage_lang"/> </td>
+				<td><small><spring:message code="i18n.basename.newlanguage.lang.hint"/></small></td>
+			</tr>
+			<tr>
+				<td><label for="newlanguage_required"><spring:message code="i18n.basename.newlanguage.required"/></label></td>
+				<td><form:checkbox path="required" id="newlanguage_required"/> </td>
+				<td><small><spring:message code="i18n.basename.newlanguage.required.hint"/></small></td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<form:hidden path="basename"/>
+					<input type="submit" value="<spring:message code="i18n.basename.newlanguage.button"/>"/>	
+				</td>
+			</tr>
+		</table>
 				
-			
-				
-			</form:form>
+	</form:form>
+</security:authorize>
 
-
+<security:authorize ifAllGranted="I18N_UPLOAD_MESSAGES">
 <a href="<spring:url value="/web/i18n/basenames/${basename}/import"/>"><spring:message code="i18n.basenames.import.title"/></a>
+</security:authorize>
 <br/>
 <br />
 <a href="<spring:url value="/web/i18n/basenames"/>">&laquo; <spring:message code="i18n.basenames.title"/></a>
