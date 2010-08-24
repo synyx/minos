@@ -7,6 +7,10 @@ import org.synyx.hades.domain.AbstractPersistable;
 
 
 /**
+ * Domain class that defines a available message key and basename combination. These entities define the general set of
+ * available combinations of message key and basename. Additionally the entity bears a message text that may be defined
+ * by the developer (creator of the message key) to assist comprehension and translation of the intended message.
+ * 
  * @author Alexander Menz - menz@synyx.de
  */
 @Entity
@@ -24,6 +28,9 @@ public class AvailableMessage extends AbstractPersistable<Long> {
     private String message;
 
 
+    /**
+     * Create a new empty instance of {@link AvailableMessage}. This constructor is needed by the OR mapper.
+     */
     protected AvailableMessage() {
 
     }
@@ -46,7 +53,9 @@ public class AvailableMessage extends AbstractPersistable<Long> {
 
 
     /**
-     * @return the basename
+     * Get the basename of this available message.
+     * 
+     * @return the basename of this available message.
      */
     public String getBasename() {
 
@@ -55,7 +64,9 @@ public class AvailableMessage extends AbstractPersistable<Long> {
 
 
     /**
-     * @param basename the basename to set
+     * Set the basename of this available message.
+     * 
+     * @param basename the basename to set.
      */
     public void setBasename(String basename) {
 
@@ -64,7 +75,9 @@ public class AvailableMessage extends AbstractPersistable<Long> {
 
 
     /**
-     * @return the key
+     * Get the key of this available message.
+     * 
+     * @return the key of this available message.
      */
     public String getKey() {
 
@@ -73,7 +86,9 @@ public class AvailableMessage extends AbstractPersistable<Long> {
 
 
     /**
-     * @param key the key to set
+     * Set the key of this available message.
+     * 
+     * @param key the key to set.
      */
     public void setKey(String key) {
 
@@ -82,7 +97,9 @@ public class AvailableMessage extends AbstractPersistable<Long> {
 
 
     /**
-     * @return the message
+     * Get the message text of this available message.
+     * 
+     * @return the message text of this available message.
      */
     public String getMessage() {
 
@@ -91,7 +108,9 @@ public class AvailableMessage extends AbstractPersistable<Long> {
 
 
     /**
-     * @param message the message to set
+     * Set the message text of this available message.
+     * 
+     * @param message the message to set.
      */
     public void setMessage(String message) {
 

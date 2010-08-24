@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.synyx.minos.i18n.importer;
 
 import java.io.IOException;
@@ -27,6 +24,11 @@ import org.synyx.minos.i18n.util.CollationUtils;
 
 
 /**
+ * This class provides the functionalities to import and update messages for basenames from property resources. Beside
+ * offering the import of a specific property resource for a specific basename, a map assigning property resources to
+ * basenames can be set (i.e. via spring beans config) to provide a method for importing/updating messages on
+ * application boot up.
+ * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 public class MessageImporter {
@@ -44,11 +46,22 @@ public class MessageImporter {
     private MessageTranslationDao messageTranslationDao;
 
 
-    public MessageImporter() {
+    /**
+     * Empty constructor. Makes this class accessible for wrapping or aspect proxies.
+     */
+    protected MessageImporter() {
 
     }
 
 
+    /**
+     * Creates a new instance of {@link MessageImporter}.
+     * 
+     * @param messageDao
+     * @param availableMessageDao
+     * @param availableLanguageDao
+     * @param messageTranslationDao
+     */
     public MessageImporter(MessageDao messageDao, AvailableMessageDao availableMessageDao,
             AvailableLanguageDao availableLanguageDao, MessageTranslationDao messageTranslationDao) {
 
@@ -60,6 +73,15 @@ public class MessageImporter {
     }
 
 
+    /**
+     * Import messages from the given property resource for the given basename. Messages already existing for a
+     * combination of basename and key are updated, new combinations are created. Additionally new instances of
+     * {@link MessageTranslation} are created for each required {@link AvailableLanguage} or already defined message
+     * indicating that the translation for these languages need to be checked.
+     * 
+     * @param basename the basename to import the messages for.
+     * @param resource the property resource to import the messages from.
+     */
     public void importMessages(String basename, Resource resource) {
 
         Map<String, String> messages = loadProperties(resource);
@@ -95,6 +117,18 @@ public class MessageImporter {
     }
 
 
+    /**
+     * Import a single message for the given basename and key. If the combination of basename and key already exists the
+     * message is updated. Otherwise a new {@link AvailableMessage} entry for the given basename and key and a new
+     * {@link Message} entry for the base language is created. Additionally a new instances of
+     * {@link MessageTranslation} are created for all required {@link AvailableLanguage}s and already existing messages
+     * respectively, indicating that the translation for these {@link AvailableLanguage}s need to be checked.
+     * 
+     * @param basename the basename.
+     * @param key the key.
+     * @param message the message text.
+     * @param availableLanguages list of {@link AvailableLanguage}s for which to check for needed translation check.
+     */
     protected void setMessage(String basename, String key, String message, List<AvailableLanguage> availableLanguages) {
 
         AvailableMessage availableMessage =
@@ -161,6 +195,13 @@ public class MessageImporter {
     }
 
 
+    /**
+     * Get all {@link AvailableLanguage}s for the given basename. If there is no {@link AvailableLanguage} for the given
+     * basename, a new {@link AvailableLanguage} for the basename and default language is created.
+     * 
+     * @param basename the basename to retrieve all {@link AvailableLanguage}s for.
+     * @return all {@link AvailableLanguage}s for the given basename.
+     */
     private List<AvailableLanguage> getAvailableLanguages(String basename) {
 
         List<AvailableLanguage> availableLanguages = availableLanguageDao.findByBasename(basename);
@@ -182,6 +223,8 @@ public class MessageImporter {
 
     /**
      * Loads {@link Map} of Key=Value pairs from the given {@link Resource} while handling errors.
+     * 
+     * @param resource the resource to load from.
      */
     private Map<String, String> loadProperties(Resource resource) {
 
@@ -208,6 +251,11 @@ public class MessageImporter {
     }
 
 
+    /**
+     * Import all messages from the set map of basenames to {@link Resource}s.
+     * 
+     * @see MessageImporter#setResources(Map)
+     */
     public void importMessages() {
 
         for (String resourceName : resources.keySet()) {
@@ -217,12 +265,23 @@ public class MessageImporter {
     }
 
 
+    /**
+     * Get the map of basenames to {@link Resource}s.
+     * 
+     * @return the map of basenames to {@link Resource}s.
+     */
     public Map<String, Resource> getResources() {
 
         return resources;
     }
 
 
+    /**
+     * Set the map of basenames to {@link Resource}s to import from.
+     * 
+     * @param resources the map of basenames to {@link Resource} to set.
+     * @see MessageImporter#importMessages()
+     */
     public void setResources(Map<String, Resource> resources) {
 
         this.resources = resources;
