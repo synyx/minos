@@ -100,4 +100,11 @@ public class AvailableLanguage extends AbstractPersistable<Long> {
         this.required = required;
     }
 
+
+    @Override
+    public String toString() {
+
+        return String.format("%s %s", basename, locale.toString());
+    }
+
 }

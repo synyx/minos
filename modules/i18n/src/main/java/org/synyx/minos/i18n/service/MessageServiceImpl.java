@@ -15,6 +15,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.synyx.messagesource.util.LocaleUtils;
@@ -43,6 +45,8 @@ import com.google.common.collect.ImmutableList;
  */
 public class MessageServiceImpl implements MessageService {
 
+    private static final Log LOG = LogFactory.getLog(MessageServiceImpl.class);
+
     private MessageDao messageDao;
 
     private AvailableLanguageDao availableLanguageDao;
@@ -67,18 +71,6 @@ public class MessageServiceImpl implements MessageService {
     /*
      * (non-Javadoc)
      * 
-     * @see org.synyx.minos.i18n.service.MessageService#getMessages(java.lang.String, java.util.Locale)
-     */
-
-    private List<Message> getMessagesInternal(String basename, Locale locale) {
-
-        return messageDao.findByBasenameAndLocale(basename, new LocaleWrapper(locale));
-    }
-
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.synyx.minos.i18n.service.MessageService#save(org.synyx.minos.i18n.domain.Message)
      */
     @Override
@@ -95,6 +87,7 @@ public class MessageServiceImpl implements MessageService {
             if (parentMessage.getMessage().equals(message.getMessage())) {
                 // skip messages that dont have differences to their parent
                 if (!message.isNew()) {
+                    LOG.info("Removing message since it equals its parent: " + message.toString());
                     messageDao.delete(messageDao.readByPrimaryKey(message.getId()));
                 }
                 return;
@@ -106,18 +99,13 @@ public class MessageServiceImpl implements MessageService {
             messageDao.save(message);
 
         } else if (!message.isNew()) {
+            LOG.info("Removing message since its empty: " + message.toString());
             messageDao.delete(messageDao.readByPrimaryKey(message.getId()));
         }
 
     }
 
 
-    /**
-     * @param basename
-     * @param key
-     * @param parent
-     * @return
-     */
     private Message getMessageEntity(String basename, String key, Locale loc) {
 
         List<Locale> path = LocaleUtils.getPath(loc, defaultLocale);
@@ -180,7 +168,6 @@ public class MessageServiceImpl implements MessageService {
             Long updatedCount = messageTranslationDao.countByStatus(basename, locale, MessageStatus.UPDATED);
             Long totalCount = messageDao.countByBasenameAndLocale(basename, locale);
             AvailableLanguage language = availableLanguageDao.findByBasenameAndLocale(basename, locale);
-            ;
 
             infos.add(new LocaleInformation(language, newCount, updatedCount, totalCount));
         }
@@ -309,12 +296,6 @@ public class MessageServiceImpl implements MessageService {
     }
 
 
-    /**
-     * @param basename
-     * @param key
-     * @param referenceLocale
-     * @return
-     */
     private MessageTranslation getTranslationInformation(String basename, String key, Locale locale) {
 
         AvailableLanguage lang = availableLanguageDao.findByBasenameAndLocale(basename, new LocaleWrapper(locale));
@@ -331,17 +312,13 @@ public class MessageServiceImpl implements MessageService {
     }
 
 
-    /**
-     * @param locale
-     * @return
-     */
     private List<Map<String, Message>> getMessageChain(String basename, Locale locale) {
 
         List<Locale> path = LocaleUtils.getPath(locale, defaultLocale);
 
         List<Map<String, Message>> chain = new ArrayList<Map<String, Message>>();
         for (Locale loc : path) {
-            chain.add(toMap(getMessagesInternal(basename, loc)));
+            chain.add(toMap(messageDao.findByBasenameAndLocale(basename, new LocaleWrapper(loc))));
         }
 
         return chain;
@@ -372,6 +349,7 @@ public class MessageServiceImpl implements MessageService {
 
         if (availableLanguageDao.findByBasenameAndLocale(language.getBasename(), language.getLocale()) == null) {
 
+            LOG.info("Creating new language: " + language.toString());
             language = availableLanguageDao.save(language);
 
             if (language.isRequired()) {
@@ -381,6 +359,9 @@ public class MessageServiceImpl implements MessageService {
                     MessageTranslation t = new MessageTranslation(message, language, MessageStatus.NEW);
                     messageTranslationDao.save(t);
                 }
+
+                LOG.info("Language is required. Added " + messages.size() + " translation-informations: "
+                        + language.toString());
             }
         }
 
@@ -395,6 +376,8 @@ public class MessageServiceImpl implements MessageService {
     @Override
     @Transactional
     public void removeTranslationInfo(Message message) {
+
+        LOG.info("Removing translation information for " + message.toString());
 
         AvailableMessage availableMessage =
 
@@ -418,6 +401,7 @@ public class MessageServiceImpl implements MessageService {
     public void removeLanguage(String basename, LocaleWrapper locale) {
 
         AvailableLanguage language = availableLanguageDao.findByBasenameAndLocale(basename, locale);
+        LOG.info("Removing language as well as translations and messages for it: " + language.toString());
 
         messageTranslationDao.deleteByAvailableLanguage(language);
         messageDao.deleteBy(language.getBasename(), language.getLocale());
@@ -431,6 +415,11 @@ public class MessageServiceImpl implements MessageService {
         this.defaultLocale = defaultLocale;
     }
 
+    /**
+     * Preticate that is able to filter {@link MessageView}s by their status
+     * 
+     * @author Alexander Menz - menz@synyx.de
+     */
     private class MessageViewStatusPredicate implements Predicate<MessageView> {
 
         private boolean includeNew = false;
@@ -477,6 +466,7 @@ public class MessageServiceImpl implements MessageService {
     @Transactional
     public void saveAll(AvailableLanguage language, Properties properties) {
 
+        LOG.info("Batch-Saving " + properties.size() + " translations of language " + language.toString());
         String basename = language.getBasename();
         LocaleWrapper locale = language.getLocale();
 

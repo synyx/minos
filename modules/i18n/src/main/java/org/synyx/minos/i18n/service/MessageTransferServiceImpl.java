@@ -15,6 +15,8 @@ import org.synyx.minos.i18n.importer.MessageImporter;
 
 
 /**
+ * Implementation of {@link MessageTransferService}
+ * 
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 public class MessageTransferServiceImpl implements MessageTransferService {
