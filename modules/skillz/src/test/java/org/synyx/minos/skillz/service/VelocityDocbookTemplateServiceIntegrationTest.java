@@ -35,7 +35,7 @@ public class VelocityDocbookTemplateServiceIntegrationTest {
     public void setUp() {
 
         docbookTemplateService =
-                new VelocityDocbookTemplateServiceImpl(createVelocityEngine(), "resume-template/resume.vm");
+                new VelocityDocbookTemplateServiceImpl(createVelocityEngine(), "resume-template/resume.vm", "resume-template/resume_anonymous.vm");
         User user = new User("username", "foo@bar.de", "password");
         user.setFirstname("\"foo\"");
         user.setLastname("bar");
@@ -47,7 +47,7 @@ public class VelocityDocbookTemplateServiceIntegrationTest {
     @Test
     public void createsDocbookXml() throws Exception {
 
-        String docbookXml = docbookTemplateService.createDocbookXml(resume, new ArrayList<Level>(), null);
+        String docbookXml = docbookTemplateService.createDocbookXml(resume, new ArrayList<Level>(), null, Boolean.FALSE);
 
         assertThat(docbookXml, both(containsString("&quot;foo&quot; bar")).and(containsString("1982")));
     }
@@ -58,7 +58,7 @@ public class VelocityDocbookTemplateServiceIntegrationTest {
 
         resume.add(new Activity(new Project("projectname"), new DateMidnight(2010, 2, 12)));
 
-        String docbookXml = docbookTemplateService.createDocbookXml(resume, new ArrayList<Level>(), null);
+        String docbookXml = docbookTemplateService.createDocbookXml(resume, new ArrayList<Level>(), null, Boolean.FALSE);
 
         assertThat(docbookXml, both(containsString("projectname")).and(containsString("[Februar 2010 - heute]")));
     }
@@ -74,7 +74,7 @@ public class VelocityDocbookTemplateServiceIntegrationTest {
         resume.getSkillz().add(new Skill("skill1", category), levels.get(0));
         resume.getSkillz().add(new Skill("skill2", category), levels.get(1));
 
-        String docbookXml = docbookTemplateService.createDocbookXml(resume, levels, null);
+        String docbookXml = docbookTemplateService.createDocbookXml(resume, levels, null, Boolean.FALSE);
 
         assertThat(docbookXml, both(containsString("categoryname")).and(containsString("skill2")));
         assertThat(docbookXml, both(containsString("level1")).and(containsString("X")));

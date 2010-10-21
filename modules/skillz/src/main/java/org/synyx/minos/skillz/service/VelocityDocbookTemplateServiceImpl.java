@@ -22,12 +22,15 @@ public class VelocityDocbookTemplateServiceImpl implements DocbookTemplateServic
 
     private final VelocityEngine velocityEngine;
     private final String templateFile;
+    private final String templateFileAnonymous;
 
 
-    public VelocityDocbookTemplateServiceImpl(VelocityEngine velocityEngine, String templateFile) {
+    public VelocityDocbookTemplateServiceImpl(VelocityEngine velocityEngine, String templateFile,
+            String templateFileAnonymous) {
 
         this.velocityEngine = velocityEngine;
         this.templateFile = templateFile;
+        this.templateFileAnonymous = templateFileAnonymous;
     }
 
 
@@ -38,7 +41,7 @@ public class VelocityDocbookTemplateServiceImpl implements DocbookTemplateServic
      * (org.synyx.minos.skillz.domain.Resume)
      */
     @Override
-    public String createDocbookXml(Resume resume, List<Level> levels, String photoFilename)
+    public String createDocbookXml(Resume resume, List<Level> levels, String photoFilename, Boolean anonymous)
             throws DocbookCreationException {
 
         VelocityContext context = new VelocityContext();
@@ -53,7 +56,15 @@ public class VelocityDocbookTemplateServiceImpl implements DocbookTemplateServic
 
         StringWriter stringWriter = new StringWriter();
         try {
-            Template template = velocityEngine.getTemplate(templateFile);
+            
+            Template template;
+            
+            if (anonymous == Boolean.TRUE) {
+                template = velocityEngine.getTemplate(templateFileAnonymous);
+            } else {
+                template = velocityEngine.getTemplate(templateFile);
+            }
+
             template.merge(context, stringWriter);
         } catch (Exception e) {
             throw new DocbookCreationException("Failed to merge template!", e);

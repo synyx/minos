@@ -21,6 +21,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateMidnight;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -66,21 +67,31 @@ import org.synyx.minos.skillz.service.ZipCreationException;
  * 
  * @author Oliver Gierke - gierke@synyx.de
  * @author Markus Knittig - knittig@synyx.de
+ * @author Stefan Kuhn - kuhn@synyx.de
  */
 @Controller
 @SessionAttributes(types = { SkillMatrix.class, Resume.class })
 public class ResumeController {
 
     private static final String RESUME = "/skillz/resume";
+
     private static final String RESUMES = "/skillz/resumes";
 
     private static final int THUMBNAIL_WIDTH = 200;
 
     private final SkillManagement skillManagement;
+
     private final ResumeManagement resumeManagement;
+
     private final ResumeAdminstration resumeAdminstration;
+
+    @Qualifier("pdfDocbookCreator")
     private final PdfDocbookCreator pdfDocbookCreator;
+
     private final ResumeZipCreator resumeZipCreator;
+
+    @Qualifier("pdfDocbookCreatorAnonymous")
+    private final PdfDocbookCreator pdfDocbookCreatorAnonymous;
 
     private MultipartFileValidator multipartValidator = new MultipartFileValidator();
 
@@ -97,13 +108,14 @@ public class ResumeController {
     @Autowired
     public ResumeController(ResumeManagement resumeManagement, SkillManagement skillManagement,
             ResumeAdminstration resumeAdminstration, PdfDocbookCreator pdfDocbookCreator,
-            ResumeZipCreator resumeZipCreator) {
+            ResumeZipCreator resumeZipCreator, PdfDocbookCreator pdfDocbookCreatorAnonymous) {
 
         this.skillManagement = skillManagement;
         this.resumeManagement = resumeManagement;
         this.resumeAdminstration = resumeAdminstration;
         this.pdfDocbookCreator = pdfDocbookCreator;
         this.resumeZipCreator = resumeZipCreator;
+        this.pdfDocbookCreatorAnonymous = pdfDocbookCreatorAnonymous;
     }
 
 
@@ -186,6 +198,34 @@ public class ResumeController {
         try {
             file =
                     pdfDocbookCreator.createTempPdfFile(getServletTempDirectory(session.getServletContext()),
+                            resumeManagement.getFilteredResume(user, getResumeAttributeFilters(webRequest)),
+                            skillManagement.getLevels());
+        } catch (DocbookCreationException e) {
+            model.addAttribute(Core.MESSAGE, Message.error("skillz.resume.export.pdf.failed"));
+            return resume(model, user);
+        }
+
+        return UrlUtils.redirect("/skillz/resume/pdf/" + file.getName());
+
+    }
+
+    /**
+     * Creates the current {@link User}'s {@link Resume} as a PDF file in a temporary directory and redirects to it if
+     * the creation was successful, show an error message otherwise.
+     *
+     * @param user
+     * @param response
+     * @param webRequest
+     * @param outputStream
+     * @return
+     */
+    @RequestMapping(value = RESUME, method = POST, params = "pdfexportanonymous")
+    public String resumePdfAnonymous(@CurrentUser User user, Model model, HttpSession session, WebRequest webRequest) {
+
+        File file = null;
+        try {
+            file =
+                    pdfDocbookCreatorAnonymous.createTempPdfFile(getServletTempDirectory(session.getServletContext()),
                             resumeManagement.getFilteredResume(user, getResumeAttributeFilters(webRequest)),
                             skillManagement.getLevels());
         } catch (DocbookCreationException e) {

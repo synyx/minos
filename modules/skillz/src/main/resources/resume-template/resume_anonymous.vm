@@ -1,0 +1,189 @@
+#macro(commaIfNeeded $index $listsize)
+#set ($lastone = $listsize - 1)
+#if($index <= $lastone), #else#end
+#end
+#macro(escapeHtml $text)
+#if($text)$esc.html($text)#else#end
+#end
+#macro(dateOrToday $dateTime)
+#set($today = "heute")
+#if($dateTime)$date.format('MMMM yyyy', $dateTime.toDate(), $convert.toLocale('de_DE'))#else$today#end
+#end
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+	"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<article>
+	<para>Mitarbeiterprofil der Firma Synyx GmbH &amp; Co. KG, Karlsruhe</para>
+	<?hard-linebreak?>
+		
+	<section>
+	<informaltable frame="none">
+		<tgroup cols='2' align='left' colsep='0' rowsep='0'>
+			<colspec colname='c1' />
+			<colspec colname='c2' />
+			<tbody>
+				<row>
+					<entry><emphasis role="bold">Titel</emphasis></entry>
+					<entry>#escapeHtml($!resume.title)</entry>
+				</row>
+				<row>
+					<entry><emphasis role="bold">Position</emphasis></entry>
+					<entry>#escapeHtml($!resume.position)</entry>
+				</row>
+				<row>
+					<entry><emphasis role="bold">Fachlicher Schwerpunkt</emphasis></entry>
+					<entry></entry>
+				</row>
+				<row>
+					<entry><emphasis role="bold">Sprachen</emphasis></entry>
+					<entry>#escapeHtml($!resume.foreignLanguages)</entry>
+				</row>
+				<row>
+					<entry><emphasis role="bold">Zertifizierungen</emphasis></entry>
+					<entry>#escapeHtml($!resume.certifications)</entry>
+				</row>
+				<row>
+					<entry><emphasis role="bold">Veröffentlichungen</emphasis></entry>
+					<entry>#escapeHtml($!resume.publications)</entry>
+				</row>
+				<row>
+					<entry><emphasis role="bold">Weiterbildungen</emphasis></entry>
+					<entry></entry>
+				</row>
+				<row>
+					<entry><emphasis role="bold">Weitere Erfahrungen</emphasis></entry>
+					<entry></entry>
+				</row>
+			</tbody>
+		</tgroup>
+	</informaltable>
+    </section>
+	
+	<section>
+	<title>Skills</title>
+	<informaltable frame="none">
+		<tgroup cols='2' align='left' colsep='0' rowsep='0'>
+			<colspec colname='c1' />
+			<colspec colname='c2' />
+			<tbody>
+				#if($resume.skillz.map.keySet() && $resume.skillz.map.keySet().size() > 0)
+					#foreach($category in $resume.skillz.map.keySet())
+						<row>
+							<entry><emphasis role="bold">#escapeHtml($category.name)</emphasis></entry>
+							<entry>
+								#foreach($skillEntry in $resume.skillz.map.get($category))
+									#escapeHtml($!skillEntry.name)#commaIfNeeded($velocityCount, $resume.skillz.map.get($category).size())
+								#end
+							</entry>
+						</row>
+					#end
+				#else
+					<row>
+						<entry></entry>
+						<entry></entry>
+					</row>
+				#end
+			</tbody>
+		</tgroup>
+	</informaltable>
+    </section>
+	<?hard-pagebreak?>
+	<section>
+	<title>Erfahrung | Projekte</title>
+#if($resume.references && $resume.references.size() > 0)
+	#foreach($activity in $resume.references)
+<literallayout>
+</literallayout>
+	<para>
+	<?mansour-fo keep-together?>
+	<para><emphasis role="bold">#escapeHtml($!activity.project.name)
+	<?hard-linebreak?>
+	[#dateOrToday($activity.start) - #dateOrToday($activity.end)]
+    </emphasis></para>
+    <para>#escapeHtml($!activity.project.description)</para>
+	<?hard-linebreak?>
+	<informaltable class="referenceattributes" frame="none">
+		<tgroup cols='2' align='left' colsep='0' rowsep='0'>
+			<tbody>
+				<row>
+					<entry><emphasis role="bold-italic">Technologien:</emphasis></entry>
+					<entry></entry>
+				</row>
+				<row>
+					<entry><emphasis role="bold-italic">Tools:</emphasis></entry>
+					<entry></entry>
+				</row>
+				<row>
+					<entry><emphasis role="bold-italic">Kunde:</emphasis></entry>
+					<entry>#escapeHtml($!activity.project.customer)</entry>
+				</row>
+				<row>
+					<entry><emphasis role="bold-italic">Branch:</emphasis></entry>
+					<entry>#escapeHtml($!activity.project.industry)</entry>
+				</row>
+				<row>
+					<entry><emphasis role="bold-italic">Plattform:</emphasis></entry>
+					<entry>#escapeHtml($!activity.project.platform)</entry>
+				</row>
+            </tbody>
+        </tgroup>
+    </informaltable>
+	</para>
+	#end
+#else
+<para></para>
+#end
+        </section>
+	<?hard-pagebreak?>
+	<section>
+	<title>Qualifikationen</title>
+	<informaltable>
+		#set( $cols = $levels.size() + 1 )
+		<tgroup cols='$cols' align='left' colsep='1' rowsep='1'>
+			<thead>
+				<row>
+					<entry class="gray" rowsep='1' colsep='1'><?dbfo bgcolor="#B0B0B0" ?></entry>
+					#foreach($level in $levels)
+						<entry align="center">#escapeHtml($level.name)</entry>
+					#end
+				</row>
+			</thead>
+			<tbody>
+				#if($resume.skillz.map.keySet() && $resume.skillz.map.keySet().size() > 0)
+					#foreach($category in $resume.skillz.map.keySet())
+						#foreach($skillEntry in $resume.skillz.map.get($category))
+							<row>
+								<entry class="gray" rowsep='1' colsep='1'>#escapeHtml($!skillEntry.name)<?dbfo bgcolor="#B0B0B0" ?></entry>
+								#foreach($level in $levels)
+									<entry align="center">#if($level.name == $!skillEntry.level.name) X #end</entry>
+								#end
+                            </row>
+						#end
+					#end
+				#else
+					<row>
+						<entry class="gray" rowsep='1' colsep='1'><?dbfo bgcolor="#B0B0B0" ?></entry>
+						#foreach($level in $levels)
+							<entry></entry>
+						#end
+					</row>
+				#end
+			</tbody>
+		</tgroup>
+	</informaltable>
+    </section>
+	<?hard-pagebreak?>
+	<section id="contact">
+    <title>Kontakt</title>
+    <literallayout>Synyx GmbH &amp; Co. KG
+OpenSource Solutions
+Karlstraße 68
+76137 Karlsruhe</literallayout>
+	<literallayout>Telefon: +49(0)721 6624 866
+Telefax: +49(0)721 6648 877
+<ulink url="http://www.synyx.de">http://www.synyx.de</ulink></literallayout>
+	<literallayout>http://www.opencms-forum.de
+eMail: info@synyx.de
+IRC: irc.synyx.de #synyx</literallayout>
+   </section>
+</article>

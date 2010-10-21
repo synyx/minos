@@ -61,7 +61,7 @@ public class ResumeControllerUnitTest {
     @Before
     public void setUp() {
 
-        controller = new ResumeController(resumeManagement, skillManagement, null, pdfDocbookCreator, null);
+        controller = new ResumeController(resumeManagement, skillManagement, null, pdfDocbookCreator, null, null);
 
         errors = new BeanPropertyBindingResult(null, "");
         model = new ExtendedModelMap();

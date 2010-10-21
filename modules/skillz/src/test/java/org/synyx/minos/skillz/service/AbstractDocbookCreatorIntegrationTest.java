@@ -38,7 +38,7 @@ public abstract class AbstractDocbookCreatorIntegrationTest {
         resume.setTitle("Dr.");
 
         docbookTemplateService = mock(DocbookTemplateService.class);
-        when(docbookTemplateService.createDocbookXml((Resume) anyObject(), (List<Level>) anyObject(), anyString()))
+        when(docbookTemplateService.createDocbookXml((Resume) anyObject(), (List<Level>) anyObject(), anyString(), anyBoolean()))
                 .thenReturn(IOUtils.toString(new ClassPathResource("/docbookexample.xml").getInputStream()));
     }
 

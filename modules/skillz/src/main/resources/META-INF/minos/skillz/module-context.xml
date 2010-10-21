@@ -33,6 +33,7 @@
 			</bean>
 		</constructor-arg>
 		<constructor-arg value="/resume-template/resume.vm" />
+		<constructor-arg value="/resume-template/resume_anonymous.vm" />
 	</bean>
 
 	<bean id="pdfDocbookCreator" class="org.synyx.minos.skillz.service.PdfDocbookCreatorImpl">
@@ -43,6 +44,18 @@
 				<property name="configuration" value="classpath:/fopconfig.xml" />
 			</bean>
 		</constructor-arg>
+                <property name="anonymous" value="false" />
+	</bean>
+
+	<bean id="pdfDocbookCreatorAnonymous" class="org.synyx.minos.skillz.service.PdfDocbookCreatorImpl">
+		<constructor-arg ref="docbookTemplateService" />
+		<constructor-arg>
+			<bean class="org.synyx.minos.skillz.service.FopXsltServiceImpl">
+				<constructor-arg value="classpath:/resume-template/maven/src/docbkx-stylesheet/fo/docbook.xsl" />
+				<property name="configuration" value="classpath:/fopconfig.xml" />
+			</bean>
+		</constructor-arg>
+                <property name="anonymous" value="true" />
 	</bean>
 	
 	<bean id="zipDocbookCreator" class="org.synyx.minos.skillz.service.ZipDocbookCreatorImpl">

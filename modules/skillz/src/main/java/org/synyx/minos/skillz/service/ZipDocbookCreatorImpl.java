@@ -46,7 +46,7 @@ public class ZipDocbookCreatorImpl implements ResumeZipCreator {
                 zipper.writeEntry(resume.getPhoto().getOriginalImage(), "src/docbkx/media/photo.png");
             }
 
-            zipper.writeEntry(docbookTemplateService.createDocbookXml(resume, levels, "media/photo.png"),
+            zipper.writeEntry(docbookTemplateService.createDocbookXml(resume, levels, "media/photo.png", Boolean.FALSE),
                     "src/docbkx/resume.xml");
         } catch (Exception e) {
             throw new ZipCreationException("Failed to create Resume ZIP!", e);

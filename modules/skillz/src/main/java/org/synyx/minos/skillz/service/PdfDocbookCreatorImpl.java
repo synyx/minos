@@ -32,6 +32,7 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
 
     private final DocbookTemplateService docbookTemplateService;
     private final FopXsltService fopService;
+    private Boolean anonymous;
 
 
     public PdfDocbookCreatorImpl(DocbookTemplateService docbookTemplateService, FopXsltService fopService) {
@@ -57,7 +58,11 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
             tmpPhotoFileName = tmpPhotoFile.getAbsolutePath();
         }
 
-        String docbookXml = docbookTemplateService.createDocbookXml(resume, levels, tmpPhotoFileName);
+        if (anonymous == null) {
+            anonymous = Boolean.FALSE;
+        }
+
+        String docbookXml = docbookTemplateService.createDocbookXml(resume, levels, tmpPhotoFileName, anonymous);
         streamPdf(docbookXml, null, outputStream);
 
         if (tmpPhotoFile != null) {
@@ -73,7 +78,7 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
      * @return
      * @throws DocbookCreationException
      */
-    private File createTmpPhotoFile(Image image) throws DocbookCreationException {
+    public File createTmpPhotoFile(Image image) throws DocbookCreationException {
 
         File tmpPhotoFile = null;
         try {
@@ -132,6 +137,22 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
         } catch (IOException e) {
             throw new DocbookCreationException("Failed to create temporary file!", e);
         }
+    }
+
+    /**
+     * @return the anonymous
+     */
+    public Boolean getAnonymous() {
+
+        return anonymous;
+    }
+
+    /**
+     * @param anonymous the anonymous to set
+     */
+    public void setAnonymous(Boolean anonymous) {
+
+        this.anonymous = anonymous;
     }
 
 }

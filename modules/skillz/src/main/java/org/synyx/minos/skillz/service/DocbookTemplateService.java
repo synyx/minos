@@ -22,6 +22,6 @@ public interface DocbookTemplateService {
      * @return The Docbook XML as {@link String}
      * @throws DocbookCreationException
      */
-    String createDocbookXml(Resume resume, List<Level> levels, String photoFilename) throws DocbookCreationException;
+    String createDocbookXml(Resume resume, List<Level> levels, String photoFilename, Boolean anonymous) throws DocbookCreationException;
 
 }

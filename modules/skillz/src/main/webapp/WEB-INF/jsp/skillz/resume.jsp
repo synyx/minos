@@ -148,6 +148,8 @@
 	</core:forEach>
 	<br />
 	<input type="submit" name="pdfexport" value="<spring:message code="skillz.resume.export.pdf" />" />
+	<input type="submit" name="pdfexportanonymous" value="<spring:message code="skillz.resume.export.pdf.anonym" />" />
+        <br />
 	<input type="submit" name="zipexport" value="<spring:message code="skillz.resume.export.zip" />" />
 </form:form>
 
