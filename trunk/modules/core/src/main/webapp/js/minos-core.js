@@ -1,0 +1,3 @@
+/**
+ * Minos Core JavaScript
+ */
