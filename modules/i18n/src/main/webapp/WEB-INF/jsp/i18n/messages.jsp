@@ -73,7 +73,7 @@ function submitMessageForm(form) {
 	var url = formNode.attr("action");
 
 	$.ajax({
-		type: "PUT",
+		type: "POST",
 		url: url,
 		data: formData,
 		contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
