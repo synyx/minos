@@ -1,6 +1,9 @@
 package org.synyx.minos.skillz.web;
 
-import static org.springframework.web.bind.annotation.RequestMethod.*;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import java.util.Locale;
 
@@ -124,7 +127,12 @@ public class SkillzController {
     @RequestMapping(value = "/skillz/categories/{id}", method = PUT)
     public String saveExistingCategory(@ModelAttribute("category") Category category, Errors errors, Model model) {
 
-        return saveCategory(category, errors, model);
+        // determine former category and update by new data - that way, the category does not loose its skillz
+        Category categoryToUpdate = skillManagement.getCategory(category.getId());
+        categoryToUpdate.setName(category.getName());
+        categoryToUpdate.setDescription(category.getDescription());
+
+        return saveCategory(categoryToUpdate, errors, model);
     }
 
 
