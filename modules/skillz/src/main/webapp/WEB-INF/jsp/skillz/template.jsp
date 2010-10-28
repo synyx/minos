@@ -25,7 +25,7 @@
 			<td class="label"><spring:message code="skillz.template.categories" />:</td>
 			<td>
 				<ul>
-					<form:checkboxes items="${categories}" path="categories" element="li" />
+					<form:checkboxes items="${categories}" path="categories" itemLabel="name" element="li" />
 				</ul>
 			</td>
 			<td><form:errors path="categories" /></td>
