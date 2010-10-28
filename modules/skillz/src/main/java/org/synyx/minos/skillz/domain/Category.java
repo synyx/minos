@@ -1,15 +1,13 @@
 package org.synyx.minos.skillz.domain;
 
-import static org.hibernate.annotations.CascadeType.*;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.Cascade;
 import org.synyx.hades.domain.auditing.AbstractAuditable;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.util.Assert;
@@ -19,6 +17,7 @@ import org.synyx.minos.util.Assert;
  * Categories group {@link Skill}s together.
  * 
  * @author Oliver Gierke - gierke@synyx.de
+ * @author Alexander Menz - menz@synyx.de
  */
 @Entity
 public class Category extends AbstractAuditable<User, Long> {
@@ -28,8 +27,7 @@ public class Category extends AbstractAuditable<User, Long> {
     private String name;
     private String description;
 
-    @OneToMany
-    @Cascade( { PERSIST })
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "category")
     private final List<Skill> skills = new ArrayList<Skill>();
 
 
