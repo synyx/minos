@@ -123,4 +123,17 @@ public class MatrixTemplate extends AbstractAuditable<User, Long> {
         this.categories.add(category);
         return this;
     }
+
+
+    /**
+     * Removes the given {@link Category} from the template.
+     * 
+     * @param category
+     * @return
+     */
+    public MatrixTemplate remove(Category category) {
+
+        this.categories.remove(category);
+        return this;
+    }
 }

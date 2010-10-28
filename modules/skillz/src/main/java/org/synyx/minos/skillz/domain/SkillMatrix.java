@@ -1,6 +1,8 @@
 package org.synyx.minos.skillz.domain;
 
-import static javax.persistence.CascadeType.*;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,7 +30,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     private static final long serialVersionUID = 8926027934220678416L;
 
-    @OneToMany(cascade = ALL, orphanRemoval = true)
+    @OneToMany(cascade = ALL, mappedBy = "matrix", orphanRemoval = true)
     private List<SkillEntry> entries;
 
     @ManyToOne(cascade = { PERSIST, MERGE })

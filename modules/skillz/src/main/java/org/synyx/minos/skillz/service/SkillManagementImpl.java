@@ -1,5 +1,6 @@
 package org.synyx.minos.skillz.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -448,6 +449,26 @@ public class SkillManagementImpl implements SkillManagement {
      */
     @Override
     public void delete(Category category) {
+
+        // remove categories skills from user skill matrices
+        List<Skill> skillsToDelete = new ArrayList<Skill>();
+        for (Skill skill : category.getSkillz()) {
+
+            List<SkillMatrix> matrices = matrixDao.findBySkill(skill);
+            for (SkillMatrix matrix : matrices) {
+                matrixDao.saveAndFlush(matrix.remove(skill));
+            }
+
+            skillsToDelete.add(skill);
+        }
+
+        // remove skills
+        skillzDao.delete(skillsToDelete);
+
+        // remove category from templates
+        for (MatrixTemplate template : templateDao.findByCategory(category)) {
+            templateDao.save(template.remove(category));
+        }
 
         categoryDao.delete(category);
     }
