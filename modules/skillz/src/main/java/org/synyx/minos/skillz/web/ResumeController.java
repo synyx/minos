@@ -19,6 +19,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateMidnight;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -72,6 +74,8 @@ import org.synyx.minos.skillz.service.ZipCreationException;
 @Controller
 @SessionAttributes(types = { SkillMatrix.class, Resume.class })
 public class ResumeController {
+
+    private static final Log LOG = LogFactory.getLog(ResumeController.class);
 
     private static final String RESUME = "/skillz/resume";
 
@@ -202,6 +206,7 @@ public class ResumeController {
                             skillManagement.getLevels());
         } catch (DocbookCreationException e) {
             model.addAttribute(Core.MESSAGE, Message.error("skillz.resume.export.pdf.failed"));
+            LOG.error("Failed to create a pdf.", e);
             return resume(model, user);
         }
 
@@ -209,10 +214,11 @@ public class ResumeController {
 
     }
 
+
     /**
      * Creates the current {@link User}'s {@link Resume} as a PDF file in a temporary directory and redirects to it if
      * the creation was successful, show an error message otherwise.
-     *
+     * 
      * @param user
      * @param response
      * @param webRequest
@@ -230,6 +236,7 @@ public class ResumeController {
                             skillManagement.getLevels());
         } catch (DocbookCreationException e) {
             model.addAttribute(Core.MESSAGE, Message.error("skillz.resume.export.pdf.failed"));
+            LOG.error("Failed to create a pdf.", e);
             return resume(model, user);
         }
 
@@ -280,6 +287,7 @@ public class ResumeController {
                             skillManagement.getLevels());
         } catch (ZipCreationException e) {
             model.addAttribute(Core.MESSAGE, Message.error("skillz.resume.export.zip.failed"));
+            LOG.error("Failed to create a zip.", e);
             return resume(model, user);
         }
 
