@@ -94,7 +94,8 @@ class FopXsltServiceImpl implements FopXsltService {
         Transformer transformer = null;
 
         if (xsltFile == null) {
-            transformer = transformerFactory.newTransformer(new StreamSource(defaultXsltResource.getFile()));
+            // using getInputStream() instead of getFile() because getFile() cannot handle xsl files in jars
+            transformer = transformerFactory.newTransformer(new StreamSource(defaultXsltResource.getInputStream()));
         } else {
             transformer = transformerFactory.newTransformer(new StreamSource(xsltFile));
         }
