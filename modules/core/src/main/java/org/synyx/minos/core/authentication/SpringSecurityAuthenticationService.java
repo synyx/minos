@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -32,48 +31,27 @@ public class SpringSecurityAuthenticationService extends AbstractAuthenticationS
 
     private static final Log LOG = LogFactory.getLog(SpringSecurityAuthenticationService.class);
 
-    private UserDao userDao;
-    private AccessDecisionManager accessDecisionManager;
-    private SaltSource saltSource;
-    private PasswordEncoder passwordEncoder;
+    private final UserDao userDao;
+    private final AccessDecisionManager accessDecisionManager;
+    private final SaltSource saltSource;
+    private final PasswordEncoder passwordEncoder;
 
 
     /**
-     * @param userDao the userDao to set
+     * Creates a new {@link SpringSecurityAuthenticationService}.
+     * 
+     * @param userDao the DAO to lookup users
+     * @param accessDecisionManager the {@link AccessDecisionManager} to be consulted to find out about permissions
+     * @param saltSource the {@link SaltSource} to be used on password encryption
+     * @param passwordEncoder the {@link PasswordEncoder} to be used for password encryption
      */
-    @Required
-    public void setUserDao(UserDao userDao) {
+    public SpringSecurityAuthenticationService(UserDao userDao, AccessDecisionManager accessDecisionManager,
+            SaltSource saltSource, PasswordEncoder passwordEncoder) {
 
+        super();
         this.userDao = userDao;
-    }
-
-
-    /**
-     * @param accessDecisionManager
-     */
-    @Required
-    public void setAccessDecisionManager(AccessDecisionManager accessDecisionManager) {
-
         this.accessDecisionManager = accessDecisionManager;
-    }
-
-
-    /**
-     * @param saltSource the saltSource to set
-     */
-    @Required
-    public void setSaltSource(SaltSource saltSource) {
-
         this.saltSource = saltSource;
-    }
-
-
-    /**
-     * @param passwordEncoder the passwordEncoder to set
-     */
-    @Required
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-
         this.passwordEncoder = passwordEncoder;
     }
 

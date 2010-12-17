@@ -1,6 +1,5 @@
 package org.synyx.minos.security;
 
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,16 +19,15 @@ import org.synyx.minos.umt.dao.UserDao;
 @Transactional(readOnly = true)
 public class MinosUserDetailsService implements UserDetailsService {
 
-    private UserDao userDao;
+    private final UserDao userDao;
 
 
     /**
-     * Setter to inject <code>UserDao</code>.
+     * Creates a new {@link MinosUserDetailsService}.
      * 
-     * @param userDao the userDao to set
+     * @param userDao
      */
-    @Required
-    public void setUserDao(UserDao userDao) {
+    public MinosUserDetailsService(UserDao userDao) {
 
         this.userDao = userDao;
     }
