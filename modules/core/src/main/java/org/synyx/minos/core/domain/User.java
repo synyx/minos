@@ -29,7 +29,7 @@ public class User extends AbstractAuditable<User, Long> {
     private String username;
 
     @Column(nullable = false)
-    private String password;
+    private Password password;
 
     // unique-ness is now ensured on demand by validator
     @Column(nullable = false, unique = false)
@@ -60,6 +60,18 @@ public class User extends AbstractAuditable<User, Long> {
      * 
      * @param username
      * @param emailAddress
+     */
+    public User(String username, String emailAddress) {
+
+        this(username, emailAddress, null);
+    }
+
+
+    /**
+     * Creates a new {@link User} from the given attributes (non null ones).
+     * 
+     * @param username
+     * @param emailAddress
      * @param password
      */
     public User(String username, String emailAddress, String password) {
@@ -67,7 +79,10 @@ public class User extends AbstractAuditable<User, Long> {
         this();
         this.username = username;
         this.emailAddress = emailAddress;
-        this.password = password;
+
+        if (null != password) {
+            this.password = new Password(password);
+        }
     }
 
 
@@ -93,7 +108,7 @@ public class User extends AbstractAuditable<User, Long> {
      */
     public boolean hasPassword() {
 
-        return !StringUtils.isBlank(password);
+        return password != null;
     }
 
 
@@ -136,13 +151,13 @@ public class User extends AbstractAuditable<User, Long> {
     }
 
 
-    public String getPassword() {
+    public Password getPassword() {
 
         return password;
     }
 
 
-    public void setPassword(String argPassword) {
+    public void setPassword(Password argPassword) {
 
         password = argPassword;
     }

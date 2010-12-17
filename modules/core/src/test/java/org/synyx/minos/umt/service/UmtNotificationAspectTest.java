@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.synyx.minos.core.domain.Password;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.notification.ConfigBasedNotificationContext;
 import org.synyx.minos.core.notification.NotificationFactory;
@@ -57,7 +58,7 @@ public class UmtNotificationAspectTest {
     @Test
     public void send_new_password() throws Throwable {
 
-        classUnderTest.createNewPassword("blah1");
+        classUnderTest.createNewPassword(new Password("blah1"));
         SimpleMessageNotification notification = new SimpleMessageNotification(dummy, "new pw");
         when(notificationFactory.create(dummy, "dlinsin", "blah1")).thenReturn(notification);
         notificationService.notify(notification, configBasedNotificationContext);

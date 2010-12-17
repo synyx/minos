@@ -1,5 +1,7 @@
 package org.synyx.minos.umt.service;
 
+import org.synyx.minos.core.domain.Password;
+
 /**
  * Basic interface for classes providing password creation functionality.
  * 
@@ -12,6 +14,6 @@ public interface PasswordCreator {
      * 
      * @return a random password
      */
-    String generatePassword();
+    Password generatePassword();
 
 }

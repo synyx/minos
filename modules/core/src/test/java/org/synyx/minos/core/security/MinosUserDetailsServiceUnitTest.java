@@ -64,7 +64,7 @@ public class MinosUserDetailsServiceUnitTest {
 
         UserDetails userDetails = service.loadUserByUsername(USERNAME);
         Assert.assertEquals(userDetails.getUsername(), user.getUsername());
-        Assert.assertEquals(userDetails.getPassword(), user.getPassword());
+        Assert.assertEquals(userDetails.getPassword(), user.getPassword().toString());
 
         GrantedAuthority authority = new GrantedAuthorityImpl(role.toString());
 

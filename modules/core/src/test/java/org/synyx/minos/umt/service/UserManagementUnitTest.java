@@ -1,5 +1,6 @@
 package org.synyx.minos.umt.service;
 
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -11,6 +12,8 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.synyx.minos.TestConstants;
+import org.synyx.minos.core.domain.Password;
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.security.AuthenticationService;
@@ -40,11 +43,11 @@ public class UserManagementUnitTest {
     private User user;
     private User oldUser;
 
-    private String password;
-    private String encryptedPassword;
+    private Password password;
+    private Password encryptedPassword;
 
-    private String newPassword;
-    private String encryptedNewPassword;
+    private Password newPassword;
+    private Password encryptedNewPassword;
 
 
     @Before
@@ -53,11 +56,11 @@ public class UserManagementUnitTest {
         userManagement = new UserManagementImpl(userDao, roleDao, authenticationService, passwordCreator);
 
         // Prepare dummy values
-        password = "password";
-        encryptedPassword = "drowssap";
+        password = new Password("password");
+        encryptedPassword = new Password("drowssap", true);
 
-        newPassword = "newpassword";
-        encryptedNewPassword = "drowssapwen";
+        newPassword = new Password("newpassword");
+        encryptedNewPassword = new Password("drowssapwen", true);
 
         user = createUser();
         oldUser = createUser();
@@ -71,7 +74,7 @@ public class UserManagementUnitTest {
      */
     private User createUser() {
 
-        User user = new User("username", "email@address.de", null);
+        User user = new User("username", "email@address.de");
 
         return user;
     }
@@ -84,6 +87,7 @@ public class UserManagementUnitTest {
     public void testCreatesPasswordIfNoneSet() {
 
         when(authenticationService.getEncryptedPasswordFor(user)).thenReturn(encryptedPassword);
+        when(passwordCreator.generatePassword()).thenReturn(newPassword);
 
         userManagement.save(user);
 
@@ -112,7 +116,7 @@ public class UserManagementUnitTest {
     public void testEncryptsNewPassword() {
 
         // Let user be "not new"
-        user.setId(1L);
+        user = TestConstants.USER;
         user.setPassword(newPassword);
 
         oldUser.setPassword(encryptedPassword);
@@ -134,27 +138,32 @@ public class UserManagementUnitTest {
     @Test
     public void preventsNotPermittedValues() throws Exception {
 
-        User notPermittedUser = new User("foobar", "email@address.de", null);
         user.setId(1L);
-        notPermittedUser.setId(user.getId());
+        user.setPassword(encryptedPassword);
+
+        User notPermittedUser = new User("foobar", "email@address.de", "newPassword");
+        notPermittedUser.setId(1L);
         notPermittedUser.addRole(new Role("foobar"));
         notPermittedUser.setActive(false);
+
         ArgumentCaptor<User> argument = ArgumentCaptor.forClass(User.class);
         when(userDao.readByPrimaryKey(user.getId())).thenReturn(user);
 
         userManagement.saveUserAccount(notPermittedUser);
 
-        verify(userDao).save(argument.capture());
-        assertEquals(argument.getValue().getUsername(), "username");
-        assertEquals(argument.getValue().getRoles().size(), 0);
-        assertTrue(argument.getValue().isActive());
+        verify(userDao, atLeastOnce()).save(argument.capture());
+        User saveArgument = argument.getValue();
+        assertThat(saveArgument.getUsername(), is(user.getUsername()));
+        assertThat(saveArgument.getRoles(), is(user.getRoles()));
+        assertThat(saveArgument.getPassword(), is(user.getPassword()));
+        assertThat(saveArgument.isActive(), is(user.isActive()));
     }
 
 
     /**
      * Excpect the {@code EncryptionProvider} to be asked for encoding the passwords.
      */
-    private void expectEncryptionProviderToBeUsed(String password) {
+    private void expectEncryptionProviderToBeUsed(Password password) {
 
         // Expect the encryption provider to return the encrypted password
         when(authenticationService.getEncryptedPasswordFor((User) anyObject())).thenReturn(password);
@@ -167,7 +176,7 @@ public class UserManagementUnitTest {
      * 
      * @param newPassword
      */
-    private void assertNewPassword(String newPassword) {
+    private void assertNewPassword(Password newPassword) {
 
         expectEncryptionProviderToBeUsed(encryptedNewPassword);
 

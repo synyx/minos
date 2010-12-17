@@ -40,4 +40,11 @@ public class UserUnitTest {
 
         assertEquals(1, user.getRoles().size());
     }
+
+
+    @Test
+    public void allowsNoPassword() throws Exception {
+
+        new User("foo", "bar");
+    }
 }

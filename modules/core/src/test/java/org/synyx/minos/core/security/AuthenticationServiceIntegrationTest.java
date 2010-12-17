@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.synyx.minos.core.domain.Password;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.security.AuthenticationService;
 import org.synyx.minos.test.AbstractModuleIntegrationTest;
@@ -25,7 +26,7 @@ public class AuthenticationServiceIntegrationTest extends AbstractModuleIntegrat
     public void changingUsernameDoesNotBreakPassword() throws Exception {
 
         User user = new User("username", "foo@bar.de", "password");
-        String password = authenticationService.getEncryptedPasswordFor(user);
+        Password password = authenticationService.getEncryptedPasswordFor(user);
 
         user.setUsername("newUsername");
 

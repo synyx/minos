@@ -22,15 +22,6 @@ public interface UserManagement {
      * Creates a new user. Generates a new password for her if she has none.
      * 
      * @param user
-     * @param forcePasswordEncryption if true the password of the user will be encrypted in any case
-     */
-    void save(User user, boolean forcePasswordEncryption);
-
-
-    /**
-     * Creates a new user. Generates a new password for her if she has none.
-     * 
-     * @param user
      */
     void save(User user);
 

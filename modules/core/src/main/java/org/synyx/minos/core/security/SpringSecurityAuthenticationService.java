@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.synyx.hades.domain.auditing.AuditorAware;
+import org.synyx.minos.core.domain.Password;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.umt.dao.UserDao;
 
@@ -95,15 +96,16 @@ public class SpringSecurityAuthenticationService extends AbstractAuthenticationS
      * getEncryptedPasswordFor(com.synyx.minos.core.domain.User)
      */
     @Override
-    public String getEncryptedPasswordFor(User user) {
+    public Password getEncryptedPasswordFor(User user) {
 
         if (passwordEncoder == null) {
             return user.getPassword();
         }
 
         Object salt = saltSource == null ? null : saltSource.getSalt(new MinosUserDetails(user));
+        String plainPassword = user.getPassword().toString();
 
-        return passwordEncoder.encodePassword(user.getPassword(), salt);
+        return new Password(passwordEncoder.encodePassword(plainPassword, salt), true);
     }
 
 

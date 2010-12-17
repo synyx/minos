@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
+import org.synyx.minos.core.domain.Password;
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
 
@@ -84,7 +85,7 @@ public class UserForm {
     public User mapProperties(User user) {
 
         if (null == user) {
-            user = new User(username, emailAddress, null);
+            user = new User(username, emailAddress);
         }
 
         user.setId(id);
@@ -95,7 +96,7 @@ public class UserForm {
         // this is because the ui does cannot resend the password
         // and it should only be changed it the user gives a new password
         if (!StringUtils.isBlank(newPassword)) {
-            user.setPassword(newPassword);
+            user.setPassword(new Password(newPassword));
         }
 
         user.setEmailAddress(emailAddress);

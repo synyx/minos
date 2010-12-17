@@ -5,6 +5,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Required;
+import org.synyx.minos.core.domain.Password;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.notification.ConfigBasedNotificationContext;
 import org.synyx.minos.core.notification.Notification;
@@ -28,7 +29,7 @@ public class UmtNotificationAspect {
 
     private NotificationService notificationService;
     private NotificationFactory notificationFactory;
-    private ThreadLocal<String> newPassword = new ThreadLocal<String>();
+    private ThreadLocal<Password> newPassword = new ThreadLocal<Password>();
 
 
     /**
@@ -61,7 +62,7 @@ public class UmtNotificationAspect {
      * @param newPassword
      */
     @AfterReturning(pointcut = "execution(* org.synyx.minos.umt.service.PasswordCreator.generatePassword())", returning = "newPassword")
-    public void createNewPassword(String newPassword) {
+    public void createNewPassword(Password newPassword) {
 
         this.newPassword.set(newPassword);
     }
@@ -77,7 +78,7 @@ public class UmtNotificationAspect {
 
         Object result = joinPoint.proceed();
 
-        String passwordToSet = newPassword.get();
+        Password passwordToSet = newPassword.get();
 
         if (passwordNotificationRequired && null != passwordToSet) {
             NotificationContext context = createContext();

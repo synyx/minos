@@ -3,7 +3,7 @@ package org.synyx.minos.umt.service;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.synyx.minos.umt.service.SimplePasswordCreator;
+import org.synyx.minos.core.domain.Password;
 
 
 /**
@@ -35,23 +35,23 @@ public class SimplePasswordCreatorUnitTest {
     @Test
     public void respectsConfiguredPasswordLength() throws Exception {
 
-        String password = passwordCreator.generatePassword();
+        Password password = passwordCreator.generatePassword();
 
-        Assert.assertEquals(SimplePasswordCreator.DEFAULT_PASSWORD_LENGTH, password.length());
+        Assert.assertEquals(SimplePasswordCreator.DEFAULT_PASSWORD_LENGTH, password.toString().length());
 
         passwordCreator.setPasswordLength(25);
         password = passwordCreator.generatePassword();
 
-        Assert.assertEquals(25, password.length());
+        Assert.assertEquals(25, password.toString().length());
     }
 
 
     @Test
     public void respectsConfiguredAlphabet() throws Exception {
 
-        String password = passwordCreator.generatePassword();
+        Password password = passwordCreator.generatePassword();
 
-        for (char character : password.toCharArray()) {
+        for (char character : password.toString().toCharArray()) {
 
             Assert.assertTrue(SimplePasswordCreator.DEFAULT_PASSWORD_ALPHABET.contains(String.valueOf(character)));
         }

@@ -69,7 +69,7 @@ public class MinosUserDetails implements UserDetails {
      */
     public String getPassword() {
 
-        return user.getPassword();
+        return user.getPassword() == null ? null : user.getPassword().toString();
     }
 
 

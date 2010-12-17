@@ -2,6 +2,7 @@ package org.synyx.minos.core.security;
 
 import java.util.Collection;
 
+import org.synyx.minos.core.domain.Password;
 import org.synyx.minos.core.domain.User;
 
 
@@ -64,5 +65,5 @@ public interface AuthenticationService extends PermissionAware {
      * @param user
      * @return
      */
-    String getEncryptedPasswordFor(User user);
+    Password getEncryptedPasswordFor(User user);
 }

@@ -2,7 +2,6 @@ package org.synyx.minos.umt.service;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -83,7 +82,7 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
      */
     @Override
     @Transactional(readOnly = false)
-    public void save(User user, boolean forcePasswordEncryption) {
+    public void save(User user) {
 
         Assert.notNull(user);
 
@@ -95,22 +94,18 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
             user.setPassword(passwordCreator.generatePassword());
         }
 
-        eventuallyEncryptPassword(user, forcePasswordEncryption);
+        if (!user.isNew() && !user.hasPassword()) {
+            user.setPassword(userDao.readByPrimaryKey(user.getId()).getPassword());
+        }
+
+        // Save prior to encrypting to make sure potential salts get populated
+        userDao.save(user);
+
+        if (passwordEncryptionNeeded(user)) {
+            user.setPassword(authenticationService.getEncryptedPasswordFor(user));
+        }
 
         userDao.save(user);
-    }
-
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.synyx.minos.umt.service.UserManagement#save(com.synyx.minos.umt.domain .User)
-     */
-    @Override
-    @Transactional(readOnly = false)
-    public void save(User user) {
-
-        save(user, false);
     }
 
 
@@ -190,51 +185,11 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     }
 
 
-    /**
-     * Encrypts the password of the given user if it matches the following conditions:
-     * <ul>
-     * <li>An encryption provider is configured</li>
-     * <li>The user is new, meaning the password has never been encrypted yet</li>
-     * <li>The user's password is not the one of the old user or forcePasswordEncryption is true</li>
-     * </ul>
-     * 
-     * @param user
-     * @param forcePasswordEncryption
-     * @return
-     */
-    private void eventuallyEncryptPassword(User user, boolean forcePasswordEncryption) {
+    private boolean passwordEncryptionNeeded(User user) {
 
-        if (null == authenticationService) {
-            return;
-        }
-
-        // Encrypt new users password and set it
-        if (user.isNew()) {
-
-            userDao.save(user);
-            user.setPassword(authenticationService.getEncryptedPasswordFor(user));
-
-            return;
-        }
-
-        User oldUser = userDao.readByPrimaryKey(user.getId());
-
-        if (null == oldUser) {
-            return;
-        }
-
-        // Case 1: Empty password
-        // Use old password
-        if (StringUtils.isBlank(user.getPassword())) {
-            user.setPassword(oldUser.getPassword());
-            return;
-        }
-
-        // Case 2: Password available
-        // Use new password if it does not match the old one
-        if (forcePasswordEncryption || !oldUser.getPassword().equals(user.getPassword())) {
-            user.setPassword(authenticationService.getEncryptedPasswordFor(user));
-        }
+        Assert.notNull(user);
+        Assert.isTrue(user.hasPassword());
+        return authenticationService != null && !user.getPassword().isEncrypted();
     }
 
 
@@ -324,9 +279,9 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
         user.setUsername(existingUser.getUsername());
         user.setRoles(existingUser.getRoles());
         user.setActive(existingUser.isActive());
+        user.setPassword(existingUser.getPassword());
 
         save(user);
-        userDao.flush();
     }
 
 

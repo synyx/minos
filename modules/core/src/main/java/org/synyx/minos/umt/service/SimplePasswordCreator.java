@@ -2,6 +2,8 @@ package org.synyx.minos.umt.service;
 
 import java.util.Random;
 
+import org.synyx.minos.core.domain.Password;
+
 
 /**
  * Its length will be derived from the configured password length. The alphabet the password is build from and the
@@ -47,7 +49,7 @@ public class SimplePasswordCreator implements PasswordCreator {
      * 
      * @see com.synyx.minos.umt.service.PasswordCreator#generatePassword()
      */
-    public String generatePassword() {
+    public Password generatePassword() {
 
         StringBuffer buffer = new StringBuffer();
         Random random = new Random();
@@ -56,6 +58,6 @@ public class SimplePasswordCreator implements PasswordCreator {
             buffer.append(passwordAlphabet.charAt(random.nextInt(passwordAlphabet.length())));
         }
 
-        return buffer.toString();
+        return new Password(buffer.toString());
     }
 }

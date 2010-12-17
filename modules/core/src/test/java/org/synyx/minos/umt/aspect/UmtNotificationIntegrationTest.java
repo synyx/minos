@@ -40,7 +40,7 @@ public class UmtNotificationIntegrationTest extends AbstractModuleIntegrationTes
     @Before
     public void setUp() {
 
-        user = new User("username", "email@address.com", null);
+        user = new User("username", "email@address.com");
     }
 
 
