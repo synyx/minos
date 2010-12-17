@@ -15,9 +15,9 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.bind.support.WebArgumentResolver;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.ServletWebRequest;
-import org.synyx.minos.core.authentication.AuthenticationService;
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
+import org.synyx.minos.core.security.AuthenticationService;
 
 
 /**

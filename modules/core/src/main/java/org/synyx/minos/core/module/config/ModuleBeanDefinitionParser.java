@@ -11,9 +11,9 @@ import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.StringUtils;
 import org.synyx.minos.core.Core;
-import org.synyx.minos.core.authentication.ModulePermissionAware;
 import org.synyx.minos.core.message.ModuleMessageSourceImpl;
 import org.synyx.minos.core.module.internal.MinosModule;
+import org.synyx.minos.core.security.ModulePermissionAware;
 import org.w3c.dom.Element;
 
 

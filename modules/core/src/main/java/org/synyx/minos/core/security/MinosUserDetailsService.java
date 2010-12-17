@@ -1,4 +1,4 @@
-package org.synyx.minos.security;
+package org.synyx.minos.core.security;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;

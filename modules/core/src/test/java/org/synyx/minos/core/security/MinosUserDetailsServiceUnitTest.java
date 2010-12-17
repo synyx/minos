@@ -1,4 +1,4 @@
-package org.synyx.minos.security;
+package org.synyx.minos.core.security;
 
 import static org.mockito.Mockito.*;
 
@@ -13,6 +13,7 @@ import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
+import org.synyx.minos.core.security.MinosUserDetailsService;
 import org.synyx.minos.umt.dao.UserDao;
 
 
@@ -49,8 +50,7 @@ public class MinosUserDetailsServiceUnitTest {
         user = new User(USERNAME, "email@address.com", PASSWORD);
         user.addRole(role);
 
-        service = new MinosUserDetailsService();
-        service.setUserDao(userDao);
+        service = new MinosUserDetailsService(userDao);
     }
 
 

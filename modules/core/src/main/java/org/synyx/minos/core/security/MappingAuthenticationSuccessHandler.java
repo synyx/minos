@@ -1,4 +1,4 @@
-package org.synyx.minos.core.authentication;
+package org.synyx.minos.core.security;
 
 import java.io.IOException;
 import java.util.Map;
@@ -13,7 +13,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
-import org.synyx.minos.security.MinosUserDetails;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;

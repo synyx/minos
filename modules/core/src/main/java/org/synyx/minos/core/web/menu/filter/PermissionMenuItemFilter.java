@@ -1,6 +1,6 @@
 package org.synyx.minos.core.web.menu.filter;
 
-import org.synyx.minos.core.authentication.AuthenticationService;
+import org.synyx.minos.core.security.AuthenticationService;
 import org.synyx.minos.core.web.menu.Menu;
 import org.synyx.minos.core.web.menu.MenuItem;
 import org.synyx.minos.core.web.menu.MenuItemFilter;

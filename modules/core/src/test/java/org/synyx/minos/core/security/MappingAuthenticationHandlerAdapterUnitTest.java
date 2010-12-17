@@ -1,4 +1,4 @@
-package org.synyx.minos.core.authentication;
+package org.synyx.minos.core.security;
 
 import static org.mockito.Mockito.*;
 
@@ -18,7 +18,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.RedirectStrategy;
 import org.synyx.minos.core.domain.User;
-import org.synyx.minos.security.MinosUserDetails;
+import org.synyx.minos.core.security.MappingAuthenticationSuccessHandler;
+import org.synyx.minos.core.security.MinosUserDetails;
 
 
 /**

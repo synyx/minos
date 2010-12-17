@@ -5,8 +5,8 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.synyx.minos.core.authentication.AuthenticationService;
 import org.synyx.minos.core.domain.User;
+import org.synyx.minos.core.security.AuthenticationService;
 
 
 public class UserPlaceholderAwareUrlResolverUnitTest {

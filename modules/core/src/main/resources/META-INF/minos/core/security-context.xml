@@ -10,18 +10,18 @@
 	<!-- Securing service layer -->
 	
 	<!-- Service wrapper to access authentication information -->
-	<bean id="authenticationService" class="org.synyx.minos.core.authentication.SpringSecurityAuthenticationService">
+	<bean id="authenticationService" class="org.synyx.minos.core.security.SpringSecurityAuthenticationService">
 		<constructor-arg ref="userDao" />
 		<constructor-arg ref="accessDecisionManager" />
 		<constructor-arg ref="passwordEncoder" />
 		<constructor-arg ref="saltSource" />
         <property name="modulePermissions">
-            <plugin:list class="org.synyx.minos.core.authentication.PermissionAware" />
+            <plugin:list class="org.synyx.minos.core.security.PermissionAware" />
         </property>
 	</bean>
 	
 	<!-- User details service implementation -->
-	<bean id="userDetailsService" class="org.synyx.minos.security.MinosUserDetailsService">
+	<bean id="userDetailsService" class="org.synyx.minos.core.security.MinosUserDetailsService">
 		<constructor-arg ref="userDao" />
 	</bean>
 	

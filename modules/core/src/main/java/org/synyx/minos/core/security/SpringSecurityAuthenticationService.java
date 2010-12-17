@@ -1,4 +1,4 @@
-package org.synyx.minos.core.authentication;
+package org.synyx.minos.core.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,7 +18,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.synyx.hades.domain.auditing.AuditorAware;
 import org.synyx.minos.core.domain.User;
-import org.synyx.minos.security.MinosUserDetails;
 import org.synyx.minos.umt.dao.UserDao;
 
 

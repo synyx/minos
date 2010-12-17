@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.synyx.minos.core.authentication.AuthenticationService;
+import org.synyx.minos.core.security.AuthenticationService;
 import org.synyx.minos.core.web.menu.Menu;
 import org.synyx.minos.core.web.menu.MenuItem;
 

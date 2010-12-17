@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.Pageable;
-import org.synyx.minos.core.authentication.AuthenticationService;
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
+import org.synyx.minos.core.security.AuthenticationService;
 import org.synyx.minos.umt.dao.RoleDao;
 import org.synyx.minos.umt.dao.UserDao;
 

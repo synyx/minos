@@ -11,9 +11,9 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.synyx.minos.core.authentication.AuthenticationService;
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
+import org.synyx.minos.core.security.AuthenticationService;
 import org.synyx.minos.umt.dao.RoleDao;
 import org.synyx.minos.umt.dao.UserDao;
 

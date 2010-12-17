@@ -1,4 +1,4 @@
-package org.synyx.minos.security;
+package org.synyx.minos.core.security;
 
 import java.util.ArrayList;
 import java.util.List;

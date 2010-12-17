@@ -12,9 +12,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.synyx.minos.core.authentication.ModulePermissionAware;
 import org.synyx.minos.core.module.Module;
 import org.synyx.minos.core.module.SimpleNoOpLifecycle;
+import org.synyx.minos.core.security.ModulePermissionAware;
 
 
 /**

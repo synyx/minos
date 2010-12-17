@@ -1,4 +1,4 @@
-package org.synyx.minos.core.authentication;
+package org.synyx.minos.core.security;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.synyx.minos.core.domain.User;
+import org.synyx.minos.core.security.AuthenticationService;
 import org.synyx.minos.test.AbstractModuleIntegrationTest;
 
 

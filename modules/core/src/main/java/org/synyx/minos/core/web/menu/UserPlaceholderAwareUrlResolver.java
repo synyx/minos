@@ -1,8 +1,8 @@
 package org.synyx.minos.core.web.menu;
 
 import org.apache.commons.lang.StringUtils;
-import org.synyx.minos.core.authentication.AuthenticationService;
 import org.synyx.minos.core.domain.User;
+import org.synyx.minos.core.security.AuthenticationService;
 import org.synyx.minos.util.Assert;
 
 

@@ -12,9 +12,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
-import org.synyx.minos.core.authentication.AuthenticationService;
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
+import org.synyx.minos.core.security.AuthenticationService;
 import org.synyx.minos.test.AbstractModuleIntegrationTest;
 import org.synyx.minos.umt.dao.RoleDao;
 import org.synyx.minos.umt.dao.UserDao;

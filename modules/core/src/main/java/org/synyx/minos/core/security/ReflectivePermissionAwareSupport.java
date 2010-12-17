@@ -1,4 +1,4 @@
-package org.synyx.minos.core.authentication;
+package org.synyx.minos.core.security;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
