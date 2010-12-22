@@ -60,9 +60,7 @@
 		<property name="customArgumentResolvers">
 			<plugin:list class="org.springframework.web.bind.support.WebArgumentResolver" />
 		</property>
-		<property name="webBindingInitializer" ref="minosWebBindingInitializer">
-			
-		</property>
+		<property name="webBindingInitializer" ref="minosWebBindingInitializer" />	
         <property name="supportedMethods" value="GET,PUT,POST,HEAD,DELETE" />
 	</bean>
 

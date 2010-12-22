@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.synyx.minos.core.authentication.AuthenticationService;
+import org.synyx.minos.core.security.AuthenticationService;
 import org.synyx.minos.core.web.menu.AbstractMenuItemProvider;
 import org.synyx.minos.core.web.menu.MenuItem;
 import org.synyx.minos.core.web.menu.UrlResolver;
