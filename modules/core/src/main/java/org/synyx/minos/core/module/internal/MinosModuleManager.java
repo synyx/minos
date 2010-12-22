@@ -94,7 +94,7 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
             }
         }
 
-        Collections.sort(modules);
+        Collections.sort(this.modules);
     }
 
 

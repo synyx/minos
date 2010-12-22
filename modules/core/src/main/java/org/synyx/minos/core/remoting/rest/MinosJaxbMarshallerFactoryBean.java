@@ -98,12 +98,12 @@ public class MinosJaxbMarshallerFactoryBean extends AbstractFactoryBean<ModuleAw
 
         // Use reverted dependencies as we need to start with the very core
         // module first
-        List<Module> dependencies = module.getDependants();
+        List<Module> dependencies = module.getDependencies();
         Collections.reverse(dependencies);
 
-        for (Module dependant : dependencies) {
+        for (Module dependency : dependencies) {
 
-            addSchemaFor(dependant, schemas);
+            addSchemaFor(dependency, schemas);
         }
 
         addSchemaFor(module, schemas);

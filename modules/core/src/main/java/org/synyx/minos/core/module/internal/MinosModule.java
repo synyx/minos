@@ -35,7 +35,7 @@ public class MinosModule implements Module {
 
 
     /**
-     * Creates a new {@link MinosModule} for the given {@link ModuleIdentifier}.
+     * Creates a new {@link MinosModule} for the given identifier.
      * 
      * @param identifier
      */
@@ -83,11 +83,10 @@ public class MinosModule implements Module {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see org.synyx.minos.core.module.Module#getDirectDependants()
+     * @see org.synyx.minos.core.module.Module#getDirectDependencies()
      */
     @Override
-    public List<Module> getDirectDependants() {
+    public List<Module> getDirectDependencies() {
 
         return this.modules;
     }
@@ -95,16 +94,15 @@ public class MinosModule implements Module {
 
     /*
      * (non-Javadoc)
-     * 
-     * @see org.synyx.minos.core.module.Module#getDependants()
+     * @see org.synyx.minos.core.module.Module#getDependencies()
      */
     @Override
-    public List<Module> getDependants() {
+    public List<Module> getDependencies() {
 
         Set<Module> alreadyFound = new HashSet<Module>();
         alreadyFound.add(this);
 
-        return getDependants(this, alreadyFound);
+        return getDependencies(this, alreadyFound);
     }
 
 
@@ -115,12 +113,12 @@ public class MinosModule implements Module {
      * @param alreadyFound
      * @return
      */
-    private static List<Module> getDependants(Module module, Set<Module> alreadyFound) {
+    private static List<Module> getDependencies(Module module, Set<Module> alreadyFound) {
 
         List<Module> result = new ArrayList<Module>();
         List<Module> toDigDeeper = new ArrayList<Module>();
 
-        for (Module dependant : module.getDirectDependants()) {
+        for (Module dependant : module.getDirectDependencies()) {
 
             if (!alreadyFound.contains(dependant)) {
 
@@ -132,7 +130,7 @@ public class MinosModule implements Module {
 
         for (Module dependant : toDigDeeper) {
 
-            result.addAll(getDependants(dependant, alreadyFound));
+            result.addAll(getDependencies(dependant, alreadyFound));
         }
 
         return result;
@@ -250,12 +248,12 @@ public class MinosModule implements Module {
             return -1;
         }
 
-        if (module.getDependants().contains(this)) {
-            return 1;
+        if (module.getDependencies().contains(this)) {
+            return -1;
         }
 
-        if (this.getDependants().contains(module)) {
-            return -1;
+        if (this.getDependencies().contains(module)) {
+            return 1;
         }
 
         return 0;

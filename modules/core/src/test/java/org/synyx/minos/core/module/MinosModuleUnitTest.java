@@ -3,7 +3,10 @@ package org.synyx.minos.core.module;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.Test;
 import org.springframework.core.io.Resource;
@@ -78,6 +81,22 @@ public class MinosModuleUnitTest {
         MinosModule another = new MinosModule("another");
         another.setDependsOn(Arrays.asList(umt));
 
-        assertThat(another.getDependants(), hasItems((Module) umt, core));
+        // Checks transient resolving
+        List<Module> dependencies = another.getDependencies();
+        assertThat(dependencies, hasItems((Module) umt, core));
+        assertThat(dependencies.get(0), is((Module) umt));
+        assertThat(dependencies.get(1), is((Module) core));
+
+        // Check correct natural order
+        List<Module> modules = new ArrayList<Module>();
+        modules.add(another);
+        modules.add(core);
+        modules.add(umt);
+
+        Collections.sort(modules);
+
+        assertThat(modules.get(0), is((Module) core));
+        assertThat(modules.get(1), is((Module) umt));
+        assertThat(modules.get(2), is((Module) another));
     }
 }

@@ -7,7 +7,9 @@ import org.synyx.hera.core.Plugin;
 
 
 /**
- * Interface for a Minos module.
+ * Interface for a Minos module. Natural ordering of the modules has to be implemented so that more core modules will be
+ * appear earlier in a list of modules than their dependenants. E.g. if a module B depends on A, the natural order of
+ * the modules has to be A, B.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -52,7 +54,7 @@ public interface Module extends Plugin<String>, Comparable<Module> {
      * 
      * @return
      */
-    List<Module> getDependants();
+    List<Module> getDependencies();
 
 
     /**
@@ -60,7 +62,7 @@ public interface Module extends Plugin<String>, Comparable<Module> {
      * 
      * @return
      */
-    List<Module> getDirectDependants();
+    List<Module> getDirectDependencies();
 
 
     /**

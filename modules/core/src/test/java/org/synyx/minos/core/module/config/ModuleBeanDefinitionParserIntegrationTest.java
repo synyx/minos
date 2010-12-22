@@ -54,7 +54,7 @@ public class ModuleBeanDefinitionParserIntegrationTest {
 
         Module module = context.getBean("foobar", Module.class);
 
-        assertThat(module.getDirectDependants(), hasItems(foo, bar));
+        assertThat(module.getDirectDependencies(), hasItems(foo, bar));
     }
 
 
