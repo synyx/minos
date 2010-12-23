@@ -8,8 +8,8 @@ import org.synyx.hera.core.Plugin;
 
 /**
  * Interface for a Minos module. Natural ordering of the modules has to be implemented so that more core modules will be
- * appear earlier in a list of modules than their dependenants. E.g. if a module B depends on A, the natural order of
- * the modules has to be A, B.
+ * appear later in a list of modules than their dependenants. E.g. if a module B depends on A, the natural order of
+ * the modules has to be B, A.
  * 
  * @author Oliver Gierke - gierke@synyx.de
  */

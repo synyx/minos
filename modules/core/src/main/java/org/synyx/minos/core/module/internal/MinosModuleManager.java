@@ -94,7 +94,9 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
             }
         }
 
+        // Apply natural ordering and revert it
         Collections.sort(this.modules);
+        Collections.reverse(this.modules);
     }
 
 

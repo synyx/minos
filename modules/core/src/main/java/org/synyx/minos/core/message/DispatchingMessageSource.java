@@ -8,7 +8,6 @@ import java.util.Locale;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.AbstractMessageSource;
-import org.springframework.util.comparator.InvertibleComparator;
 import org.synyx.hera.core.OrderAwarePluginRegistry;
 import org.synyx.hera.core.PluginRegistry;
 import org.synyx.minos.core.module.ModuleAware;
@@ -27,8 +26,7 @@ public class DispatchingMessageSource extends AbstractMessageSource {
     private PluginRegistry<ModuleMessageSource, String> sources = OrderAwarePluginRegistry.create();
 
     // Comparator to invert natural ordering (more core modules later)
-    private static final Comparator<ModuleAware> COMPARATOR = new InvertibleComparator<ModuleAware>(
-            new ModuleAwareComparator(), false);
+    private static final Comparator<ModuleAware> COMPARATOR = new ModuleAwareComparator();
 
 
     /**

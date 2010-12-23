@@ -95,8 +95,8 @@ public class MinosModuleUnitTest {
 
         Collections.sort(modules);
 
-        assertThat(modules.get(0), is((Module) core));
+        assertThat(modules.get(0), is((Module) another));
         assertThat(modules.get(1), is((Module) umt));
-        assertThat(modules.get(2), is((Module) another));
+        assertThat(modules.get(2), is((Module) core));
     }
 }

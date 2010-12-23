@@ -249,11 +249,11 @@ public class MinosModule implements Module {
         }
 
         if (module.getDependencies().contains(this)) {
-            return -1;
+            return 1;
         }
 
         if (this.getDependencies().contains(module)) {
-            return 1;
+            return -1;
         }
 
         return 0;
