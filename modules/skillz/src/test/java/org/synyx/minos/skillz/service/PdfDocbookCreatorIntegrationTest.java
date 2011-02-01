@@ -11,6 +11,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.synyx.minos.skillz.domain.Level;
 
@@ -26,15 +27,16 @@ public class PdfDocbookCreatorIntegrationTest extends AbstractDocbookCreatorInte
     private File pdf;
     private OutputStream outputStream;
 
+    @Autowired
+    private FopXsltService fopXsltService;
+
 
     @Override
     @Before
     public void setUp() throws Exception {
 
         super.setUp();
-        docbookCreator =
-                new PdfDocbookCreatorImpl(docbookTemplateService, new FopXsltServiceImpl(new ClassPathResource(
-                        "/resume-template/maven/src/docbkx-stylesheet/fo/docbook.xsl")));
+        docbookCreator = new PdfDocbookCreatorImpl(docbookTemplateService, fopXsltService);
         pdf = File.createTempFile("test", "pdf");
         outputStream = new FileOutputStream(pdf);
     }
