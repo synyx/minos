@@ -16,22 +16,27 @@
 
 package org.synyx.minos.core.web;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-
-import java.text.ParseException;
-import java.util.Locale;
+import static org.hamcrest.Matchers.is;
 
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import java.text.ParseException;
+
+import java.util.Locale;
 
 
 /**
  * Unit test for JodaTime related {@link Formatter} implementations.
- * 
- * @author Oliver Gierke - gierke@synyx.de
+ *
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 public class DateTimeEditorUnitTest {
 
@@ -43,7 +48,6 @@ public class DateTimeEditorUnitTest {
 
     private String dateAsStringShort;
     private String shortPattern;
-
 
     @Before
     public void setUp() {
@@ -108,7 +112,7 @@ public class DateTimeEditorUnitTest {
         assertDateForParsers(new DateMidnight(1910, 1, 12), "12.01.1910", "dd.MM.yy", "dd.MM.yyyy");
 
         assertDateForParsers(new DateMidnight(2029, 12, 31), "31.12.29", "dd.MM.yy");
-        assertDateForParsers(new DateMidnight(1930, 1, 1), "01.01.30", "dd.MM.yy");
+        assertDateForParsers(new DateMidnight(2030, 1, 1), "01.01.30", "dd.MM.yy");
     }
 
 
@@ -124,7 +128,7 @@ public class DateTimeEditorUnitTest {
 
 
     private void assertDateForParsers(DateMidnight date, String dateAsString, String pattern,
-            String... additionalPatterns) {
+        String... additionalPatterns) {
 
         DateTimeEditor editor = new DateTimeEditor(Locale.GERMAN, pattern).forDateMidnight();
         editor.withAdditionalParsersFor(additionalPatterns).setAsText(dateAsString);
