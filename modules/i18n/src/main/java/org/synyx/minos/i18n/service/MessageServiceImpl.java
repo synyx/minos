@@ -55,7 +55,7 @@ public class MessageServiceImpl implements MessageService {
 
     private MessageTranslationDao messageTranslationDao;
 
-    private Locale defaultLocale = Locale.getDefault();
+    private Locale defaultLocale;
 
 
     public MessageServiceImpl(MessageDao messageDao, AvailableLanguageDao availableLanguageDao,
@@ -82,7 +82,11 @@ public class MessageServiceImpl implements MessageService {
         }
 
         if (!message.getLocale().isDefault()) {
-            Locale parent = LocaleUtils.getParent(message.getLocale().getLocale());
+            
+            List<Locale> parentPath = LocaleUtils.getPath(message.getLocale().getLocale(), defaultLocale);
+            Locale parent = parentPath.get(1); // 0 is the current one, 1 is the parent and guaranteed to be set here
+            
+            
             Message parentMessage = getMessageEntity(message.getBasename(), message.getKey(), parent);
             if (parentMessage.getMessage().equals(message.getMessage())) {
                 // skip messages that dont have differences to their parent

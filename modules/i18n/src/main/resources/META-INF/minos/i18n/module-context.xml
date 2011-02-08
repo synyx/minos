@@ -16,7 +16,7 @@
 	</bean>
 		
 		
-	<bean class="org.synyx.minos.core.authentication.SimpleConstantsPermissionAware">
+	<bean class="org.synyx.minos.core.security.SimpleConstantsPermissionAware">
 		<constructor-arg>
 			<list>
 				<value>org.synyx.minos.i18n.I18nPermissions</value>
