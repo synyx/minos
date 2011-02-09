@@ -1,12 +1,9 @@
 package org.synyx.minos.umt.web;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-import static org.synyx.minos.TestConstants.*;
-import static org.synyx.minos.core.web.WebTestUtils.*;
-
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,6 +25,12 @@ import org.synyx.minos.core.security.AuthenticationService;
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.umt.service.UserManagement;
 import org.synyx.minos.umt.service.UserNotFoundException;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+import static org.synyx.minos.TestConstants.*;
+import static org.synyx.minos.core.web.WebTestUtils.*;
 
 
 /**
@@ -255,5 +258,19 @@ public class UmtControllerUnitTest {
     private void expectValidationResult(boolean result) {
 
         when(errors.hasErrors()).thenReturn(!result);
+    }
+
+    @Test
+    public void determinePermissions() throws Exception {
+        Collection<String> permList = Arrays.asList("EDIT_USER", "CREATE_USER");
+        when(authenticationService.getPermissions()).thenReturn(permList);
+
+        Role role = new Role("MODERATOR");
+        role.add("EDIT_USER");
+
+        List<PermissionHolder> holder = Arrays.asList(new PermissionHolder("CREATE_USER", false), new PermissionHolder("EDIT_USER", true));
+        List<PermissionHolder> result = controller.determinePermissions(role);
+        assertEquals(holder.get(0).getChecked(), result.get(0).getChecked());
+        assertEquals(holder.get(1).getChecked(), result.get(1).getChecked());
     }
 }

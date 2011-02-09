@@ -34,24 +34,24 @@
 					
 					
 					<c:choose>
-					<c:when test="${fn:contains(role.permissions, permission)}"><c:set var="checked" value="checked='checked'"/></c:when>
+					<c:when test="${permission.checked}"><c:set var="checked" value="checked='checked'"/></c:when>
 					<c:otherwise><c:set var="checked" value=""/></c:otherwise>
 					</c:choose>
 					
-					<c:set var="permissionnamenotresolved" value="umt.permission.${permission}"/>
-					<c:set var="permissionname"><spring:message code="umt.permission.${permission}"/></c:set>
+					<c:set var="permissionnamenotresolved" value="umt.permission.${permission.name}"/>
+					<c:set var="permissionname"><spring:message code="umt.permission.${permission.name}"/></c:set>
 					<c:if test="${permissionname eq permissionnamenotresolved}">
-						<c:set var="permissionname" value="${permission}"/>
+						<c:set var="permissionname" value="${permission.name}"/>
 					</c:if>
 					
-					<c:set var="permissiondescnotresolved" value="umt.permission.description.${permission}"/>
-					<c:set var="permissiondesc"><spring:message code="umt.permission.description.${permission}"/></c:set>
+					<c:set var="permissiondescnotresolved" value="umt.permission.description.${permission.name}"/>
+					<c:set var="permissiondesc"><spring:message code="umt.permission.description.${permission.name}"/></c:set>
 					<c:if test="${permissiondesc eq permissiondescnotresolved}">
 						<c:set var="permissiondesc" value=""/>
 					</c:if>
 					
 					
-					<span title="${permissiondesc}"><input ${checked} type="checkbox" value="${permission}" name="permissions" id="rolefor_permissions${status.index+1}"><label for="rolefor_permissions${status.index+1}">${permissionname}</label><br /></span>
+					<span title="${permissiondesc}"><input ${checked} type="checkbox" value="${permission.name}" name="permissions" id="rolefor_permissions${status.index+1}"><label for="rolefor_permissions${status.index+1}">${permissionname}</label><br /></span>
 					
 					
 					

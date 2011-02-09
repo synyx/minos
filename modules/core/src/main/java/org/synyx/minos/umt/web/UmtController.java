@@ -4,6 +4,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static org.synyx.minos.umt.UmtPermissions.*;
 import static org.synyx.minos.umt.web.UmtUrls.*;
 
+import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -301,13 +302,27 @@ public class UmtController extends ValidationSupport<UserForm> {
         Assert.notNull(role);
 
         model.addAttribute(ROLE_KEY, role);
-        Collection<String> perm = authenticationService.getPermissions();
-        List<String> permissions = new ArrayList<String>();
-        permissions.addAll(perm);
-        Collections.sort(permissions, permissionComparator);
+        List<PermissionHolder> permissions = determinePermissions(role);
         model.addAttribute("permissions", permissions);
 
         return "/umt/role";
+    }
+
+    List<PermissionHolder> determinePermissions(Role role) {
+        Collection<String> perm = authenticationService.getPermissions();
+        List<String> permissionNames = new ArrayList<String>();
+        permissionNames.addAll(perm);
+        Collections.sort(permissionNames, permissionComparator);
+
+        List<PermissionHolder> permissions = new ArrayList<PermissionHolder>();
+        for (String permission : permissionNames) {
+            boolean present = false;
+            if (role.getPermissions().contains(permission)) {
+                present = true;
+            }
+            permissions.add(new PermissionHolder(permission, present));
+        }
+        return permissions;
     }
 
 
