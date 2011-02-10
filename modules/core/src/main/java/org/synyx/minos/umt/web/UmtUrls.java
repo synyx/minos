@@ -13,6 +13,8 @@ public final class UmtUrls {
 
     public static final String USERS = MODULE + "/users";
     public static final String USER = MODULE + "/users/{id}";
+    public static final String USER_DELETE = MODULE + "/users/{id}/delete";
+    public static final String USER_DELETE_QUESTION = MODULE + "/delete";
     public static final String USER_FORM = USERS + "/form";
 
     public static final String ROLES = MODULE + "/roles";

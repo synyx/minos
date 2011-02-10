@@ -49,7 +49,7 @@
 		
 		<%-- Prevent current user from deleting himself --%>
 		<c:if test="${user != currentUser}">
-			<core:deleteLink href="users/${user.id}" imageUrl="/images/umt/user_delete.png" />
+			<core:deleteQuestion href="users/${user.id}/delete" imageUrl="/images/umt/user_delete.png" />
 		</c:if>
 		
 	</minos:column>

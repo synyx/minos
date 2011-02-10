@@ -4,7 +4,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static org.synyx.minos.umt.UmtPermissions.*;
 import static org.synyx.minos.umt.web.UmtUrls.*;
 
-import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -160,6 +159,27 @@ public class UmtController extends ValidationSupport<UserForm> {
         }
 
         return targetView;
+    }
+
+    @RequestMapping(value = USER_DELETE, method = GET)
+    public String deleteQuestion(@PathVariable("id") User user, Model model, @CurrentUser User currentUser) {
+
+        if (null == user) {
+            model.addAttribute(Core.MESSAGE, Message.error("umt.user.delete.usernamerequired"));
+            return UrlUtils.redirect(USERS);
+        }
+
+
+        boolean currentUserGiven = null != currentUser;
+
+        if (currentUserGiven && currentUser.equals(user)) {
+            model.addAttribute(Core.MESSAGE, Message.error("umt.user.delete.cannotdeleteherself"));
+            return UrlUtils.redirect(USERS);
+        }
+
+        model.addAttribute(USER_KEY, new UserForm(user));
+
+        return USER_DELETE_QUESTION;
     }
 
 

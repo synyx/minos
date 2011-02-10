@@ -156,6 +156,29 @@ public class UmtControllerUnitTest {
         assertSuccessMessageWithArguments(model, USER.getUsername());
     }
 
+    /**
+     * Asserts asking for deleting.
+     *
+     */
+    @Test
+    public void deleteQuestion() throws UserNotFoundException {
+
+        String viewName = controller.deleteQuestion(USER, model, null);
+
+        Assert.assertEquals(UmtUrls.USER_DELETE_QUESTION, viewName);
+    }
+
+    /**
+     * Asserts not asking for deleting if current user tries to delete.
+     *
+     */
+    @Test
+    public void doNotDeleteQuestionWithSameUser() throws UserNotFoundException {
+
+        String viewName = controller.deleteQuestion(USER, model, USER);
+        assertRedirectsToUserList(viewName);
+    }
+
 
     /**
      * Asserts that the controller prepopulates a blank user form for the edit form if no id is given.
