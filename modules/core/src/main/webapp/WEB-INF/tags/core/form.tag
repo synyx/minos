@@ -3,10 +3,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%@ attribute name="id" required="false" description="The id to be set for the form. If not set the name of the model attribute will be used." %>
 <%@ attribute name="action" required="true" description="The URL of the collection resource to POST to for creation. Default resource URL is then \$\{collectionUrl}/{id}." %>
-<%@ attribute name="resourceAction" required="false" description="A custom URL template to PUT to to update existing entities" %>
+<%@ attribute name="resourceAction" required="false" description="A custom URL template to update existing entities with PUT" %>
 
 <%@ attribute name="modelAttribute" required="true" description="The model attribute to create the form for. Has to have a 'new' property as well as an 'id'." %>
 
@@ -42,7 +43,9 @@ Tag file to automatically create correct HTML form according to the model attrib
 	<c:otherwise>
 		<c:set var="formAction">
 			<spring:url value="${resourceUrlTemplate}">
-				<spring:param name="id" value="${modelObject.id}" />
+                <c:if test="${fn:contains(resourceUrlTemplate, '{id}')}">
+                    <spring:param name="id" value="${modelObject.id}" />
+                </c:if>
 			</spring:url>
 		</c:set>
 	</c:otherwise>
