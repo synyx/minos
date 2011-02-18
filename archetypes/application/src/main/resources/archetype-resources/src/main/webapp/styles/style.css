@@ -1,0 +1,11 @@
+/*
+  Add your styles here
+*/
+span.icon {
+    display: block;
+    width: 16px; height: 16px;
+    text-indent: -9999px;
+}
+
+.todo-done { background: url(../images/yes.png) 0 0 no-repeat; }
+.todo-not-done { background: url(../images/no.png) 0 0 no-repeat; }
