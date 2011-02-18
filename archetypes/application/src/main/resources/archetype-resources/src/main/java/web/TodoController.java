@@ -31,6 +31,9 @@ import ${package}.items.domain.TodoItemValidator;
 import java.util.List;
 
 
+/*
+ * While considered bad practice in general to have a transactional controller, we want our example to stay simple.
+ */
 @Controller
 @Transactional
 public class TodoController {
@@ -58,6 +61,11 @@ public class TodoController {
     }
 
 
+    /*
+     * Hades, which generates the DAOs from interface specifications, makes it possible
+     * to reference entities directly via their primary key from a @PathVariable. This
+     * greatly simplifies controller code.
+     */
     @RequestMapping(value = BASE_URL + "/{id}", method = GET)
     public String showItem(Model model,
         @PathVariable("id") TodoItem item) {
@@ -101,6 +109,13 @@ public class TodoController {
         }
 
         todoDao.saveAndFlush(item);
+
+        /*
+         * The Minos core module and default layout already supports short flash messages
+         * to display to the user. The ${package}.core.web.Message class supports
+         * several styles, including success messages, errors, notices and also warnings.
+         * The content is taken from the configured message properties.
+         */
         model.addAttribute(Core.MESSAGE, Message.success("todos.item.save.success"));
 
         return "redirect:" + BASE_URL + "/" + item.getId();

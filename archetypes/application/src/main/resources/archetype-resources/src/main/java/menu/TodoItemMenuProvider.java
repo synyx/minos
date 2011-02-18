@@ -14,6 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/*
+ * This class is responsible for creating entries for the built-in menu system.
+ * You usually extends AbstractMenuItemProvider and implement the single abstract
+ * method initMenuItems() to provide the module system with the menu items you need
+ * displayed. The order of the list returned is not used in the rendering of the items,
+ * instead MenuItems declare a position parameter.
+ */
 public class TodoItemMenuProvider extends AbstractMenuItemProvider {
 
     public static final String MENU_ITEMS_KEYBASE = "todos";

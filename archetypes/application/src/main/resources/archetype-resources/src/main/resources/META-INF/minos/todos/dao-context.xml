@@ -7,7 +7,19 @@
        xmlns:hades="http://schemas.synyx.org/hades"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	                   http://schemas.synyx.org/hades http://schemas.synyx.org/hades/hades.xsd">
+    <!--
+	Here you can customize the DAO layer including configuration for Hades (http://hades.synyx.org).
+	The default normally suffices, as it picks up any declared GenericDao interfaces automatically
+	from the packages adhering to this base-package specification. Put your DAOs in packages ending
+	on .dao and you are perfectly fine.
 
+	Hades and Spring will automatically make the DAO implementations available via Hades'
+	automatic naming mechanism (e.g. a TodoItemDao becomes available for injection as todoItemDao
+	in your Spring configuration)
+
+	See http://hades.synyx.org/static/2.x/site/org.synyx.hades/reference/html/sample-app.namespace.html${symbol_pound}config.autoconfig
+	for further reference.
+    -->
     <hades:dao-config base-package="${package}.**.dao" dao-impl-postfix="DaoCustomImpl"/>
 
 </beans>

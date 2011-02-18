@@ -8,9 +8,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
     <tx:annotation-driven />
+    <!--
+	This file is used for all Spring managed beans, which are involved in the actual
+	web and presentation layer. While the module itself is picked up in an early phase
+	of the minos startup sequence, web-related configuration in this file is picked up
+	only at the end, when the servlet container is configured for dispatch.
 
+	Usually you put your controllers here, as also validation beans for data from the
+	frontend as also menu providers.
+    -->
     <bean class="${package}.web.TodoController" />
     <bean class="${package}.items.domain.TodoItemValidator" />
     <bean class="${package}.menu.TodoItemMenuProvider" />
-
 </beans>
