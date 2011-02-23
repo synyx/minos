@@ -31,6 +31,8 @@ public class MenuTag extends RequestContextAwareTag {
 
     private String id = null;
 
+    private String renderBean = null;
+
 
     /*
      * (non-Javadoc)
@@ -203,7 +205,7 @@ public class MenuTag extends RequestContextAwareTag {
     private MenuRenderer getMenuRenderer() {
 
         try {
-            return getApplicationContext().getBean("menuRenderer", MenuRenderer.class);
+            return getApplicationContext().getBean(renderBean, MenuRenderer.class);
         } catch (RuntimeException e) {
             return new DefaultMenuRenderer();
         }
@@ -251,4 +253,11 @@ public class MenuTag extends RequestContextAwareTag {
         return menuId;
     }
 
+    public String getRenderBean() {
+        return renderBean;
+    }
+
+    public void setRenderBean(String argRenderBean) {
+        renderBean = argRenderBean;
+    }
 }

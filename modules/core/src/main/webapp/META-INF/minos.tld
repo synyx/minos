@@ -62,6 +62,15 @@
            <required>false</required>
            <rtexprvalue>true</rtexprvalue>
         </attribute>
+        <attribute>
+            <description>
+                A Spring bean implementing org.synyx.minos.core.web.tags.menu.MenuRenderer,
+                which is used to render the menu tag.
+            </description>
+            <name>renderBean</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
     </tag>
     
     <tag>
