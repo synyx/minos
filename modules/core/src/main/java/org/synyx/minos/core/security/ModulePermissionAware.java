@@ -1,11 +1,12 @@
 package org.synyx.minos.core.security;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
+
 import org.synyx.minos.core.module.Module;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 /**
@@ -13,8 +14,8 @@ import org.synyx.minos.core.module.Module;
  * class matching the pattern <code>${module.basePackage}.${module.id}Permissions</code> with the id capitalized, e.g.
  * the permissions constant class for {@code umt} module would be expected in {@link org.synyx.minos.umt.UmtPermissions}
  * .
- * 
- * @author Oliver Gierke - gierke@synyx.de
+ *
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 public class ModulePermissionAware extends ReflectivePermissionAwareSupport {
 
@@ -22,23 +23,16 @@ public class ModulePermissionAware extends ReflectivePermissionAwareSupport {
 
     private final Module module;
 
-
     /**
      * Creates a new {@link ModulePermissionAware} for the given {@link Module}.
-     * 
-     * @param module
+     *
+     * @param  module  a minos {@code Module}
      */
     public ModulePermissionAware(Module module) {
 
         this.module = module;
     }
 
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.synyx.minos.core.authentication.ReflectivePermissionAwareSupport# getClassesToScan()
-     */
     @Override
     protected Collection<Class<?>> getClassesToScan() {
 
@@ -47,15 +41,12 @@ public class ModulePermissionAware extends ReflectivePermissionAwareSupport {
         String className = String.format(PERMISSION_CLASS_TEMPLATE, module.getBasePackage(), id);
 
         if (ClassUtils.isPresent(className, null)) {
-
             try {
-
                 Class<?> clazz = ClassUtils.forName(className, null);
                 Collection<Class<?>> result = new ArrayList<Class<?>>();
                 result.add(clazz);
 
                 return result;
-
             } catch (ClassNotFoundException e) {
                 return NONE;
             } catch (LinkageError e) {
