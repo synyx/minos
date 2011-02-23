@@ -26,7 +26,7 @@
     
     <tag>
         <name>menu</name>
-        <tag-class>org.synyx.minos.core.web.tags.MenuTag</tag-class>
+        <tag-class>org.synyx.minos.core.web.tags.menu.MenuTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
           <description>

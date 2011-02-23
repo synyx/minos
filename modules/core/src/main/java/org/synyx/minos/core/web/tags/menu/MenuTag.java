@@ -1,7 +1,6 @@
-package org.synyx.minos.core.web.tags;
+package org.synyx.minos.core.web.tags.menu;
 
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 
@@ -53,7 +52,7 @@ public class MenuTag extends RequestContextAwareTag {
         }
 
         StringBuilder builder = new StringBuilder();
-        buildHtmlMenu(menuItems, builder, false, levels);
+        buildHtmlMenu(null, menuItems, builder, false, levels);
 
         if (0 != builder.length()) {
 
@@ -85,10 +84,13 @@ public class MenuTag extends RequestContextAwareTag {
      * @param builder
      * @throws IOException
      */
-    private void buildHtmlMenu(MenuItems menuItems, StringBuilder builder, boolean submenu, Integer levelsRemaining)
+    private void buildHtmlMenu(MenuMetaInfo menuInfo, MenuItems menuItems, StringBuilder builder, boolean submenu, Integer levelsRemaining)
             throws IOException {
 
         String path = getPathWithinApplication(getRequest());
+
+        MenuRenderer menuRenderer = getMenuRenderer();
+        builder.append(menuRenderer.beforeMenu(menuInfo));
 
         for (Menu item : menuItems) {
 
@@ -96,42 +98,38 @@ public class MenuTag extends RequestContextAwareTag {
             if (url == null) {
                 continue;
             }
-            String id = item.getTitle().replace('.', '_');
+
+            boolean active = item.isActiveFor(path);
+            MenuMetaInfo info = new MenuMetaInfo();
+            info.setActive(active);
+            info.setDescription(resolveMessage(item.getDesciption()));
+            info.setId(item.getTitle().replace('.', '_'));
+            info.setLevel(levelsRemaining);
+            info.setSubMenu(submenu);
+            info.setTitle(resolveMessage(item.getTitle()));
+            info.setUrl(UrlUtils.toUrl(url, getRequest()));
+
+            builder.append(menuRenderer.beforeMenuItem(info));
 
             if (submenu) {
-
-                boolean isActive = item.isActiveFor(path);
-
-                String aClass = isActive ? " class='active'" : "";
-
-                builder.append(String.format("<li%s><a id='%s' href='%s' title='%s'%s>%s</a>", "", id, UrlUtils.toUrl(
-                        url, getRequest()), resolveMessage(item.getDesciption()), aClass, resolveMessage(item
-                        .getTitle())));
-
+                builder.append(menuRenderer.renderItem(info));
             } else {
+                builder.append(menuRenderer.renderItem(info));
 
-                boolean isActive = item.isActiveFor(path);
-
-                String aClass = isActive ? " class='active'" : "";
-
-                builder.append(String.format("<li%s><a id='%s' href='%s' title='%s'%s>%s</a>", aClass, id, UrlUtils
-                        .toUrl(url, getRequest()), resolveMessage(item.getDesciption()), aClass, resolveMessage(item
-                        .getTitle())));
-
-                if ((isActive || alwaysRenderSubmenus) && (isLevelRestrictionActive() || levelsRemaining > 1)) {
+                if ((active || alwaysRenderSubmenus) && (isLevelRestrictionActive() || levelsRemaining > 1)) {
 
                     if (item.hasSubMenues()) {
-
-                        builder.append("<ul class='submenu'>");
-                        buildHtmlMenu(item.getSubMenues(), builder, true, levelsRemaining - 1);
-                        builder.append("</ul>");
-
+                        info.setSubMenu(true);
+                        buildHtmlMenu(info, item.getSubMenues(), builder, true, levelsRemaining - 1);
+                        info.setSubMenu(false);
                     }
                 }
             }
 
-            builder.append("</li>");
+            builder.append(menuRenderer.afterMenuItem(info));
         }
+
+        builder.append(menuRenderer.afterMenu(menuInfo));
     }
 
 
@@ -198,6 +196,16 @@ public class MenuTag extends RequestContextAwareTag {
             return getApplicationContext().getBean("menuProvider", MenuProvider.class);
         } catch (RuntimeException ex) {
             return null;
+        }
+
+    }
+
+    private MenuRenderer getMenuRenderer() {
+
+        try {
+            return getApplicationContext().getBean("menuRenderer", MenuRenderer.class);
+        } catch (RuntimeException e) {
+            return new DefaultMenuRenderer();
         }
 
     }
