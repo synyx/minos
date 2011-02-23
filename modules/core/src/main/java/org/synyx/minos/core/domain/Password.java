@@ -1,14 +1,14 @@
 package org.synyx.minos.core.domain;
 
+import org.synyx.minos.util.Assert;
+
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
-
-import org.synyx.minos.util.Assert;
 
 
 /**
  * Value object to abstract passwords.
- * 
+ *
  * @author Oliver Gierke
  */
 @Embeddable
@@ -20,19 +20,17 @@ public class Password {
     @Transient
     private boolean encrypted = true;
 
-
     /**
      * Empty constructor for ORM.
      */
     protected Password() {
-
     }
 
 
     /**
-     * Creates a new unencrypted password.
-     * 
-     * @param password
+     * Creates a new password. The password is marked as 'not encrypted'.
+     *
+     * @param password the password string
      */
     public Password(String password) {
 
@@ -41,10 +39,10 @@ public class Password {
 
 
     /**
-     * Creates a new password either encrypted or unencrypted.
-     * 
-     * @param password
-     * @param encrypted
+     * Creates a new password. The password can be provided in encrypted form, marked by the <code>encrypted</code> parameter.
+     *
+     * @param password the password string
+     * @param encrypted whether the password is already encrypted
      */
     public Password(String password, boolean encrypted) {
 
@@ -54,10 +52,9 @@ public class Password {
         this.encrypted = encrypted;
     }
 
-
     /**
      * Returns whether the password is encrpyted.
-     * 
+     *
      * @return the encrypted
      */
     public boolean isEncrypted() {
@@ -66,11 +63,6 @@ public class Password {
     }
 
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
 
@@ -78,11 +70,6 @@ public class Password {
     }
 
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
 
@@ -100,11 +87,6 @@ public class Password {
     }
 
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
 

@@ -1,27 +1,26 @@
 package org.synyx.minos.core.domain;
 
-import javax.persistence.Embeddable;
-
 import org.synyx.minos.util.Assert;
+
+import javax.persistence.Embeddable;
 
 
 /**
  * Value objects to represent email addresses.
- * 
- * @author Oliver Gierke - gierke@synyx.de
+ *
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 @Embeddable
 @ValueObject
 public class EmailAddress extends AbstractNamedEntity {
 
-    // Regular expression to test for valid email
-    public static final String EMAIL_REGEX =
-            "[-_.(\\w)]+@((([(\\w)]|[(\\w)][(\\w)-]*" + "[(\\w)])\\.)+(([a-zA-Z]{2,6})|(([0-9][0-9]?|[0-1][0-9]"
-                    + "[0-9]|[2][0-4][0-9]|[2][5][0-5])\\.){3}([0-9][0-9]?|[0-1]"
-                    + "[0-9][0-9]|[2][0-4][0-9]|[2][5][0-5])))";
+    /** A regular expression to test for valid email addresses. */
+    public static final String EMAIL_REGEX = "[-_.(\\w)]+@((([(\\w)]|[(\\w)][(\\w)-]*"
+        + "[(\\w)])\\.)+(([a-zA-Z]{2,6})|(([0-9][0-9]?|[0-1][0-9]"
+        + "[0-9]|[2][0-4][0-9]|[2][5][0-5])\\.){3}([0-9][0-9]?|[0-1]"
+        + "[0-9][0-9]|[2][0-4][0-9]|[2][5][0-5])))";
 
     private String emailAddress;
-
 
     protected EmailAddress() {
 
@@ -30,6 +29,13 @@ public class EmailAddress extends AbstractNamedEntity {
     }
 
 
+    /**
+     * Construct a new {@link EmailAddress} from the given string. The address is stripped of leading and trailing
+     * whitespace and also checked against {@link EmailAddress#EMAIL_REGEX} for validity. If invalid, an
+     * {@link IllegalArgumentException} is thrown.
+     *
+     * @param  emailAddress  an email address
+     */
     public EmailAddress(String emailAddress) {
 
         Assert.notBlank(emailAddress);
@@ -41,12 +47,6 @@ public class EmailAddress extends AbstractNamedEntity {
         }
     }
 
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.synyx.minos.core.domain.AbstractNamedEntity#getValue()
-     */
     @Override
     protected String getValue() {
 
@@ -54,11 +54,6 @@ public class EmailAddress extends AbstractNamedEntity {
     }
 
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
 

@@ -2,6 +2,7 @@ package org.synyx.minos.core.domain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -9,22 +10,23 @@ import java.util.Set;
 
 
 /**
- * List of {@link Appointment}s. Allows more sophisticated queries to the list's elements than a basic {@link List}
- * implementation would allow. E.g. {@code AppointmentList} allows detection of overlaps on the {@link Appointment}.
- * <p>
- * This class does <em>not</em> the {@link List} interface as this would expose a too technical API. Nevetheless we
- * expose the most relevant API of the underlying {@link List}.
- * 
- * @author Oliver Gierke - gierke@synyx.de
+ * List of {@link Overlapable}s. Allows more sophisticated queries to the list's elements than a basic {@link List}
+ * implementation would allow. E.g. {@code OverlapableList} allows detection of overlaps on its elements, e.g.
+ * implementations of the {@link Overlapable} interface.
+ *
+ * <p>This class does <em>not</em> implement the {@link List} interface as this would expose a too technical API.
+ * Nevetheless we expose the most relevant API of the underlying {@link List}.
+ *
+ * @param  <T>  the overlapable type
+ * @param  <S>  the type underlying the overlapable
+ *
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 public class OverlapableList<T extends Overlapable<S>, S> implements Iterable<T> {
 
     protected List<T> overlapables;
 
-
-    /**
-     * Creates a new {@code OverlapableList}.
-     */
+    /** Creates a new {@code OverlapableList}. */
     public OverlapableList() {
 
         this.overlapables = new ArrayList<T>();
@@ -33,15 +35,19 @@ public class OverlapableList<T extends Overlapable<S>, S> implements Iterable<T>
 
     /**
      * Creates a new {@code OverlapableList} with the given list of {@link Overlapable}.
-     * 
-     * @param overlapable
+     *
+     * @param  overlapable  a list of {@link Overlapable}s
      */
     public OverlapableList(List<T> overlapable) {
 
         this.overlapables = overlapable;
     }
 
-
+    /**
+     * Static generic factory method for an {@link OverlapableList}, backed by an {@link ArrayList}.
+     *
+     * @return  an empty overlapable list
+     */
     public static <S, T extends Overlapable<S>> OverlapableList<T, S> create() {
 
         return new OverlapableList<T, S>();
@@ -50,9 +56,10 @@ public class OverlapableList<T extends Overlapable<S>, S> implements Iterable<T>
 
     /**
      * Adds an {@link Overlapable} to the list.
-     * 
-     * @param overlapable
-     * @return
+     *
+     * @param  overlapable  an overlapable
+     *
+     * @return  <code>true</code> (as specified by {@link Collection#add(T)})
      */
     public boolean add(T overlapable) {
 
@@ -63,16 +70,16 @@ public class OverlapableList<T extends Overlapable<S>, S> implements Iterable<T>
     /**
      * Returns all overlaps from the list that overlap the given {@code Overlapable}. If the given {@code Overlapable}
      * is from the list, the overlap with itself will not be considered.
-     * 
-     * @param overlapable
-     * @return
+     *
+     * @param  overlapable  an overlapable to test against the list
+     *
+     * @return  all overlaps from the list that overlap the given {@code Overlapable}
      */
     public OverlapableList<T, S> getOverlapsFor(T overlapable) {
 
         List<T> result = new ArrayList<T>();
 
         for (T element : this.overlapables) {
-
             boolean sameInstance = element == overlapable;
 
             if (!sameInstance && overlapable.overlaps(element)) {
@@ -86,8 +93,8 @@ public class OverlapableList<T extends Overlapable<S>, S> implements Iterable<T>
 
     /**
      * Returns whether at least one of the {@link Overlapable}s in the list overlaps another.
-     * 
-     * @return
+     *
+     * @return  whether at least one of the {@link Overlapable}s in the list overlaps another.
      */
     public boolean hasOverlaps() {
 
@@ -95,7 +102,6 @@ public class OverlapableList<T extends Overlapable<S>, S> implements Iterable<T>
         ref.addAll(overlapables);
 
         for (T appointment : overlapables) {
-
             ref.remove(appointment);
 
             for (T toCompare : ref) {
@@ -111,9 +117,10 @@ public class OverlapableList<T extends Overlapable<S>, S> implements Iterable<T>
 
     /**
      * Returns the size of the list.
-     * 
-     * @see List#size()
-     * @return
+     *
+     * @return  the size of the list
+     *
+     * @see  List#size()
      */
     public int size() {
 
@@ -123,10 +130,12 @@ public class OverlapableList<T extends Overlapable<S>, S> implements Iterable<T>
 
     /**
      * Returns the element at the index position.
-     * 
-     * @see List#get(int)
-     * @param index
-     * @return
+     *
+     * @param  index  index into the list
+     *
+     * @return  the element at the index position
+     *
+     * @see  List#get(int)
      */
     public T get(int index) {
 
@@ -135,11 +144,13 @@ public class OverlapableList<T extends Overlapable<S>, S> implements Iterable<T>
 
 
     /**
-     * Returns whether the list contains the given {@link Overlapable}.
-     * 
-     * @see List#contains(Object)
-     * @param overlapables
-     * @return
+     * Returns whether the list contains the given {@link Overlapable}s.
+     *
+     * @param  overlapables  the overlaps to test against the list
+     *
+     * @return  whether the list contains the given {@link Overlapable}s
+     *
+     * @see  List#contains(Object)
      */
     public boolean contains(T... overlapables) {
 
@@ -147,22 +158,13 @@ public class OverlapableList<T extends Overlapable<S>, S> implements Iterable<T>
     }
 
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Iterable#iterator()
-     */
+    @Override
     public Iterator<T> iterator() {
 
         return overlapables.iterator();
     }
 
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
 

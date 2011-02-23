@@ -24,7 +24,7 @@ public interface Overlapable<T> {
     public T getEnd();
 
 
-    /**
+    /** 
      * Returns, if an {@code Overlapable} overlaps another. Overlapping {@code null} has to return false.
      * 
      * @param appointment

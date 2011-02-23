@@ -1,5 +1,9 @@
 package org.synyx.minos.core.domain;
 
+import org.synyx.hades.domain.auditing.AbstractAuditable;
+
+import org.synyx.minos.util.Assert;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,14 +15,11 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
-import org.synyx.hades.domain.auditing.AbstractAuditable;
-import org.synyx.minos.util.Assert;
-
 
 /**
  * Domain class for a role.
- * 
- * @author Oliver Gierke
+ *
+ * @author  Oliver Gierke
  */
 @Entity
 public class Role extends AbstractAuditable<User, Long> {
@@ -27,7 +28,10 @@ public class Role extends AbstractAuditable<User, Long> {
 
     private static final String PREFIX = "ROLE_";
 
+    /** System role for administrators */
     public static final String ADMIN_NAME = "ADMIN";
+
+    /** System role for users */
     public static final String USER_NAME = "USER";
 
     private static final Collection<String> SYSTEM_ROLES = Arrays.asList(ADMIN_NAME, USER_NAME);
@@ -38,10 +42,7 @@ public class Role extends AbstractAuditable<User, Long> {
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> permissions;
 
-
-    /**
-     * Empty constructor.
-     */
+    /** Empty constructor. */
     public Role() {
 
         this.permissions = new HashSet<String>();
@@ -49,23 +50,20 @@ public class Role extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Constructor setting a name instantly.
-     * 
-     * @param name
+     * Constructor setting a {@link Role} name instantly.
+     *
+     * @param  name  the {@link Role} name
      */
     public Role(String name) {
 
         this();
-
-        Assert.hasText(name, "Name must not be empty!");
         setName(name);
     }
 
-
     /**
      * Returns the {@link Role} name.
-     * 
-     * @return the name
+     *
+     * @return  the {@link Role} name
      */
     public String getName() {
 
@@ -76,8 +74,8 @@ public class Role extends AbstractAuditable<User, Long> {
     /**
      * Sets the {@link Role}s name. Will prevent empty {@link String}s and {@literal null} values and turn the name into
      * uppercase letters.
-     * 
-     * @param name the name to set
+     *
+     * @param  name  the name to set
      */
     public void setName(String name) {
 
@@ -87,9 +85,9 @@ public class Role extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Returns all permissions assigned to that {@link Role}.
-     * 
-     * @return
+     * Returns all permissions assigned to this {@link Role}.
+     *
+     * @return  an unmodifiable set of all permissions assigned to this {@link Role}
      */
     public Set<String> getPermissions() {
 
@@ -98,9 +96,9 @@ public class Role extends AbstractAuditable<User, Long> {
 
 
     /**
-     * Sets the permissions tied to that {@link Role}.
-     * 
-     * @param permissions
+     * Sets the permissions tied to this {@link Role}.
+     *
+     * @param  permissions  the permissions to tie to this {@link Role}
      */
     public void setPermissions(Set<String> permissions) {
 
@@ -110,35 +108,34 @@ public class Role extends AbstractAuditable<User, Long> {
 
     /**
      * Adds the given permissions to the {@link Role}.
-     * 
-     * @param permission
-     * @return
+     *
+     * @param  permission  the permissions to add
+     *
+     * @return  the {@link Role} itself
      */
     public Role add(String... permission) {
 
         this.permissions.addAll(Arrays.asList(permission));
+
         return this;
     }
 
 
     /**
      * Removes all given permissions from that {@link Role}.
-     * 
-     * @param permission
-     * @return
+     *
+     * @param  permission  the permissions to remove
+     *
+     * @return  the {@link Role} itself
      */
     public Role remove(String... permission) {
 
         this.permissions.removeAll(Arrays.asList(permission));
+
         return this;
     }
 
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
 
@@ -149,8 +146,8 @@ public class Role extends AbstractAuditable<User, Long> {
     /**
      * Returns whether the role is a system role. This will have further implications like not being allowed to be
      * deleted a.s.o.
-     * 
-     * @return
+     *
+     * @return  whether the role is a system role
      */
     public boolean isSystemRole() {
 
@@ -160,9 +157,10 @@ public class Role extends AbstractAuditable<User, Long> {
 
     /**
      * Extracts the actual name from the given {@link Role} name.
-     * 
-     * @param prefixedName
-     * @return
+     *
+     * @param  prefixedName  a {@link Role} name, possibly in prefix form
+     *
+     * @return  the {@link Role} name, possibly stripped of the prefix
      */
     public static String stripPrefix(String prefixedName) {
 

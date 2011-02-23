@@ -1,5 +1,11 @@
 package org.synyx.minos.core.domain;
 
+import org.apache.commons.lang.StringUtils;
+
+import org.synyx.hades.domain.auditing.AbstractAuditable;
+
+import org.synyx.minos.util.Assert;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,15 +15,11 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 
-import org.apache.commons.lang.StringUtils;
-import org.synyx.hades.domain.auditing.AbstractAuditable;
-import org.synyx.minos.util.Assert;
-
 
 /**
  * Domain class for a user.
- * 
- * @author Oliver Gierke
+ *
+ * @author  Oliver Gierke
  */
 @Entity
 @NamedQuery(name = "User.findByUsername", query = "from User u where u.username = ?")
@@ -44,10 +46,6 @@ public class User extends AbstractAuditable<User, Long> {
 
     private boolean active;
 
-
-    /**
-     * Constructor of <code>User</code>.
-     */
     protected User() {
 
         this.roles = new ArrayList<Role>();
@@ -57,9 +55,9 @@ public class User extends AbstractAuditable<User, Long> {
 
     /**
      * Creates a new {@link User} from the given attributes (non null ones).
-     * 
-     * @param username
-     * @param emailAddress
+     *
+     * @param  username  an username
+     * @param  emailAddress  the users email address
      */
     public User(String username, String emailAddress) {
 
@@ -69,10 +67,10 @@ public class User extends AbstractAuditable<User, Long> {
 
     /**
      * Creates a new {@link User} from the given attributes (non null ones).
-     * 
-     * @param username
-     * @param emailAddress
-     * @param password
+     *
+     * @param  username  an username
+     * @param  emailAddress  the users email address
+     * @param  password  the users password
      */
     public User(String username, String emailAddress, String password) {
 
@@ -85,11 +83,10 @@ public class User extends AbstractAuditable<User, Long> {
         }
     }
 
-
     /**
      * Assigns the role to the user. Prevents {@link Role}s to be assigned twice, so there won't be any duplicates.
-     * 
-     * @param role
+     *
+     * @param  role  a {@link Role}
      */
     public void addRole(Role role) {
 
@@ -103,8 +100,8 @@ public class User extends AbstractAuditable<User, Long> {
 
     /**
      * Returns if the user has a password.
-     * 
-     * @return if the user has a password
+     *
+     * @return  if the user has a password
      */
     public boolean hasPassword() {
 
@@ -114,8 +111,8 @@ public class User extends AbstractAuditable<User, Long> {
 
     /**
      * Returns the full name of the user.
-     * 
-     * @return
+     *
+     * @return  the full name of the user
      */
     public String getFullName() {
 
@@ -126,16 +123,11 @@ public class User extends AbstractAuditable<User, Long> {
     }
 
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.synyx.minos.core.domain.AbstractEntity#toString()
-     */
     @Override
     public String toString() {
 
         return super.toString() + " " + getUsername() + " - " + getFirstname() + " " + getLastname() + " - "
-                + getEmailAddress();
+            + getEmailAddress();
     }
 
 
@@ -206,7 +198,9 @@ public class User extends AbstractAuditable<User, Long> {
 
 
     /**
-     * @param roles the roles to set
+     * Replaces the roles set on the user object with those in the supplied list.
+     *
+     * @param  roles  the roles to set
      */
     public void setRoles(List<Role> roles) {
 
@@ -217,7 +211,6 @@ public class User extends AbstractAuditable<User, Long> {
         }
 
         for (Role role : roles) {
-
             if (null != role && !this.roles.contains(role)) {
                 this.roles.add(role);
             }
@@ -227,9 +220,10 @@ public class User extends AbstractAuditable<User, Long> {
 
     /**
      * Returns whether the {@link User} has the given {@link Role}.
-     * 
-     * @param role
-     * @return
+     *
+     * @param  role  the role to check for
+     *
+     * @return  whether the {@link User} has the given {@link Role}
      */
     public boolean has(Role role) {
 
@@ -237,6 +231,14 @@ public class User extends AbstractAuditable<User, Long> {
     }
 
 
+    /**
+     * Returns whether the {@link User} has the given role. This is a convenience method, which allows to supply the
+     * role as a string.
+     *
+     * @param  name  the role to check for
+     *
+     * @return  whether the {@link User} has the given role.
+     */
     public boolean hasRole(String name) {
 
         if (StringUtils.isBlank(name)) {
@@ -253,18 +255,12 @@ public class User extends AbstractAuditable<User, Long> {
     }
 
 
-    /**
-     * @return the active
-     */
     public boolean isActive() {
 
         return active;
     }
 
 
-    /**
-     * @param active the active to set
-     */
     public void setActive(boolean active) {
 
         this.active = active;
