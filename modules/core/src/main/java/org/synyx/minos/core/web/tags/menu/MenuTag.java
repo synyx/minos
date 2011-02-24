@@ -57,21 +57,14 @@ public class MenuTag extends RequestContextAwareTag {
         buildHtmlMenu(null, menuItems, builder, false, levels);
 
         if (0 != builder.length()) {
+            MenuRenderer menuRenderer = getMenuRenderer();
+            MenuMetaInfo info = new MenuMetaInfo();
+            info.setId(id);
 
             JspWriter out = pageContext.getOut();
-
-            out.append("<div id='");
-
-            // unless id provided default to "menu" as id
-            if (id != null) {
-                out.append(id);
-            } else {
-                out.append("menu");
-            }
-
-            out.append("'><ul class=\"menu\">");
+            out.append(menuRenderer.beforeMenu(info));
             out.append(builder.toString());
-            out.append("</ul></div>");
+            out.append(menuRenderer.afterMenu(info));
         }
 
         return 0;
@@ -92,7 +85,7 @@ public class MenuTag extends RequestContextAwareTag {
         String path = getPathWithinApplication(getRequest());
 
         MenuRenderer menuRenderer = getMenuRenderer();
-        builder.append(menuRenderer.beforeMenu(menuInfo));
+        builder.append(menuRenderer.beforeMenuItem(menuInfo));
 
         for (Menu item : menuItems) {
 
@@ -111,8 +104,6 @@ public class MenuTag extends RequestContextAwareTag {
             info.setTitle(resolveMessage(item.getTitle()));
             info.setUrl(UrlUtils.toUrl(url, getRequest()));
 
-            builder.append(menuRenderer.beforeMenuItem(info));
-
             if (submenu) {
                 builder.append(menuRenderer.renderItem(info));
             } else {
@@ -127,11 +118,8 @@ public class MenuTag extends RequestContextAwareTag {
                     }
                 }
             }
-
-            builder.append(menuRenderer.afterMenuItem(info));
         }
-
-        builder.append(menuRenderer.afterMenu(menuInfo));
+        builder.append(menuRenderer.afterMenuItem(menuInfo));
     }
 
 
