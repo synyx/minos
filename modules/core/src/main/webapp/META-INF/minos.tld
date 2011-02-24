@@ -37,32 +37,6 @@
           <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
-          <description><![CDATA[
-          The id is set as attribute to the surrounding <div/> element.
-          ]]></description>
-          <name>id</name>
-          <required>false</required>
-        </attribute>
-        <attribute>
-          <description>
-            If this attribute is given a maximum of levels will be displayed in the menu. If you
-            e.g. set levels to 1 only the top-menu items are displayed, no matter if the menu-point
-            is selected or not. If you set levels to 0 or negative value all levels will be displayed.
-          </description>
-          <name>levels</name>
-          <required>false</required>
-          <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-           <description>
-               Standard is 'false'. If false submenus are only rendered for active menu items.
-               True is useful for dropdown-submenus.
-           </description>
-           <name>alwaysRenderSubmenus</name>
-           <required>false</required>
-           <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
             <description>
                 A Spring bean implementing org.synyx.minos.core.web.tags.menu.MenuRenderer,
                 which is used to render the menu tag.

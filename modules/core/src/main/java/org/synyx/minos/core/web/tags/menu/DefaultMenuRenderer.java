@@ -8,15 +8,21 @@ package org.synyx.minos.core.web.tags.menu;
  * @since 0.0.1
  */
 public class DefaultMenuRenderer implements MenuRenderer {
+    private Integer levels = 0;
+    private boolean alwaysRenderSubmenus = false;
+    private String rootId = null;
+    int remainingLevel = 0;
+
 
     @Override
     public String beforeMenu(MenuMetaInfo info) {
+        remainingLevel = levels;
         StringBuilder builder = new StringBuilder();
         builder.append("<div id='");
 
         // unless id provided default to "menu" as id
         if (info.getId() != null) {
-            builder.append(info.getId());
+            builder.append(rootId);
         } else {
             builder.append("menu");
         }
@@ -56,9 +62,45 @@ public class DefaultMenuRenderer implements MenuRenderer {
 
     @Override
     public boolean proceedWithRenderingSubmenus(MenuMetaInfo info) {
-        if (!info.isSubMenu() && (info.isActive() || info.isAlwaysRenderSubmenus()) && (info.isLevelRestrictionActive() || info.getLevel() > 1)) {
+        if (!info.isSubMenu() && (info.isActive() || isAlwaysRenderSubmenus()) && (isLevelRestrictionActive() || remainingLevel > 1)) {
+            remainingLevel--;
             return info.isParent();
         }
         return false;
+    }
+
+    public boolean isAlwaysRenderSubmenus() {
+        return alwaysRenderSubmenus;
+    }
+
+    public void setAlwaysRenderSubmenus(boolean argAlwaysRenderSubmenus) {
+        alwaysRenderSubmenus = argAlwaysRenderSubmenus;
+    }
+
+    public String getRootId() {
+        return rootId;
+    }
+
+    public void setRootId(String argRootId) {
+        rootId = argRootId;
+    }
+
+    public Integer getLevels() {
+        return levels;
+    }
+
+    public void setLevels(Integer argLevels) {
+        levels = argLevels;
+    }
+
+    /**
+     * If the attribute levels is set, the tag renders submenues until the given level. This method checks if the
+     * level-feature is deactivated : if <minos:menu levels="0"> is used, the number of levels rendered are unlimited.
+     * This is also true for negative values of levels.
+     *
+     * @return
+     */
+    private boolean isLevelRestrictionActive() {
+        return levels <= 0;
     }
 }

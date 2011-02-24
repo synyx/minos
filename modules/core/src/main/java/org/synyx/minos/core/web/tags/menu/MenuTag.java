@@ -23,15 +23,11 @@ public class MenuTag extends RequestContextAwareTag {
 
     private static final long serialVersionUID = 3562560895559874960L;
 
-    private Integer levels = 0;
-
     private String menuId = "MAIN";
 
-    private boolean alwaysRenderSubmenus = false;
-
-    private String id = null;
-
     private String renderBean = null;
+
+    private MenuRenderer renderer;
 
 
     /*
@@ -53,18 +49,19 @@ public class MenuTag extends RequestContextAwareTag {
             return 0;
         }
 
+        renderer = getMenuRenderer();
+
         StringBuilder builder = new StringBuilder();
-        buildHtmlMenu(null, menuItems, builder, false, levels);
+        buildHtmlMenu(null, menuItems, builder, false);
 
         if (0 != builder.length()) {
-            MenuRenderer menuRenderer = getMenuRenderer();
             MenuMetaInfo info = new MenuMetaInfo();
             info.setId(id);
 
             JspWriter out = pageContext.getOut();
-            out.append(menuRenderer.beforeMenu(info));
+            out.append(renderer.beforeMenu(info));
             out.append(builder.toString());
-            out.append(menuRenderer.afterMenu(info));
+            out.append(renderer.afterMenu(info));
         }
 
         return 0;
@@ -79,13 +76,12 @@ public class MenuTag extends RequestContextAwareTag {
      * @param builder
      * @throws IOException
      */
-    private void buildHtmlMenu(MenuMetaInfo menuInfo, MenuItems menuItems, StringBuilder builder, boolean submenu, Integer levelsRemaining)
+    private void buildHtmlMenu(MenuMetaInfo menuInfo, MenuItems menuItems, StringBuilder builder, boolean submenu)
             throws IOException {
 
         String path = getPathWithinApplication(getRequest());
 
-        MenuRenderer menuRenderer = getMenuRenderer();
-        builder.append(menuRenderer.beforeMenuItem(menuInfo));
+        builder.append(renderer.beforeMenuItem(menuInfo));
 
         for (Menu item : menuItems) {
 
@@ -95,11 +91,8 @@ public class MenuTag extends RequestContextAwareTag {
             info.setActive(active);
             info.setDescription(resolveMessage(item.getDesciption()));
             info.setId(item.getTitle().replace('.', '_'));
-            info.setLevel(levelsRemaining);
             info.setSubMenu(submenu);
             info.setTitle(resolveMessage(item.getTitle()));
-            info.setAlwaysRenderSubmenus(alwaysRenderSubmenus);
-            info.setLevelRestrictionActive(isLevelRestrictionActive());
             info.setParent(item.hasSubMenues());
 
             if (item.getUrl() != null) {
@@ -108,28 +101,15 @@ public class MenuTag extends RequestContextAwareTag {
                 info.setUrl(null);
             }
 
-            builder.append(menuRenderer.renderItem(info));
+            builder.append(renderer.renderItem(info));
 
-            if (menuRenderer.proceedWithRenderingSubmenus(info) && item.hasSubMenues()) {
+            if (renderer.proceedWithRenderingSubmenus(info) && item.hasSubMenues()) {
                 info.setSubMenu(true);
-                buildHtmlMenu(info, item.getSubMenues(), builder, true, levelsRemaining - 1);
+                buildHtmlMenu(info, item.getSubMenues(), builder, true);
                 info.setSubMenu(false);
             }
         }
-        builder.append(menuRenderer.afterMenuItem(menuInfo));
-    }
-
-
-    /**
-     * If the attribute levels is set, the tag renders submenues until the given level. This method checks if the
-     * level-feature is deactivated : if <minos:menu levels="0"> is used, the number of levels rendered are unlimited.
-     * This is also true for negative values of levels.
-     * 
-     * @return
-     */
-    private boolean isLevelRestrictionActive() {
-
-        return levels <= 0;
+        builder.append(renderer.afterMenuItem(menuInfo));
     }
 
 
@@ -192,40 +172,9 @@ public class MenuTag extends RequestContextAwareTag {
         try {
             return getApplicationContext().getBean(renderBean, MenuRenderer.class);
         } catch (RuntimeException e) {
-            return new DefaultMenuRenderer();
+            return getApplicationContext().getBean("defaultMenuRenderer", MenuRenderer.class);
         }
-
     }
-
-
-    public Integer getLevels() {
-
-        return levels;
-    }
-
-
-    public void setLevels(Integer levels) {
-
-        this.levels = levels;
-    }
-
-
-    /**
-     * Set whether submenus should always be rendered. Standard is 'false'. If false submenus are only rendered for
-     * active menu items. True is useful for dropdown-submenus.
-     */
-    public void setAlwaysRenderSubmenus(boolean alwaysRenderSubmenus) {
-
-        this.alwaysRenderSubmenus = alwaysRenderSubmenus;
-    }
-
-
-    @Override
-    public void setId(String id) {
-
-        this.id = id;
-    }
-
 
     public void setMenuId(String menuId) {
 

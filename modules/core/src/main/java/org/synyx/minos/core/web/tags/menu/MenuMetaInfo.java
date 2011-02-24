@@ -9,14 +9,11 @@ package org.synyx.minos.core.web.tags.menu;
  */
 public class MenuMetaInfo {
     private boolean isActive;
-    private int level;
     private String id;
     private String url;
     private String title;
     private String description;
     private boolean subMenu;
-    private boolean alwaysRenderSubmenus;
-    private boolean levelRestrictionActive;
     private boolean parent;
 
     public MenuMetaInfo() {
@@ -46,14 +43,6 @@ public class MenuMetaInfo {
         isActive = argActive;
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int argLevel) {
-        level = argLevel;
-    }
-
     public boolean isSubMenu() {
         return subMenu;
     }
@@ -76,22 +65,6 @@ public class MenuMetaInfo {
 
     public void setUrl(String argUrl) {
         url = argUrl;
-    }
-
-    public boolean isAlwaysRenderSubmenus() {
-        return alwaysRenderSubmenus;
-    }
-
-    public void setAlwaysRenderSubmenus(boolean argAlwaysRenderSubmenus) {
-        alwaysRenderSubmenus = argAlwaysRenderSubmenus;
-    }
-
-    public boolean isLevelRestrictionActive() {
-        return levelRestrictionActive;
-    }
-
-    public void setLevelRestrictionActive(boolean argLevelRestrictionActive) {
-        levelRestrictionActive = argLevelRestrictionActive;
     }
 
     public boolean isParent() {

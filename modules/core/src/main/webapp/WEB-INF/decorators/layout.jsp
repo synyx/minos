@@ -20,7 +20,7 @@
 	<body>
 		<div id="header">
 			<h1>Minos Sandbox</h1>
-			<minos:menu menuId="MAIN" id="menu" />
+			<minos:menu menuId="MAIN" />
 		</div>
 		<div id="middle">
 			<minos:system-message />

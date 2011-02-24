@@ -83,12 +83,9 @@
         <property name="maxUploadSize" value="100000"/>
     </bean>
 
-
-
-	
-
-
-
-
-
+    <bean id="defaultMenuRenderer" class="org.synyx.minos.core.web.tags.menu.DefaultMenuRenderer">
+        <property name="alwaysRenderSubmenus" value="false"/>
+        <property name="levels" value="0"/>
+        <property name="rootId" value="menu"/>
+    </bean>
 </beans>
