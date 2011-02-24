@@ -15,6 +15,9 @@ public class MenuMetaInfo {
     private String title;
     private String description;
     private boolean subMenu;
+    private boolean alwaysRenderSubmenus;
+    private boolean levelRestrictionActive;
+    private boolean parent;
 
     public MenuMetaInfo() {
     }
@@ -73,5 +76,29 @@ public class MenuMetaInfo {
 
     public void setUrl(String argUrl) {
         url = argUrl;
+    }
+
+    public boolean isAlwaysRenderSubmenus() {
+        return alwaysRenderSubmenus;
+    }
+
+    public void setAlwaysRenderSubmenus(boolean argAlwaysRenderSubmenus) {
+        alwaysRenderSubmenus = argAlwaysRenderSubmenus;
+    }
+
+    public boolean isLevelRestrictionActive() {
+        return levelRestrictionActive;
+    }
+
+    public void setLevelRestrictionActive(boolean argLevelRestrictionActive) {
+        levelRestrictionActive = argLevelRestrictionActive;
+    }
+
+    public boolean isParent() {
+        return parent;
+    }
+
+    public void setParent(boolean argParent) {
+        parent = argParent;
     }
 }

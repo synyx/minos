@@ -46,4 +46,12 @@ public interface MenuRenderer {
      * @return String containing the rendering result
      */
     String afterMenu(MenuMetaInfo info);
+
+    /**
+     * Called after each menu item
+     *
+     * @param info MenuMetaInfo instance
+     * @return true if proceeding with rendering of sub menus, else false
+     */
+    boolean proceedWithRenderingSubmenus(MenuMetaInfo info);
 }

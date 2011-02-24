@@ -47,10 +47,18 @@ public class DefaultMenuRenderer implements MenuRenderer {
 
     @Override
     public String renderItem(MenuMetaInfo info) {
-        if (info != null) {
+        if (info != null && info.getUrl() != null) {
             String aClass = info.isActive() ? " class='active'" : "";
             return String.format("<li%s><a id='%s' href='%s' title='%s'%s>%s</a></li>", aClass, info.getId(), info.getUrl(), info.getDescription(), aClass, info.getTitle());
         }
         return "";
+    }
+
+    @Override
+    public boolean proceedWithRenderingSubmenus(MenuMetaInfo info) {
+        if (!info.isSubMenu() && (info.isActive() || info.isAlwaysRenderSubmenus()) && (info.isLevelRestrictionActive() || info.getLevel() > 1)) {
+            return info.isParent();
+        }
+        return false;
     }
 }

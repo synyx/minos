@@ -89,12 +89,8 @@ public class MenuTag extends RequestContextAwareTag {
 
         for (Menu item : menuItems) {
 
-            String url = item.getUrl();
-            if (url == null) {
-                continue;
-            }
-
             boolean active = item.isActiveFor(path);
+
             MenuMetaInfo info = new MenuMetaInfo();
             info.setActive(active);
             info.setDescription(resolveMessage(item.getDesciption()));
@@ -102,21 +98,22 @@ public class MenuTag extends RequestContextAwareTag {
             info.setLevel(levelsRemaining);
             info.setSubMenu(submenu);
             info.setTitle(resolveMessage(item.getTitle()));
-            info.setUrl(UrlUtils.toUrl(url, getRequest()));
+            info.setAlwaysRenderSubmenus(alwaysRenderSubmenus);
+            info.setLevelRestrictionActive(isLevelRestrictionActive());
+            info.setParent(item.hasSubMenues());
 
-            if (submenu) {
-                builder.append(menuRenderer.renderItem(info));
+            if (item.getUrl() != null) {
+                info.setUrl(UrlUtils.toUrl(item.getUrl(), getRequest()));
             } else {
-                builder.append(menuRenderer.renderItem(info));
+                info.setUrl(null);
+            }
 
-                if ((active || alwaysRenderSubmenus) && (isLevelRestrictionActive() || levelsRemaining > 1)) {
+            builder.append(menuRenderer.renderItem(info));
 
-                    if (item.hasSubMenues()) {
-                        info.setSubMenu(true);
-                        buildHtmlMenu(info, item.getSubMenues(), builder, true, levelsRemaining - 1);
-                        info.setSubMenu(false);
-                    }
-                }
+            if (menuRenderer.proceedWithRenderingSubmenus(info) && item.hasSubMenues()) {
+                info.setSubMenu(true);
+                buildHtmlMenu(info, item.getSubMenues(), builder, true, levelsRemaining - 1);
+                info.setSubMenu(false);
             }
         }
         builder.append(menuRenderer.afterMenuItem(menuInfo));
