@@ -1,35 +1,97 @@
 package org.synyx.minos.core.module;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
+import org.springframework.core.io.Resource;
+
+import org.synyx.minos.core.Core;
+import org.synyx.minos.core.domain.User;
+import org.synyx.minos.core.module.internal.MinosModule;
+import org.synyx.minos.umt.web.UserForm;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
-import org.springframework.core.io.Resource;
-import org.synyx.minos.core.Core;
-import org.synyx.minos.core.domain.User;
-import org.synyx.minos.core.module.internal.MinosModule;
-import org.synyx.minos.umt.web.UserForm;
-
 
 /**
  * Unit test for {@link MinosModule}.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class MinosModuleUnitTest {
 
     private static final String PACKAGE = "org.synyx.minos.core";
 
-
     @Test(expected = IllegalArgumentException.class)
     public void rejectsNullIdentifiers() throws Exception {
 
         new MinosModule(null);
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void rejectsInvalidIdentifiers_StartsNumber() {
+
+        new MinosModule("1identifier");
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void rejectsInvalidIdentifiers_StartsDot() {
+
+        new MinosModule(".identifier");
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void rejectsInvalidIdentifiers_ContainsInvalidChar() {
+
+        new MinosModule("an-identifier");
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void rejectsInvalidIdentifiers_EndsDot() {
+
+        new MinosModule("identifier.");
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void rejectsInvalidIdentifiers_DoubleDot() {
+
+        new MinosModule("an..identifier");
+    }
+
+
+    @Test
+    public void acceptsValidIdentifiers_Plain() {
+
+        new MinosModule("identifier");
+    }
+
+
+    @Test
+    public void acceptsValidIdentifiers_Dotted() {
+
+        new MinosModule("an.identifier");
+    }
+
+
+    @Test
+    public void acceptsValidIdentifiers_WithNumbers() {
+
+        new MinosModule("identifier123");
     }
 
 
