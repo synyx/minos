@@ -5,17 +5,16 @@ import org.synyx.minos.core.domain.User;
 
 /**
  * Creates a {@link SimpleMessageNotification} instance using a {@link String}
- * 
+ *
  * @author David Linsin - linsin@synyx.de
  */
 public class SimpleMessageNotificationFactory implements NotificationFactory {
 
     private final String message;
 
-
     /**
      * Initializes invariables
-     * 
+     *
      * @param argMessage {@link String} used to create a {@link SimpleMessageNotification}
      */
     public SimpleMessageNotificationFactory(String argMessage) {
@@ -23,10 +22,9 @@ public class SimpleMessageNotificationFactory implements NotificationFactory {
         message = argMessage;
     }
 
-
     /**
      * Creates a {@link Notification} instance of type {@link SimpleMessageNotification}
-     * 
+     *
      * @param argRecipient {@link User} instance which is the recipient
      * @param argParams variable parameters
      * @return {@link Notification} instance

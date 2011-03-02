@@ -1,9 +1,24 @@
 package org.synyx.minos.skillz.service;
 
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
+
+import org.apache.fop.apps.FOUserAgent;
+import org.apache.fop.apps.Fop;
+import org.apache.fop.apps.FopFactory;
+import org.apache.fop.apps.MimeConstants;
+
+import org.springframework.core.io.Resource;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 import java.net.URL;
 
 import javax.xml.transform.Source;
@@ -14,21 +29,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
-import org.apache.fop.apps.FOUserAgent;
-import org.apache.fop.apps.Fop;
-import org.apache.fop.apps.FopFactory;
-import org.apache.fop.apps.MimeConstants;
-import org.springframework.core.io.Resource;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
 
 /**
  * Implementation of {@link FopXsltService}.
- * 
+ *
  * @author Markus Knittig - knittig@synyx.de
  */
 class FopXsltServiceImpl implements FopXsltService {
@@ -38,10 +42,9 @@ class FopXsltServiceImpl implements FopXsltService {
     private Resource configuration;
     private final URIResolver uriResolver;
 
-
     /**
      * Constructor for {@link FopXsltServiceImpl}. Uses the Saxon implementation of {@link TransformerFactory}.
-     * 
+     *
      * @param defaultXsltResource
      */
     public FopXsltServiceImpl(Resource defaultXsltResource) {
@@ -52,10 +55,9 @@ class FopXsltServiceImpl implements FopXsltService {
         this.uriResolver = new ClassPathURIResolver();
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.FopService#createFop(java.io.OutputStream)
      */
     @Override
@@ -72,6 +74,7 @@ class FopXsltServiceImpl implements FopXsltService {
         }
 
         fopFactory.setURIResolver(uriResolver);
+
         FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
         foUserAgent.setURIResolver(uriResolver);
 
@@ -82,7 +85,7 @@ class FopXsltServiceImpl implements FopXsltService {
     /**
      * Creates a {@link Transformer} instance with the given XSLT file or a default XSLT file if <code>null</code> was
      * given.
-     * 
+     *
      * @param xsltFile
      * @return
      * @throws TransformerConfigurationException
@@ -91,6 +94,7 @@ class FopXsltServiceImpl implements FopXsltService {
     public Transformer createTransformer(File xsltFile) throws TransformerConfigurationException, IOException {
 
         transformerFactory.setURIResolver(uriResolver);
+
         Transformer transformer = null;
 
         if (xsltFile == null) {
@@ -115,7 +119,7 @@ class FopXsltServiceImpl implements FopXsltService {
     /**
      * This class is a URIResolver implementation that provides access to resources in the class path of a application
      * using class path URIs.
-     * 
+     *
      * @author Markus Knittig - knittig@synyx.de
      */
     private class ClassPathURIResolver implements URIResolver {
@@ -125,10 +129,9 @@ class FopXsltServiceImpl implements FopXsltService {
         // URL protocol
         public static final String CLASSPATH_CONTEXT_PROTOCOL = "file:";
 
-
         /*
          * (non-Javadoc)
-         * 
+         *
          * @see javax.xml.transform.URIResolver#resolve(java.lang.String, java.lang.String)
          */
         @Override
@@ -139,6 +142,7 @@ class FopXsltServiceImpl implements FopXsltService {
             } else {
                 if (base != null && base.startsWith(CLASSPATH_CONTEXT_PROTOCOL) && (href.indexOf(':') < 0)) {
                     String abs = base + href;
+
                     return resolveServletContextURI(abs.substring(CLASSPATH_CONTEXT_PROTOCOL.length()));
                 } else {
                     return null;
@@ -149,7 +153,7 @@ class FopXsltServiceImpl implements FopXsltService {
 
         /**
          * Resolves the class path URI.
-         * 
+         *
          * @param path
          * @return
          * @throws TransformerException
@@ -159,8 +163,10 @@ class FopXsltServiceImpl implements FopXsltService {
             while (path.startsWith("//")) {
                 path = path.substring(1);
             }
+
             URL url = ClassPathURIResolver.class.getResource(path);
             InputStream in = ClassPathURIResolver.class.getResourceAsStream(path);
+
             if (in != null) {
                 if (url != null) {
                     return new StreamSource(in, url.toExternalForm());
@@ -169,10 +175,8 @@ class FopXsltServiceImpl implements FopXsltService {
                 }
             } else {
                 throw new TransformerException("Resource does not exist. \"" + path
-                        + "\" is not accessible through the classpath.");
+                    + "\" is not accessible through the classpath.");
             }
         }
-
     }
-
 }

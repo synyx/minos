@@ -10,7 +10,7 @@ public abstract class ClassUtils {
 
     /**
      * Returns whether the given {@link Class} has a setter with the given argument types for the given property.
-     * 
+     *
      * @param clazz
      * @param propertyName
      * @param parameterTypes

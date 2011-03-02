@@ -1,6 +1,7 @@
 package org.synyx.minos.core.web.event;
 
 import org.springframework.beans.factory.annotation.Required;
+
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.mvc.Controller;
  * Subclasses should be annotated with {@code ModuleDependent} as the
  * implementation is typesafe and thus would refer possibly not available
  * classes from other modules.</em>
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public abstract class AbstractEventHandler<T extends Event> implements EventHandler<T> {
@@ -22,10 +23,9 @@ public abstract class AbstractEventHandler<T extends Event> implements EventHand
 
     private Controller controller;
 
-
     /**
      * Sets the event class, the handler is intrested in.
-     * 
+     *
      * @param event the event to set
      */
     @Required
@@ -37,7 +37,7 @@ public abstract class AbstractEventHandler<T extends Event> implements EventHand
 
     /**
      * Sets the controller, the handler will execute.
-     * 
+     *
      * @param controller the controller to set
      */
     @Required
@@ -49,7 +49,7 @@ public abstract class AbstractEventHandler<T extends Event> implements EventHand
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.synyx.minos.core.web.support.EventHandlerInterface#handleEvent(com.synyx.minos.core.web.support.EvenContext)
      */
@@ -71,7 +71,7 @@ public abstract class AbstractEventHandler<T extends Event> implements EventHand
     /**
      * Callback method to prepare execution of the controller. Override this method to prepare the request according to
      * the event that was thrown and the controller to be executed.
-     * 
+     *
      * @param event
      * @param context
      */
@@ -83,7 +83,7 @@ public abstract class AbstractEventHandler<T extends Event> implements EventHand
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.core.web.support.EventHandlerInterface#supports(java.lang.Object)
      */
     public boolean supports(Class<? extends T> eventClass) {
@@ -94,13 +94,13 @@ public abstract class AbstractEventHandler<T extends Event> implements EventHand
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
 
         return "SimpleEventHandler: triggering " + controller.toString() + " on events of type "
-                + supportedEvent.getName();
+            + supportedEvent.getName();
     }
 }

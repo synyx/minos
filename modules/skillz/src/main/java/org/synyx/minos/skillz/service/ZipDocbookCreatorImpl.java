@@ -1,36 +1,35 @@
 package org.synyx.minos.skillz.service;
 
+import org.synyx.minos.skillz.domain.Level;
+import org.synyx.minos.skillz.domain.Resume;
+import org.synyx.minos.skillz.util.FileUtils;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.List;
 
-import org.synyx.minos.skillz.domain.Level;
-import org.synyx.minos.skillz.domain.Resume;
-import org.synyx.minos.skillz.util.FileUtils;
+import java.util.List;
 
 
 /**
  * Implementation of {@link ResumeZipCreator}.
- * 
+ *
  * @author Markus Knittig - knittig@synyx.de
  */
 public class ZipDocbookCreatorImpl implements ResumeZipCreator {
 
     private final DocbookTemplateService docbookTemplateService;
 
-
     public ZipDocbookCreatorImpl(DocbookTemplateService docbookTemplateService) {
 
         this.docbookTemplateService = docbookTemplateService;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.ResumeZipCreator#streamZip( org.synyx.minos.skillz.domain.Resume,
      * java.io.OutputStream)
      */
@@ -47,7 +46,7 @@ public class ZipDocbookCreatorImpl implements ResumeZipCreator {
             }
 
             zipper.writeEntry(docbookTemplateService.createDocbookXml(resume, levels, "media/photo.png", Boolean.FALSE),
-                    "src/docbkx/resume.xml");
+                "src/docbkx/resume.xml");
         } catch (Exception e) {
             throw new ZipCreationException("Failed to create Resume ZIP!", e);
         } finally {
@@ -58,7 +57,7 @@ public class ZipDocbookCreatorImpl implements ResumeZipCreator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.ResumeZipCreator#createTempZipFile(java .io.File,
      * org.synyx.minos.skillz.domain.Resume, java.util.List)
      */
@@ -74,5 +73,4 @@ public class ZipDocbookCreatorImpl implements ResumeZipCreator {
             throw new ZipCreationException("Failed to create temporary file!", e);
         }
     }
-
 }

@@ -1,20 +1,21 @@
 package org.synyx.minos.skillz.domain;
 
+import org.synyx.hades.domain.auditing.AbstractAuditable;
+
+import org.synyx.minos.core.domain.User;
+import org.synyx.minos.util.Assert;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
-import org.synyx.hades.domain.auditing.AbstractAuditable;
-import org.synyx.minos.core.domain.User;
-import org.synyx.minos.util.Assert;
-
 
 /**
  * A {@link SkillEntry} binds a {@link Level} instance to a {@link Skill}. This expresses the level of ability somebody
  * carries for the references skill.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Entity
@@ -33,15 +34,13 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
     private boolean acknowledged;
 
-
     protected SkillEntry() {
-
     }
 
 
     /**
      * Creates a new {@link SkillEntry}.
-     * 
+     *
      * @param skill
      * @param matrix
      * @param level
@@ -57,10 +56,9 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
         this.acknowledged = false;
     }
 
-
     /**
      * Returns the name of the entry.
-     * 
+     *
      * @return
      */
     public String getName() {
@@ -71,7 +69,7 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
     /**
      * Returns the {@link Category} the entry is assigned to.
-     * 
+     *
      * @return
      */
     public Category getCategory() {
@@ -83,7 +81,7 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
     /**
      * Returns the {@link Level} that is assigned to the underlying {@link Skill}. Might be {@code null} in cases the
      * {@link SkillEntry} is freshly created.
-     * 
+     *
      * @return the level
      */
     public Level getLevel() {
@@ -94,7 +92,7 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
     /**
      * Set the {@link Level} assigned to the underlying {@link Skill}.
-     * 
+     *
      * @param level the level to set
      */
     public void setLevel(Level level) {
@@ -110,7 +108,7 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
     /**
      * Sets a link to the containing {@link SkillMatrix}.
-     * 
+     *
      * @param matrix the matrix to set
      */
     void setMatrix(SkillMatrix matrix) {
@@ -121,7 +119,7 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
     /**
      * Returns whether the entry belongs to the given {@link Category}.
-     * 
+     *
      * @param category
      * @return
      */
@@ -137,7 +135,7 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
     /**
      * Returns the {@link Skill} the {@link SkillEntry} is assigned to.
-     * 
+     *
      * @return
      */
     Skill getSkill() {
@@ -148,7 +146,7 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
     /**
      * Returns whether the {@link SkillEntry} is assigned to the given {@link Skill}.
-     * 
+     *
      * @param skill
      * @return
      */
@@ -160,7 +158,7 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
     /**
      * Returns the index of the entry inside the {@link SkillMatrix}.
-     * 
+     *
      * @return
      */
     public int getIndex() {
@@ -172,7 +170,7 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
     /**
      * Returns whether the {@link SkillEntry} is acknowledged by the user meaning he has actively linked the
      * {@link Skill} to the {@link Level}.
-     * 
+     *
      * @return the acknowledged
      */
     public boolean isAcknowledged() {
@@ -183,7 +181,7 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
     /**
      * Sets whether the {@link SkillEntry} is accepted by a {@link User}.
-     * 
+     *
      * @param acknowledged the acknowledged to set
      */
     public void setAcknowledged(boolean acknowledged) {
@@ -194,7 +192,7 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
     /**
      * Creates skill entries for all {@link Skill}s of the given {@link Category}.
-     * 
+     *
      * @param category
      * @param matrix
      * @return
@@ -213,7 +211,7 @@ public class SkillEntry extends AbstractAuditable<User, Long> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.hades.domain.support.AbstractPersistable#toString()
      */
     @Override

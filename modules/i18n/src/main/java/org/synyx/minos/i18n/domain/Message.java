@@ -1,19 +1,19 @@
 package org.synyx.minos.i18n.domain;
 
+import org.synyx.hades.domain.AbstractPersistable;
+
 import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
-import org.synyx.hades.domain.AbstractPersistable;
-
 
 /**
  * Domain class representing a single internationalized message entry. This message entry consists of a locale,
  * basename, key and message. Uniquely identified by the first three. (Although there is no compound key but a single
  * id.)
- * 
+ *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 @Entity
@@ -33,18 +33,16 @@ public class Message extends AbstractPersistable<Long> {
     @Column(nullable = false, length = 8192)
     private String message;
 
-
     /**
      * Create a new empty instance of {@link Message}.
      */
     public Message() {
-
     }
 
 
     /**
      * Create a new instance of {@link Message} setting the fields according to the given parameters.
-     * 
+     *
      * @param locale the locale wrapped by {@link LocaleWrapper}.
      * @param basename the basename.
      * @param key the key.
@@ -62,7 +60,7 @@ public class Message extends AbstractPersistable<Long> {
 
     /**
      * Create a new instance of {@link Message} setting the fields according to the given parameters.
-     * 
+     *
      * @param locale the {@link Locale}.
      * @param basename the basename.
      * @param key the key.
@@ -76,7 +74,7 @@ public class Message extends AbstractPersistable<Long> {
 
     /**
      * Create a new instance of {@link Message} setting the fields according to the given parameters.
-     * 
+     *
      * @param language the language code of the locale.
      * @param country the country code of the locale.
      * @param variant the variant of the locale.
@@ -89,10 +87,9 @@ public class Message extends AbstractPersistable<Long> {
         this(new LocaleWrapper(language, country, variant), basename, key, message);
     }
 
-
     /**
      * Get the basename of this {@link Message}.
-     * 
+     *
      * @return the basename.
      */
     public String getBasename() {
@@ -103,7 +100,7 @@ public class Message extends AbstractPersistable<Long> {
 
     /**
      * Set the basename of this {@link Message}.
-     * 
+     *
      * @param basename the basename to set.
      */
     public void setBasename(String basename) {
@@ -114,7 +111,7 @@ public class Message extends AbstractPersistable<Long> {
 
     /**
      * Get the key of this {@link Message}.
-     * 
+     *
      * @return the key.
      */
     public String getKey() {
@@ -125,7 +122,7 @@ public class Message extends AbstractPersistable<Long> {
 
     /**
      * Set the key of this {@link Message}.
-     * 
+     *
      * @param key the key to set.
      */
     public void setKey(String key) {
@@ -136,7 +133,7 @@ public class Message extends AbstractPersistable<Long> {
 
     /**
      * Get the message text of this {@link Message}.
-     * 
+     *
      * @return the message text.
      */
     public String getMessage() {
@@ -147,7 +144,7 @@ public class Message extends AbstractPersistable<Long> {
 
     /**
      * Set the message text of this {@link Message}.
-     * 
+     *
      * @param message the message text to set.
      */
     public void setMessage(String message) {
@@ -158,7 +155,7 @@ public class Message extends AbstractPersistable<Long> {
 
     /**
      * Get the locale of this {@link Message} wrapped by {@link LocaleWrapper}.
-     * 
+     *
      * @return the locale.
      */
     public LocaleWrapper getLocale() {
@@ -169,7 +166,7 @@ public class Message extends AbstractPersistable<Long> {
 
     /**
      * Set the locale of this {@link Message} wrapped by {@link LocaleWrapper}.
-     * 
+     *
      * @param locale the locale to set.
      */
     public void setLocale(LocaleWrapper locale) {
@@ -186,5 +183,4 @@ public class Message extends AbstractPersistable<Long> {
 
         return String.format("[%s %s], %s=%s", basename, locale.toString(), key, message);
     }
-
 }

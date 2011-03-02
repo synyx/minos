@@ -2,6 +2,7 @@ package org.synyx.minos.core.bootstrap;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.module.ModuleLifecycleException;
@@ -15,7 +16,7 @@ import org.synyx.minos.umt.service.UserManagement;
  * aimed to be used in production environments.
  * <p>
  * Currently uses quite a hack to enable authenticated access to the injected service.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -23,10 +24,9 @@ public class MinosCoreInstaller extends SimpleNoOpLifecycle {
 
     private UserManagement userManagement;
 
-
     /**
      * Setter to inject the {@link UserManagement} to setup basic data.
-     * 
+     *
      * @param userManagement the userManagement to set
      */
     public void setUserManagement(UserManagement userManagement) {
@@ -37,7 +37,7 @@ public class MinosCoreInstaller extends SimpleNoOpLifecycle {
 
     /**
      * Returns the {@link UserManagement}.
-     * 
+     *
      * @return the userManagement
      */
     protected UserManagement getUserManagement() {
@@ -48,7 +48,7 @@ public class MinosCoreInstaller extends SimpleNoOpLifecycle {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.core.module.SimpleNoOpLifecycle#install()
      */
     @Override
@@ -74,6 +74,7 @@ public class MinosCoreInstaller extends SimpleNoOpLifecycle {
 
         Role userRole = new Role(Role.USER_NAME);
         userManagement.save(userRole);
+
         return userRole;
     }
 
@@ -83,6 +84,7 @@ public class MinosCoreInstaller extends SimpleNoOpLifecycle {
         Role adminRole = new Role(Role.ADMIN_NAME);
         adminRole.add(UmtPermissions.UMT_ADMIN);
         userManagement.save(adminRole);
+
         return adminRole;
     }
 }

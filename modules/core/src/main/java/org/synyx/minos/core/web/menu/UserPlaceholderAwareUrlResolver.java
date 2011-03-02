@@ -1,6 +1,7 @@
 package org.synyx.minos.core.web.menu;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.security.AuthenticationService;
 import org.synyx.minos.util.Assert;
@@ -9,7 +10,7 @@ import org.synyx.minos.util.Assert;
 /**
  * {@link UrlResolver} that is able to detect a given placeholder in the configured URL and replaces it with the current
  * {@link User}s username.
- * 
+ *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  * @author Oliver Gierke
  */
@@ -20,10 +21,9 @@ public class UserPlaceholderAwareUrlResolver extends SimpleUrlResolver {
     private final AuthenticationService authService;
     private String placeholder = DEFAULT_PLACEHOLDER;
 
-
     /**
      * Creates a new {@link UserPlaceholderAwareUrlResolver}.
-     * 
+     *
      * @param url
      * @param authService
      */
@@ -34,10 +34,9 @@ public class UserPlaceholderAwareUrlResolver extends SimpleUrlResolver {
         this.authService = authService;
     }
 
-
     /**
      * Configure the placeholder that should be replaced with the username. Defaults to {@value #DEFAULT_PLACEHOLDER}.
-     * 
+     *
      * @param userPlaceholder the userPlaceholder to set
      */
     public void setPlaceholder(String userPlaceholder) {
@@ -48,7 +47,7 @@ public class UserPlaceholderAwareUrlResolver extends SimpleUrlResolver {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.core.web.menu.SimpleUrlResolvingStrategy#resolveUrl(org.synyx.minos.core.web.menu.MenuItem)
      */
     @Override

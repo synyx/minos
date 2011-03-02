@@ -1,14 +1,13 @@
 package org.synyx.minos.skillz.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.core.convert.ConversionService;
+
 import org.springframework.transaction.annotation.Transactional;
+
 import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.PageImpl;
 import org.synyx.hades.domain.Pageable;
+
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.skillz.dao.ActivityDao;
 import org.synyx.minos.skillz.dao.ResumeDao;
@@ -22,10 +21,14 @@ import org.synyx.minos.skillz.domain.resume.ResumeFilter;
 import org.synyx.minos.skillz.domain.resume.ResumeFilterParameters;
 import org.synyx.minos.util.Assert;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * Implementation of resume based services.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Transactional
@@ -38,16 +41,15 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
     private List<ResumeFilter> resumeFilters = new ArrayList<ResumeFilter>();
     private List<ResumeAttributeFilter> resumeAttributeFilters = new ArrayList<ResumeAttributeFilter>();
 
-
     /**
      * Creates a new {@link ResumeManagementImpl}.
-     * 
+     *
      * @param resumeDao
      * @param activityDao
      * @param matrixDao
      */
     public ResumeManagementImpl(ResumeDao resumeDao, ActivityDao activityDao, SkillzMatrixDao matrixDao,
-            ConversionService conversionService) {
+        ConversionService conversionService) {
 
         Assert.notNull(resumeDao);
         Assert.notNull(activityDao);
@@ -59,7 +61,6 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
         this.matrixDao = matrixDao;
         this.conversionService = conversionService;
     }
-
 
     /**
      * @param resumeFilters the resumeQueries to set
@@ -81,7 +82,7 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.ResumeManagement#getResume(org.synyx.minos .core.domain.User)
      */
     public Resume getResume(User user) {
@@ -92,7 +93,7 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.ResumeManagement#getResume(java.lang.Long)
      */
     public Resume getResume(Long id) {
@@ -103,7 +104,7 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.ResumeManagement#save(com.synyx.minos. skillz.domain.Resume)
      */
     public Resume save(Resume resume) {
@@ -114,7 +115,7 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.ResumeManagement#save(com.synyx.minos. skillz.domain.SkillMatrix)
      */
     public SkillMatrix save(SkillMatrix matrix) {
@@ -127,7 +128,7 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.ResumeManagement#save(com.synyx.minos. skillz.domain.Resume,
      * com.synyx.minos.skillz.domain.MatrixTemplate)
      */
@@ -142,7 +143,7 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.ResumeManagement#save(com.synyx.minos. skillz.domain.Activity)
      */
     public Activity save(Activity reference) {
@@ -153,13 +154,14 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
         Resume resume = getResume(user).add(result);
 
         resumeDao.save(resume);
+
         return result;
     }
 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.ResumeManagement#delete(com.synyx.minos .skillz.domain.Activity)
      */
     public void delete(Activity reference) {
@@ -174,7 +176,7 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.ResumeManagement#delete(org.synyx.minos .skillz.domain.Resume)
      */
     @Override
@@ -186,7 +188,7 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.ResumeManagement#getReference(java.lang .Long)
      */
     public Activity getReference(Long id) {
@@ -197,7 +199,7 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.ResumeManagement#getResumes()
      */
     public List<Resume> getResumes() {
@@ -208,7 +210,7 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.ResumeManagement#getResumes(org.synyx. hades.domain.Pageable)
      */
     @Override
@@ -220,7 +222,7 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
 
     @Override
     public Page<Resume> getResumesByFilter(Pageable pageable, ResumeFilter resumeFilter,
-            Map<String, String[]> parameters) {
+        Map<String, String[]> parameters) {
 
         ResumeFilterParameters filterParameters = resumeFilter.getParameters();
         Map<String, Object> filteredParamaters = filterParameters.getTypedParameters(parameters, conversionService);
@@ -236,6 +238,7 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
     private List<Resume> paginate(List<Resume> resumes, Pageable pageable) {
 
         int toIndex = Math.min(resumes.size(), (pageable.getPageNumber() + 1) * pageable.getPageSize());
+
         return resumes.subList(pageable.getPageNumber() * pageable.getPageSize(), toIndex);
     }
 
@@ -255,29 +258,32 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
                 return query;
             }
         }
+
         return null;
     }
 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.ResumeManagement#getFilteredResume(java .util.List)
      */
     @Override
     public Resume getFilteredResume(User user, List<ResumeAttributeFilter> filters) {
 
         Resume resume = getResume(user);
+
         for (ResumeAttributeFilter filter : filters) {
             filter.filter(resume);
         }
+
         return resume;
     }
 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.ResumeManagement#getResumeAttributeFilters ()
      */
     @Override
@@ -285,5 +291,4 @@ public class ResumeManagementImpl implements ResumeManagement, ResumeAdminstrati
 
         return resumeAttributeFilters;
     }
-
 }

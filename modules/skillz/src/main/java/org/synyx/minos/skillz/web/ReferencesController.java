@@ -1,21 +1,26 @@
 package org.synyx.minos.skillz.web;
 
-import static org.springframework.web.bind.annotation.RequestMethod.*;
-
-import java.util.List;
-import java.util.Locale;
-
 import org.joda.time.DateMidnight;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
+
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.Errors;
+
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
+
 import org.synyx.minos.core.Core;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.web.CurrentUser;
@@ -28,10 +33,13 @@ import org.synyx.minos.skillz.service.ResumeManagement;
 import org.synyx.minos.skillz.service.SkillManagement;
 import org.synyx.minos.skillz.web.validation.ReferenceValidator;
 
+import java.util.List;
+import java.util.Locale;
+
 
 /**
  * Controller for {@link Activity} web actions.
- * 
+ *
  * @author Markus Knittig - knittig@synyx.de
  */
 @Controller
@@ -43,20 +51,18 @@ public class ReferencesController {
     private final ResumeManagement resumeManagement;
     private final ReferenceValidator referenceValidator;
 
-
     /**
      * @param resumeManagement
      * @param skillManagement
      */
     @Autowired
     public ReferencesController(ResumeManagement resumeManagement, SkillManagement skillManagement,
-            ReferenceValidator referenceValidator) {
+        ReferenceValidator referenceValidator) {
 
         this.skillManagement = skillManagement;
         this.resumeManagement = resumeManagement;
         this.referenceValidator = referenceValidator;
     }
-
 
     @InitBinder
     public void initBinder(DataBinder binder, Locale locale) {
@@ -81,7 +87,7 @@ public class ReferencesController {
 
     @RequestMapping(value = "/skillz/resume/references", method = POST)
     public String createActivity(@ModelAttribute("reference") Activity reference, Errors errors, Model model,
-            @CurrentUser User user) {
+        @CurrentUser User user) {
 
         return saveActivity(reference, errors, model, user);
     }
@@ -89,7 +95,7 @@ public class ReferencesController {
 
     @RequestMapping(value = "/skillz/resume/references/{id}", method = PUT)
     public String updateActivity(@ModelAttribute("reference") Activity reference, Errors errors, Model model,
-            @CurrentUser User user) {
+        @CurrentUser User user) {
 
         return saveActivity(reference, errors, model, user);
     }
@@ -105,8 +111,8 @@ public class ReferencesController {
 
         Activity result = resumeManagement.save(reference);
 
-        model.addAttribute(Core.MESSAGE, Message
-                .success("skillz.reference.save.success", result.getProject().getName()));
+        model.addAttribute(Core.MESSAGE,
+            Message.success("skillz.reference.save.success", result.getProject().getName()));
 
         return UrlUtils.redirect(RESUME_REFERENCES);
     }
@@ -120,7 +126,8 @@ public class ReferencesController {
 
 
     @RequestMapping(value = { "/skillz/resume/references/{id}" }, method = GET)
-    public String showActivityForm(@PathVariable(value = "id") Activity reference, Model model, @CurrentUser User user) {
+    public String showActivityForm(@PathVariable(value = "id") Activity reference, Model model,
+        @CurrentUser User user) {
 
         return prepareActivtyForm(reference, model, user);
     }
@@ -128,7 +135,7 @@ public class ReferencesController {
 
     /**
      * Prepares the references form.
-     * 
+     *
      * @param reference
      * @param model
      * @param user
@@ -145,5 +152,4 @@ public class ReferencesController {
 
         return "skillz/resume/reference";
     }
-
 }

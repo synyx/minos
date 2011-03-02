@@ -2,6 +2,7 @@ package org.synyx.minos.skillz.web.validation;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+
 import org.synyx.minos.skillz.domain.Activity;
 
 
@@ -10,7 +11,7 @@ import org.synyx.minos.skillz.domain.Activity;
  * <ul>
  * <li>Activity project is set</li>
  * </ul>
- * 
+ *
  * @author Markus Knittig - knittig@synyx.de
  */
 public class ReferenceValidator implements Validator {
@@ -18,10 +19,9 @@ public class ReferenceValidator implements Validator {
     /** error message for empty project. */
     public static final String REFERENCE_PROJECT_EMPTY = "skillz.reference.project.empty";
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.validation.Validator#supports(java.lang.Class)
      */
     @Override
@@ -33,7 +33,7 @@ public class ReferenceValidator implements Validator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
      */
     @Override
@@ -45,5 +45,4 @@ public class ReferenceValidator implements Validator {
             errors.rejectValue("project", REFERENCE_PROJECT_EMPTY);
         }
     }
-
 }

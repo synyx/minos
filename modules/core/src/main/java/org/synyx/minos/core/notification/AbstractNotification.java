@@ -1,15 +1,15 @@
 package org.synyx.minos.core.notification;
 
+import org.synyx.minos.core.domain.User;
+
 import java.util.HashSet;
 import java.util.Set;
-
-import org.synyx.minos.core.domain.User;
 
 
 /**
  * Abstract base implementation of {@code Notification} that handles sender and recipient management. This allows
  * subclasses to implement various strategies to provide the notification message.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public abstract class AbstractNotification implements Notification {
@@ -17,10 +17,9 @@ public abstract class AbstractNotification implements Notification {
     protected User sender;
     protected Set<User> recipients;
 
-
     /**
      * Creates an {@code AbstractNotification} with the given {@code User} as recipient.
-     * 
+     *
      * @param recipient
      */
     public AbstractNotification(User recipient) {
@@ -31,7 +30,7 @@ public abstract class AbstractNotification implements Notification {
 
     /**
      * Creates an {@code AbstractNotification} with a sender and a single recipient.
-     * 
+     *
      * @param sender
      * @param recipient
      */
@@ -46,7 +45,7 @@ public abstract class AbstractNotification implements Notification {
 
     /**
      * Creates an {@code AbstractNotification} with the given {@code User}s as recipients.
-     * 
+     *
      * @param recipients
      */
     public AbstractNotification(Set<User> recipients) {
@@ -57,7 +56,7 @@ public abstract class AbstractNotification implements Notification {
 
     /**
      * Creates an {@code AbstractNotification} with a single sender and a list of recipients.
-     * 
+     *
      * @param sender
      * @param recipients
      */
@@ -67,10 +66,9 @@ public abstract class AbstractNotification implements Notification {
         this.recipients = null == recipients ? new HashSet<User>() : recipients;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.core.notification.Notification#getSender()
      */
     public User getSender() {
@@ -81,7 +79,7 @@ public abstract class AbstractNotification implements Notification {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.core.notification.Notification#getrecipients()
      */
     public Set<User> getRecipients() {
@@ -92,7 +90,7 @@ public abstract class AbstractNotification implements Notification {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.core.notification.Notification#hasSender()
      */
     public boolean hasSender() {

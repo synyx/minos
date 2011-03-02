@@ -1,19 +1,21 @@
 package org.synyx.minos.skillz.domain;
 
+import org.apache.commons.lang.StringUtils;
+
+import org.synyx.hades.domain.auditing.AbstractAuditable;
+
+import org.synyx.minos.core.domain.User;
+import org.synyx.minos.util.Assert;
+
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-
-import org.apache.commons.lang.StringUtils;
-import org.synyx.hades.domain.auditing.AbstractAuditable;
-import org.synyx.minos.core.domain.User;
-import org.synyx.minos.util.Assert;
 
 
 /**
  * Captures high level project information. This is a rather textual description of the project and issues and problems
  * the project deals with. Primarily used to have a consistent project description in various {@link Resume}s.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Entity
@@ -39,15 +41,13 @@ public class Project extends AbstractAuditable<User, Long> {
     @ManyToOne
     private User owner;
 
-
     protected Project() {
-
     }
 
 
     /**
      * Creates a new {@link Project}.
-     * 
+     *
      * @param name
      */
     public Project(String name) {
@@ -58,7 +58,7 @@ public class Project extends AbstractAuditable<User, Long> {
 
     /**
      * Creates a new {@link Project} with the given name and description.
-     * 
+     *
      * @param name
      * @param description
      */
@@ -76,7 +76,6 @@ public class Project extends AbstractAuditable<User, Long> {
         this.description = description;
         this.owner = owner;
     }
-
 
     /**
      * @return the name
@@ -206,7 +205,7 @@ public class Project extends AbstractAuditable<User, Long> {
 
     /**
      * Returns whether the project is a private one.
-     * 
+     *
      * @return the custom
      */
     public boolean isCustom() {
@@ -217,7 +216,7 @@ public class Project extends AbstractAuditable<User, Long> {
 
     /**
      * Returns whether the project belongs to the given {@link User}.
-     * 
+     *
      * @param user
      * @return
      */
@@ -230,7 +229,7 @@ public class Project extends AbstractAuditable<User, Long> {
     /**
      * Returns the abstract of the project. This will include the first paragraph of the description delimited by a dot
      * and a newline.
-     * 
+     *
      * @return
      */
     public String getAbstract() {
@@ -247,13 +246,12 @@ public class Project extends AbstractAuditable<User, Long> {
 
     /**
      * Returns the index of a found delimiter or -1 if none of the delimiters has been found.
-     * 
+     *
      * @return
      */
     private int hasDescriptionDelimiter() {
 
         for (String delimiter : DELIMITERS) {
-
             int index = description.indexOf(delimiter);
 
             if (index != -1) {
@@ -267,7 +265,7 @@ public class Project extends AbstractAuditable<User, Long> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.hades.domain.support.AbstractPersistable#toString()
      */
     @Override

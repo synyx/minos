@@ -1,21 +1,23 @@
 package org.synyx.minos.skillz.service;
 
-import java.io.StringWriter;
-import java.util.List;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.tools.generic.ConversionTool;
 import org.apache.velocity.tools.generic.DateTool;
 import org.apache.velocity.tools.generic.EscapeTool;
+
 import org.synyx.minos.skillz.domain.Level;
 import org.synyx.minos.skillz.domain.Resume;
+
+import java.io.StringWriter;
+
+import java.util.List;
 
 
 /**
  * Velocity implementation of {@link DocbookTemplateService}.
- * 
+ *
  * @author Markus Knittig - knittig@synyx.de
  */
 public class VelocityDocbookTemplateServiceImpl implements DocbookTemplateService {
@@ -24,25 +26,23 @@ public class VelocityDocbookTemplateServiceImpl implements DocbookTemplateServic
     private final String templateFile;
     private final String templateFileAnonymous;
 
-
     public VelocityDocbookTemplateServiceImpl(VelocityEngine velocityEngine, String templateFile,
-            String templateFileAnonymous) {
+        String templateFileAnonymous) {
 
         this.velocityEngine = velocityEngine;
         this.templateFile = templateFile;
         this.templateFileAnonymous = templateFileAnonymous;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.DocbookTemplateService#createDocbookXml
      * (org.synyx.minos.skillz.domain.Resume)
      */
     @Override
     public String createDocbookXml(Resume resume, List<Level> levels, String photoFilename, Boolean anonymous)
-            throws DocbookCreationException {
+        throws DocbookCreationException {
 
         VelocityContext context = new VelocityContext();
         context.put("esc", new EscapeTool());
@@ -50,15 +50,16 @@ public class VelocityDocbookTemplateServiceImpl implements DocbookTemplateServic
         context.put("date", new DateTool());
         context.put("resume", resume);
         context.put("levels", levels);
+
         if (resume.getPhoto() != null) {
             context.put("photoFile", photoFilename);
         }
 
         StringWriter stringWriter = new StringWriter();
+
         try {
-            
             Template template;
-            
+
             if (anonymous == Boolean.TRUE) {
                 template = velocityEngine.getTemplate(templateFileAnonymous);
             } else {
@@ -72,5 +73,4 @@ public class VelocityDocbookTemplateServiceImpl implements DocbookTemplateServic
 
         return stringWriter.toString();
     }
-
 }

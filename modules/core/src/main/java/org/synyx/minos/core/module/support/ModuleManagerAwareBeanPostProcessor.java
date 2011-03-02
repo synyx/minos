@@ -2,25 +2,26 @@ package org.synyx.minos.core.module.support;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+
 import org.synyx.minos.core.module.ModuleManager;
 import org.synyx.minos.core.module.ModuleManagerAware;
 
 
 /**
  * {@link BeanPostProcessor} that injects a {@link ModuleManager} into any bean implementing {@link ModuleManagerAware}.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class ModuleManagerAwareBeanPostProcessor implements ApplicationContextAware, BeanPostProcessor {
 
     private ModuleManager moduleManager;
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.context.ApplicationContextAware#setApplicationContext
      * (org.springframework.context.ApplicationContext)
      */
@@ -32,7 +33,7 @@ public class ModuleManagerAwareBeanPostProcessor implements ApplicationContextAw
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @seeorg.springframework.beans.factory.config.BeanPostProcessor# postProcessAfterInitialization(java.lang.Object,
      * java.lang.String)
      */
@@ -45,7 +46,7 @@ public class ModuleManagerAwareBeanPostProcessor implements ApplicationContextAw
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @seeorg.springframework.beans.factory.config.BeanPostProcessor# postProcessBeforeInitialization(java.lang.Object,
      * java.lang.String)
      */

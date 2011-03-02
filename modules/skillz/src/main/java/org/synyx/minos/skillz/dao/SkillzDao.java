@@ -1,10 +1,11 @@
 package org.synyx.minos.skillz.dao;
 
-import java.util.List;
-
 import org.synyx.hades.dao.GenericDao;
+
 import org.synyx.minos.skillz.domain.Category;
 import org.synyx.minos.skillz.domain.Skill;
+
+import java.util.List;
 
 
 /**

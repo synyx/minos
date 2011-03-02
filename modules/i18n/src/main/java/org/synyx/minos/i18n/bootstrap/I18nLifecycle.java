@@ -1,6 +1,7 @@
 package org.synyx.minos.i18n.bootstrap;
 
 import org.springframework.transaction.annotation.Transactional;
+
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.module.ModuleLifecycleException;
 import org.synyx.minos.core.module.SimpleNoOpLifecycle;
@@ -11,7 +12,7 @@ import org.synyx.minos.umt.service.UserManagement;
 
 /**
  * Livecycle of I18n Module
- * 
+ *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 @Transactional
@@ -20,10 +21,9 @@ public class I18nLifecycle extends SimpleNoOpLifecycle {
     private final UserManagement userManagement;
     private final MessageTransferService messageTransferService;
 
-
     /**
      * Creates a new {@link I18nLifecycle}.
-     * 
+     *
      * @param skillManagement
      * @param resumeManagement
      * @param userManagement
@@ -34,10 +34,9 @@ public class I18nLifecycle extends SimpleNoOpLifecycle {
         this.messageTransferService = messageTransferService;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.core.module.SimpleNoOpLifecycle#onStart()
      */
     @Override
@@ -49,14 +48,13 @@ public class I18nLifecycle extends SimpleNoOpLifecycle {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.core.module.SimpleNoOpLifecycle#install()
      */
     @Override
     public void install() {
 
         initPermissions();
-
     }
 
 
@@ -70,5 +68,4 @@ public class I18nLifecycle extends SimpleNoOpLifecycle {
 
         userManagement.save(adminRole);
     }
-
 }

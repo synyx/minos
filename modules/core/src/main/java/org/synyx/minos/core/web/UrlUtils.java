@@ -1,23 +1,27 @@
 package org.synyx.minos.core.web;
 
+import org.springframework.util.StringUtils;
+
+import org.springframework.web.util.UriTemplate;
+import org.springframework.web.util.UrlPathHelper;
+import org.springframework.web.util.WebUtils;
+
+import org.synyx.hades.domain.Persistable;
+
+import org.synyx.minos.util.Assert;
+
 import java.net.URI;
+
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.util.StringUtils;
-import org.springframework.web.util.UriTemplate;
-import org.springframework.web.util.UrlPathHelper;
-import org.springframework.web.util.WebUtils;
-import org.synyx.hades.domain.Persistable;
-import org.synyx.minos.util.Assert;
-
 
 /**
  * URL utility class easing and safing URL and view name construction.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public abstract class UrlUtils {
@@ -25,10 +29,9 @@ public abstract class UrlUtils {
     private static final String URL_POSTFIX = "";
     private static final String REDIRECT_PREFIX = "redirect:";
 
-
     /**
      * Returns the view name to cause a redirect for a given destination view.
-     * 
+     *
      * @param viewName
      * @return
      */
@@ -40,7 +43,7 @@ public abstract class UrlUtils {
 
     /**
      * Redirects to the URL constructed in the given {@link URI}.
-     * 
+     *
      * @param uri
      * @return
      */
@@ -53,7 +56,7 @@ public abstract class UrlUtils {
     /**
      * Creates the redirect view name for the given url. Binds the given parameters to the placeholders contained in the
      * URL if given.
-     * 
+     *
      * @param url
      * @param parameters
      * @return
@@ -70,7 +73,7 @@ public abstract class UrlUtils {
 
     /**
      * Returns the absolute URL to the given module.
-     * 
+     *
      * @param moduleUrl
      * @param request
      * @return
@@ -109,7 +112,7 @@ public abstract class UrlUtils {
 
     /**
      * Creates a url to the given module appending the provided parameters.
-     * 
+     *
      * @param moduleUrl
      * @param request
      * @param parameters
@@ -121,7 +124,6 @@ public abstract class UrlUtils {
 
         // Append parameters only if given
         if (null != parameters && !parameters.isEmpty()) {
-
             builder.append("?");
 
             for (Entry<String, Object> entry : parameters.entrySet()) {
@@ -142,7 +144,7 @@ public abstract class UrlUtils {
      * Returns the url to the given module action adding the id of the given {@link Persistable} to the link. This can
      * be used to create URLs to handle the given entity, e.g. edit or delete it. If {@code null} is provided as {@code
      * entity} this will return {@see #toUrl(String, HttpServletRequest)}.
-     * 
+     *
      * @param moduleUrl
      * @param request
      * @param entity
@@ -155,20 +157,19 @@ public abstract class UrlUtils {
         }
 
         return toUrl(moduleUrl + "/" + entity.getId(), request, true);
-
     }
 
 
     /**
      * Modifies the given response to tell the client that the given entity has been successfully created.
-     * 
+     *
      * @param url the URL the entity can be retrieved under
      * @param request
      * @param response
      * @param entity the entity that was created successfully
      */
     public static void markCreated(String url, HttpServletRequest request, HttpServletResponse response,
-            Persistable<?> entity) {
+        Persistable<?> entity) {
 
         response.setStatus(HttpServletResponse.SC_CREATED);
         response.setHeader("Location", toUrl(url, request, entity));
@@ -177,7 +178,7 @@ public abstract class UrlUtils {
 
     /**
      * Returns the base URL of the servlet the request was made to.
-     * 
+     *
      * @param request
      * @return
      */

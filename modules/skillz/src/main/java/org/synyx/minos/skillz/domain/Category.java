@@ -1,5 +1,10 @@
 package org.synyx.minos.skillz.domain;
 
+import org.synyx.hades.domain.auditing.AbstractAuditable;
+
+import org.synyx.minos.core.domain.User;
+import org.synyx.minos.util.Assert;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -8,14 +13,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
-import org.synyx.hades.domain.auditing.AbstractAuditable;
-import org.synyx.minos.core.domain.User;
-import org.synyx.minos.util.Assert;
-
 
 /**
  * Categories group {@link Skill}s together.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  * @author Alexander Menz - menz@synyx.de
  */
@@ -30,15 +31,13 @@ public class Category extends AbstractAuditable<User, Long> {
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "category")
     private final List<Skill> skills = new ArrayList<Skill>();
 
-
     protected Category() {
-
     }
 
 
     /**
      * Creates a new {@link Category} with the given name and no description.
-     * 
+     *
      * @param string
      */
     public Category(String name) {
@@ -49,7 +48,7 @@ public class Category extends AbstractAuditable<User, Long> {
 
     /**
      * Creates a new {@link Category} with the given name and description.
-     * 
+     *
      * @param name
      * @param description
      */
@@ -59,10 +58,9 @@ public class Category extends AbstractAuditable<User, Long> {
         this.description = description;
     }
 
-
     /**
      * Returns the name.
-     * 
+     *
      * @return the name
      */
     public String getName() {
@@ -73,7 +71,7 @@ public class Category extends AbstractAuditable<User, Long> {
 
     /**
      * Sets the name.
-     * 
+     *
      * @param name the name to set
      */
     public void setName(String name) {
@@ -84,7 +82,7 @@ public class Category extends AbstractAuditable<User, Long> {
 
     /**
      * Returns the description.
-     * 
+     *
      * @return the description
      */
     public String getDescription() {
@@ -95,7 +93,7 @@ public class Category extends AbstractAuditable<User, Long> {
 
     /**
      * Sets the description.
-     * 
+     *
      * @param description the description to set
      */
     public void setDescription(String description) {
@@ -106,7 +104,7 @@ public class Category extends AbstractAuditable<User, Long> {
 
     /**
      * Adds the given {@link Skill} to the category. Assigns the category to the skill if not already assigned.
-     * 
+     *
      * @param skill
      * @return
      */
@@ -124,7 +122,7 @@ public class Category extends AbstractAuditable<User, Long> {
 
     /**
      * Returns the skills of that {@link Category}.
-     * 
+     *
      * @return the skills
      */
     public List<Skill> getSkillz() {
@@ -135,7 +133,7 @@ public class Category extends AbstractAuditable<User, Long> {
 
     /**
      * Assigns the given {@link Skill}s to the category.
-     * 
+     *
      * @param skills the skills to set
      */
     public void setSkills(Collection<Skill> skills) {
@@ -150,7 +148,7 @@ public class Category extends AbstractAuditable<User, Long> {
 
     /**
      * Returns whether the given skill is assigned to the {@link Category}.
-     * 
+     *
      * @param skill
      * @return
      */
@@ -168,7 +166,7 @@ public class Category extends AbstractAuditable<User, Long> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.hades.domain.support.AbstractPersistable#toString()
      */
     @Override

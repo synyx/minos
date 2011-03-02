@@ -1,8 +1,10 @@
 package org.synyx.minos.skillz.web.validation;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+
 import org.synyx.minos.skillz.domain.Level;
 
 
@@ -11,17 +13,16 @@ import org.synyx.minos.skillz.domain.Level;
  * <ul>
  * <li>Level name is not empty</li>
  * </ul>
- * 
+ *
  * @author Markus Knittig - knittig@synyx.de
  */
 public class LevelValidator implements Validator {
 
     public static final String LEVEL_NAME_EMPTY = "skillz.level.name.error.empty";
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.validation.Validator#supports(java.lang.Class)
      */
     @Override
@@ -33,7 +34,7 @@ public class LevelValidator implements Validator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
      */
     @Override
@@ -45,5 +46,4 @@ public class LevelValidator implements Validator {
             errors.rejectValue("name", LEVEL_NAME_EMPTY);
         }
     }
-
 }

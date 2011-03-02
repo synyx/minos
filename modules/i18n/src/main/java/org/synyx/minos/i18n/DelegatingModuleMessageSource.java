@@ -1,21 +1,22 @@
 /**
- * 
+ *
  */
 package org.synyx.minos.i18n;
-
-import java.util.Locale;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
+
 import org.synyx.minos.core.message.ModuleMessageSource;
 import org.synyx.minos.core.module.Module;
+
+import java.util.Locale;
 
 
 /**
  * Implementation of {@link ModuleMessageSource} that delegates to any {@link MessageSource}. This can be used to adapt
  * {@link ModuleMessageSource} to any {@link MessageSource}.
- * 
+ *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 public class DelegatingModuleMessageSource implements ModuleMessageSource {
@@ -25,10 +26,9 @@ public class DelegatingModuleMessageSource implements ModuleMessageSource {
 
     private boolean lenient = false;
 
-
     /**
      * Create a new instance if {@link DelegatingModuleMessageSource}
-     * 
+     *
      * @param module the {@link Module} this is for
      * @param target the {@link MessageSource} to delegate resolving-requests to
      */
@@ -38,10 +38,9 @@ public class DelegatingModuleMessageSource implements ModuleMessageSource {
         this.module = module;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.context.MessageSource#getMessage(org.springframework.context.MessageSourceResolvable,
      * java.util.Locale)
      */
@@ -54,7 +53,7 @@ public class DelegatingModuleMessageSource implements ModuleMessageSource {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.context.MessageSource#getMessage(java.lang.String, java.lang.Object[], java.util.Locale)
      */
     @Override
@@ -66,7 +65,7 @@ public class DelegatingModuleMessageSource implements ModuleMessageSource {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.context.MessageSource#getMessage(java.lang.String, java.lang.Object[], java.lang.String,
      * java.util.Locale)
      */
@@ -79,7 +78,7 @@ public class DelegatingModuleMessageSource implements ModuleMessageSource {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.core.message.MessageSourcePlugin#supports(java.lang.String)
      */
     @Override
@@ -91,7 +90,7 @@ public class DelegatingModuleMessageSource implements ModuleMessageSource {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.core.module.ModuleAware#getModule()
      */
     @Override
@@ -104,7 +103,7 @@ public class DelegatingModuleMessageSource implements ModuleMessageSource {
     /**
      * Setter for the lenient-option. If set to true the MessageSource will request resolving all message-codes not only
      * the ones prefixed with its modules name
-     * 
+     *
      * @param lenient If set to true the MessageSource will request resolving all message-codes not only the ones
      *            prefixed with its modules name
      */
@@ -112,5 +111,4 @@ public class DelegatingModuleMessageSource implements ModuleMessageSource {
 
         this.lenient = lenient;
     }
-
 }

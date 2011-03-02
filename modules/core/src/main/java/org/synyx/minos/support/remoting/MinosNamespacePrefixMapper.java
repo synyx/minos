@@ -1,8 +1,8 @@
 package org.synyx.minos.support.remoting;
 
-import org.springframework.beans.factory.InitializingBean;
-
 import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
+
+import org.springframework.beans.factory.InitializingBean;
 
 
 /**
@@ -10,7 +10,7 @@ import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
  * configure an unprefixed namespace by specifying either a module name or the entire namespace URI. The module name
  * will be resolved using the configured {@code namespaceTemplate} which defaults to
  * {@value #DEFAULT_NAMESPACE_TEMPLATE}.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements InitializingBean {
@@ -27,7 +27,6 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
 
     private int modulePosition = 0;
 
-
     /**
      * Creates a new {@link MinosNamespacePrefixMapper}.
      */
@@ -39,7 +38,7 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
 
     /**
      * Creates a new {@link MinosNamespacePrefixMapper} with the given module name to be the unprefixed one.
-     * 
+     *
      * @param unprefixedModuleName
      */
     public MinosNamespacePrefixMapper(String unprefixedModuleName) {
@@ -48,23 +47,22 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
         initModulePosition();
     }
 
-
     /**
      * Returns the namespace to be unprefixed, independent from the way he was configured.
-     * 
+     *
      * @return
      */
     private String getUnprefixedNamespace() {
 
         return null == unprefixedNamespace ? String.format(namespaceTemplate, unprefixedModuleName)
-                : unprefixedNamespace;
+                                           : unprefixedNamespace;
     }
 
 
     /**
      * Sets the namespace that shall not be prefixed. This will reset any confiurations made to
      * {@link #setUnprefixedModuleName(String)} and {@link #setNamespaceTemplate(String)}.
-     * 
+     *
      * @param unprefixedNamespace the unprefixedNamespace to set
      */
     public void setUnprefixedNamespace(String unprefixedNamespace) {
@@ -79,7 +77,7 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
      * <p>
      * The configured template will be used to construct the unprefixed namespace by using the module name and inject it
      * into the template string. Setting the template to {@code null} will reset the default template
-     * 
+     *
      * @param namespaceTemplate the namespaceTemplate to set
      */
     public void setNamespaceTemplate(String namespaceTemplate) {
@@ -92,7 +90,7 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
 
     /**
      * Sets the module that should not be prefixed. Will be used in conjunction with {@code namespaceTemplate}.
-     * 
+     *
      * @param unprefixedModuleName the unprefixedModuleName to set
      */
     public void setUnprefixedModuleName(String unprefixedModuleName) {
@@ -104,7 +102,7 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.sun.xml.bind.marshaller.NamespacePrefixMapper#getPreferredPrefix( java.lang.String, java.lang.String,
      * boolean)
      */
@@ -116,6 +114,7 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
         }
 
         String[] parts = namespaceUri.split(DELIMITER);
+
         return parts[modulePosition];
     }
 
@@ -131,6 +130,7 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
         for (int i = 0; i < templateParts.length; i++) {
             if (PLACEHOLDER.equals(templateParts[i])) {
                 this.modulePosition = i;
+
                 return;
             }
         }
@@ -139,7 +139,7 @@ public class MinosNamespacePrefixMapper extends NamespacePrefixMapper implements
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
     public void afterPropertiesSet() throws Exception {

@@ -1,11 +1,12 @@
 package org.synyx.minos.core.web;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.BeanFactory;
+
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.support.RequestContextUtils;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
  * {@link org.springframework.web.servlet.DispatcherServlet}'s
  * {@link org.springframework.web.context.WebApplicationContext} the request actually is targeted to. Looks up beans
  * named {@code multipartResolver} as suggested by the Spring reference documentation.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class MinosMultipartFilter extends MultipartFilter {
@@ -26,10 +27,9 @@ public class MinosMultipartFilter extends MultipartFilter {
         setMultipartResolverBeanName("multipartResolver");
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @seeorg.springframework.web.multipart.support.MultipartFilter#
      * lookupMultipartResolver(javax.servlet.http.HttpServletRequest)
      */

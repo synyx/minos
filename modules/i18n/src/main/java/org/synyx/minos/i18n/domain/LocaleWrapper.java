@@ -1,21 +1,24 @@
 package org.synyx.minos.i18n.domain;
 
+import org.springframework.util.StringUtils;
+
+import org.synyx.messagesource.util.LocaleUtils;
+
 import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import org.springframework.util.StringUtils;
-import org.synyx.messagesource.util.LocaleUtils;
-
 
 /**
  * Wrapper around {@link Locale} to store it in the database.
- * 
+ *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 @Embeddable
 public class LocaleWrapper {
+
+    public static final LocaleWrapper DEFAULT = new LocaleWrapper();
 
     @Column(nullable = false, length = 7)
     private String language;
@@ -25,12 +28,9 @@ public class LocaleWrapper {
     @Column(nullable = false, length = 15)
     private String variant;
 
-    public static final LocaleWrapper DEFAULT = new LocaleWrapper();
-
-
     /**
      * Create a new instance of {@link LocaleWrapper} wrapping the given {@link Locale}.
-     * 
+     *
      * @param locale the {@link Locale} to wrap.
      */
     public LocaleWrapper(Locale locale) {
@@ -45,7 +45,7 @@ public class LocaleWrapper {
      * Create a new instance of {@link LocaleWrapper} wrapping a {@link Locale} constructed from the given language,
      * country and variant code. Each of the codes can be {@code null}, resulting in setting the code of the wrapped
      * instance of {@link Locale} to "".
-     * 
+     *
      * @param language the language code.
      * @param country the country code.
      * @param variant the variant code.
@@ -67,10 +67,9 @@ public class LocaleWrapper {
         this("", "", "");
     }
 
-
     /**
      * Get the language code of the {@link Locale} wrapped by this {@link LocaleWrapper}.
-     * 
+     *
      * @return the language code.
      */
     public String getLanguage() {
@@ -81,7 +80,7 @@ public class LocaleWrapper {
 
     /**
      * Set the language code of the {@link Locale} wrapped by this {@link LocaleWrapper}.
-     * 
+     *
      * @param language the language code to set. Can be {@code null}, resulting in setting the language code of the
      *            wrapped instance of {@link Locale} to "".
      */
@@ -93,7 +92,7 @@ public class LocaleWrapper {
 
     /**
      * Get the country code of the {@link Locale} wrapped by this {@link LocaleWrapper}.
-     * 
+     *
      * @return the country code.
      */
     public String getCountry() {
@@ -104,7 +103,7 @@ public class LocaleWrapper {
 
     /**
      * Set the country code of the {@link Locale} wrapped by this {@link LocaleWrapper}.
-     * 
+     *
      * @param language the country code to set. Can be {@code null}, resulting in setting the country code of the
      *            wrapped instance of {@link Locale} to "".
      */
@@ -116,7 +115,7 @@ public class LocaleWrapper {
 
     /**
      * Get the variant code of the {@link Locale} wrapped by this {@link LocaleWrapper}.
-     * 
+     *
      * @return the variant code.
      */
     public String getVariant() {
@@ -127,7 +126,7 @@ public class LocaleWrapper {
 
     /**
      * Set the variant code of the {@link Locale} wrapped by this {@link LocaleWrapper}.
-     * 
+     *
      * @param language the variant code to set. Can be {@code null}, resulting in setting the variant code of the
      *            wrapped instance of {@link Locale} to "".
      */
@@ -139,7 +138,7 @@ public class LocaleWrapper {
 
     /**
      * Get the instance of {@link Locale} wrapped by the {@link LocaleWrapper}.
-     * 
+     *
      * @return the instance of {@link Locale} wrapped by the {@link LocaleWrapper}.
      */
     public Locale getLocale() {
@@ -151,11 +150,13 @@ public class LocaleWrapper {
     /**
      * Return a readable string representation of this instance of {@link LocaleWrapper}.
      */
+    @Override
     public String toString() {
 
         if (isDefault()) {
             return "default";
         }
+
         return getLocale().toString();
     }
 
@@ -163,7 +164,7 @@ public class LocaleWrapper {
     /**
      * Returns {@code true} if the instance of {@link LocaleWrapper} wraps an empty {@link Locale}. All codes (language,
      * country variant) of the wrapped {@link Locale} are set to "".
-     * 
+     *
      * @return {@code true} if the instance of {@link LocaleWrapper} wraps an empty {@link Locale}.
      */
     public boolean isDefault() {
@@ -174,7 +175,7 @@ public class LocaleWrapper {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -185,13 +186,14 @@ public class LocaleWrapper {
         result = prime * result + ((country == null) ? 0 : country.hashCode());
         result = prime * result + ((language == null) ? 0 : language.hashCode());
         result = prime * result + ((variant == null) ? 0 : variant.hashCode());
+
         return result;
     }
 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -199,27 +201,33 @@ public class LocaleWrapper {
 
         if (this == obj)
             return true;
+
         if (obj == null)
             return false;
+
         if (getClass() != obj.getClass())
             return false;
+
         LocaleWrapper other = (LocaleWrapper) obj;
+
         if (country == null) {
             if (other.country != null)
                 return false;
         } else if (!country.equals(other.country))
             return false;
+
         if (language == null) {
             if (other.language != null)
                 return false;
         } else if (!language.equals(other.language))
             return false;
+
         if (variant == null) {
             if (other.variant != null)
                 return false;
         } else if (!variant.equals(other.variant))
             return false;
+
         return true;
     }
-
 }

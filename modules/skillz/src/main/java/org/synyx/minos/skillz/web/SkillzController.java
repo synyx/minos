@@ -1,24 +1,27 @@
 package org.synyx.minos.skillz.web;
 
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
-
-import java.util.Locale;
-
 import org.joda.time.DateMidnight;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
+
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.Errors;
+
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import org.synyx.minos.core.Core;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.web.CurrentUser;
@@ -37,10 +40,12 @@ import org.synyx.minos.skillz.web.validation.MatrixTemplateValidator;
 import org.synyx.minos.skillz.web.validation.ProjectValidator;
 import org.synyx.minos.umt.service.UserManagement;
 
+import java.util.Locale;
+
 
 /**
  * Controller to expose {@link SkillManagement} functionality to the web.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  * @author Michael Herbold - herbold@synyx.de
  * @author Markus Knittig - knittig@synyx.de
@@ -60,14 +65,13 @@ public class SkillzController {
     private final MatrixTemplateValidator matrixTemplateValidator;
     private final LevelValidator levelValidator;
 
-
     /**
      * Creates a new {@link SkillzController} instance.
      */
     @Autowired
     public SkillzController(SkillManagement skillManagement, UserManagement userManagement,
-            ProjectValidator projectValidator, CategoryValidator categoryValidator,
-            MatrixTemplateValidator matrixTemplateValidator, LevelValidator levelValidator) {
+        ProjectValidator projectValidator, CategoryValidator categoryValidator,
+        MatrixTemplateValidator matrixTemplateValidator, LevelValidator levelValidator) {
 
         this.skillManagement = skillManagement;
         this.userManagement = userManagement;
@@ -76,7 +80,6 @@ public class SkillzController {
         this.matrixTemplateValidator = matrixTemplateValidator;
         this.levelValidator = levelValidator;
     }
-
 
     @InitBinder
     public void initBinder(DataBinder binder, Locale locale) {
@@ -157,11 +160,13 @@ public class SkillzController {
 
         if (null == category) {
             model.addAttribute(Core.MESSAGE, Message.error("skillz.category.delete.error"));
+
             return null;
         }
 
         skillManagement.delete(category);
         model.addAttribute(Core.MESSAGE, Message.success("skillz.category.delete.success", category.getName()));
+
         return UrlUtils.redirect(SKILLZ_CATEGORIES);
     }
 
@@ -170,14 +175,15 @@ public class SkillzController {
 
     /**
      * Moves the skill to the given {@link Category}.
-     * 
+     *
      * @param skill the {@link Skill} to be moved
      * @param category the targed {@link Category} to move the {@link Skill} to
      * @param model
      * @return
      */
     @RequestMapping(value = "/skillz/skill", method = POST, params = "moveSkill")
-    public String moveSkill(@RequestParam("skill") Skill skill, @RequestParam("category") Category category, Model model) {
+    public String moveSkill(@RequestParam("skill") Skill skill,
+        @RequestParam("category") Category category, Model model) {
 
         Category currentCategory = skill.getCategory();
 
@@ -215,7 +221,7 @@ public class SkillzController {
 
     /**
      * Shows the form for a {@link MatrixTemplate}.
-     * 
+     *
      * @param template
      * @param model
      * @return
@@ -232,7 +238,7 @@ public class SkillzController {
 
     /**
      * Saves a new {@link MatrixTemplate}.
-     * 
+     *
      * @param template
      * @param errors
      * @param model
@@ -247,14 +253,15 @@ public class SkillzController {
 
     /**
      * Saves a existing {@link MatrixTemplate}.
-     * 
+     *
      * @param template
      * @param errors
      * @param model
      * @return
      */
     @RequestMapping(value = "/skillz/templates/{id}", method = PUT)
-    public String saveExistingTemplate(@ModelAttribute("template") MatrixTemplate template, Errors errors, Model model) {
+    public String saveExistingTemplate(@ModelAttribute("template") MatrixTemplate template, Errors errors,
+        Model model) {
 
         return saveTemplate(template, errors, model);
     }
@@ -262,7 +269,7 @@ public class SkillzController {
 
     /**
      * Saves a {@link MatrixTemplate}.
-     * 
+     *
      * @param template
      * @param errors
      * @param model
@@ -274,6 +281,7 @@ public class SkillzController {
 
         if (errors.hasErrors()) {
             model.addAttribute("categories", skillManagement.getCategories());
+
             return "skillz/template";
         }
 
@@ -333,7 +341,7 @@ public class SkillzController {
 
     /**
      * Shows the form for a private project.
-     * 
+     *
      * @param project
      * @param model
      * @param user
@@ -341,16 +349,14 @@ public class SkillzController {
      */
     @RequestMapping(value = { "/skillz/projects/{username:[a-zA-Z_]\\w*}/form" }, method = GET)
     public String privateProjectForm(@RequestParam(value = "id", required = false) Project project, Model model,
-            @CurrentUser User user) {
+        @CurrentUser User user) {
 
         if (null == project) {
-
             project = BeanUtils.instantiateClass(Project.class);
-
         } else {
-
             if (!project.belongsTo(user)) {
                 model.addAttribute(Core.MESSAGE, "skillz.project.id.invalid");
+
                 return UrlUtils.redirect("/skillz/projects/private");
             }
         }
@@ -365,7 +371,7 @@ public class SkillzController {
 
     /**
      * Saves a new public project.
-     * 
+     *
      * @param project
      * @param errors
      * @param model
@@ -374,7 +380,7 @@ public class SkillzController {
      */
     @RequestMapping(value = "/skillz/projects", method = POST)
     public String saveNewPublicProject(@ModelAttribute("project") Project project, Errors errors, Model model,
-            @CurrentUser User user) {
+        @CurrentUser User user) {
 
         return savePublicProject(project, errors, model, user);
     }
@@ -382,7 +388,7 @@ public class SkillzController {
 
     /**
      * Saves a existing project (aka update).
-     * 
+     *
      * @param project
      * @param errors
      * @param model
@@ -391,7 +397,7 @@ public class SkillzController {
      */
     @RequestMapping(value = "/skillz/projects/{id:\\d+}", method = PUT)
     public String saveExistingPublicProject(@ModelAttribute("project") Project project, Errors errors, Model model,
-            @CurrentUser User user) {
+        @CurrentUser User user) {
 
         return savePublicProject(project, errors, model, user);
     }
@@ -418,7 +424,7 @@ public class SkillzController {
 
     /**
      * Saves a private project.
-     * 
+     *
      * @param project
      * @param errors
      * @param model
@@ -427,13 +433,12 @@ public class SkillzController {
      */
     @RequestMapping(value = { "/skillz/projects/{username:[a-zA-Z_]\\w*}" }, method = POST)
     public String savePrivateProject(@ModelAttribute("project") Project project, Errors errors, Model model,
-            @CurrentUser User user) {
+        @CurrentUser User user) {
 
         // validate project
         projectValidator.validate(project, errors);
 
         if (errors.hasErrors()) {
-
             model.addAttribute("owner", user);
 
             return "skillz/project";
@@ -447,7 +452,7 @@ public class SkillzController {
 
     /**
      * Invokes the service layer to save the given project.
-     * 
+     *
      * @param project
      * @param model
      */
@@ -461,7 +466,7 @@ public class SkillzController {
 
     /**
      * Deletes a project.
-     * 
+     *
      * @param project
      * @param model
      * @param user
@@ -486,7 +491,7 @@ public class SkillzController {
 
     /**
      * Shows the form for a {@link Level}.
-     * 
+     *
      * @param level
      * @param model
      * @return
@@ -544,7 +549,7 @@ public class SkillzController {
 
     /**
      * Swaps a given {@link Level} with the next upper level.
-     * 
+     *
      * @param level
      * @param model
      * @return
@@ -560,7 +565,7 @@ public class SkillzController {
 
     /**
      * Swaps a given {@link Level} it with the next lower level.
-     * 
+     *
      * @param level
      * @param model
      * @return
@@ -572,5 +577,4 @@ public class SkillzController {
 
         return UrlUtils.redirect(SKILLZ_LEVELS);
     }
-
 }

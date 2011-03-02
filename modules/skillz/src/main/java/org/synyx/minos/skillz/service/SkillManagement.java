@@ -1,7 +1,5 @@
 package org.synyx.minos.skillz.service;
 
-import java.util.List;
-
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.skillz.domain.Category;
 import org.synyx.minos.skillz.domain.Level;
@@ -10,17 +8,19 @@ import org.synyx.minos.skillz.domain.Project;
 import org.synyx.minos.skillz.domain.Responsibility;
 import org.synyx.minos.skillz.domain.Skill;
 
+import java.util.List;
+
 
 /**
  * Interface for skill management services.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public interface SkillManagement {
 
     /**
      * Returns all available {@link Level}s.
-     * 
+     *
      * @return
      */
     List<Level> getLevels();
@@ -28,7 +28,7 @@ public interface SkillManagement {
 
     /**
      * Saves the given level.
-     * 
+     *
      * @param level
      * @return
      */
@@ -37,7 +37,7 @@ public interface SkillManagement {
 
     /**
      * Deletes the given {@link Level}.
-     * 
+     *
      * @param level
      */
     void delete(Level level);
@@ -45,7 +45,7 @@ public interface SkillManagement {
 
     /**
      * Returns the default {@link Level}.
-     * 
+     *
      * @return
      */
     Level getDefaultLevel();
@@ -53,7 +53,7 @@ public interface SkillManagement {
 
     /**
      * Swaps the level ordinals with the next upper level.
-     * 
+     *
      * @param level
      */
     void moveLevelUp(Level level);
@@ -61,7 +61,7 @@ public interface SkillManagement {
 
     /**
      * Swaps the level ordinals with the next lower level.
-     * 
+     *
      * @param level
      */
     void moveLevelDown(Level level);
@@ -69,7 +69,7 @@ public interface SkillManagement {
 
     /**
      * Returns all projects.
-     * 
+     *
      * @return
      */
     List<Project> getProjects();
@@ -77,7 +77,7 @@ public interface SkillManagement {
 
     /**
      * Returns all commonly available projects.
-     * 
+     *
      * @return
      */
     List<Project> getPublicProjects();
@@ -85,7 +85,7 @@ public interface SkillManagement {
 
     /**
      * Returns all projects that are privately owned by the given {@link User}.
-     * 
+     *
      * @param user
      * @return
      */
@@ -94,7 +94,7 @@ public interface SkillManagement {
 
     /**
      * Returns the project with the given id.
-     * 
+     *
      * @param id
      * @return
      */
@@ -103,7 +103,7 @@ public interface SkillManagement {
 
     /**
      * Returns the project by the given name.
-     * 
+     *
      * @param name
      * @return
      */
@@ -112,7 +112,7 @@ public interface SkillManagement {
 
     /**
      * Saves the given {@link Project}.
-     * 
+     *
      * @param project
      * @return
      */
@@ -121,7 +121,7 @@ public interface SkillManagement {
 
     /**
      * Deletes the given project.
-     * 
+     *
      * @param project
      */
     void delete(Project project);
@@ -129,7 +129,7 @@ public interface SkillManagement {
 
     /**
      * Returns all {@link Category}.
-     * 
+     *
      * @return
      */
     List<Category> getCategories();
@@ -137,7 +137,7 @@ public interface SkillManagement {
 
     /**
      * Returns the {@link Category} with the given id.
-     * 
+     *
      * @param id
      * @return
      */
@@ -146,7 +146,7 @@ public interface SkillManagement {
 
     /**
      * Saves the given {@link Skill}.
-     * 
+     *
      * @param skill
      */
     Skill save(Skill skill);
@@ -162,7 +162,7 @@ public interface SkillManagement {
 
     /**
      * Deletes the given {@link Skill}.
-     * 
+     *
      * @param skill
      */
     void delete(Skill skill);
@@ -170,7 +170,7 @@ public interface SkillManagement {
 
     /**
      * Returns all {@link MatrixTemplate}s.
-     * 
+     *
      * @return
      */
     List<MatrixTemplate> getTemplates();
@@ -178,7 +178,7 @@ public interface SkillManagement {
 
     /**
      * Deletes a {@link MatrixTemplate}.
-     * 
+     *
      * @param template
      */
     void delete(MatrixTemplate template);
@@ -186,7 +186,7 @@ public interface SkillManagement {
 
     /**
      * Saves a {@link MatrixTemplate}.
-     * 
+     *
      * @param template
      */
     MatrixTemplate save(MatrixTemplate template);
@@ -194,7 +194,7 @@ public interface SkillManagement {
 
     /**
      * Returns a {@link MatrixTemplate} with the given id.
-     * 
+     *
      * @param id
      * @return
      */
@@ -203,7 +203,7 @@ public interface SkillManagement {
 
     /**
      * Returns the {@link MatrixTemplate} to be assigned by default.
-     * 
+     *
      * @return
      */
     MatrixTemplate getDefaultTemplate();
@@ -211,7 +211,7 @@ public interface SkillManagement {
 
     /**
      * Saves a given category.
-     * 
+     *
      * @param category
      */
     Category save(Category category);
@@ -225,7 +225,7 @@ public interface SkillManagement {
 
     /**
      * Saves the given {@link Responsibility}.
-     * 
+     *
      * @param responsibility
      * @return
      */
@@ -234,7 +234,7 @@ public interface SkillManagement {
 
     /**
      * Returns all {@link Responsibility}s.
-     * 
+     *
      * @return
      */
     List<Responsibility> getResponsibilities();
@@ -242,9 +242,8 @@ public interface SkillManagement {
 
     /**
      * Returns all {@link Skill}s.
-     * 
+     *
      * @return
      */
     List<Skill> getSkills();
-
 }

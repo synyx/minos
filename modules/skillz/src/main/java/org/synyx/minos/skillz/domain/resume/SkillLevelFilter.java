@@ -1,17 +1,17 @@
 package org.synyx.minos.skillz.domain.resume;
 
-import java.util.Map;
-
-import javax.persistence.Query;
-
 import org.synyx.minos.skillz.dao.LevelDao;
 import org.synyx.minos.skillz.domain.Level;
 import org.synyx.minos.skillz.domain.resume.ResumeFilterParameters.Builder;
 
+import java.util.Map;
+
+import javax.persistence.Query;
+
 
 /**
  * A implementation of {@link ResumeFilter} which returns resumes by there name and level.
- * 
+ *
  * @author Markus Knittig - knittig@synyx.de
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -19,16 +19,14 @@ public class SkillLevelFilter extends ResumeFilterSupport {
 
     private final LevelDao levelDao;
 
-
     public SkillLevelFilter(LevelDao levelDao) {
 
         this.levelDao = levelDao;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.domain.resume.ResumeFilter#getMessageKey()
      */
     @Override
@@ -40,7 +38,7 @@ public class SkillLevelFilter extends ResumeFilterSupport {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.domain.resume.ResumeFilter#getParameters()
      */
     @Override
@@ -53,7 +51,7 @@ public class SkillLevelFilter extends ResumeFilterSupport {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.domain.resume.ResumeFilterSupport#getQueryPartString ()
      */
     @Override
@@ -65,7 +63,7 @@ public class SkillLevelFilter extends ResumeFilterSupport {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.domain.resume.ResumeFilterSupport#manualBindParameters (javax.persistence.Query,
      * java.util.Map)
      */

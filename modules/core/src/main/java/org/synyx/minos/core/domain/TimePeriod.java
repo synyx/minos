@@ -1,10 +1,5 @@
 package org.synyx.minos.core.domain;
 
-import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
@@ -12,13 +7,19 @@ import org.joda.time.Interval;
 import org.joda.time.Minutes;
 import org.joda.time.ReadablePeriod;
 import org.joda.time.base.BaseDateTime;
+
 import org.synyx.minos.util.Assert;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 
 /**
  * Encapsulation for a time period that carries a start and an end date. This class is mainly used to abstract the
  * JodaTime concept of an {@link Interval} and make it usable with JPA.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Embeddable
@@ -32,7 +33,6 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
     @Column(name = "period_end")
     private Date end;
 
-
     /**
      * Creates an empty {@code TimePeriod} with start and end of now.
      */
@@ -45,7 +45,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /**
      * Creates a new {@code TimePeriod} from the given start and end date.
-     * 
+     *
      * @param start
      * @param end
      */
@@ -71,7 +71,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /**
      * Creates a new {@code TimePeriod} for the given date. The period will include the complete day.
-     * 
+     *
      * @param date
      */
     public TimePeriod(DateTime date) {
@@ -93,7 +93,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
     /**
      * Creates a new {@link TimePeriod} lasting the duration of the given {@link ReadablePeriod}. Mostly used with
      * {@link Hours}, {@link Minutes} and so on.
-     * 
+     *
      * @param start
      * @param period
      */
@@ -102,10 +102,9 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
         this(start, start.plus(period));
     }
 
-
     /**
      * Returns a {@link TimePeriod} for the current entire day.
-     * 
+     *
      * @return
      */
     public static TimePeriod allDay() {
@@ -116,7 +115,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /**
      * Returns a new {@code TimePeriod} that spans the entire given day.
-     * 
+     *
      * @param day
      * @return
      */
@@ -131,13 +130,14 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
     public static TimePeriod allDay(DateMidnight day) {
 
         day = defaultForNull(day, new DateMidnight());
+
         return new TimePeriod(day, day.plusDays(1));
     }
 
 
     /**
      * Returns a new {@code TimePeriod} that spans all days from start date to (including) end date.
-     * 
+     *
      * @param start
      * @param end
      * @return
@@ -153,7 +153,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /**
      * Returns the period for he entire week of the current time.
-     * 
+     *
      * @return
      */
     public static TimePeriod allWeek() {
@@ -164,7 +164,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /**
      * Returns the period for the entire week of the given date.
-     * 
+     *
      * @param date
      * @return
      */
@@ -176,7 +176,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /**
      * Returns the period for the entire week of the given date.
-     * 
+     *
      * @param date
      * @return
      */
@@ -193,7 +193,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /**
      * Returns the period of the entire month of the current date.
-     * 
+     *
      * @return
      */
     public static TimePeriod allMonth() {
@@ -204,7 +204,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /**
      * Returns the period of the entire month of the given date.
-     * 
+     *
      * @param dateTime
      * @return
      */
@@ -227,7 +227,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.calendar.domain.Overlapable#getEnd()
      */
     public DateTime getEnd() {
@@ -244,7 +244,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /**
      * Returns a {@link TimePeriod} that has it's end date given by the given {@link ReadablePeriod}.
-     * 
+     *
      * @param period
      * @return
      */
@@ -256,7 +256,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.calendar.domain.Overlapable#getStart()
      */
     public DateTime getStart() {
@@ -282,7 +282,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.calendar.domain.Overlapable#overlaps(com.synyx.minos. calendar.domain.Overlapable)
      */
     public boolean overlaps(Overlapable<DateTime> that) {
@@ -300,7 +300,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(TimePeriod period) {
@@ -313,7 +313,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -338,7 +338,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -355,7 +355,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -367,7 +367,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     /**
      * Returns the current date if the given {@code date} is {@code null} or the date itself otherwise.
-     * 
+     *
      * @param date
      * @return
      */

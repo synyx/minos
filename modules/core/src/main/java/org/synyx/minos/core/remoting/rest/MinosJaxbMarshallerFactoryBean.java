@@ -1,6 +1,19 @@
 package org.synyx.minos.core.remoting.rest;
 
-import static javax.xml.bind.Marshaller.*;
+import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
+
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.config.AbstractFactoryBean;
+
+import org.springframework.core.io.Resource;
+
+import org.springframework.oxm.Marshaller;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+
+import org.synyx.hera.core.Plugin;
+
+import org.synyx.minos.core.module.Module;
+import org.synyx.minos.support.remoting.MinosNamespacePrefixMapper;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,16 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.config.AbstractFactoryBean;
-import org.springframework.core.io.Resource;
-import org.springframework.oxm.Marshaller;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.synyx.hera.core.Plugin;
-import org.synyx.minos.core.module.Module;
-import org.synyx.minos.support.remoting.MinosNamespacePrefixMapper;
-
-import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
+import static javax.xml.bind.Marshaller.JAXB_ENCODING;
+import static javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
 
 
 /**
@@ -30,11 +35,11 @@ import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
  * <li>contextPath - <code>${module.basePackage}.remoting.rest.dto</code></li>
  * <li>properties - formatted UTF-8 output, custom {@link NamespacePrefixMapper}</li>
  * </ul>
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class MinosJaxbMarshallerFactoryBean extends AbstractFactoryBean<ModuleAwareMarshaller> implements
-        Plugin<String> {
+public class MinosJaxbMarshallerFactoryBean extends AbstractFactoryBean<ModuleAwareMarshaller>
+    implements Plugin<String> {
 
     private static final String PREFIX_MAPPER_PROPERTY = "com.sun.xml.bind.namespacePrefixMapper";
     private static final String DEFAULT_DTO_SUB_PACKAGE = "remoting.rest.dto";
@@ -51,10 +56,9 @@ public class MinosJaxbMarshallerFactoryBean extends AbstractFactoryBean<ModuleAw
     private String schemaTemplate = DEFAULT_SCHEMA_TEMPLATE;
     private NamespacePrefixMapper prefixMapper;
 
-
     /**
      * Set the module to derive defaults from.
-     * 
+     *
      * @param module the moduleInformation to set
      */
     public void setModule(Module module) {
@@ -66,7 +70,7 @@ public class MinosJaxbMarshallerFactoryBean extends AbstractFactoryBean<ModuleAw
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.beans.factory.FactoryBean#getObjectType()
      */
     @Override
@@ -78,7 +82,7 @@ public class MinosJaxbMarshallerFactoryBean extends AbstractFactoryBean<ModuleAw
 
     /**
      * Returns the context path for the {@link Marshaller}. This is the package where the JAXB classes are located.
-     * 
+     *
      * @return
      */
     private String getContextPath() {
@@ -89,7 +93,7 @@ public class MinosJaxbMarshallerFactoryBean extends AbstractFactoryBean<ModuleAw
 
     /**
      * Returns all the schemas to configure the {@link Marshaller} with.
-     * 
+     *
      * @return
      */
     private Resource[] getSchemas() {
@@ -102,7 +106,6 @@ public class MinosJaxbMarshallerFactoryBean extends AbstractFactoryBean<ModuleAw
         Collections.reverse(dependencies);
 
         for (Module dependency : dependencies) {
-
             addSchemaFor(dependency, schemas);
         }
 
@@ -121,7 +124,7 @@ public class MinosJaxbMarshallerFactoryBean extends AbstractFactoryBean<ModuleAw
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.beans.factory.config.AbstractFactoryBean#createInstance ()
      */
     @Override
@@ -142,7 +145,7 @@ public class MinosJaxbMarshallerFactoryBean extends AbstractFactoryBean<ModuleAw
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.hera.core.Plugin#supports(java.lang.Object)
      */
     @Override

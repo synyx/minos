@@ -1,18 +1,20 @@
 package org.synyx.minos.umt.web;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
+
 import org.springframework.util.Assert;
+
 import org.synyx.minos.core.domain.Password;
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Like {@link AccountUserForm} but with mapping for all {@link User} properties.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class UserForm {
@@ -27,7 +29,6 @@ public class UserForm {
 
     private String newPassword;
     private String repeatedPassword;
-
 
     /**
      * Creates an empty form for users.
@@ -54,10 +55,9 @@ public class UserForm {
         active = user.isActive();
     }
 
-
     /**
      * Returns, if it represents a new user or an already existing one.
-     * 
+     *
      * @return
      */
     public boolean isNew() {
@@ -68,7 +68,7 @@ public class UserForm {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.core.web.support.DomainObjectForm#getDomainObject()
      */
     public User getDomainObject() {
@@ -79,7 +79,7 @@ public class UserForm {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.core.web.DomainObjectForm#getDomainObject(java.lang.Object )
      */
     public User mapProperties(User user) {
@@ -103,6 +103,7 @@ public class UserForm {
         user.setUsername(username);
 
         user.getRoles().clear();
+
         for (Role role : roles) {
             user.addRole(role);
         }
@@ -273,5 +274,4 @@ public class UserForm {
 
         this.active = active;
     }
-
 }

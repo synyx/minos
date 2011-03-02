@@ -1,18 +1,18 @@
 package org.synyx.minos.core.web.event;
 
+import org.springframework.web.servlet.ModelAndView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.servlet.ModelAndView;
-
 
 /**
  * Context to carry a common {@code ModelAndView} instance through an orchestration of {@code EventHandler} executions.
  * Allows registering already executed {@code Controller} instances to avoid circular execution references.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class EventContext {
@@ -21,6 +21,7 @@ public class EventContext {
      * @uml.property name="request"
      */
     private HttpServletRequest request;
+
     /**
      * @uml.property name="response"
      */
@@ -33,10 +34,9 @@ public class EventContext {
 
     private List<Object> visitedControllers;
 
-
     /**
      * Constructor of {@code EventContext}.
-     * 
+     *
      * @param request
      * @param response
      * @param modelAndView
@@ -50,10 +50,9 @@ public class EventContext {
         this.visitedControllers = new ArrayList<Object>();
     }
 
-
     /**
      * Returns the current {@code HttpServletRequest} .
-     * 
+     *
      * @return the request
      * @uml.property name="request"
      */
@@ -65,7 +64,7 @@ public class EventContext {
 
     /**
      * Returns the current {@code HttpServletResponse} .
-     * 
+     *
      * @return the response
      * @uml.property name="response"
      */
@@ -77,7 +76,7 @@ public class EventContext {
 
     /**
      * Returns the {@code ModelAndView} instance associated with the context.
-     * 
+     *
      * @return the modelAndView
      * @uml.property name="modelAndView"
      */
@@ -89,7 +88,7 @@ public class EventContext {
 
     /**
      * Returns whether the given controller has already been visited.
-     * 
+     *
      * @param controller
      * @return
      */
@@ -101,12 +100,11 @@ public class EventContext {
 
     /**
      * Marks the given controller as visited.
-     * 
+     *
      * @param controller
      */
     public void visited(Object controller) {
 
         this.visitedControllers.add(controller);
     }
-
 }

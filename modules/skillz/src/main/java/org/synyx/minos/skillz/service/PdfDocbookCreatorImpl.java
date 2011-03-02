@@ -1,11 +1,23 @@
 package org.synyx.minos.skillz.service;
 
+import org.apache.commons.io.IOUtils;
+
+import org.apache.fop.apps.Fop;
+
+import org.springframework.util.Assert;
+
+import org.synyx.minos.core.domain.Image;
+import org.synyx.minos.skillz.domain.Level;
+import org.synyx.minos.skillz.domain.Resume;
+import org.synyx.minos.skillz.util.FileUtils;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
+
 import java.util.List;
 
 import javax.xml.transform.Result;
@@ -14,18 +26,10 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.fop.apps.Fop;
-import org.springframework.util.Assert;
-import org.synyx.minos.core.domain.Image;
-import org.synyx.minos.skillz.domain.Level;
-import org.synyx.minos.skillz.domain.Resume;
-import org.synyx.minos.skillz.util.FileUtils;
-
 
 /**
  * Implementation of {@link PdfDocbookCreator}.
- * 
+ *
  * @author Markus Knittig - knittig@synyx.de
  */
 public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
@@ -34,25 +38,25 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
     private final FopXsltService fopService;
     private Boolean anonymous;
 
-
     public PdfDocbookCreatorImpl(DocbookTemplateService docbookTemplateService, FopXsltService fopService) {
 
         this.docbookTemplateService = docbookTemplateService;
         this.fopService = fopService;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.PdfDocbookCreator#streamPdf(java.lang. String, java.io.File,
      * java.io.OutputStream)
      */
     @Override
-    public void streamPdf(Resume resume, List<Level> levels, OutputStream outputStream) throws DocbookCreationException {
+    public void streamPdf(Resume resume, List<Level> levels, OutputStream outputStream)
+        throws DocbookCreationException {
 
         File tmpPhotoFile = null;
         String tmpPhotoFileName = null;
+
         if (resume.getPhoto() != null) {
             tmpPhotoFile = createTmpPhotoFile(resume.getPhoto());
             tmpPhotoFileName = tmpPhotoFile.getAbsolutePath();
@@ -73,7 +77,7 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
 
     /**
      * Creates a photo file in the system's tmp directory.
-     * 
+     *
      * @param image
      * @return
      * @throws DocbookCreationException
@@ -81,19 +85,21 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
     public File createTmpPhotoFile(Image image) throws DocbookCreationException {
 
         File tmpPhotoFile = null;
+
         try {
             tmpPhotoFile = File.createTempFile("photo", null);
             IOUtils.write(image.getOriginalImage(), new FileOutputStream(tmpPhotoFile));
         } catch (Exception e) {
             throw new DocbookCreationException("Failed to create temporary photo file!", e);
         }
+
         return tmpPhotoFile;
     }
 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.PdfDocbookCreator#streamPdf(org.synyx. minos.skillz.domain.Resume,
      * java.io.OutputStream)
      */
@@ -121,13 +127,13 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.PdfDocbookCreator#createTempPdfFile(org .synyx.minos.skillz.domain.Resume,
      * java.util.List)
      */
     @Override
     public File createTempPdfFile(File tempDirectory, Resume resume, List<Level> levels)
-            throws DocbookCreationException {
+        throws DocbookCreationException {
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         streamPdf(resume, levels, outputStream);
@@ -139,6 +145,7 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
         }
     }
 
+
     /**
      * @return the anonymous
      */
@@ -147,6 +154,7 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
         return anonymous;
     }
 
+
     /**
      * @param anonymous the anonymous to set
      */
@@ -154,5 +162,4 @@ public class PdfDocbookCreatorImpl implements PdfDocbookCreator {
 
         this.anonymous = anonymous;
     }
-
 }

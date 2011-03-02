@@ -1,8 +1,8 @@
 package org.synyx.minos.umt.web;
 
-import java.beans.PropertyEditorSupport;
-
 import org.synyx.minos.umt.service.UserManagement;
+
+import java.beans.PropertyEditorSupport;
 
 
 /**
@@ -12,19 +12,17 @@ public class UserEditor extends PropertyEditorSupport {
 
     private UserManagement userManagement;
 
-
     /**
-     * 
+     *
      */
     public UserEditor(UserManagement userManagement) {
 
         this.userManagement = userManagement;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
      */
     @Override

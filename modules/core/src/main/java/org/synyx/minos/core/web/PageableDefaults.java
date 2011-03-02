@@ -1,16 +1,16 @@
 package org.synyx.minos.core.web;
 
+import org.synyx.hades.domain.Pageable;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.synyx.hades.domain.Pageable;
-
 
 /**
  * Annotation to set defaults when injecting a {@link Pageable} into a controller method
- * 
+ *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -29,5 +29,4 @@ public @interface PageableDefaults {
      * (default is 0).
      */
     int pageNumber() default 0;
-
 }

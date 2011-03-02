@@ -1,12 +1,7 @@
 package org.synyx.minos.umt.remoting.rest;
 
-import static org.synyx.minos.umt.web.UmtUrls.*;
-
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.remoting.rest.AbstractDtoAssembler;
 import org.synyx.minos.core.remoting.rest.dto.LinkDto;
@@ -14,18 +9,23 @@ import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.umt.remoting.rest.dto.UserDto;
 import org.synyx.minos.umt.remoting.rest.dto.UsersDto;
 import org.synyx.minos.umt.service.UserManagement;
+import static org.synyx.minos.umt.web.UmtUrls.USERS;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
  * Assembler to build Data Transfer Objects for user management module.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class UmtDtoAssembler extends AbstractDtoAssembler {
 
     /**
      * Creates a new {@link UmtDtoAssembler};
-     * 
+     *
      * @param userManagement
      */
     @Autowired
@@ -33,7 +33,6 @@ public class UmtDtoAssembler extends AbstractDtoAssembler {
 
         super(userManagement);
     }
-
 
     public UserDto toDto(User user) {
 
@@ -43,7 +42,7 @@ public class UmtDtoAssembler extends AbstractDtoAssembler {
 
     /**
      * Creates a new {@link UserDto} from the given {@link User}.
-     * 
+     *
      * @param user
      * @param request
      * @return
@@ -78,7 +77,7 @@ public class UmtDtoAssembler extends AbstractDtoAssembler {
 
     /**
      * Transforms the given {@link List} of {@link User}s into a {@link UsersDto} instance allowing it to marshalled.
-     * 
+     *
      * @param users
      * @param request
      * @return
@@ -97,7 +96,7 @@ public class UmtDtoAssembler extends AbstractDtoAssembler {
 
     /**
      * Creates a new domain object from the given {@link UserDto}.
-     * 
+     *
      * @param userDto
      * @return
      */
@@ -109,7 +108,7 @@ public class UmtDtoAssembler extends AbstractDtoAssembler {
 
     /**
      * Maps the given DTOs properties to the given domain object.
-     * 
+     *
      * @param userDto
      * @param user
      * @return
@@ -122,7 +121,7 @@ public class UmtDtoAssembler extends AbstractDtoAssembler {
 
     /**
      * Maps the given DTOs properties to the given domain object.
-     * 
+     *
      * @param userDto
      * @param user
      * @param mapId whether to map the id property of the DTO. Should be {@code false} for {@link User} instances to be

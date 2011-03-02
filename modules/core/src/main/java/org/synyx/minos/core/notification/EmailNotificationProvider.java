@@ -2,18 +2,18 @@ package org.synyx.minos.core.notification;
 
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+
 import org.synyx.minos.core.domain.User;
 
 
 /**
  * Implementation of {@link NotificationProvider} that sends the notification via email.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class EmailNotificationProvider extends AbstractNotificationProvider {
 
     private MailSender mailSender;
-
 
     /**
      * Creates a new {@link EmailNotificationProvider}.
@@ -24,13 +24,13 @@ public class EmailNotificationProvider extends AbstractNotificationProvider {
         this.mailSender = mailSender;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @seecom.synyx.minos.core.notification.AbstractNotificationProvider#
      * notifyInExecutor(com.synyx.minos.core.notification.Notification)
      */
+    @Override
     public void notifyInExecutor(Notification notification, User recipient) {
 
         SimpleMailMessage mail = new SimpleMailMessage();

@@ -1,7 +1,9 @@
 /**
- * 
+ *
  */
 package org.synyx.minos.i18n.domain;
+
+import org.synyx.hades.domain.AbstractPersistable;
 
 import java.util.Locale;
 
@@ -9,12 +11,10 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
-import org.synyx.hades.domain.AbstractPersistable;
-
 
 /**
  * Domain class that defines that a language({@link LocaleWrapper}) is available/required for a basename.
- * 
+ *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 @Entity
@@ -30,19 +30,17 @@ public class AvailableLanguage extends AbstractPersistable<Long> {
 
     private boolean required = true;
 
-
     /**
      * Create a new empty instance of {@link AvailableLanguage}. This constructor is needed by the OR mapper.
      */
     protected AvailableLanguage() {
-
     }
 
 
     /**
      * Creates a new instance of {@link AvailableLanguage} for the given combination of language (wrapped via
      * {@link LocaleWrapper}) and basename. The language is flagged as not required.
-     * 
+     *
      * @param locale the language
      * @param basename the basename
      */
@@ -57,7 +55,7 @@ public class AvailableLanguage extends AbstractPersistable<Long> {
     /**
      * Creates a new instance of {@link AvailableLanguage} for the given combination of language (wrapped via
      * {@link LocaleWrapper}) and basename.
-     * 
+     *
      * @param locale the language
      * @param basename the basename
      * @param required flag indicating that the language is required
@@ -70,10 +68,9 @@ public class AvailableLanguage extends AbstractPersistable<Long> {
         this.required = required;
     }
 
-
     /**
      * Get the locale (wrapped via {@link LocaleWrapper}) of this available language.
-     * 
+     *
      * @return the locale of this available language.
      */
     public LocaleWrapper getLocale() {
@@ -84,7 +81,7 @@ public class AvailableLanguage extends AbstractPersistable<Long> {
 
     /**
      * Set the locale (wrapped via {@link LocaleWrapper}) of this available language.
-     * 
+     *
      * @param locale the locale to set.
      */
     public void setLocale(LocaleWrapper locale) {
@@ -95,7 +92,7 @@ public class AvailableLanguage extends AbstractPersistable<Long> {
 
     /**
      * Get the {@link Locale} of this available language.
-     * 
+     *
      * @return the {@link Locale} of this available language.
      */
     public Locale getRealLocale() {
@@ -106,7 +103,7 @@ public class AvailableLanguage extends AbstractPersistable<Long> {
 
     /**
      * Set the {@link Locale} of this available language.
-     * 
+     *
      * @param locale the {@link Locale} to set.
      */
     public void setRealLocale(Locale locale) {
@@ -117,7 +114,7 @@ public class AvailableLanguage extends AbstractPersistable<Long> {
 
     /**
      * Get the basename of this available language.
-     * 
+     *
      * @return the basename of this available language.
      */
     public String getBasename() {
@@ -128,7 +125,7 @@ public class AvailableLanguage extends AbstractPersistable<Long> {
 
     /**
      * Set the basename of this available language.
-     * 
+     *
      * @param basename the basename to set.
      */
     public void setBasename(String basename) {
@@ -139,7 +136,7 @@ public class AvailableLanguage extends AbstractPersistable<Long> {
 
     /**
      * Get the required flag of this available language.
-     * 
+     *
      * @return the required flag of this available language.
      */
     public boolean isRequired() {
@@ -150,7 +147,7 @@ public class AvailableLanguage extends AbstractPersistable<Long> {
 
     /**
      * Set the required flag of this available language.
-     * 
+     *
      * @param required the required flag to set.
      */
     public void setRequired(boolean required) {
@@ -164,5 +161,4 @@ public class AvailableLanguage extends AbstractPersistable<Long> {
 
         return String.format("%s %s", basename, locale.toString());
     }
-
 }

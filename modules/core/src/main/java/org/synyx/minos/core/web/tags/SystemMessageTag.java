@@ -1,17 +1,18 @@
 package org.synyx.minos.core.web.tags;
 
-import javax.servlet.jsp.JspException;
-
 import org.springframework.web.servlet.tags.form.AbstractHtmlElementBodyTag;
 import org.springframework.web.servlet.tags.form.TagWriter;
+
 import org.synyx.minos.core.Core;
 import org.synyx.minos.core.web.Message;
+
+import javax.servlet.jsp.JspException;
 
 
 /**
  * Tag to display minos system messages. Looks up {@code Message}s under {@value Core#MESSAGE} in the request and
  * renders it if found.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class SystemMessageTag extends AbstractHtmlElementBodyTag {
@@ -21,10 +22,9 @@ public class SystemMessageTag extends AbstractHtmlElementBodyTag {
     private static final String MESSAGES_WRAPPER = "ul";
     private static final String MESSAGE_WRAPPER = "li";
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.web.servlet.tags.form.ErrorsTag#shouldRender()
      */
     @Override
@@ -36,7 +36,7 @@ public class SystemMessageTag extends AbstractHtmlElementBodyTag {
 
     /**
      * Returns if there is a message to be rendered.
-     * 
+     *
      * @return
      */
     private boolean hasMessage() {
@@ -47,7 +47,7 @@ public class SystemMessageTag extends AbstractHtmlElementBodyTag {
 
     /**
      * Returns the current UI message.
-     * 
+     *
      * @return the current UI message or {@code null} if none found
      */
     protected Message getMessage() {
@@ -58,7 +58,7 @@ public class SystemMessageTag extends AbstractHtmlElementBodyTag {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.springframework.web.servlet.tags.form.AbstractHtmlElementBodyTag#renderDefaultContent(org.springframework
      * .web.servlet.tags.form.TagWriter)

@@ -3,14 +3,14 @@ package org.synyx.minos.core.domain;
 /**
  * Abstract base class for entities centered around a name element. Primarily use of this class is to prevent duplicate
  * {@link #equals(Object)} and {@link #hashCode()} of simple value object implementations abstracting a name.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public abstract class AbstractNamedEntity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -32,7 +32,7 @@ public abstract class AbstractNamedEntity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override

@@ -1,21 +1,23 @@
 package org.synyx.minos.core.web.tags.menu;
 
-import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspWriter;
-
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
+
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.core.web.menu.Menu;
 import org.synyx.minos.core.web.menu.MenuItem;
 import org.synyx.minos.core.web.menu.MenuItems;
 import org.synyx.minos.core.web.menu.MenuProvider;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspWriter;
+
 
 /**
  * Tag rendering the applications menu using {@link MenuProvider} to get the needed {@link MenuItems}.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
@@ -29,16 +31,16 @@ public class MenuTag extends RequestContextAwareTag {
 
     private MenuRenderer renderer;
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @seeorg.springframework.web.servlet.tags.RequestContextAwareTag# doStartTagInternal()
      */
     @Override
     protected int doStartTagInternal() throws Exception {
 
         MenuProvider menuProvider = getMenuProvider();
+
         if (menuProvider == null) {
             return 0;
         }
@@ -71,20 +73,19 @@ public class MenuTag extends RequestContextAwareTag {
     /**
      * Builds an HTML menu from the given {@link MenuItem}s. Traverses the items down to the leafs, if they contain
      * submenues.
-     * 
+     *
      * @param menuItems
      * @param builder
      * @throws IOException
      */
     private void buildHtmlMenu(MenuMetaInfo menuInfo, MenuItems menuItems, StringBuilder builder, boolean submenu)
-            throws IOException {
+        throws IOException {
 
         String path = getPathWithinApplication(getRequest());
 
         builder.append(renderer.beforeMenuItem(menuInfo));
 
         for (Menu item : menuItems) {
-
             boolean active = item.isActiveFor(path);
 
             MenuMetaInfo info = new MenuMetaInfo();
@@ -109,6 +110,7 @@ public class MenuTag extends RequestContextAwareTag {
                 info.setSubMenu(false);
             }
         }
+
         builder.append(renderer.afterMenuItem(menuInfo));
     }
 
@@ -125,7 +127,7 @@ public class MenuTag extends RequestContextAwareTag {
 
     /**
      * Resolves the given resource bundle key to a localized message. Returns the key if no message can be found.
-     * 
+     *
      * @param key
      * @return
      */
@@ -137,7 +139,7 @@ public class MenuTag extends RequestContextAwareTag {
 
     /**
      * Returns the current {@link HttpServletRequest}.
-     * 
+     *
      * @return
      */
     private HttpServletRequest getRequest() {
@@ -148,7 +150,7 @@ public class MenuTag extends RequestContextAwareTag {
 
     /**
      * Returns the {@link WebApplicationContext}.
-     * 
+     *
      * @return
      */
     private WebApplicationContext getApplicationContext() {
@@ -164,8 +166,8 @@ public class MenuTag extends RequestContextAwareTag {
         } catch (RuntimeException ex) {
             return null;
         }
-
     }
+
 
     private MenuRenderer getMenuRenderer() {
 
@@ -175,6 +177,7 @@ public class MenuTag extends RequestContextAwareTag {
             return getApplicationContext().getBean("defaultMenuRenderer", MenuRenderer.class);
         }
     }
+
 
     public void setMenuId(String menuId) {
 
@@ -187,11 +190,15 @@ public class MenuTag extends RequestContextAwareTag {
         return menuId;
     }
 
+
     public String getRenderBean() {
+
         return renderBean;
     }
 
+
     public void setRenderBean(String argRenderBean) {
+
         renderBean = argRenderBean;
     }
 }

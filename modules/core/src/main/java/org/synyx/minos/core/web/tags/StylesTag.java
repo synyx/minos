@@ -1,16 +1,16 @@
 package org.synyx.minos.core.web.tags;
 
+import org.springframework.web.servlet.tags.form.AbstractHtmlElementTag;
+import org.springframework.web.servlet.tags.form.TagWriter;
+
 import java.util.Set;
 
 import javax.servlet.jsp.JspException;
 
-import org.springframework.web.servlet.tags.form.AbstractHtmlElementTag;
-import org.springframework.web.servlet.tags.form.TagWriter;
-
 
 /**
  * TODO: Aufhuebschen...
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class StylesTag extends AbstractHtmlElementTag {
@@ -20,10 +20,9 @@ public class StylesTag extends AbstractHtmlElementTag {
     private static final String CSS_FOLDER = "/css";
     private static final String EXTENSION = "css";
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.web.servlet.tags.form.AbstractFormTag#writeTagContent
      * (org.springframework.web.servlet.tags.form.TagWriter)
      */
@@ -34,7 +33,6 @@ public class StylesTag extends AbstractHtmlElementTag {
         Set<String> paths = pageContext.getServletContext().getResourcePaths(CSS_FOLDER);
 
         for (String path : paths) {
-
             if (!path.endsWith(EXTENSION)) {
                 continue;
             }
@@ -45,7 +43,6 @@ public class StylesTag extends AbstractHtmlElementTag {
             tagWriter.writeAttribute("rel", "stylesheet");
             tagWriter.writeAttribute("title", "default");
             tagWriter.endTag();
-
         }
 
         return 0;

@@ -1,32 +1,31 @@
 package org.synyx.minos.core.remoting.rest;
 
-import static org.synyx.minos.umt.web.UmtUrls.*;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.synyx.hades.domain.Persistable;
 import org.synyx.hades.domain.auditing.AbstractAuditable;
+
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.remoting.rest.dto.AbstractEntityDto;
 import org.synyx.minos.core.remoting.rest.dto.IdentifyableDto;
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.umt.service.UserManagement;
+import static org.synyx.minos.umt.web.UmtUrls.USER;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
  * Abstract base class to implement DTO assemblers. Provides basic functionality to map core domain abstraction classes
  * to DTOs and vice versa.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class AbstractDtoAssembler {
 
     private final UserManagement userManagement;
 
-
     /**
      * Creates a new {@link AbstractDtoAssembler} with acces to the {@link UserManagement}.
-     * 
+     *
      * @param userManagement
      */
     protected AbstractDtoAssembler(UserManagement userManagement) {
@@ -34,11 +33,10 @@ public class AbstractDtoAssembler {
         this.userManagement = userManagement;
     }
 
-
     /**
      * Creates an {@link IdentifyableDto} for any {@link Persistable}. Useful to create reference objects by omitting to
      * render the detailed object state.
-     * 
+     *
      * @param persistable
      * @return
      */
@@ -51,13 +49,14 @@ public class AbstractDtoAssembler {
     /**
      * Creates an {@link IdentifyableDto} for any {@link Persistable} additionally adding a link to the resource. If you
      * provide {@code null} for {@code moduleUrl} or {@code request} no link will be created.
-     * 
+     *
      * @param persistable
      * @param moduleUrls
      * @param request
      * @return
      */
-    public IdentifyableDto toIdentifyable(Persistable<Long> persistable, String moduleUrls, HttpServletRequest request) {
+    public IdentifyableDto toIdentifyable(Persistable<Long> persistable, String moduleUrls,
+        HttpServletRequest request) {
 
         if (null == persistable) {
             return null;
@@ -77,7 +76,7 @@ public class AbstractDtoAssembler {
     /**
      * Maps the basic properties of {@link AbstractAuditable} into the given {@code dto}. This will map created and
      * modified date of the {@code entity}.
-     * 
+     *
      * @param <T>
      * @param dto
      * @param entity
@@ -92,7 +91,7 @@ public class AbstractDtoAssembler {
     /**
      * Maps the basic properties of {@link AbstractAuditable} into the given {@code dto} also mapping the link to the
      * creation and last modification user.
-     * 
+     *
      * @param entity
      * @param dto
      * @param request
@@ -100,7 +99,7 @@ public class AbstractDtoAssembler {
      * @return
      */
     public <T extends AbstractEntityDto> T mapBasicProperties(AbstractAuditable<User, Long> entity, T dto,
-            HttpServletRequest request) {
+        HttpServletRequest request) {
 
         return mapBasicProperties(entity, dto, request, null);
     }
@@ -110,7 +109,7 @@ public class AbstractDtoAssembler {
      * Maps the basic properties of {@link AbstractAuditable} into the given {@code dto}. Works pretty much like
      * {@link #mapBasicProperties(AbstractAuditable, AbstractEntityDto, HttpServletRequest, String)} but additionally
      * creates the self href if a module URL is provided.
-     * 
+     *
      * @param <T>
      * @param entity
      * @param dto
@@ -119,7 +118,7 @@ public class AbstractDtoAssembler {
      * @return
      */
     public <T extends AbstractEntityDto> T mapBasicProperties(AbstractAuditable<User, Long> entity, T dto,
-            HttpServletRequest request, String moduleUrl) {
+        HttpServletRequest request, String moduleUrl) {
 
         if (null == dto || null == entity) {
             return dto;
@@ -144,7 +143,7 @@ public class AbstractDtoAssembler {
     /**
      * Maps the basic properties of an {@link AbstractAuditable} from the DTO. Resolves user instances for modifying and
      * creating user of it.
-     * 
+     *
      * @param dto The DTO to extract the properties from
      * @param entity The entity to map the DTOs properties to. Can be prepopulated to update an existing entity or an
      *            empty one to create a new entity. Must not be {@code null}.
@@ -154,8 +153,8 @@ public class AbstractDtoAssembler {
      * @return The mappend entity
      * @throws IllegalArgumentException if the given entity is {@code null}.
      */
-    public <T extends AbstractAuditable<User, Long>> T mapBasicProperties(AbstractEntityDto dto, T entity, boolean mapId)
-            throws IllegalArgumentException {
+    public <T extends AbstractAuditable<User, Long>> T mapBasicProperties(AbstractEntityDto dto, T entity,
+        boolean mapId) throws IllegalArgumentException {
 
         if (null == entity) {
             throw new IllegalArgumentException("Entity must not be null!");
@@ -177,7 +176,7 @@ public class AbstractDtoAssembler {
     /**
      * Looks up a user defined by the given identifyable. Useful to lookup domain objects from any basit DTO instance
      * but mostly to extract auditing entities.
-     * 
+     *
      * @param identifyable
      * @return
      */

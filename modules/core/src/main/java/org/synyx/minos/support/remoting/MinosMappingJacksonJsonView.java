@@ -1,14 +1,14 @@
 package org.synyx.minos.support.remoting;
 
-import java.util.Map;
-
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
+
+import java.util.Map;
 
 
 /**
  * Custom extension of {@link MappingJacksonJsonView} to extract a single model object from the model map prior to
  * unmarshalling.
- * 
+ *
  * @author Oliver Gierke
  */
 public class MinosMappingJacksonJsonView extends MappingJacksonJsonView {
@@ -16,7 +16,7 @@ public class MinosMappingJacksonJsonView extends MappingJacksonJsonView {
     /**
      * Custom {@link #filterModel(Map)} implementation that unwraps a single map entry, so that it won't be marshalled
      * into a wrapping map but standalone.
-     * 
+     *
      * @param model
      */
     @Override

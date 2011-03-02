@@ -1,9 +1,10 @@
 package org.synyx.minos.skillz.domain;
 
-import javax.persistence.Entity;
-
 import org.synyx.hades.domain.auditing.AbstractAuditable;
+
 import org.synyx.minos.core.domain.User;
+
+import javax.persistence.Entity;
 
 
 /**
@@ -18,9 +19,7 @@ public class Level extends AbstractAuditable<User, Long> implements Comparable<L
     private Integer ordinal;
     private String name;
 
-
     protected Level() {
-
     }
 
 
@@ -29,7 +28,6 @@ public class Level extends AbstractAuditable<User, Long> implements Comparable<L
         this.name = name;
         this.ordinal = ordinal;
     }
-
 
     /**
      * @return the name
@@ -87,7 +85,7 @@ public class Level extends AbstractAuditable<User, Long> implements Comparable<L
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(Level o) {
@@ -98,7 +96,7 @@ public class Level extends AbstractAuditable<User, Long> implements Comparable<L
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.hades.domain.AbstractPersistable#toString()
      */
     @Override
@@ -106,5 +104,4 @@ public class Level extends AbstractAuditable<User, Long> implements Comparable<L
 
         return name;
     }
-
 }

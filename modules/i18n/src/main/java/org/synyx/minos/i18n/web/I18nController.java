@@ -1,32 +1,15 @@
 package org.synyx.minos.i18n.web;
 
-import static org.synyx.minos.i18n.I18nPermissions.I18N_CREATE_LANGUAGES;
-import static org.synyx.minos.i18n.I18nPermissions.I18N_DELETE_LANGUAGES;
-import static org.synyx.minos.i18n.I18nPermissions.I18N_EDIT_MESSAGES;
-import static org.synyx.minos.i18n.I18nPermissions.I18N_EXPORT_MESSAGES;
-import static org.synyx.minos.i18n.I18nPermissions.I18N_LIST_BASES;
-import static org.synyx.minos.i18n.I18nPermissions.I18N_LIST_LANGUAGES;
-import static org.synyx.minos.i18n.I18nPermissions.I18N_LIST_MESSAGES;
-import static org.synyx.minos.i18n.I18nPermissions.I18N_UPLOAD_MESSAGES;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.annotation.security.RolesAllowed;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.joda.time.DateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
+
 import org.springframework.validation.DataBinder;
+
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,8 +18,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
+
 import org.synyx.minos.core.Core;
 import org.synyx.minos.core.web.UrlUtils;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_CREATE_LANGUAGES;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_DELETE_LANGUAGES;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_EDIT_MESSAGES;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_EXPORT_MESSAGES;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_LIST_BASES;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_LIST_LANGUAGES;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_LIST_MESSAGES;
+import static org.synyx.minos.i18n.I18nPermissions.I18N_UPLOAD_MESSAGES;
 import org.synyx.minos.i18n.domain.AvailableLanguage;
 import org.synyx.minos.i18n.domain.AvailableMessage;
 import org.synyx.minos.i18n.domain.LocaleWrapper;
@@ -44,10 +36,25 @@ import org.synyx.minos.i18n.domain.Message;
 import org.synyx.minos.i18n.service.MessageService;
 import org.synyx.minos.i18n.service.MessageTransferService;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.annotation.security.RolesAllowed;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * Controller for i18n module
- * 
+ *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 @Controller
@@ -73,7 +80,6 @@ public class I18nController {
     @Autowired
     private MessageTransferService messageTransferService;
 
-
     @InitBinder
     public void initBinder(DataBinder binder, Locale locale) {
 
@@ -94,6 +100,7 @@ public class I18nController {
         messageTransferService.initializeMessageSources();
 
         model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message.success("i18n.messagesources.reinitialized"));
+
         return UrlUtils.redirect(URL_MAIN);
     }
 
@@ -105,6 +112,7 @@ public class I18nController {
         messageTransferService.importMessages();
 
         model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message.success("i18n.messagesources.imported"));
+
         return UrlUtils.redirect(URL_MAIN);
     }
 
@@ -114,11 +122,11 @@ public class I18nController {
     public void exportMessages(HttpServletResponse response, OutputStream out) {
 
         response.setContentType("application/zip");
+
         String filename = "export_i18n_" + new DateTime().toString("yyyy-MM-dd_HH-mm") + ".zip";
         response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", filename));
 
         messageTransferService.exportMessages(out);
-
     }
 
 
@@ -142,6 +150,7 @@ public class I18nController {
         model.addAttribute("basename", basename);
         model.addAttribute("localeInformations", locales);
         model.addAttribute("newLanguage", new AvailableLanguage(LocaleWrapper.DEFAULT, basename, true));
+
         return "i18n/basename";
     }
 
@@ -154,6 +163,7 @@ public class I18nController {
 
         model.addAttribute("basename", basename);
         model.addAttribute("localeInformations", locales);
+
         return "i18n/import";
     }
 
@@ -161,8 +171,8 @@ public class I18nController {
     @RolesAllowed(I18N_UPLOAD_MESSAGES)
     @RequestMapping(value = URL_MESSAGEIMPORT, method = RequestMethod.POST)
     public String importLanguage(@PathVariable("basename") String basename,
-            @RequestParam(value = "language", required = true) AvailableLanguage language,
-            @RequestParam("file") MultipartFile file, Model model) throws IOException {
+        @RequestParam(value = "language", required = true) AvailableLanguage language,
+        @RequestParam("file") MultipartFile file, Model model) throws IOException {
 
         Properties p = new Properties();
         p.load(file.getInputStream());
@@ -171,14 +181,13 @@ public class I18nController {
         messageTransferService.initializeMessageSources();
 
         return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
-
     }
 
 
     @RolesAllowed(I18N_CREATE_LANGUAGES)
     @RequestMapping(value = URL_BASENAME, method = RequestMethod.POST)
     public String addNewLanguageForBasename(@PathVariable("basename") String basename,
-            @ModelAttribute("newLanguage") AvailableLanguage language, Model model) {
+        @ModelAttribute("newLanguage") AvailableLanguage language, Model model) {
 
         List<LocaleWrapper> locales = messageService.getLocales(basename);
 
@@ -186,10 +195,10 @@ public class I18nController {
             // todo make boolean configurable
             messageService.addLanguage(language);
             model.addAttribute(Core.MESSAGE,
-                    org.synyx.minos.core.web.Message.success("i18n.messages.newlanguage.success"));
+                org.synyx.minos.core.web.Message.success("i18n.messages.newlanguage.success"));
         } else {
             model.addAttribute(Core.MESSAGE,
-                    org.synyx.minos.core.web.Message.notice("i18n.messages.newlanguage.alreadyexists"));
+                org.synyx.minos.core.web.Message.notice("i18n.messages.newlanguage.alreadyexists"));
         }
 
         return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
@@ -199,7 +208,7 @@ public class I18nController {
     @RolesAllowed(I18N_DELETE_LANGUAGES)
     @RequestMapping(value = URL_MESSAGES + "/deleteconfirmation", method = RequestMethod.GET)
     public String showConfirmationForRemoveLanguageForBasename(@PathVariable("basename") String basename,
-            @PathVariable("locale") Locale locale, Model model) {
+        @PathVariable("locale") Locale locale, Model model) {
 
         model.addAttribute("locale", locale);
         model.addAttribute("basename", basename);
@@ -211,30 +220,33 @@ public class I18nController {
     @RolesAllowed(I18N_DELETE_LANGUAGES)
     @RequestMapping(value = URL_MESSAGES, method = RequestMethod.DELETE)
     public String removeLanguageForBasename(@PathVariable("basename") String basename,
-            @PathVariable("locale") Locale locale, Model model) {
+        @PathVariable("locale") Locale locale, Model model) {
 
         LocaleWrapper lang = new LocaleWrapper(locale);
+
         if (!lang.isDefault()) {
             messageService.removeLanguage(basename, lang);
 
             model.addAttribute(Core.MESSAGE,
-                    org.synyx.minos.core.web.Message.success("i18n.basename.deleteLanguage.message.success"));
-
+                org.synyx.minos.core.web.Message.success("i18n.basename.deleteLanguage.message.success"));
         } else {
-            model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message
-                    .error("i18n.basename.deleteLanguage.message.impossiblebecauseofdefault"));
-
+            model.addAttribute(Core.MESSAGE,
+                org.synyx.minos.core.web.Message.error(
+                    "i18n.basename.deleteLanguage.message.impossiblebecauseofdefault"));
         }
+
         messageTransferService.initializeMessageSources();
+
         return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
     }
 
 
     @RolesAllowed(I18N_LIST_MESSAGES)
     @RequestMapping(value = URL_MESSAGES, method = RequestMethod.GET)
-    public String showMessages(@PathVariable("basename") String basename, @PathVariable("locale") Locale locale,
-            @RequestParam(value = "filter", required = false) String filter,
-            @RequestParam(value = "reference", required = false) Locale referenceLocale, Model model) {
+    public String showMessages(@PathVariable("basename") String basename,
+        @PathVariable("locale") Locale locale,
+        @RequestParam(value = "filter", required = false) String filter,
+        @RequestParam(value = "reference", required = false) Locale referenceLocale, Model model) {
 
         boolean onlyNew = filter != null && "new".equalsIgnoreCase(filter);
         boolean onlyUpd = filter != null && "updated".equalsIgnoreCase(filter);
@@ -255,10 +267,11 @@ public class I18nController {
 
     @RolesAllowed(I18N_LIST_MESSAGES)
     @RequestMapping(value = URL_MESSAGE_JSON, method = RequestMethod.GET)
-    public void showMessage(@PathVariable("basename") String basename, @PathVariable("locale") Locale locale,
-            @PathVariable("key") String key,
-            @RequestParam(value = "reference", required = false) Locale referenceLocale, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    public void showMessage(@PathVariable("basename") String basename,
+        @PathVariable("locale") Locale locale,
+        @PathVariable("key") String key,
+        @RequestParam(value = "reference", required = false) Locale referenceLocale, HttpServletRequest request,
+        HttpServletResponse response) throws Exception {
 
         MessageView message = messageService.getMessage(basename, key, locale);
         MessageView messageRef = messageService.getMessage(basename, key, referenceLocale);
@@ -267,7 +280,6 @@ public class I18nController {
         Map<String, String> jsonMap = new HashMap<String, String>();
 
         if (message != null) {
-
             // MESSAGE
             if (message.getMessage().getId() != null) {
                 jsonMap.put("id", message.getMessage().getId().toString());
@@ -292,6 +304,7 @@ public class I18nController {
             // REFERENCE MESSAGE
             jsonMap.put("reference_message", messageRef.getMessage().getMessage());
             jsonMap.put("reference_locale", messageRef.getResolvingLocale().toString());
+
             if (messageRef.getTranslation() != null) {
                 jsonMap.put("reference_status", messageRef.getTranslation().getMessageStatus().toString());
             } else {
@@ -311,12 +324,13 @@ public class I18nController {
 
     @RolesAllowed(I18N_EDIT_MESSAGES)
     @RequestMapping(value = URL_MESSAGE_JSON, method = RequestMethod.PUT)
-    public void saveMessage(@PathVariable("basename") String basename, @PathVariable("locale") Locale locale,
-            @PathVariable("key") String key,
-            @RequestParam(value = "reference", required = false) Locale referenceLocale,
-            @RequestParam(value = "finished", required = false, defaultValue = "FALSE") Boolean finished,
-            @ModelAttribute(value = "message") Message message, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public void saveMessage(@PathVariable("basename") String basename,
+        @PathVariable("locale") Locale locale,
+        @PathVariable("key") String key,
+        @RequestParam(value = "reference", required = false) Locale referenceLocale,
+        @RequestParam(value = "finished", required = false, defaultValue = "FALSE") Boolean finished,
+        @ModelAttribute(value = "message") Message message, HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
 
         messageService.save(message, finished);
 
@@ -324,5 +338,4 @@ public class I18nController {
 
         showMessage(basename, locale, key, referenceLocale, request, response);
     }
-
 }

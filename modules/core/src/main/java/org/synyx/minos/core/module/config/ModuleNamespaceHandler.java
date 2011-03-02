@@ -6,7 +6,7 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
  * {@link NamespaceHandler} for module elements.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class ModuleNamespaceHandler extends NamespaceHandlerSupport {
@@ -14,10 +14,9 @@ public class ModuleNamespaceHandler extends NamespaceHandlerSupport {
     private static final String MODULE = "module";
     private static final String REST_MODULE = "rest-module";
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.beans.factory.xml.NamespaceHandler#init()
      */
     @Override
@@ -26,5 +25,4 @@ public class ModuleNamespaceHandler extends NamespaceHandlerSupport {
         registerBeanDefinitionParser(MODULE, new ModuleBeanDefinitionParser());
         registerBeanDefinitionParser(REST_MODULE, new RestModuleBeanDefinitionParser());
     }
-
 }

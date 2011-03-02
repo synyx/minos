@@ -1,15 +1,16 @@
 package org.synyx.minos.core.module.internal;
 
+import org.synyx.hades.domain.AbstractPersistable;
+
+import org.synyx.minos.core.module.Module;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
-import org.synyx.hades.domain.AbstractPersistable;
-import org.synyx.minos.core.module.Module;
 
 
 /**
  * Simple entity to capture module state.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Entity
@@ -23,15 +24,13 @@ public class ModuleDescriptor extends AbstractPersistable<Long> {
     @Column(nullable = false)
     private boolean installed = false;
 
-
     protected ModuleDescriptor() {
-
     }
 
 
     /**
      * Creates a new {@link ModuleDescriptor} for the module with the given identifier.
-     * 
+     *
      * @param identifier
      */
     public ModuleDescriptor(String identifier) {
@@ -42,14 +41,13 @@ public class ModuleDescriptor extends AbstractPersistable<Long> {
 
     /**
      * Create a new {@link ModuleDescriptor} for the given module.
-     * 
+     *
      * @param module
      */
     public ModuleDescriptor(Module module) {
 
         this.identifier = module.getIdentifier();
     }
-
 
     /**
      * @return the name
@@ -62,7 +60,7 @@ public class ModuleDescriptor extends AbstractPersistable<Long> {
 
     /**
      * Mark the module as installed.
-     * 
+     *
      * @param installed the installed to set
      */
     public void setInstalled() {
@@ -82,7 +80,7 @@ public class ModuleDescriptor extends AbstractPersistable<Long> {
 
     /**
      * Returns whether the module is installed.
-     * 
+     *
      * @return
      */
     public boolean isInstalled() {

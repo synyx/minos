@@ -1,19 +1,18 @@
 package org.synyx.minos.core.web.menu;
 
-import static com.google.common.collect.Iterables.*;
+import com.google.common.base.Predicate;
+import static com.google.common.collect.Iterables.filter;
+
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.util.StringUtils;
-
-import com.google.common.base.Predicate;
-
 
 /**
  * Abstraction of a {@link Menu}. That is a tree of {@link MenuItem}s.
- * 
+ *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  * @author Oliver Gierke
  */
@@ -30,12 +29,10 @@ public class Menu implements Comparable<Menu> {
     private MenuItems subMenues;
     private List<String> permissions = new ArrayList<String>();
 
-
     private Menu(String id) {
 
         this.id = id;
     }
-
 
     public String getId() {
 
@@ -51,20 +48,19 @@ public class Menu implements Comparable<Menu> {
 
     /**
      * Returns the URL the {@link MenuTreeItem} shall link to.
-     * 
+     *
      * @param user the user to create the menu for. Can be {@literal null} if no user is authenticated
      * @return the url
      */
     public String getUrl() {
 
         return urlStrategy.resolveUrl(this);
-
     }
 
 
     /**
      * Returns the title of the {@link MenuTreeItem}. Will be resolved against a resource bundle.
-     * 
+     *
      * @return the title
      */
     public String getTitle() {
@@ -75,7 +71,7 @@ public class Menu implements Comparable<Menu> {
 
     /**
      * Returns the description of the {@link MenuTreeItem}.
-     * 
+     *
      * @return the desciption
      */
     public String getDesciption() {
@@ -86,7 +82,7 @@ public class Menu implements Comparable<Menu> {
 
     /**
      * Returns the position of the menu item. 0 means first one.
-     * 
+     *
      * @return the position
      */
     public int getPosition() {
@@ -98,7 +94,7 @@ public class Menu implements Comparable<Menu> {
     /**
      * Returns the permission required to access this {@link MenuTreeItem}. Includes permissions from parent menu items,
      * too.
-     * 
+     *
      * @return the permissions
      */
     public List<String> getPermissions() {
@@ -109,7 +105,7 @@ public class Menu implements Comparable<Menu> {
 
     /**
      * Returns whether the {@link MenuTreeItem} has submenues.
-     * 
+     *
      * @return
      */
     public boolean hasSubMenues() {
@@ -120,7 +116,7 @@ public class Menu implements Comparable<Menu> {
 
     /**
      * Returns all submenues.
-     * 
+     *
      * @return
      */
     public MenuItems getSubMenues() {
@@ -131,7 +127,7 @@ public class Menu implements Comparable<Menu> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     @Override
@@ -143,7 +139,7 @@ public class Menu implements Comparable<Menu> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -161,7 +157,7 @@ public class Menu implements Comparable<Menu> {
     /**
      * Returns a deep copy of this. This means that a copy of this with copies of all subMenueitems (and so on) is
      * returned.
-     * 
+     *
      * @return a deep copy of this {@link MenuTreeItem}
      */
     public Menu deepCopy(Predicate<Menu> subMenuItemFilters) {
@@ -172,11 +168,13 @@ public class Menu implements Comparable<Menu> {
         menu.position = getPosition();
         menu.urlStrategy = getUrlStrategy();
         menu.permissions = new ArrayList<String>();
+
         for (String permission : getPermissions()) {
             menu.permissions.add(permission);
         }
 
         List<Menu> subs = new ArrayList<Menu>();
+
         if (hasSubMenues()) {
             // Only clone sub menu items that satisfy the filter
             for (Menu sub : filter(subMenues, subMenuItemFilters)) {
@@ -185,6 +183,7 @@ public class Menu implements Comparable<Menu> {
         }
 
         menu.subMenues = new MenuItems(subs);
+
         return menu;
     }
 
@@ -193,7 +192,6 @@ public class Menu implements Comparable<Menu> {
     public int hashCode() {
 
         return path.hashCode();
-
     }
 
 
@@ -202,20 +200,22 @@ public class Menu implements Comparable<Menu> {
 
         if (this == obj)
             return true;
+
         if (obj == null)
             return false;
+
         if (getClass() != obj.getClass())
             return false;
+
         Menu other = (Menu) obj;
 
         return other.path.equals(path);
-
     }
 
 
     /**
      * Returns wether we have the given {@link MenuTreeItem} somewhere in our trees of sub {@link MenuTreeItem}s.
-     * 
+     *
      * @param menuItem
      * @return
      */
@@ -227,7 +227,7 @@ public class Menu implements Comparable<Menu> {
 
     /**
      * Returns whether the {@link MenuTreeItem} shall be considered as active for the given URL.
-     * 
+     *
      * @param url
      * @return
      */
@@ -259,7 +259,7 @@ public class Menu implements Comparable<Menu> {
 
     /**
      * Creates a new {@link Menu} with the given {@link MenuItem} and the given {@link MenuItems} as its children.
-     * 
+     *
      * @param item
      * @param children
      * @return
@@ -274,6 +274,7 @@ public class Menu implements Comparable<Menu> {
         menu.path = item.getPath();
 
         menu.permissions = new ArrayList<String>();
+
         for (String permission : item.getPermissions()) {
             menu.permissions.add(permission);
         }
@@ -281,20 +282,17 @@ public class Menu implements Comparable<Menu> {
         menu.subMenues = children;
 
         return menu;
-
     }
 
 
     /**
      * Creates a new {@link Menu} with the given {@link MenuItem} and no children.
-     * 
+     *
      * @param item
      * @return
      */
     public static Menu create(MenuItem item) {
 
         return create(item, new MenuItems(new ArrayList<Menu>()));
-
     }
-
 }

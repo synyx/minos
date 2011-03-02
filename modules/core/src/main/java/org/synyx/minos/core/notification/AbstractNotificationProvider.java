@@ -2,7 +2,9 @@ package org.synyx.minos.core.notification;
 
 import org.springframework.core.task.SyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
+
 import org.synyx.hera.metadata.AbstractMetadataBasedPlugin;
+
 import org.synyx.minos.core.domain.User;
 
 
@@ -11,7 +13,7 @@ import org.synyx.minos.core.domain.User;
  * Implementations can get a custom executor configured and {@link #notifyInExecutor(Notification, User)} will be
  * executed with this executor. Default executor is {@value #DEFAULT_TASK_EXECUTOR}. As {@link NotificationProvider}s
  * are supposed to be plugins we extend {@link AbstractMetadataBasedPlugin}.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public abstract class AbstractNotificationProvider extends AbstractMetadataBasedPlugin implements NotificationProvider {
@@ -20,10 +22,9 @@ public abstract class AbstractNotificationProvider extends AbstractMetadataBased
 
     private TaskExecutor taskExecutor = DEFAULT_TASK_EXECUTOR;
 
-
     /**
      * Creates a new {@link AbstractNotificationProvider}
-     * 
+     *
      * @param name
      * @param version
      */
@@ -32,11 +33,10 @@ public abstract class AbstractNotificationProvider extends AbstractMetadataBased
         super(name, version);
     }
 
-
     /**
      * Sets an implementation of {@link TaskExecutor}. If {@code null} is provided {@value #DEFAULT_TASK_EXECUTOR} is
      * used again.
-     * 
+     *
      * @param taskExecuter
      */
     public void setTaskExecuter(TaskExecutor taskExecuter) {
@@ -47,7 +47,7 @@ public abstract class AbstractNotificationProvider extends AbstractMetadataBased
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.core.notification.NotificationProvider#notify(com.synyx
      * .minos.core.notification.Notification)
      */
@@ -55,17 +55,17 @@ public abstract class AbstractNotificationProvider extends AbstractMetadataBased
 
         taskExecutor.execute(new Runnable() {
 
-            public void run() {
+                public void run() {
 
-                notifyInExecutor(notification, recipient);
-            }
-        });
+                    notifyInExecutor(notification, recipient);
+                }
+            });
     }
 
 
     /**
      * Callback method for actual notification logic to be executed with the configured {@link TaskExecutor}.
-     * 
+     *
      * @param notification
      * @param recipient
      */

@@ -3,6 +3,7 @@ package org.synyx.minos.skillz.service;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.skillz.domain.Resume;
 import org.synyx.minos.umt.service.UserManagement;
@@ -10,7 +11,7 @@ import org.synyx.minos.umt.service.UserManagement;
 
 /**
  * Provides aspects for to manage the relation between {@link User} and {@link Resume}.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  * @author Markus Knittig - knittig@synyx.de
  */
@@ -20,10 +21,9 @@ class ManageResumeForUserAspect {
     private final SkillManagement skillManagement;
     private final ResumeManagement resumeManagement;
 
-
     /**
      * Creates a new {@link ManageResumeForUserAspect}.
-     * 
+     *
      * @param resumeManagement
      * @param skillManagement
      */
@@ -33,11 +33,10 @@ class ManageResumeForUserAspect {
         this.skillManagement = skillManagement;
     }
 
-
     /**
      * Aspect method that intercept calls to {@link UserManagement#save(User)} and creates new {@link Resume}s for every
      * {@link User} newly created.
-     * 
+     *
      * @param joinPoint
      * @param user
      * @return
@@ -64,7 +63,7 @@ class ManageResumeForUserAspect {
     /**
      * Aspect method that intercept calls to {@link UserManagement#delete(User)} and deletes the {@link Resume}s for
      * every {@link User} deleted.
-     * 
+     *
      * @param joinPoint
      * @param user
      * @return
@@ -79,5 +78,4 @@ class ManageResumeForUserAspect {
 
         return result;
     }
-
 }

@@ -6,17 +6,16 @@ import java.util.List;
 
 /**
  * Basic configurable {@link MenuItemProvider}.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class SimpleMenuItemProvider implements MenuItemProvider {
 
     private List<MenuItem> menuItems;
 
-
     /**
      * Set a single {@link MenuItem}.
-     * 
+     *
      * @param menuItem
      */
     public void setMenuItem(MenuItem menuItem) {
@@ -27,7 +26,7 @@ public class SimpleMenuItemProvider implements MenuItemProvider {
 
     /**
      * Set multiple {@link MenuItem}s.
-     * 
+     *
      * @param menuItems the menuItems to set
      */
     public void setMenuItems(List<MenuItem> menuItems) {
@@ -38,7 +37,7 @@ public class SimpleMenuItemProvider implements MenuItemProvider {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.core.web.menu.MenuItemProvider#getMenuItems()
      */
     public List<MenuItem> getMenuItems() {
@@ -49,7 +48,7 @@ public class SimpleMenuItemProvider implements MenuItemProvider {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.hera.core.Plugin#supports(java.lang.Object)
      */
     @Override

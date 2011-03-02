@@ -1,11 +1,7 @@
 package org.synyx.minos.skillz.bootstrap;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.springframework.transaction.annotation.Transactional;
+
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.module.SimpleNoOpLifecycle;
@@ -24,35 +20,39 @@ import org.synyx.minos.skillz.service.SkillManagement;
 import org.synyx.minos.umt.service.UserManagement;
 import org.synyx.minos.util.Assert;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 
 /**
  * Installer to setup basic data.
  * <p>
  * FIXME: Use services instead of DAOs to get rid of the {@code @Transactional} annotation.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Transactional
 public class SkillzInstaller extends SimpleNoOpLifecycle {
 
     private static final String LOREM_IPSUM =
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
+        "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
 
     private final SkillManagement skillManagement;
     private final ResumeManagement resumeManagement;
 
     private final UserManagement userManagement;
 
-
     /**
      * Creates a new {@link SkillzInstaller}.
-     * 
+     *
      * @param skillManagement
      * @param resumeManagement
      * @param userManagement
      */
     public SkillzInstaller(SkillManagement skillManagement, ResumeManagement resumeManagement,
-            UserManagement userManagement) {
+        UserManagement userManagement) {
 
         Assert.notNull(skillManagement);
         Assert.notNull(resumeManagement);
@@ -63,10 +63,9 @@ public class SkillzInstaller extends SimpleNoOpLifecycle {
         this.userManagement = userManagement;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.core.module.SimpleNoOpLifecycle#install()
      */
     @Override
@@ -76,8 +75,8 @@ public class SkillzInstaller extends SimpleNoOpLifecycle {
 
         int count = 0;
         List<Level> levels = new ArrayList<Level>();
-        for (String name : Arrays.asList("o", "+", "++", "+++")) {
 
+        for (String name : Arrays.asList("o", "+", "++", "+++")) {
             Level level = new Level(name, count++);
 
             if (count == 1) {
@@ -102,9 +101,8 @@ public class SkillzInstaller extends SimpleNoOpLifecycle {
 
         skillManagement.save(frameworks);
 
-        List<String> responsibilities =
-                Arrays.asList("Architektur", "Design", "Implementierung", "Test", "User Interface",
-                        "Projektmanagement", "Teamleitung");
+        List<String> responsibilities = Arrays.asList("Architektur", "Design", "Implementierung", "Test",
+                "User Interface", "Projektmanagement", "Teamleitung");
 
         for (String responsibility : responsibilities) {
             skillManagement.save(new Responsibility(responsibility));
@@ -127,7 +125,6 @@ public class SkillzInstaller extends SimpleNoOpLifecycle {
         skillManagement.save(description2);
 
         for (User user : userManagement.getUsers()) {
-
             SkillMatrix matrix = new SkillMatrix();
             matrix.setTemplate(developersTemplate);
 

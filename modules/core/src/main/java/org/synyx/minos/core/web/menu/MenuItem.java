@@ -1,18 +1,19 @@
 package org.synyx.minos.core.web.menu;
 
+import org.springframework.util.StringUtils;
+
+import org.synyx.minos.util.Assert;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.springframework.util.StringUtils;
-import org.synyx.minos.util.Assert;
 
 
 /**
  * Class to define a {@link MenuItem}. Allows definition of basic properties like title, description and so on.
  * {@link MenuItem}s can be ordered using the {@code position} property. Title and description will be resolved via
  * {@link java.util.ResourceBundle}s.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
@@ -33,12 +34,10 @@ public class MenuItem implements Comparable<MenuItem> {
 
     private List<String> permissions = new ArrayList<String>();
 
-
     private MenuItem(String id) {
 
         this.id = id;
     }
-
 
     public String getId() {
 
@@ -48,7 +47,7 @@ public class MenuItem implements Comparable<MenuItem> {
 
     /**
      * Returns the {@link UrlResolver} for the {@link MenuItem} shall link to.
-     * 
+     *
      * @return the {@link UrlResolver} of this
      */
     public UrlResolver getUrlResolver() {
@@ -59,7 +58,7 @@ public class MenuItem implements Comparable<MenuItem> {
 
     /**
      * Returns the title of the {@link MenuItem}. Will be resolved against a resource bundle.
-     * 
+     *
      * @return the title
      */
     public String getTitle() {
@@ -70,7 +69,7 @@ public class MenuItem implements Comparable<MenuItem> {
 
     /**
      * Returns the description of the {@link MenuItem}.
-     * 
+     *
      * @return the desciption
      */
     public String getDesciption() {
@@ -81,7 +80,7 @@ public class MenuItem implements Comparable<MenuItem> {
 
     /**
      * Returns the position of the menu item. 0 means first one.
-     * 
+     *
      * @return the position
      */
     public int getPosition() {
@@ -93,7 +92,7 @@ public class MenuItem implements Comparable<MenuItem> {
     /**
      * Returns the permission required to access this {@link MenuItem}. Includes permissions from parent menu items,
      * too.
-     * 
+     *
      * @return the permissions
      */
     public List<String> getPermissions() {
@@ -104,7 +103,7 @@ public class MenuItem implements Comparable<MenuItem> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     @Override
@@ -116,7 +115,7 @@ public class MenuItem implements Comparable<MenuItem> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -148,7 +147,6 @@ public class MenuItem implements Comparable<MenuItem> {
     public int hashCode() {
 
         return getPath().hashCode();
-
     }
 
 
@@ -157,14 +155,16 @@ public class MenuItem implements Comparable<MenuItem> {
 
         if (this == obj)
             return true;
+
         if (obj == null)
             return false;
+
         if (getClass() != obj.getClass())
             return false;
+
         MenuItem other = (MenuItem) obj;
 
         return other.path.equals(path);
-
     }
 
 
@@ -183,8 +183,8 @@ public class MenuItem implements Comparable<MenuItem> {
         }
 
         int pos = path.lastIndexOf(PATH_SEPARATOR);
-        return path.substring(0, pos);
 
+        return path.substring(0, pos);
     }
 
 
@@ -205,6 +205,7 @@ public class MenuItem implements Comparable<MenuItem> {
         clone.menuItem.position = item.position;
 
         clone.menuItem.permissions = new ArrayList<String>();
+
         for (String permission : item.permissions) {
             clone.menuItem.permissions.add(permission);
         }
@@ -224,7 +225,7 @@ public class MenuItem implements Comparable<MenuItem> {
     /**
      * Builder class to create {@link MenuItem}s in a step-by-step fashion but keep the actual {@link MenuItem} class
      * immutable.
-     * 
+     *
      * @author Marc Kannegiesser - kannegiesser@synyx.de
      * @author Oliver Gierke
      */
@@ -232,10 +233,9 @@ public class MenuItem implements Comparable<MenuItem> {
 
         private final MenuItem menuItem;
 
-
         /**
          * Creates a new {@link MenuItemBuilder}.
-         * 
+         *
          * @param id
          */
         private MenuItemBuilder(String id) {
@@ -244,10 +244,9 @@ public class MenuItem implements Comparable<MenuItem> {
             menuItem = new MenuItem(id);
         }
 
-
         /**
          * Builds the {@link MenuItem}. The instance is frozen after this method was called.
-         * 
+         *
          * @return
          */
         public MenuItem build() {
@@ -255,14 +254,15 @@ public class MenuItem implements Comparable<MenuItem> {
             if (menuItem.urlStrategy == null) {
                 throw new IllegalStateException("Either URL or UrlResolver must be set.");
             }
-            return menuItem;
 
+            return menuItem;
         }
 
 
         public MenuItemBuilder withTitle(String title) {
 
             menuItem.title = title;
+
             return this;
         }
 
@@ -270,6 +270,7 @@ public class MenuItem implements Comparable<MenuItem> {
         public MenuItemBuilder withDescription(String description) {
 
             menuItem.desciption = description;
+
             return this;
         }
 
@@ -278,6 +279,7 @@ public class MenuItem implements Comparable<MenuItem> {
 
             Assert.notNull(position);
             menuItem.position = position;
+
             return this;
         }
 
@@ -286,6 +288,7 @@ public class MenuItem implements Comparable<MenuItem> {
 
             Assert.notNull(permissions);
             menuItem.permissions = permissions;
+
             return this;
         }
 
@@ -293,6 +296,7 @@ public class MenuItem implements Comparable<MenuItem> {
         public MenuItemBuilder withPermission(String permission) {
 
             menuItem.permissions.add(permission);
+
             return this;
         }
 
@@ -302,13 +306,14 @@ public class MenuItem implements Comparable<MenuItem> {
             Assert.notNull(keyBase);
             menuItem.title = keyBase + TITLE_POSTFIX;
             menuItem.desciption = keyBase + DESCRIPTION_POSTFIX;
+
             return this;
         }
 
 
         /**
          * Sets the {@link UrlResolver} to be used to determine the URL the {@link MenuItem} shall link to.
-         * 
+         *
          * @param strategy
          * @return
          */
@@ -316,13 +321,14 @@ public class MenuItem implements Comparable<MenuItem> {
 
             Assert.notNull(strategy);
             menuItem.urlStrategy = strategy;
+
             return this;
         }
 
 
         /**
          * Lets the {@link MenuItem} link to a static URL.
-         * 
+         *
          * @param url
          * @return
          */
@@ -330,6 +336,7 @@ public class MenuItem implements Comparable<MenuItem> {
 
             Assert.notNull(url);
             menuItem.urlStrategy = new SimpleUrlResolver(url);
+
             return this;
         }
 
@@ -341,7 +348,5 @@ public class MenuItem implements Comparable<MenuItem> {
 
             return this;
         }
-
     }
-
 }

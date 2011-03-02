@@ -1,23 +1,23 @@
 package org.synyx.minos.skillz.domain.resume;
 
+import org.synyx.minos.skillz.domain.Resume;
+
 import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Query;
 
-import org.synyx.minos.skillz.domain.Resume;
-
 
 /**
  * Interface that describes a resume filter.
- * 
+ *
  * @author Markus Knittig - knittig@synyx.de
  */
 public interface ResumeFilter {
 
     /**
      * Message key for displaying the filter name on the page and identifying the filter in the request.
-     * 
+     *
      * @return
      */
     String getMessageKey();
@@ -28,7 +28,7 @@ public interface ResumeFilter {
      * JOIN x.skillz.entries skillz WHERE skillz.skill.name = :name
      * </code>
      * , {@literal null} or empty if to disable filtering on database level.
-     * 
+     *
      * @return
      */
     String getQueryPartString();
@@ -36,7 +36,7 @@ public interface ResumeFilter {
 
     /**
      * Callback method for filtering {@link Resume}s on the object level.
-     * 
+     *
      * @param resumes
      * @param paramaters
      * @return
@@ -46,7 +46,7 @@ public interface ResumeFilter {
 
     /**
      * Returns an instance of {@link ResumeFilterParameters} which wraps the {@link ResumeFilterParameter}s.
-     * 
+     *
      * @return
      */
     ResumeFilterParameters getParameters();
@@ -54,10 +54,9 @@ public interface ResumeFilter {
 
     /**
      * Binds the given parameters to the given {@link Query}.
-     * 
+     *
      * @param query
      * @param parameters
      */
     void bindParameters(Query query, Map<String, Object> parameters);
-
 }

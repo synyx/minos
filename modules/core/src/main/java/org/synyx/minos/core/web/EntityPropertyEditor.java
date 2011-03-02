@@ -1,21 +1,24 @@
 package org.synyx.minos.core.web;
 
-import java.beans.PropertyEditor;
-import java.beans.PropertyEditorSupport;
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringUtils;
+
 import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.SimpleTypeConverter;
+
 import org.synyx.hades.dao.GenericDao;
 import org.synyx.hades.domain.Persistable;
 import org.synyx.hades.util.ClassUtils;
+
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorSupport;
+
+import java.io.Serializable;
 
 
 /**
  * Generic {@link PropertyEditor} to map {@link Persistable}s handled by a {@link GenericDao} to their id's and vice
  * versa.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class EntityPropertyEditor<T extends Serializable> extends PropertyEditorSupport {
@@ -23,10 +26,9 @@ public class EntityPropertyEditor<T extends Serializable> extends PropertyEditor
     private final GenericDao<?, T> dao;
     private final PropertyEditorRegistry registry;
 
-
     /**
      * Creates a new {@link EntityPropertyEditor} for the given dao.
-     * 
+     *
      * @param dao
      * @param registry
      */
@@ -36,10 +38,9 @@ public class EntityPropertyEditor<T extends Serializable> extends PropertyEditor
         this.registry = registry;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
      */
     @Override
@@ -47,6 +48,7 @@ public class EntityPropertyEditor<T extends Serializable> extends PropertyEditor
 
         if (StringUtils.isBlank(idAsString)) {
             setValue(null);
+
             return;
         }
 
@@ -56,7 +58,7 @@ public class EntityPropertyEditor<T extends Serializable> extends PropertyEditor
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.beans.PropertyEditorSupport#getAsText()
      */
     @Override
@@ -76,7 +78,7 @@ public class EntityPropertyEditor<T extends Serializable> extends PropertyEditor
      * Returns the actual typed id. Looks up an available customly registered {@link PropertyEditor} from the
      * {@link PropertyEditorRegistry} before falling back on a {@link SimpleTypeConverter} to translate the
      * {@link String} id into the type one.
-     * 
+     *
      * @param idAsString
      * @return
      */
@@ -89,6 +91,7 @@ public class EntityPropertyEditor<T extends Serializable> extends PropertyEditor
 
         if (idEditor != null) {
             idEditor.setAsText(idAsString);
+
             return (T) idEditor.getValue();
         }
 

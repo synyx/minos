@@ -2,7 +2,7 @@ package org.synyx.minos.skillz.domain.resume;
 
 /**
  * Class for describing {@link ResumeFilter} parameters with multiple choices.
- * 
+ *
  * @author Markus Knittig - knittig@synyx.de
  */
 public class MultipleChoiceParameter extends AbstractChoiceParameter {
@@ -15,9 +15,8 @@ public class MultipleChoiceParameter extends AbstractChoiceParameter {
      * @param messageKey
      */
     public MultipleChoiceParameter(String name, Class<?> type, ReferenceDataContainer referenceDataContainer,
-            String messageKey) {
+        String messageKey) {
 
         super(name, type, referenceDataContainer, messageKey);
     }
-
 }

@@ -1,18 +1,22 @@
 package org.synyx.minos.core.web.event;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+
 import org.springframework.beans.factory.annotation.Required;
+
 import org.springframework.ui.ModelMap;
+
 import org.springframework.web.servlet.ModelAndView;
+
 import org.synyx.minos.core.Core;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -28,7 +32,7 @@ import org.synyx.minos.core.Core;
  * <li>Event: {@value #DEFAULT_EVENT_KEY}</li>
  * <li>Event context: {@value #DEFAULT_EVENT_CONTEXT_KEY}</li>
  * </ul>
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Aspect
@@ -38,11 +42,10 @@ public class EventOrchestrator {
 
     private List<EventHandler<Event>> eventHandlers;
 
-
     /**
      * Sets all event h safaandlers the orchestrator shall be aware of. If you set up event handling via {@code
      * OrchestrationPostProcessor} this will be automatically populated.
-     * 
+     *
      * @param eventHandlers the eventHandlers to set
      */
     @Required
@@ -59,7 +62,6 @@ public class EventOrchestrator {
     @Pointcut("execution(* org.springframework.web.servlet.mvc.Controller.handleRequest(..))")
     @SuppressWarnings("unused")
     private void controllerInvocation() {
-
     }
 
 
@@ -69,13 +71,12 @@ public class EventOrchestrator {
     @Pointcut("execution(* org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter.handle(..))")
     @SuppressWarnings("unused")
     private void annotationMethodHandlerInvocation() {
-
     }
 
 
     /**
      * Central orchestrator method.
-     * 
+     *
      * @param joinPoint
      * @param request
      * @param response
@@ -83,9 +84,11 @@ public class EventOrchestrator {
      * @return
      * @throws Throwable
      */
-    @Around("(controllerInvocation() || annotationMethodHandlerInvocation()) && args(request, response) && this(controller)")
+    @Around(
+        "(controllerInvocation() || annotationMethodHandlerInvocation()) && args(request, response) && this(controller)"
+    )
     public ModelAndView orchestrate(ProceedingJoinPoint joinPoint, HttpServletRequest request,
-            HttpServletResponse response, Object controller) throws Throwable {
+        HttpServletResponse response, Object controller) throws Throwable {
 
         // Pre execution
 
@@ -96,7 +99,6 @@ public class EventOrchestrator {
 
         // Event fired?
         if (map.containsAttribute(Core.EVENT_KEY)) {
-
             // Try to lookup context and add current controller ass "visited"
             EventContext context = retrieveEventContext(request, response, mav);
             context.visited(controller);
@@ -105,7 +107,6 @@ public class EventOrchestrator {
             Event event = (Event) map.get(Core.EVENT_KEY);
 
             for (EventHandler<Event> handler : eventHandlers) {
-
                 // Hand execution to handler if she is intrested in the event
                 if (handler.supports(event.getClass())) {
                     handler.handleEvent(event, context);
@@ -119,18 +120,20 @@ public class EventOrchestrator {
 
     /**
      * Retrieves the current event context from the request or creates a new one.
-     * 
+     *
      * @param request
      * @param response
      * @param mav
      * @return
      */
-    public EventContext retrieveEventContext(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) {
+    public EventContext retrieveEventContext(HttpServletRequest request, HttpServletResponse response,
+        ModelAndView mav) {
 
         EventContext context = null;
 
         if (null != request.getAttribute(EVENT_CONTEXT_KEY)) {
             context = (EventContext) request.getAttribute(EVENT_CONTEXT_KEY);
+
             return context;
         }
 

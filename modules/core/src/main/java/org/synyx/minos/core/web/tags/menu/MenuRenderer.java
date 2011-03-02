@@ -15,6 +15,7 @@ public interface MenuRenderer {
      */
     String beforeMenu(MenuMetaInfo info);
 
+
     /**
      * Called before each menu item
      *
@@ -22,6 +23,7 @@ public interface MenuRenderer {
      * @return String containing the rendering result
      */
     String beforeMenuItem(MenuMetaInfo info);
+
 
     /**
      * Called rendering each item
@@ -31,6 +33,7 @@ public interface MenuRenderer {
      */
     String renderItem(MenuMetaInfo info);
 
+
     /**
      * Called after each menu item
      *
@@ -39,6 +42,7 @@ public interface MenuRenderer {
      */
     String afterMenuItem(MenuMetaInfo info);
 
+
     /**
      * Called after menu is rendered
      *
@@ -46,6 +50,7 @@ public interface MenuRenderer {
      * @return String containing the rendering result
      */
     String afterMenu(MenuMetaInfo info);
+
 
     /**
      * Called after each menu item

@@ -1,5 +1,9 @@
 package org.synyx.minos.skillz.domain;
 
+import org.synyx.hades.domain.auditing.AbstractAuditable;
+
+import org.synyx.minos.core.domain.User;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,14 +12,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 
-import org.synyx.hades.domain.auditing.AbstractAuditable;
-import org.synyx.minos.core.domain.User;
-
 
 /**
  * A template to create {@link SkillMatrix} instances from. Used to enumerate a list of categories for different type of
  * subjects.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Entity
@@ -31,15 +32,13 @@ public class MatrixTemplate extends AbstractAuditable<User, Long> {
     @ManyToMany
     private List<Category> categories = new ArrayList<Category>();
 
-
     protected MatrixTemplate() {
-
     }
 
 
     /**
      * Creates a new {@link MatrixTemplate} with the given name.
-     * 
+     *
      * @param name
      */
     public MatrixTemplate(String name) {
@@ -47,10 +46,9 @@ public class MatrixTemplate extends AbstractAuditable<User, Long> {
         this.name = name;
     }
 
-
     /**
      * Returns the name of the template.
-     * 
+     *
      * @return the name
      */
     public String getName() {
@@ -61,7 +59,7 @@ public class MatrixTemplate extends AbstractAuditable<User, Long> {
 
     /**
      * Sets the name of the template.
-     * 
+     *
      * @param name the name to set
      */
     public void setName(String name) {
@@ -114,26 +112,28 @@ public class MatrixTemplate extends AbstractAuditable<User, Long> {
 
     /**
      * Adds the given {@link Category} to the template.
-     * 
+     *
      * @param category
      * @return
      */
     public MatrixTemplate add(Category category) {
 
         this.categories.add(category);
+
         return this;
     }
 
 
     /**
      * Removes the given {@link Category} from the template.
-     * 
+     *
      * @param category
      * @return
      */
     public MatrixTemplate remove(Category category) {
 
         this.categories.remove(category);
+
         return this;
     }
 }

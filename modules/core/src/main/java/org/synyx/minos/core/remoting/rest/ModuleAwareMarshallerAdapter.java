@@ -1,21 +1,22 @@
 package org.synyx.minos.core.remoting.rest;
 
+import org.springframework.oxm.Marshaller;
+import org.springframework.oxm.Unmarshaller;
+import org.springframework.oxm.XmlMappingException;
+
+import org.synyx.minos.core.module.Module;
+import org.synyx.minos.util.Assert;
+
 import java.io.IOException;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 
-import org.springframework.oxm.Marshaller;
-import org.springframework.oxm.Unmarshaller;
-import org.springframework.oxm.XmlMappingException;
-import org.synyx.minos.core.module.Module;
-import org.synyx.minos.util.Assert;
-
 
 /**
  * Simple adapter class to use {@link Marshaller} and {@link Unmarshaller} instance and tie them onto a {@link Module}.
  * The {@link Module} is used to
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class ModuleAwareMarshallerAdapter implements ModuleAwareMarshaller {
@@ -25,10 +26,9 @@ public class ModuleAwareMarshallerAdapter implements ModuleAwareMarshaller {
 
     private final Module module;
 
-
     /**
      * Creates a new {@link ModuleAwareMarshallerAdapter}.
-     * 
+     *
      * @param <T>
      * @param unMarshaller
      * @param module
@@ -44,10 +44,9 @@ public class ModuleAwareMarshallerAdapter implements ModuleAwareMarshaller {
         this.module = module;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.hera.core.Plugin#supports(java.lang.Object)
      */
     @Override
@@ -62,7 +61,7 @@ public class ModuleAwareMarshallerAdapter implements ModuleAwareMarshaller {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.oxm.Marshaller#marshal(java.lang.Object, javax.xml.transform.Result)
      */
     @Override
@@ -74,7 +73,7 @@ public class ModuleAwareMarshallerAdapter implements ModuleAwareMarshaller {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.oxm.Unmarshaller#unmarshal(javax.xml.transform.Source )
      */
     @Override

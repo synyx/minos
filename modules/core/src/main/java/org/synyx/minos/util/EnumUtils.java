@@ -5,7 +5,7 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * Simple utility class to work with enumerations.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public abstract class EnumUtils {
@@ -13,7 +13,7 @@ public abstract class EnumUtils {
     /**
      * Returns the enum for the given value or the {@code defaultValue}. Transforms the value to UPPERCASE prior to
      * value parsing.
-     * 
+     *
      * @param <T>
      * @param value
      * @param defaultValue

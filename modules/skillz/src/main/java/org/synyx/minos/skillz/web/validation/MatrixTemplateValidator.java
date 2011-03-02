@@ -1,8 +1,10 @@
 package org.synyx.minos.skillz.web.validation;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+
 import org.synyx.minos.skillz.domain.MatrixTemplate;
 
 
@@ -11,17 +13,16 @@ import org.synyx.minos.skillz.domain.MatrixTemplate;
  * <ul>
  * <li>Matrix template name is not empty</li>
  * </ul>
- * 
+ *
  * @author Markus Knittig - knittig@synyx.de
  */
 public class MatrixTemplateValidator implements Validator {
 
     public static final String MATRIX_TEMPLATE_NAME_EMPTY = "skillz.template.name.error.empty";
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.validation.Validator#supports(java.lang.Class)
      */
     @Override
@@ -33,7 +34,7 @@ public class MatrixTemplateValidator implements Validator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
      */
     @Override
@@ -45,5 +46,4 @@ public class MatrixTemplateValidator implements Validator {
             errors.rejectValue("name", MATRIX_TEMPLATE_NAME_EMPTY);
         }
     }
-
 }

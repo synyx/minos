@@ -1,18 +1,19 @@
 package org.synyx.minos.skillz.domain;
 
+import org.synyx.hades.domain.auditing.AbstractAuditable;
+
+import org.synyx.minos.core.domain.User;
+import org.synyx.minos.util.Assert;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.PreRemove;
-
-import org.synyx.hades.domain.auditing.AbstractAuditable;
-import org.synyx.minos.core.domain.User;
-import org.synyx.minos.util.Assert;
 
 
 /**
  * A {@link Skill} captures a name for an activity, technology, habit sombody can be judged about. {@link Skill}s have
  * to be carried in {@link Category}s to group them together.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Entity
@@ -25,15 +26,13 @@ public class Skill extends AbstractAuditable<User, Long> {
     @ManyToOne(optional = false)
     private Category category;
 
-
     protected Skill() {
-
     }
 
 
     /**
      * Creates a new {@link Skill} and assigns it to the given category;
-     * 
+     *
      * @param string
      */
     public Skill(String name, Category category) {
@@ -45,7 +44,6 @@ public class Skill extends AbstractAuditable<User, Long> {
         this.category = category;
         this.category.add(this);
     }
-
 
     /**
      * @return the name
@@ -67,7 +65,7 @@ public class Skill extends AbstractAuditable<User, Long> {
 
     /**
      * Assignes the skill to the given {@link Category}. Removes it from the old {@link Category}.
-     * 
+     *
      * @param category
      */
     public Skill setCategory(Category category) {
@@ -89,7 +87,7 @@ public class Skill extends AbstractAuditable<User, Long> {
 
     /**
      * Returns the {@link Category} the skill is assigned to.
-     * 
+     *
      * @return the category
      */
     public Category getCategory() {
@@ -100,7 +98,7 @@ public class Skill extends AbstractAuditable<User, Long> {
 
     /**
      * Returns whether the {@link Skill} is assigned to the given {@link Category}.
-     * 
+     *
      * @param category
      * @return
      */
@@ -119,7 +117,7 @@ public class Skill extends AbstractAuditable<User, Long> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.hades.domain.support.AbstractPersistable#toString()
      */
     @Override

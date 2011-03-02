@@ -8,27 +8,36 @@ package org.synyx.minos.umt.web;
  * @since 0.0.1
  */
 public class PermissionHolder {
+
     private String name;
     private Boolean checked;
 
     public PermissionHolder(String argName, Boolean argChecked) {
+
         name = argName;
         checked = argChecked;
     }
 
     public Boolean getChecked() {
+
         return checked;
     }
 
+
     public void setChecked(Boolean argChecked) {
+
         checked = argChecked;
     }
 
+
     public String getName() {
+
         return name;
     }
 
+
     public void setName(String argName) {
+
         name = argName;
     }
 }

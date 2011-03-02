@@ -1,19 +1,20 @@
 package org.synyx.minos.core.web;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
-
 
 /**
  * Abstract base class usable for classes supporting validation via multiple validators.
- * 
+ *
  * @author Alexander Menz - menz@synyx.de
  */
 public abstract class MultipleValidationSupport {
@@ -22,7 +23,6 @@ public abstract class MultipleValidationSupport {
 
     private List<Validator> validators = new ArrayList<Validator>();
     private Map<Class<?>, Validator> validatorCacheMap = new HashMap<Class<?>, Validator>();
-
 
     public void setValidators(List<Validator> validators) {
 
@@ -33,6 +33,7 @@ public abstract class MultipleValidationSupport {
     public boolean isValid(Object target, Errors errors) {
 
         Validator validator = determineValidatorForObject(target);
+
         if (null == validator) {
             return true;
         }
@@ -47,6 +48,7 @@ public abstract class MultipleValidationSupport {
 
         // try to quick retrieve via cache map
         Validator validator = validatorCacheMap.get(target.getClass());
+
         if (validator != null) {
             return validator;
         }
@@ -55,12 +57,13 @@ public abstract class MultipleValidationSupport {
         for (Validator validatorEntry : validators) {
             if (validatorEntry.supports(target.getClass())) {
                 validatorCacheMap.put(target.getClass(), validatorEntry);
+
                 return validatorEntry;
             }
         }
 
         LOG.info("No validator found for class: " + target.getClass().getName());
+
         return null;
     }
-
 }

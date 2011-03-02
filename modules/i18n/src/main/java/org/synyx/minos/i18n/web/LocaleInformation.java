@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.synyx.minos.i18n.web;
 
@@ -10,7 +10,7 @@ import org.synyx.minos.util.Assert;
 
 /**
  * View-Bean around {@link AvailableLanguage} that holds more information (how many keys need to be translatet etc).
- * 
+ *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 public class LocaleInformation {
@@ -21,10 +21,9 @@ public class LocaleInformation {
     private Long countUpdated;
     private Long countTotal;
 
-
     /**
      * Creates a new instance
-     * 
+     *
      * @param language the {@link AvailableLanguage}
      * @param countNew the count of new translations
      * @param countUpdated the count of updated translations
@@ -39,7 +38,6 @@ public class LocaleInformation {
         this.countUpdated = countUpdated;
         this.countTotal = countTotal;
     }
-
 
     public boolean isDeletable() {
 
@@ -93,5 +91,4 @@ public class LocaleInformation {
 
         return language;
     }
-
 }

@@ -1,15 +1,16 @@
 package org.synyx.minos.util;
 
-import java.util.Collection;
-
 import org.apache.commons.lang.StringUtils;
+
 import org.synyx.hades.domain.Persistable;
+
+import java.util.Collection;
 
 
 /**
  * Simple wrapper for Spring's {@link org.springframework.util.Assert} class to not directly depend on it in client
  * classes.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public abstract class Assert {
@@ -18,9 +19,7 @@ public abstract class Assert {
      * Private constructor to prevent instantiation.
      */
     private Assert() {
-
     }
-
 
     /**
      * @see org.springframework.util.Assert#notNull(Object)
@@ -64,7 +63,7 @@ public abstract class Assert {
 
     /**
      * Returns whether the given expression is {@literal true}.
-     * 
+     *
      * @param expression
      * @param message
      */
@@ -76,7 +75,7 @@ public abstract class Assert {
 
     /**
      * Asserts that the the given expression is {@literal false}.
-     * 
+     *
      * @param expression
      */
     public static void isFalse(boolean expression) {
@@ -88,7 +87,7 @@ public abstract class Assert {
     /**
      * Returns whether the given {@link String} is not {@literal null} and has text at all. Returns {@literal true} for
      * whitespace only {@link String}s, too.
-     * 
+     *
      * @param text
      * @param message
      */
@@ -100,7 +99,7 @@ public abstract class Assert {
 
     /**
      * Asserts that the given {@link Persistable} is not {@literal null} and not new.
-     * 
+     *
      * @param persistable
      */
     public static void notNew(Persistable<?> persistable) {

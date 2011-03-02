@@ -1,23 +1,27 @@
 package org.synyx.minos.umt.service;
 
-import java.util.List;
-
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
+
 import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.util.Assert;
+
 import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.Pageable;
+
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.security.AuthenticationService;
 import org.synyx.minos.umt.dao.RoleDao;
 import org.synyx.minos.umt.dao.UserDao;
 
+import java.util.List;
+
 
 /**
  * Implementation of user management module. Uses an implementation of {@code PasswordCreator} to generate a random
  * password, that is used as initial password for a new user after successful registration.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Transactional(readOnly = true)
@@ -29,17 +33,16 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     private final AuthenticationService authenticationService;
     private final PasswordCreator passwordCreator;
 
-
     /**
      * Creates a new {@link UserManagementImpl} with the given {@link UserDao}, {@link RoleDao},
      * {@link AuthenticationService} and {@link PasswordCreator}.
-     * 
+     *
      * @param userDao
      * @param roleDao
      * @param authenticationService
      */
     public UserManagementImpl(UserDao userDao, RoleDao roleDao, AuthenticationService authenticationService,
-            PasswordCreator passwordCreator) {
+        PasswordCreator passwordCreator) {
 
         Assert.notNull(userDao);
         Assert.notNull(roleDao);
@@ -51,10 +54,9 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
         this.passwordCreator = passwordCreator;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.umt.service.UserManagement#delete(java.lang.String)
      */
     @Override
@@ -77,7 +79,7 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.umt.service.UserManagement#save(com.synyx.minos.umt.domain .User, boolean)
      */
     @Override
@@ -111,7 +113,7 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.umt.service.UserManagement#save(com.synyx.minos.umt.domain .Role)
      */
     @Override
@@ -126,7 +128,7 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.umt.service.UserManagement#getUsers()
      */
     @Override
@@ -138,7 +140,7 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.umt.service.UserManagement#getUsers(org.synyx.hades.domain .Pageable,
      * org.synyx.hades.domain.support.Sort)
      */
@@ -151,7 +153,7 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.umt.service.UserManagement#getUser(java.lang.Long)
      */
     @Override
@@ -169,7 +171,7 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.umt.service.UserManagement#getUser(java.lang.String)
      */
     @Override
@@ -189,13 +191,14 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
 
         Assert.notNull(user);
         Assert.isTrue(user.hasPassword());
+
         return authenticationService != null && !user.getPassword().isEncrypted();
     }
 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.umt.service.UserManagement#exists(java.lang.Long)
      */
     @Override
@@ -211,7 +214,7 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.umt.service.UserManagement#getRoles()
      */
     @Override
@@ -223,7 +226,7 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.umt.service.UserManagement#getRole(java.lang.Long)
      */
     @Override
@@ -235,7 +238,7 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.umt.service.UserManagement#getRole(java.lang.String)
      */
     @Override
@@ -247,7 +250,7 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.umt.service.UserManagement#getUsersByEmail(java.lang.String)
      */
     @Override
@@ -259,7 +262,7 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.umt.service.UserManagement#deleteRole(org.synyx.minos .core.domain.Role)
      */
     @Override
@@ -287,7 +290,7 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.umt.service.UserManagement#getUsersByRole(org.synyx.minos.core.domain.Role)
      */
     @Override

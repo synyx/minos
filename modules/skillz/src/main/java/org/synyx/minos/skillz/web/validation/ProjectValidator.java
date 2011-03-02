@@ -1,9 +1,12 @@
 package org.synyx.minos.skillz.web.validation;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+
 import org.synyx.minos.skillz.domain.Project;
 import org.synyx.minos.skillz.service.SkillManagement;
 
@@ -15,12 +18,10 @@ import org.synyx.minos.skillz.service.SkillManagement;
  * <li>Projectname is not 'form'</li>
  * <li>Projectname does not already exist (only for new projects)</li>
  * </ul>
- * 
+ *
  * @author Michael Herbold - herbold@synyx.de
  */
 public class ProjectValidator implements Validator {
-
-    private final SkillManagement skillManagement;
 
     /** error message for empty project name. */
     public static final String PROJECT_NAME_EMPTY = "skillz.project.name.error.empty";
@@ -34,6 +35,7 @@ public class ProjectValidator implements Validator {
     /** invalid project name value. */
     public static final String INVALID_NAME_VALUE = "form";
 
+    private final SkillManagement skillManagement;
 
     /**
      * Creates a new {@link ProjectValidator} instance.
@@ -44,10 +46,9 @@ public class ProjectValidator implements Validator {
         this.skillManagement = skillManagement;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.validation.Validator#supports(java.lang.Class)
      */
     public boolean supports(Class<?> clazz) {
@@ -58,7 +59,7 @@ public class ProjectValidator implements Validator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
      */
     public void validate(Object target, Errors errors) {
@@ -79,7 +80,5 @@ public class ProjectValidator implements Validator {
                 errors.rejectValue("name", PROJECT_NAME_INVALID);
             }
         }
-
     }
-
 }

@@ -1,22 +1,22 @@
 package org.synyx.minos.skillz.util;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.apache.commons.io.IOUtils;
-
 
 /**
  * Utility class for handling {@link File}s.
- * 
+ *
  * @author Markus Knittig - knittig@synyx.de
  */
 public abstract class FileUtils {
 
     /**
      * Creates a temporary file in the given directory with the given byte array data.
-     * 
+     *
      * @param tempDirectory
      * @param data
      * @return
@@ -43,5 +43,4 @@ public abstract class FileUtils {
 
         return tempFile;
     }
-
 }

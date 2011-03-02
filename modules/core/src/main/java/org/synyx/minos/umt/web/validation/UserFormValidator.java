@@ -1,14 +1,16 @@
 package org.synyx.minos.umt.web.validation;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.web.validation.EmailValidator;
 import org.synyx.minos.umt.service.UserManagement;
 import org.synyx.minos.umt.web.UserForm;
+
+import java.util.List;
 
 
 /**
@@ -20,7 +22,7 @@ import org.synyx.minos.umt.web.UserForm;
  * <li>Roles not empty</li>
  * <li>Password set (for new users)</li>
  * </ul>
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class UserFormValidator implements Validator {
@@ -38,10 +40,9 @@ public class UserFormValidator implements Validator {
 
     private Boolean emailMustBeUnique = Boolean.TRUE;
 
-
     /**
      * Setter to inject user management.
-     * 
+     *
      * @param userManagement the userManagement to set
      */
     public void setUserManagement(UserManagement userManagement) {
@@ -52,7 +53,7 @@ public class UserFormValidator implements Validator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.validation.Validator#supports(java.lang.Class)
      */
     public boolean supports(Class<?> clazz) {
@@ -63,7 +64,7 @@ public class UserFormValidator implements Validator {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
      */
     public void validate(Object target, Errors errors) {
@@ -91,7 +92,6 @@ public class UserFormValidator implements Validator {
 
         // Rejects usernames of already existing users
         if (user.isNew()) {
-
             if (StringUtils.isBlank(user.getNewPassword())) {
                 errors.rejectValue("newPassword", PASSWORD_EMPTY);
             }
@@ -114,9 +114,7 @@ public class UserFormValidator implements Validator {
             if (StringUtils.equalsIgnoreCase("form", user.getUsername())) {
                 errors.rejectValue("username", USERNAME_ALREADY_EXISTS);
             }
-
         } else {
-
             if (emailMustBeUnique) {
                 List<User> persitentUsersByEmail = userManagement.getUsersByEmail(user.getEmailAddress());
 
@@ -126,6 +124,7 @@ public class UserFormValidator implements Validator {
             }
 
             User persitentUserByName = userManagement.getUser(user.getUsername());
+
             if (persitentUserByName != null && !user.getDomainObject().equals(persitentUserByName)) {
                 errors.rejectValue("username", USERNAME_ALREADY_EXISTS);
             }

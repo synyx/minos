@@ -1,21 +1,18 @@
 package org.synyx.minos.umt.remoting.rest;
 
-import static javax.servlet.http.HttpServletResponse.*;
-import static org.springframework.web.bind.annotation.RequestMethod.*;
-import static org.synyx.minos.umt.web.UmtUrls.*;
-
-import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.support.remoting.NoContentException;
@@ -24,12 +21,23 @@ import org.synyx.minos.umt.remoting.rest.dto.UsersDto;
 import org.synyx.minos.umt.service.UserManagement;
 import org.synyx.minos.umt.service.UserNotFoundException;
 import org.synyx.minos.umt.web.UmtUrls;
+import static org.synyx.minos.umt.web.UmtUrls.USER;
+import static org.synyx.minos.umt.web.UmtUrls.USERS;
+
+import java.io.IOException;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 
 /**
  * Controller handling REST requests for user management module. The controller is mapped to {@code $ RestUrl}
  * /umt/**}. Instance methods specify detailed urls, where the functionality can be found.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Controller
@@ -37,7 +45,6 @@ public class UmtRestController {
 
     private final UserManagement userManagement;
     private UmtDtoAssembler dtoAssembler;
-
 
     /**
      * Creates a new {@link UmtRestController}.
@@ -49,10 +56,9 @@ public class UmtRestController {
         this.dtoAssembler = dtoAssembler;
     }
 
-
     /**
      * Set a custom {@link UmtDtoAssembler}.
-     * 
+     *
      * @param dtoAssembler the dtoAssembler to set
      */
     public void setDtoAssembler(UmtDtoAssembler dtoAssembler) {
@@ -63,7 +69,7 @@ public class UmtRestController {
 
     /**
      * Maps method {@code #getUsers} to {@value UmtUrls#USERS}.
-     * 
+     *
      * @return
      * @throws IOException
      */
@@ -71,23 +77,25 @@ public class UmtRestController {
     public UsersDto getUsers(HttpServletRequest request) throws IOException {
 
         List<User> users = userManagement.getUsers();
+
         return dtoAssembler.toDto(users, request);
     }
 
 
     /**
      * Receives HTTP requests to retrieve a user.
-     * 
+     *
      * @param id
      * @return
      * @throws IOException
      */
     @RequestMapping(value = USER, method = GET)
     public UserDto getUser(@PathVariable("id") User user, HttpServletResponse response, HttpServletRequest request)
-            throws IOException {
+        throws IOException {
 
         if (null == user) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
             return null;
         }
 
@@ -97,7 +105,7 @@ public class UmtRestController {
 
     /**
      * Receives HTTP requests to create users.
-     * 
+     *
      * @param user
      * @return
      */
@@ -121,7 +129,7 @@ public class UmtRestController {
 
     /**
      * Updates a particular {@link User}. Returns 404 if the given id was not found.
-     * 
+     *
      * @param id
      * @param userDto
      * @param request
@@ -131,8 +139,8 @@ public class UmtRestController {
     public void updateUser(@PathVariable("id") User user, @RequestBody UserDto userDto, HttpServletResponse response) {
 
         if (null == user) {
-
             response.setStatus(SC_NOT_FOUND);
+
             return;
         }
 
@@ -144,7 +152,7 @@ public class UmtRestController {
 
     /**
      * Receives HTTP requests to delete user.
-     * 
+     *
      * @param id
      */
     @RequestMapping(value = USER, method = DELETE)
@@ -155,7 +163,6 @@ public class UmtRestController {
             userManagement.delete(user);
 
             response.setStatus(SC_OK);
-
         } catch (UserNotFoundException e) {
             // Silently ignore the exception as HTTP DELETE is considered to be
             // idempotent

@@ -1,11 +1,13 @@
 package org.synyx.minos.test.integration;
 
-import java.net.URL;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+
 import org.mortbay.jetty.Server;
+
 import org.mortbay.xml.XmlConfiguration;
+
+import java.net.URL;
 
 
 public class AbstractJUnit4JettyIntegrationTest {
@@ -14,10 +16,9 @@ public class AbstractJUnit4JettyIntegrationTest {
 
     private static Server server;
 
-
     /**
      * Returns the location of jetty server configuration file. Defaults to {@code jetty.xml}.
-     * 
+     *
      * @return
      */
     protected static String getJettyConfigLocation() {
@@ -28,7 +29,7 @@ public class AbstractJUnit4JettyIntegrationTest {
 
     /**
      * Starts Jetty Server.
-     * 
+     *
      * @throws Exception
      */
     @BeforeClass
@@ -45,7 +46,7 @@ public class AbstractJUnit4JettyIntegrationTest {
 
     /**
      * Shuts down Jetty Server.
-     * 
+     *
      * @throws Exception
      */
     @AfterClass

@@ -2,7 +2,7 @@ package org.synyx.minos.skillz.domain.resume;
 
 /**
  * Class for describing {@link ResumeFilter} parameters.
- * 
+ *
  * @author Markus Knittig - knittig@synyx.de
  * @author Oliver Gierke - gierke@synyx.de
  */
@@ -12,11 +12,10 @@ public class ResumeFilterParameter {
     private final String messageKey;
     private final Class<?> type;
 
-
     /**
      * Creates a {@link ResumeFilterParameter} with the given name and type. The name will also be used as resource
      * bundle key for i18n lookup.
-     * 
+     *
      * @param name
      * @param type
      */
@@ -29,7 +28,7 @@ public class ResumeFilterParameter {
     /**
      * Creates a new {@link ResumeFilterParameter} with the given name, type and an resource bundle key to lookup it's
      * name for i18n.
-     * 
+     *
      * @param name
      * @param type
      * @param messageKey
@@ -40,7 +39,6 @@ public class ResumeFilterParameter {
         this.type = type;
         this.messageKey = messageKey;
     }
-
 
     /**
      * @return the name
@@ -67,5 +65,4 @@ public class ResumeFilterParameter {
 
         return messageKey;
     }
-
 }

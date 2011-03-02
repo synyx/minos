@@ -1,24 +1,28 @@
 /**
- * 
+ *
  */
 package org.synyx.minos.i18n.service;
 
-import java.io.OutputStream;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.transaction.annotation.Transactional;
+
 import org.synyx.messagesource.InitializableMessageSource;
 import org.synyx.messagesource.MessageProvider;
 import org.synyx.messagesource.filesystem.ZipMessageAcceptor;
 import org.synyx.messagesource.importer.Importer;
+
 import org.synyx.minos.i18n.importer.MessageImporter;
+
+import java.io.OutputStream;
+
+import java.util.List;
 
 
 /**
  * Implementation of {@link MessageTransferService}
- * 
+ *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 public class MessageTransferServiceImpl implements MessageTransferService {
@@ -31,10 +35,9 @@ public class MessageTransferServiceImpl implements MessageTransferService {
 
     private MessageProvider messageProvider;
 
-
     /**
      * Creates a new instance of {@link MessageTransferService}
-     * 
+     *
      * @param importer the importer
      * @param messageProvider the {@link MessageProvider}
      */
@@ -45,10 +48,9 @@ public class MessageTransferServiceImpl implements MessageTransferService {
         this.messageProvider = messageProvider;
     }
 
-
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.i18n.service.MessageTransferService#exportMessages(java.io.OutputStream)
      */
     @Override
@@ -59,16 +61,16 @@ public class MessageTransferServiceImpl implements MessageTransferService {
 
         ZipMessageAcceptor zipAcceptor = new ZipMessageAcceptor(stream);
         zipAcceptor.initialize();
+
         Importer importer = new Importer(messageProvider, zipAcceptor);
         importer.importMessages();
         zipAcceptor.finish();
-
     }
 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.i18n.service.MessageTransferService#importMessages()
      */
     @Override
@@ -79,13 +81,12 @@ public class MessageTransferServiceImpl implements MessageTransferService {
         initializeMessageSources();
 
         LOG.info("Imported messages and reinitialized MessageSources.");
-
     }
 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.i18n.service.MessageTransferService#initializeMessageSources()
      */
     @Override
@@ -113,5 +114,4 @@ public class MessageTransferServiceImpl implements MessageTransferService {
 
         return messageSources;
     }
-
 }

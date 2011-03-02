@@ -1,6 +1,6 @@
 package org.synyx.minos.test.aspects;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 
@@ -17,7 +17,7 @@ import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
  * <li>Call a method on the target</li>
  * <li>Verify expected behaviour on the aspect</li>
  * </ol>
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class AspectTestWrapper<Aspect, Target> {
@@ -27,10 +27,9 @@ public class AspectTestWrapper<Aspect, Target> {
 
     private final Target proxy;
 
-
     /**
      * Creates a new {@link AspectTestWrapper} for the given aspect type and target type.
-     * 
+     *
      * @param aspectType
      * @param targetType
      */
@@ -51,10 +50,9 @@ public class AspectTestWrapper<Aspect, Target> {
         proxy = (Target) factory.getProxy();
     }
 
-
     /**
      * Create a new {@link AspectTestWrapper}.
-     * 
+     *
      * @param <Aspect>
      * @param <Service>
      * @param aspectType
@@ -62,7 +60,7 @@ public class AspectTestWrapper<Aspect, Target> {
      * @return
      */
     public static <Aspect, Service> AspectTestWrapper<Aspect, Service> create(Class<Aspect> aspectType,
-            Class<Service> serviceType) {
+        Class<Service> serviceType) {
 
         return new AspectTestWrapper<Aspect, Service>(aspectType, serviceType);
     }
@@ -70,7 +68,7 @@ public class AspectTestWrapper<Aspect, Target> {
 
     /**
      * Returns the aspect mock to record expected invocations on.
-     * 
+     *
      * @return
      */
     public Aspect getAspect() {
@@ -81,7 +79,7 @@ public class AspectTestWrapper<Aspect, Target> {
 
     /**
      * Returns the target to invoke actual method invocations on.
-     * 
+     *
      * @return
      */
     public Target getTarget() {
@@ -92,7 +90,7 @@ public class AspectTestWrapper<Aspect, Target> {
 
     /**
      * Returns the target's underlying mock.
-     * 
+     *
      * @return
      */
     public Target getTargetMock() {

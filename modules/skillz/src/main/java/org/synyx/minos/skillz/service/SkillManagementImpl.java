@@ -1,11 +1,9 @@
 package org.synyx.minos.skillz.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.springframework.transaction.annotation.Transactional;
+
 import org.synyx.hades.domain.Sort;
+
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.skillz.dao.CategoryDao;
 import org.synyx.minos.skillz.dao.LevelDao;
@@ -24,10 +22,14 @@ import org.synyx.minos.skillz.domain.Resume;
 import org.synyx.minos.skillz.domain.Skill;
 import org.synyx.minos.skillz.domain.SkillMatrix;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 /**
  * Implementation of skill management services.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Transactional
@@ -42,10 +44,9 @@ public class SkillManagementImpl implements SkillManagement {
     private MatrixTemplateDao templateDao;
     private ResponsibilityDao responsibilityDao;
 
-
     /**
      * Setter to inject the {@link ProjectDao}.
-     * 
+     *
      * @param projectDao the projectDao to set
      */
     public void setProjectDao(ProjectDao projectDao) {
@@ -56,7 +57,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /**
      * Setter to inject the {@link CategoryDao}.
-     * 
+     *
      * @param categoryDao the categoryDao to set
      */
     public void setCategoryDao(CategoryDao categoryDao) {
@@ -67,7 +68,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /**
      * Setter to inject the {@link LevelDao}.
-     * 
+     *
      * @param levelDao the levelDao to set
      */
     public void setLevelDao(LevelDao levelDao) {
@@ -78,7 +79,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /**
      * Setter to inject the {@link SkillzMatrixDao}.
-     * 
+     *
      * @param matrixDao the matrixDao to set
      */
     public void setMatrixDao(SkillzMatrixDao matrixDao) {
@@ -89,7 +90,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /**
      * Setter to inject the {@link ResumeDao}.
-     * 
+     *
      * @param resumeDao the resumeDao to set
      */
     public void setResumeDao(ResumeDao resumeDao) {
@@ -100,7 +101,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /**
      * Setter to inject the {@link SkillzDao}.
-     * 
+     *
      * @param skillzDao the skillzDao to set
      */
     public void setSkillzDao(SkillzDao skillzDao) {
@@ -111,7 +112,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /**
      * Setter to inject the {@link MatrixTemplateDao}.
-     * 
+     *
      * @param templateDao the templateDao to set
      */
     public void setTemplateDao(MatrixTemplateDao templateDao) {
@@ -131,7 +132,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#save(com.synyx.minos.skillz .domain.Skill)
      */
     @Override
@@ -139,7 +140,6 @@ public class SkillManagementImpl implements SkillManagement {
 
         // Add skill to existing matrixes
         if (skill.isNew()) {
-
             List<SkillMatrix> matrixes = matrixDao.findByCategory(skill.getCategory());
             Level defaultLevel = getDefaultLevel();
 
@@ -154,7 +154,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#moveSkill(com.synyx.minos .skillz.domain.Skill,
      * com.synyx.minos.skillz.domain.Category)
      */
@@ -171,7 +171,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#delete(com.synyx.minos .skillz.domain.Skill)
      */
     @Override
@@ -190,7 +190,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#getCategories()
      */
     @Override
@@ -202,7 +202,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#getCategory(java.lang. Long)
      */
     @Override
@@ -214,7 +214,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#getProjects()
      */
     @Override
@@ -226,7 +226,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#getPublicProjects()
      */
     @Override
@@ -238,7 +238,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @seecom.synyx.minos.skillz.service.SkillManagement# getPrivateProjectsForCurrentUser()
      */
     @Override
@@ -250,7 +250,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#save(com.synyx.minos.skillz .domain.Project)
      */
     @Override
@@ -262,7 +262,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#deleteProject(java.lang .Long)
      */
     @Override
@@ -281,7 +281,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#getDefaultLevel()
      */
     @Override
@@ -293,7 +293,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#getLevels()
      */
     @Override
@@ -305,7 +305,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#save(com.synyx.minos.skillz .domain.Level)
      */
     @Override
@@ -336,7 +336,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#getProject(java.lang.Long)
      */
     @Override
@@ -348,7 +348,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#getProject(java.lang.String )
      */
     @Override
@@ -360,7 +360,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#getTemplates()
      */
     @Override
@@ -372,7 +372,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#delete(com.synyx.minos .skillz.domain.MatrixTemplate)
      */
     @Override
@@ -384,7 +384,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#getTemplate(java.lang. Long)
      */
     @Override
@@ -396,7 +396,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#save(com.synyx.minos.skillz .domain.MatrixTemplate)
      */
     @Override
@@ -420,7 +420,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.SkillManagement#getDefaultTemplate()
      */
     @Override
@@ -432,7 +432,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.SkillManagement#save(org.synyx.minos.skillz .domain.Category)
      */
     @Override
@@ -444,7 +444,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.SkillManagement#delete(org.synyx.minos .skillz.domain.Category)
      */
     @Override
@@ -452,9 +452,10 @@ public class SkillManagementImpl implements SkillManagement {
 
         // remove categories skills from user skill matrices
         List<Skill> skillsToDelete = new ArrayList<Skill>();
-        for (Skill skill : category.getSkillz()) {
 
+        for (Skill skill : category.getSkillz()) {
             List<SkillMatrix> matrices = matrixDao.findBySkill(skill);
+
             for (SkillMatrix matrix : matrices) {
                 matrixDao.saveAndFlush(matrix.remove(skill));
             }
@@ -476,7 +477,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.SkillManagement#save(org.synyx.minos.skillz .domain.Responsibility)
      */
     @Override
@@ -488,7 +489,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.ResumeManagement#getResponsibilities()
      */
     @Override
@@ -500,16 +501,18 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#moveLevelDown(com.synyx .minos.skillz.domain.Level)
      */
     @Override
     public void moveLevelDown(Level level) {
 
         List<Level> lowerLevels = levelDao.findLowerLevel(level.getOrdinal());
+
         if (lowerLevels.isEmpty()) {
             return;
         }
+
         Level lowerLevel = lowerLevels.get(0);
         Level upperLevel = levelDao.readByPrimaryKey(level.getId());
         swapLevelOrdinal(lowerLevel, upperLevel);
@@ -518,16 +521,18 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.synyx.minos.skillz.service.SkillManagement#moveLevelUp(com.synyx. minos.skillz.domain.Level)
      */
     @Override
     public void moveLevelUp(Level level) {
 
         List<Level> upperLevels = levelDao.findUpperLevel(level.getOrdinal());
+
         if (upperLevels.isEmpty()) {
             return;
         }
+
         Level upperLevel = upperLevels.get(0);
         Level lowerLevel = levelDao.readByPrimaryKey(level.getId());
         swapLevelOrdinal(upperLevel, lowerLevel);
@@ -536,7 +541,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /**
      * Swaps the first parameter with the second parameter.
-     * 
+     *
      * @param lowerLevel The {@link Level} which will be higher after swapping
      * @param upperLevel The {@link Level} which will be lower after swapping
      */
@@ -550,7 +555,7 @@ public class SkillManagementImpl implements SkillManagement {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.minos.skillz.service.SkillManagement#getSkills()
      */
     @Override
@@ -558,5 +563,4 @@ public class SkillManagementImpl implements SkillManagement {
 
         return skillzDao.readAll();
     }
-
 }

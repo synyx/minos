@@ -4,7 +4,9 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+
 import org.springframework.beans.factory.annotation.Required;
+
 import org.synyx.minos.core.domain.Password;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.notification.ConfigBasedNotificationContext;
@@ -19,7 +21,7 @@ import org.synyx.minos.core.notification.NotificationService;
  * <ul>
  * <li>Creation of new users results in a notification of the new password.</li>
  * </ul>
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Aspect
@@ -31,10 +33,9 @@ public class UmtNotificationAspect {
     private NotificationFactory notificationFactory;
     private ThreadLocal<Password> newPassword = new ThreadLocal<Password>();
 
-
     /**
      * Setter to inject a {@link NotificationService}.
-     * 
+     *
      * @param notificationService
      */
     @Required
@@ -46,7 +47,7 @@ public class UmtNotificationAspect {
 
     /**
      * Setter injecting factory to create {@link Notification} instance
-     * 
+     *
      * @param argNotificationFactory {@link org.synyx.minos.core.notification.NotificationFactory}
      */
     @Required
@@ -58,10 +59,13 @@ public class UmtNotificationAspect {
 
     /**
      * Intercepts password creations and stores it in a {@code ThreadLocal}.
-     * 
+     *
      * @param newPassword
      */
-    @AfterReturning(pointcut = "execution(* org.synyx.minos.umt.service.PasswordCreator.generatePassword())", returning = "newPassword")
+    @AfterReturning(
+        pointcut = "execution(* org.synyx.minos.umt.service.PasswordCreator.generatePassword())",
+        returning = "newPassword"
+    )
     public void createNewPassword(Password newPassword) {
 
         this.newPassword.set(newPassword);
@@ -97,7 +101,7 @@ public class UmtNotificationAspect {
 
     /**
      * Create a notification context with the notification provider the user selected
-     * 
+     *
      * @return {@link ConfigBasedNotificationContext} instance
      */
     protected ConfigBasedNotificationContext createContext() {

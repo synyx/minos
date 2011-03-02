@@ -2,7 +2,7 @@ package org.synyx.minos.skillz.domain.resume;
 
 /**
  * Class for describing {@link ResumeFilter} parameters with a single choice.
- * 
+ *
  * @author Markus Knittig - knittig@synyx.de
  */
 public class SingleChoiceParameter extends AbstractChoiceParameter {
@@ -15,9 +15,8 @@ public class SingleChoiceParameter extends AbstractChoiceParameter {
      * @param messageKey
      */
     public SingleChoiceParameter(String name, Class<?> type, ReferenceDataContainer referenceDataContainer,
-            String messageKey) {
+        String messageKey) {
 
         super(name, type, referenceDataContainer, messageKey);
     }
-
 }

@@ -3,19 +3,20 @@ package org.synyx.minos.support.remoting;
 import org.codehaus.jackson.map.AnnotationIntrospector;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
+
 import org.springframework.beans.factory.FactoryBean;
 
 
 /**
  * {@link FactoryBean} to create a JAXB annotation aware Jackson {@link ObjectMapper}.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 public class JacksonJaxbObjectMapperFactoryBean implements FactoryBean<ObjectMapper> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.beans.factory.FactoryBean#getObject()
      */
     @Override
@@ -33,7 +34,7 @@ public class JacksonJaxbObjectMapperFactoryBean implements FactoryBean<ObjectMap
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.beans.factory.FactoryBean#getObjectType()
      */
     @Override
@@ -45,7 +46,7 @@ public class JacksonJaxbObjectMapperFactoryBean implements FactoryBean<ObjectMap
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.beans.factory.FactoryBean#isSingleton()
      */
     @Override

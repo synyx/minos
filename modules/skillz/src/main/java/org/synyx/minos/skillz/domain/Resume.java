@@ -1,27 +1,32 @@
 package org.synyx.minos.skillz.domain;
 
-import static javax.persistence.CascadeType.*;
+import org.joda.time.DateMidnight;
+
+import org.springframework.util.Assert;
+
+import org.synyx.hades.domain.auditing.AbstractAuditable;
+
+import org.synyx.minos.core.domain.Image;
+import org.synyx.minos.core.domain.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REMOVE;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import org.joda.time.DateMidnight;
-import org.springframework.util.Assert;
-import org.synyx.hades.domain.auditing.AbstractAuditable;
-import org.synyx.minos.core.domain.Image;
-import org.synyx.minos.core.domain.User;
-
 
 /**
  * Represents a users qualifications in terms of a {@link SkillMatrix} and a list of {@link Activity}.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Entity
@@ -49,7 +54,6 @@ public class Resume extends AbstractAuditable<User, Long> {
     @OneToOne(cascade = { PERSIST, MERGE, REMOVE })
     private SkillMatrix skillz;
 
-
     /**
      * Creates an empty {@link Resume}.
      */
@@ -61,7 +65,7 @@ public class Resume extends AbstractAuditable<User, Long> {
 
     /**
      * Creates a new {@link Resume} for the given {@link User}.
-     * 
+     *
      * @param subject the {@link User} to create the {@link Resume} for
      * @param skillz the {@link SkillMatrix} to be captured for the {@link User}
      * @param references the {@link User}s references
@@ -78,7 +82,7 @@ public class Resume extends AbstractAuditable<User, Long> {
         if (null != references) {
             for (Activity reference : references) {
                 Assert.isTrue(reference.isNew(),
-                        "References must be saved seperatly to prevent missing createdBy and createdDate!");
+                    "References must be saved seperatly to prevent missing createdBy and createdDate!");
                 add(reference);
             }
         }
@@ -88,7 +92,7 @@ public class Resume extends AbstractAuditable<User, Long> {
     /**
      * Creates a new {@link Resume} for the given {@link User} creating the {@link SkillMatrix} from the given
      * {@link MatrixTemplate}.
-     * 
+     *
      * @param subject
      * @param template
      * @param references
@@ -98,10 +102,9 @@ public class Resume extends AbstractAuditable<User, Long> {
         this(subject, new SkillMatrix(template), references);
     }
 
-
     /**
      * Returns all foreign languages a {@link User} speaks.
-     * 
+     *
      * @return
      */
     public String getForeignLanguages() {
@@ -121,7 +124,7 @@ public class Resume extends AbstractAuditable<User, Long> {
 
     /**
      * Returns the subject the resume is held for.
-     * 
+     *
      * @return the subject
      */
     public User getSubject() {
@@ -145,6 +148,7 @@ public class Resume extends AbstractAuditable<User, Long> {
     public Resume setBirthday(DateMidnight birthday) {
 
         this.birthday = null == birthday ? null : birthday.toDate();
+
         return this;
     }
 
@@ -241,12 +245,13 @@ public class Resume extends AbstractAuditable<User, Long> {
 
     /**
      * Returns all references.
-     * 
+     *
      * @return the references
      */
     public List<Activity> getReferences() {
 
         Collections.sort(references);
+
         return Collections.unmodifiableList(references);
     }
 
@@ -254,7 +259,7 @@ public class Resume extends AbstractAuditable<User, Long> {
     /**
      * Adds the given {@link Activity} to the references. Prevents duplicate references, thus you can safely call
      * {@link #add(Activity)} multiple times for a single {@link Activity}.
-     * 
+     *
      * @param reference
      * @return
      */
@@ -270,20 +275,21 @@ public class Resume extends AbstractAuditable<User, Long> {
 
     /**
      * Removes the given {@link Activity} from the references.
-     * 
+     *
      * @param reference
      * @return
      */
     public Resume remove(Activity reference) {
 
         references.remove(reference);
+
         return this;
     }
 
 
     /**
      * Removes all {@link Activity}s assigned to the given {@link Project} from the {@link Resume}.
-     * 
+     *
      * @param project
      * @return
      */
@@ -292,20 +298,20 @@ public class Resume extends AbstractAuditable<User, Long> {
         List<Activity> toRemove = new ArrayList<Activity>();
 
         for (Activity reference : references) {
-
             if (reference.hasProject(project)) {
                 toRemove.add(reference);
             }
         }
 
         references.removeAll(toRemove);
+
         return this;
     }
 
 
     /**
      * Returns the skillz.
-     * 
+     *
      * @return the skillz
      */
     public SkillMatrix getSkillz() {

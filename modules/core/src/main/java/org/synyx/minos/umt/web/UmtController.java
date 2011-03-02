@@ -1,32 +1,30 @@
 package org.synyx.minos.umt.web;
 
-import static org.springframework.web.bind.annotation.RequestMethod.*;
-import static org.synyx.minos.umt.UmtPermissions.*;
-import static org.synyx.minos.umt.web.UmtUrls.*;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.annotation.security.RolesAllowed;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
+
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.Errors;
+
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+
 import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.Pageable;
+
 import org.synyx.minos.core.Core;
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
@@ -36,18 +34,36 @@ import org.synyx.minos.core.web.Message;
 import org.synyx.minos.core.web.PageWrapper;
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.core.web.ValidationSupport;
+import static org.synyx.minos.umt.UmtPermissions.UMT_ADMIN;
 import org.synyx.minos.umt.service.UserManagement;
 import org.synyx.minos.umt.service.UserNotFoundException;
+import static org.synyx.minos.umt.web.UmtUrls.MODULE;
+import static org.synyx.minos.umt.web.UmtUrls.ROLE;
+import static org.synyx.minos.umt.web.UmtUrls.ROLES;
+import static org.synyx.minos.umt.web.UmtUrls.ROLE_FORM;
+import static org.synyx.minos.umt.web.UmtUrls.USER;
+import static org.synyx.minos.umt.web.UmtUrls.USERS;
+import static org.synyx.minos.umt.web.UmtUrls.USER_DELETE;
+import static org.synyx.minos.umt.web.UmtUrls.USER_DELETE_QUESTION;
+import static org.synyx.minos.umt.web.UmtUrls.USER_FORM;
 import org.synyx.minos.util.Assert;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import javax.annotation.security.RolesAllowed;
 
 
 /**
  * Web controller for the user management providing access to most of the user management functionality.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Controller
-@SessionAttributes( { UmtController.ROLE_KEY, UmtController.USER_KEY })
+@SessionAttributes({ UmtController.ROLE_KEY, UmtController.USER_KEY })
 @RolesAllowed(UMT_ADMIN)
 public class UmtController extends ValidationSupport<UserForm> {
 
@@ -59,7 +75,6 @@ public class UmtController extends ValidationSupport<UserForm> {
     private final AuthenticationService authenticationService;
 
     private Comparator<String> permissionComparator;
-
 
     protected UmtController() {
 
@@ -75,10 +90,9 @@ public class UmtController extends ValidationSupport<UserForm> {
         this.authenticationService = authenticationService;
     }
 
-
     /**
      * Initialize binders for this controller.
-     * 
+     *
      * @param binder
      */
     @InitBinder
@@ -90,7 +104,7 @@ public class UmtController extends ValidationSupport<UserForm> {
 
     /**
      * Redirect to entry page.
-     * 
+     *
      * @return
      */
     @RequestMapping(MODULE)
@@ -102,16 +116,17 @@ public class UmtController extends ValidationSupport<UserForm> {
 
     /**
      * Show all users.
-     * 
+     *
      * @return
      */
     @RequestMapping(value = USERS, method = GET)
-    public String getUsers(Pageable pageable, Model model, @RequestParam(value = "role", required = false) Role role,
-            @CurrentUser User user) {
+    public String getUsers(Pageable pageable, Model model,
+        @RequestParam(value = "role", required = false) Role role, @CurrentUser User user) {
 
         model.addAttribute("currentUser", user);
 
         Page<User> page = null;
+
         if (role == null) {
             page = userManagement.getUsers(pageable);
         } else {
@@ -120,13 +135,14 @@ public class UmtController extends ValidationSupport<UserForm> {
 
         model.addAttribute(USERS_KEY, PageWrapper.wrap(page));
         model.addAttribute("roles", userManagement.getRoles());
+
         return USERS;
     }
 
 
     /**
      * Delete a user.
-     * 
+     *
      * @param id
      * @return
      */
@@ -137,43 +153,44 @@ public class UmtController extends ValidationSupport<UserForm> {
 
         if (null == user) {
             model.addAttribute(Core.MESSAGE, Message.error("umt.user.delete.usernamerequired"));
+
             return targetView;
         }
 
         try {
-
             boolean currentUserGiven = null != currentUser;
 
             if (currentUserGiven && currentUser.equals(user)) {
                 model.addAttribute(Core.MESSAGE, Message.error("umt.user.delete.cannotdeleteherself"));
+
                 return targetView;
             }
 
             userManagement.delete(user);
 
             model.addAttribute(Core.MESSAGE, Message.success("umt.user.delete.success", user.getUsername()));
-
         } catch (UserNotFoundException e) {
-
             model.addAttribute(Core.MESSAGE, Message.error("user.delete.invalidusername", user.getId()));
         }
 
         return targetView;
     }
 
+
     @RequestMapping(value = USER_DELETE, method = GET)
     public String deleteQuestion(@PathVariable("id") User user, Model model, @CurrentUser User currentUser) {
 
         if (null == user) {
             model.addAttribute(Core.MESSAGE, Message.error("umt.user.delete.usernamerequired"));
+
             return UrlUtils.redirect(USERS);
         }
-
 
         boolean currentUserGiven = null != currentUser;
 
         if (currentUserGiven && currentUser.equals(user)) {
             model.addAttribute(Core.MESSAGE, Message.error("umt.user.delete.cannotdeleteherself"));
+
             return UrlUtils.redirect(USERS);
         }
 
@@ -185,7 +202,7 @@ public class UmtController extends ValidationSupport<UserForm> {
 
     /**
      * View a user.
-     * 
+     *
      * @param id
      * @param model
      * @return
@@ -195,6 +212,7 @@ public class UmtController extends ValidationSupport<UserForm> {
 
         if (null == user) {
             model.addAttribute(Core.MESSAGE, Message.error("umt.user.invalid"));
+
             return UrlUtils.redirect(USERS);
         }
 
@@ -204,7 +222,7 @@ public class UmtController extends ValidationSupport<UserForm> {
 
     /**
      * Show the form for a new {@link User}.
-     * 
+     *
      * @param model
      * @return
      */
@@ -226,7 +244,7 @@ public class UmtController extends ValidationSupport<UserForm> {
 
     /**
      * Saving a new user.
-     * 
+     *
      * @param user
      * @param result
      * @param conversation
@@ -235,7 +253,7 @@ public class UmtController extends ValidationSupport<UserForm> {
      */
     @RequestMapping(value = USERS, method = POST)
     public String saveNewUser(@ModelAttribute(USER_KEY) UserForm userForm, Errors errors, SessionStatus conversation,
-            Model model) {
+        Model model) {
 
         return saveUser(userForm, USERS, errors, conversation, model);
     }
@@ -243,7 +261,7 @@ public class UmtController extends ValidationSupport<UserForm> {
 
     /**
      * Saving a existing user.
-     * 
+     *
      * @param user
      * @param result
      * @param conversation
@@ -252,7 +270,7 @@ public class UmtController extends ValidationSupport<UserForm> {
      */
     @RequestMapping(value = USER, method = PUT)
     public String saveExistingUser(@ModelAttribute(USER_KEY) UserForm userForm, Errors errors,
-            SessionStatus conversation, Model model) {
+        SessionStatus conversation, Model model) {
 
         return saveUser(userForm, USERS, errors, conversation, model);
     }
@@ -261,8 +279,8 @@ public class UmtController extends ValidationSupport<UserForm> {
     String saveUser(UserForm userForm, String redirectUrl, Errors errors, SessionStatus conversation, Model model) {
 
         if (!isValid(userForm, errors)) {
-
             model.addAttribute("roles", userManagement.getRoles());
+
             return "/umt/user";
         }
 
@@ -277,7 +295,7 @@ public class UmtController extends ValidationSupport<UserForm> {
 
     /**
      * Lists all {@link Role}s.
-     * 
+     *
      * @param model
      * @return
      */
@@ -292,7 +310,7 @@ public class UmtController extends ValidationSupport<UserForm> {
 
     /**
      * Shows the form to edit an existing {@link Role}.
-     * 
+     *
      * @param role
      * @param model
      * @return
@@ -306,7 +324,7 @@ public class UmtController extends ValidationSupport<UserForm> {
 
     /**
      * Shows the form for a new {@link Role}.
-     * 
+     *
      * @param model
      * @return
      */
@@ -322,33 +340,40 @@ public class UmtController extends ValidationSupport<UserForm> {
         Assert.notNull(role);
 
         model.addAttribute(ROLE_KEY, role);
+
         List<PermissionHolder> permissions = determinePermissions(role);
         model.addAttribute("permissions", permissions);
 
         return "/umt/role";
     }
 
+
     List<PermissionHolder> determinePermissions(Role role) {
+
         Collection<String> perm = authenticationService.getPermissions();
         List<String> permissionNames = new ArrayList<String>();
         permissionNames.addAll(perm);
         Collections.sort(permissionNames, permissionComparator);
 
         List<PermissionHolder> permissions = new ArrayList<PermissionHolder>();
+
         for (String permission : permissionNames) {
             boolean present = false;
+
             if (role.getPermissions().contains(permission)) {
                 present = true;
             }
+
             permissions.add(new PermissionHolder(permission, present));
         }
+
         return permissions;
     }
 
 
     /**
      * Saves the new {@link Role}.
-     * 
+     *
      * @param role
      * @param model
      * @return
@@ -366,7 +391,7 @@ public class UmtController extends ValidationSupport<UserForm> {
 
     /**
      * Saves the existing {@link Role}.
-     * 
+     *
      * @param role
      * @param model
      * @return
@@ -384,7 +409,7 @@ public class UmtController extends ValidationSupport<UserForm> {
 
     /**
      * Deletes the given {@link Role}.
-     * 
+     *
      * @param role
      * @param model
      * @return
@@ -407,5 +432,4 @@ public class UmtController extends ValidationSupport<UserForm> {
 
         this.permissionComparator = permissionComparator;
     }
-
 }

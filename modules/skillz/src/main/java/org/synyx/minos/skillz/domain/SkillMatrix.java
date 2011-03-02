@@ -1,8 +1,9 @@
 package org.synyx.minos.skillz.domain;
 
-import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
+import org.synyx.hades.domain.auditing.AbstractAuditable;
+
+import org.synyx.minos.core.domain.User;
+import org.synyx.minos.util.Assert;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,18 +12,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.synyx.hades.domain.auditing.AbstractAuditable;
-import org.synyx.minos.core.domain.User;
-import org.synyx.minos.util.Assert;
-
 
 /**
  * A skill matrix binds {@link Level}s to a set of {@link Skill}s.
- * 
+ *
  * @author Oliver Gierke - gierke@synyx.de
  */
 @Entity
@@ -36,7 +36,6 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
     @ManyToOne(cascade = { PERSIST, MERGE })
     private MatrixTemplate template;
 
-
     /**
      * Creates an empty {@link SkillMatrix}.
      */
@@ -47,7 +46,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
 
     /**
-     * 
+     *
      */
     public SkillMatrix(List<SkillEntry> entries) {
 
@@ -61,10 +60,9 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
         setTemplate(template);
     }
 
-
     /**
      * Returns the {@link MatrixTemplate} the {@link SkillMatrix} is bound to.
-     * 
+     *
      * @return the template
      */
     public MatrixTemplate getTemplate() {
@@ -77,7 +75,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
      * Binds the {@link SkillMatrix} to the given {@link MatrixTemplate}. This will cause all categories of the
      * {@link MatrixTemplate} not currently bound to the matrix being assigned to it. Furthermore all {@link Category}s
      * and thus {@link SkillEntry}s for its {@link Skill}s will be removed.
-     * 
+     *
      * @param template
      * @return
      */
@@ -96,14 +94,13 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
      * Sets the given {@link Category} collection. Essentially merges the currently existing categories with the given
      * ones by leaving the ones existing in both collections untouched, adding not yet contained ones to the
      * {@link SkillMatrix} and returning the ones to be removed.
-     * 
+     *
      * @param categories
      * @return
      */
     void setCategories(Collection<Category> categories) {
 
         for (Category oldCategory : getCategories()) {
-
             if (!categories.contains(oldCategory)) {
                 remove(oldCategory);
             }
@@ -118,7 +115,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
     /**
      * Adds the given category to the {@link SkillMatrix}. Drops duplicates and will create {@link SkillEntry}s without
      * any level assigned.
-     * 
+     *
      * @param category
      * @return
      */
@@ -139,7 +136,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
     /**
      * Returns whether the matrix contains the given {@link Category}. Might not be the case if it had been created from
      * a {@link MatrixTemplate} not containing the {@link Category}.
-     * 
+     *
      * @param category
      * @return
      */
@@ -169,7 +166,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     /**
      * Adds the given {@link SkillEntry} to the matrix.
-     * 
+     *
      * @param entry
      * @return
      */
@@ -188,7 +185,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     /**
      * Adds a new {@link SkillEntry} to the matrix by providing {@link Skill} and {@link Level}.
-     * 
+     *
      * @param skill
      * @param level
      * @return
@@ -201,7 +198,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     /**
      * Returns a {@link SkillEntry} for the given {@link Skill} from the matrix.
-     * 
+     *
      * @param skill
      */
     public SkillMatrix remove(Skill skill) {
@@ -228,7 +225,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     /**
      * Removes the {@link Category} from the {@link SkillMatrix}.
-     * 
+     *
      * @param category
      * @return
      */
@@ -248,7 +245,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     /**
      * Returns the size of the matrix.
-     * 
+     *
      * @return
      */
     public int size() {
@@ -259,7 +256,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     /**
      * Returns all {@link SkillEntry}s of the matrix.
-     * 
+     *
      * @return the entries
      */
     public List<SkillEntry> getEntries() {
@@ -270,7 +267,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     /**
      * Returns all {@link SkillEntry}s of the given {@link Category}.
-     * 
+     *
      * @param category
      * @return
      */
@@ -279,7 +276,6 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
         List<SkillEntry> entries = new ArrayList<SkillEntry>();
 
         for (SkillEntry entry : getEntries()) {
-
             if (category.equals(entry.getCategory())) {
                 entries.add(entry);
             }
@@ -291,7 +287,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     /**
      * Sets the {@link SkillEntry}s.
-     * 
+     *
      * @param entries
      * @return
      */
@@ -300,16 +296,16 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
         this.entries = new ArrayList<SkillEntry>();
 
         for (SkillEntry entry : entries) {
-
             this.add(entry);
         }
+
         return this;
     }
 
 
     /**
      * Returns a map of {@link Category}s to their connected {@link SkillEntry} s.
-     * 
+     *
      * @return
      */
     public Map<Category, List<SkillEntry>> getMap() {
@@ -317,7 +313,6 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
         Map<Category, List<SkillEntry>> result = new HashMap<Category, List<SkillEntry>>();
 
         for (SkillEntry entry : getEntries()) {
-
             Category category = entry.getCategory();
 
             if (!result.containsKey(entry.getCategory())) {
@@ -333,7 +328,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     /**
      * Returns the index of the given {@link SkillEntry} inside the matrix.
-     * 
+     *
      * @param entry
      * @return
      */
@@ -345,7 +340,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     /**
      * Returns the average skill {@link Level} through all the {@link SkillEntry}.
-     * 
+     *
      * @return
      */
     public double getAverageLevel() {
@@ -356,7 +351,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     /**
      * Returns the average skill {@link Level} for the given {@link Category}.
-     * 
+     *
      * @param category
      * @return
      */
@@ -368,7 +363,7 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     /**
      * Marks all {@link SkillEntry}s as acknowledged.
-     * 
+     *
      * @return
      */
     public SkillMatrix acknowledge() {
@@ -376,13 +371,14 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
         for (SkillEntry entry : getEntries()) {
             entry.setAcknowledged(true);
         }
+
         return this;
     }
 
 
     /**
      * Calculates the average {@link Level} for the given {@link SkillEntry}s.
-     * 
+     *
      * @param entries
      * @return
      */
@@ -406,12 +402,13 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     /**
      * Returns all categories available in the {@link SkillMatrix}.
-     * 
+     *
      * @return
      */
     private List<Category> getCategories() {
 
         List<Category> result = new ArrayList<Category>();
+
         for (SkillEntry entry : entries) {
             if (!result.contains(entry.getCategory())) {
                 result.add(entry.getCategory());
@@ -424,17 +421,19 @@ public class SkillMatrix extends AbstractAuditable<User, Long> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.synyx.hades.domain.support.AbstractPersistable#toString()
      */
     @Override
     public String toString() {
 
         StringBuilder builder = new StringBuilder();
+
         for (SkillEntry entry : entries) {
             builder.append(entry.toString());
             builder.append("\n");
         }
+
         return builder.toString();
     }
 }

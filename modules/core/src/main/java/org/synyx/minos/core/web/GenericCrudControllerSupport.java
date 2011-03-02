@@ -1,29 +1,36 @@
 package org.synyx.minos.core.web;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.BeanUtils;
+
 import org.springframework.core.annotation.AnnotationUtils;
+
 import org.springframework.ui.Model;
+
 import org.springframework.validation.Errors;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.WebRequest;
+
 import org.synyx.hades.domain.Persistable;
+
 import org.synyx.minos.core.Core;
+
+import java.io.Serializable;
+
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 
 /**
  * @author Oliver Gierke - gierke@synyx.de
  */
-public abstract class GenericCrudControllerSupport<BeanType extends Persistable<PK>, PK extends Serializable> extends
-        ValidationSupport<BeanType> {
+public abstract class GenericCrudControllerSupport<BeanType extends Persistable<PK>, PK extends Serializable>
+    extends ValidationSupport<BeanType> {
 
     private static final String SAVE_ERROR_MESSAGE_TEMPLATE = "minos.%s.save.success";
     private static final String SAVE_SUCCESS_MESSAGE_TEMPLATE = "minos.%s.save.error";
@@ -35,14 +42,12 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
     protected String mappingRoot;
     protected Class<BeanType> beanClass;
 
-
     protected GenericCrudControllerSupport() {
-
     }
 
 
     /**
-     * 
+     *
      */
     public GenericCrudControllerSupport(Class<BeanType> beanClass) {
 
@@ -52,7 +57,6 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
             throw new RuntimeException("Could not read annotations");
         }
     }
-
 
     /**
      * Reads the first value of {@link RequestMapping} and {@link SessionAttributes}
@@ -93,7 +97,7 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
     /**
      * Hook before showing a bean-form. An implementing subclass may do any preparations here. The bean that is returned
      * from this method will be added to the model.
-     * 
+     *
      * @param bean the bean that should be showed
      * @param model the model
      * @param request the request
@@ -109,7 +113,7 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
 
     /**
      * Create a new instance of Beantype. This method is used when preparing the {@link Model} for the create-form.
-     * 
+     *
      * @param beanClass class of the Bean to be created
      * @return a new Instance of BeanType
      */
@@ -123,10 +127,10 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
      * Saves an instance of BeanType using its DAO.
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public String createOrEdit(BeanType bean, Errors errors, Model model, WebRequest request, SessionStatus conversation) {
+    public String createOrEdit(BeanType bean, Errors errors, Model model, WebRequest request,
+        SessionStatus conversation) {
 
         if (!isValid(bean, errors) && prepareCreateOrEdit(bean, errors, model, request)) {
-
             model.addAttribute(Core.MESSAGE, Message.error(getMessageKey(SAVE_SUCCESS_MESSAGE_TEMPLATE), bean.getId()));
 
             return showForm(bean, model, request);
@@ -145,7 +149,7 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
     /**
      * Hook before saving a bean (create or edit). An implementing subclass may do any preparations here. If false is
      * returned, the bean is not saved but displayed again (see {@link #showForm(Persistable, Model, WebRequest)}).
-     * 
+     *
      * @param bean the bean that should be deleted
      * @param errors validation/binding result
      * @param model the model
@@ -165,11 +169,10 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
     public String delete(@PathVariable("id") BeanType bean, Model model, WebRequest request, HttpSession session) {
 
         if (prepareDelete(bean, model, request)) {
-
             delete(bean);
 
-            model.addAttribute(Core.MESSAGE, Message.success(getMessageKey(DELETE_SUCCESS_MESSAGE_TEMPLATE), bean
-                    .getId()));
+            model.addAttribute(Core.MESSAGE,
+                Message.success(getMessageKey(DELETE_SUCCESS_MESSAGE_TEMPLATE), bean.getId()));
 
             return "redirect:";
         }
@@ -189,7 +192,7 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
     /**
      * Hook before deleting a bean. An implementing subclass may do any preparations here. If false is returned, the
      * bean is not deleted but displayed again (see {@link #showForm(Persistable, Model, WebRequest)}).
-     * 
+     *
      * @param bean the bean that should be deleted
      * @param model the model
      * @param request the request
@@ -219,7 +222,7 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
     /**
      * Hook before listing all beans. An implementing subclass may do any preparations here. The list that is returned
      * from this method will be added to the model.
-     * 
+     *
      * @param beans the list of beans that should be listed
      * @param model the model
      * @param request the request
@@ -233,7 +236,7 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
 
     /**
      * Save the actual entity.
-     * 
+     *
      * @param bean
      * @return
      */
@@ -242,12 +245,11 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
 
     /**
      * Perform the actual delete operation.
-     * 
+     *
      * @param bean
      */
     protected abstract void delete(BeanType bean);
 
 
     protected abstract List<BeanType> readAll();
-
 }
