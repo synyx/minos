@@ -17,7 +17,7 @@ import java.util.List;
 public interface Module extends Plugin<String>, Comparable<Module> {
 
     /**
-     * Returns the {@link Lifecycle} of the module. Will never return {@liteal null}.
+     * Returns the {@link Lifecycle} of the module. Will never return {@literal null}.
      *
      * @return  the lifecycle
      */
@@ -68,11 +68,6 @@ public interface Module extends Plugin<String>, Comparable<Module> {
     List<Module> getDirectDependencies();
 
 
-    /**
-     * Returns the identifier of the module.
-     *
-     * @return  the identifier
-     */
     String getIdentifier();
 
 

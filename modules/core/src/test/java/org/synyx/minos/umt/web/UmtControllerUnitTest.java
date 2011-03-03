@@ -186,7 +186,7 @@ public class UmtControllerUnitTest {
     @Test
     public void createsBlankFormIfNoIdGiven() {
 
-        String viewName = controller.showEmptyForm(model);
+        String viewName = controller.showEmptyFormForNewUser(model);
 
         Assert.assertEquals("/umt/user", viewName);
 
@@ -201,7 +201,7 @@ public class UmtControllerUnitTest {
     @Test
     public void rejectsInvalidUsernameForEdit() {
 
-        String viewName = controller.setupForm(null, model);
+        String viewName = controller.showUser(null, model);
 
         assertErrorMessage(model);
         assertRedirectsToUserList(viewName);
@@ -218,7 +218,7 @@ public class UmtControllerUnitTest {
         User user = new User(USERNAME, "email@address.com", "password");
         user.setId(ID);
 
-        String viewName = controller.setupForm(user, model);
+        String viewName = controller.showUser(user, model);
 
         // Assert correct view
         Assert.assertEquals("/umt/user", viewName);

@@ -19,24 +19,12 @@ public class ModuleManagerAwareBeanPostProcessor implements ApplicationContextAw
 
     private ModuleManager moduleManager;
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.context.ApplicationContextAware#setApplicationContext
-     * (org.springframework.context.ApplicationContext)
-     */
     public void setApplicationContext(ApplicationContext applicationContext) {
 
         this.moduleManager = applicationContext.getBean(ModuleManager.class);
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @seeorg.springframework.beans.factory.config.BeanPostProcessor# postProcessAfterInitialization(java.lang.Object,
-     * java.lang.String)
-     */
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
@@ -44,12 +32,6 @@ public class ModuleManagerAwareBeanPostProcessor implements ApplicationContextAw
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @seeorg.springframework.beans.factory.config.BeanPostProcessor# postProcessBeforeInitialization(java.lang.Object,
-     * java.lang.String)
-     */
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 

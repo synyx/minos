@@ -12,7 +12,7 @@ import org.synyx.minos.umt.service.UserManagement;
 
 
 /**
- * Simple installer populationg the database with 100 users if none is available actually. Used during development, not
+ * Simple installer populating the database with 100 users if none is available actually. Used during development, not
  * aimed to be used in production environments.
  * <p>
  * Currently uses quite a hack to enable authenticated access to the injected service.
@@ -35,22 +35,12 @@ public class MinosCoreInstaller extends SimpleNoOpLifecycle {
     }
 
 
-    /**
-     * Returns the {@link UserManagement}.
-     *
-     * @return the userManagement
-     */
     protected UserManagement getUserManagement() {
 
         return userManagement;
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.module.SimpleNoOpLifecycle#install()
-     */
     @Override
     public void install() throws ModuleLifecycleException {
 

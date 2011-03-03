@@ -90,11 +90,6 @@ public class UmtController extends ValidationSupport<UserForm> {
         this.authenticationService = authenticationService;
     }
 
-    /**
-     * Initialize binders for this controller.
-     *
-     * @param binder
-     */
     @InitBinder
     public void initBinder(DataBinder binder) {
 
@@ -102,11 +97,6 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
-    /**
-     * Redirect to entry page.
-     *
-     * @return
-     */
     @RequestMapping(MODULE)
     public String index() {
 
@@ -114,11 +104,6 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
-    /**
-     * Show all users.
-     *
-     * @return
-     */
     @RequestMapping(value = USERS, method = GET)
     public String getUsers(Pageable pageable, Model model,
         @RequestParam(value = "role", required = false) Role role, @CurrentUser User user) {
@@ -140,12 +125,6 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
-    /**
-     * Delete a user.
-     *
-     * @param id
-     * @return
-     */
     @RequestMapping(value = USER, method = DELETE)
     public String deleteUser(@PathVariable("id") User user, Model model, @CurrentUser User currentUser) {
 
@@ -200,15 +179,8 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
-    /**
-     * View a user.
-     *
-     * @param id
-     * @param model
-     * @return
-     */
     @RequestMapping(value = USER, method = GET)
-    public String setupForm(@PathVariable("id") User user, Model model) {
+    public String showUser(@PathVariable("id") User user, Model model) {
 
         if (null == user) {
             model.addAttribute(Core.MESSAGE, Message.error("umt.user.invalid"));
@@ -220,14 +192,8 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
-    /**
-     * Show the form for a new {@link User}.
-     *
-     * @param model
-     * @return
-     */
     @RequestMapping(value = USER_FORM, method = GET)
-    public String showEmptyForm(Model model) {
+    public String showEmptyFormForNewUser(Model model) {
 
         return populateFormModel(BeanUtils.instantiateClass(UserForm.class), model);
     }
@@ -242,15 +208,6 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
-    /**
-     * Saving a new user.
-     *
-     * @param user
-     * @param result
-     * @param conversation
-     * @param model
-     * @return
-     */
     @RequestMapping(value = USERS, method = POST)
     public String saveNewUser(@ModelAttribute(USER_KEY) UserForm userForm, Errors errors, SessionStatus conversation,
         Model model) {
@@ -259,15 +216,6 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
-    /**
-     * Saving a existing user.
-     *
-     * @param user
-     * @param result
-     * @param conversation
-     * @param model
-     * @return
-     */
     @RequestMapping(value = USER, method = PUT)
     public String saveExistingUser(@ModelAttribute(USER_KEY) UserForm userForm, Errors errors,
         SessionStatus conversation, Model model) {
@@ -293,12 +241,6 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
-    /**
-     * Lists all {@link Role}s.
-     *
-     * @param model
-     * @return
-     */
     @RequestMapping(value = ROLES, method = GET)
     public String getRoles(Model model) {
 
@@ -308,13 +250,6 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
-    /**
-     * Shows the form to edit an existing {@link Role}.
-     *
-     * @param role
-     * @param model
-     * @return
-     */
     @RequestMapping(value = ROLE, method = GET)
     public String showRole(@PathVariable("id") Role role, Model model) {
 
@@ -322,14 +257,8 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
-    /**
-     * Shows the form for a new {@link Role}.
-     *
-     * @param model
-     * @return
-     */
     @RequestMapping(value = ROLE_FORM, method = GET)
-    public String showEmptyRoleForm(Model model) {
+    public String showEmptyFormForNewRole(Model model) {
 
         return prepareRoleForm(BeanUtils.instantiateClass(Role.class), model);
     }
@@ -371,13 +300,6 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
-    /**
-     * Saves the new {@link Role}.
-     *
-     * @param role
-     * @param model
-     * @return
-     */
     @RequestMapping(value = ROLES, method = POST)
     public String saveNewRole(@ModelAttribute(ROLE_KEY) Role role, Model model) {
 
@@ -389,13 +311,6 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
-    /**
-     * Saves the existing {@link Role}.
-     *
-     * @param role
-     * @param model
-     * @return
-     */
     @RequestMapping(value = ROLE, method = PUT)
     public String saveExistingRole(@ModelAttribute(ROLE_KEY) Role role, Model model) {
 
@@ -407,13 +322,6 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
-    /**
-     * Deletes the given {@link Role}.
-     *
-     * @param role
-     * @param model
-     * @return
-     */
     @RequestMapping(value = ROLE, method = DELETE)
     public String deleteRole(@PathVariable("id") Role role, Model model) {
 
@@ -425,9 +333,6 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
-    /**
-     * @param permissionComparator the permissionComparator to set
-     */
     public void setPermissionComparator(Comparator<String> permissionComparator) {
 
         this.permissionComparator = permissionComparator;
