@@ -14,11 +14,6 @@ public abstract class AbstractMenuItemProvider implements MenuItemProvider {
 
     private List<MenuItem> menuItems;
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.hera.core.Plugin#supports(java.lang.Object)
-     */
     @Override
     public boolean supports(String delimiter) {
 
@@ -26,11 +21,6 @@ public abstract class AbstractMenuItemProvider implements MenuItemProvider {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.core.web.menu.MenuItemProvider#getMenuItems()
-     */
     public List<MenuItem> getMenuItems() {
 
         if (null == menuItems) {

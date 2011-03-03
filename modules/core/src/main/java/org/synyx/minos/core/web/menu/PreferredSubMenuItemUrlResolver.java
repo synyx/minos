@@ -27,11 +27,6 @@ public class PreferredSubMenuItemUrlResolver implements UrlResolver {
         this.preferences = Arrays.asList(preferences);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.web.menu.UrlResolvingStrategy#resolveUrl(org.synyx.minos.core.web.menu.MenuItem)
-     */
     @Override
     public String resolveUrl(Menu item) {
 

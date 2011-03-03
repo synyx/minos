@@ -31,11 +31,6 @@ public class MenuTag extends RequestContextAwareTag {
 
     private MenuRenderer renderer;
 
-    /*
-     * (non-Javadoc)
-     *
-     * @seeorg.springframework.web.servlet.tags.RequestContextAwareTag# doStartTagInternal()
-     */
     @Override
     protected int doStartTagInternal() throws Exception {
 

@@ -22,11 +22,6 @@ public class SystemMessageTag extends AbstractHtmlElementBodyTag {
     private static final String MESSAGES_WRAPPER = "ul";
     private static final String MESSAGE_WRAPPER = "li";
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.web.servlet.tags.form.ErrorsTag#shouldRender()
-     */
     @Override
     protected boolean shouldRender() throws JspException {
 
@@ -56,13 +51,6 @@ public class SystemMessageTag extends AbstractHtmlElementBodyTag {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.springframework.web.servlet.tags.form.AbstractHtmlElementBodyTag#renderDefaultContent(org.springframework
-     * .web.servlet.tags.form.TagWriter)
-     */
     @Override
     protected void renderDefaultContent(TagWriter tagWriter) throws JspException {
 

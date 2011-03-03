@@ -142,11 +142,6 @@ public class MenuManager implements MenuProvider, InitializingBean {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-     */
     @Override
     public void afterPropertiesSet() throws Exception {
 

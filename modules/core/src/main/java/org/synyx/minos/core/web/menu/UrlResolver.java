@@ -4,17 +4,17 @@ import org.synyx.minos.core.domain.User;
 
 
 /**
- * Interface for resolving an Url for a given {@link MenuItem}
+ * Interface for resolving an URL for a given {@link MenuItem}
  *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
 public interface UrlResolver {
 
     /**
-     * Return the Url for the given {@link Menu}
+     * Return the URL for the given {@link Menu} item.
      *
-     * @param item the {@link Menu} to resolve the url for
-     * @return the Url for the given {@link Menu} and {@link User}
+     * @param item the {@link Menu} item to resolve the URL for
+     * @return the URL for the given {@link Menu} and {@link User}
      */
     String resolveUrl(Menu item);
 }

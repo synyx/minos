@@ -14,11 +14,6 @@ import java.util.Map;
  */
 public class SimpleMenuAssembler implements MenuAssembler {
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.web.menu.MenuAssembler#assembleMenues(org.synyx.minos.core.web.menu.MenuItems)
-     */
     @Override
     public Map<String, MenuItems> assembleMenues(MenuItems items) {
 

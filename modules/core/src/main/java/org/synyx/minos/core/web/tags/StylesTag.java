@@ -20,12 +20,6 @@ public class StylesTag extends AbstractHtmlElementTag {
     private static final String CSS_FOLDER = "/css";
     private static final String EXTENSION = "css";
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.web.servlet.tags.form.AbstractFormTag#writeTagContent
-     * (org.springframework.web.servlet.tags.form.TagWriter)
-     */
     @Override
     @SuppressWarnings("unchecked")
     protected int writeTagContent(TagWriter tagWriter) throws JspException {

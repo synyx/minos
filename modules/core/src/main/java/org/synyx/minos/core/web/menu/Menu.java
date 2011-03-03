@@ -125,11 +125,6 @@ public class Menu implements Comparable<Menu> {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
     @Override
     public int compareTo(Menu other) {
 
@@ -137,11 +132,6 @@ public class Menu implements Comparable<Menu> {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
 

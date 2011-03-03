@@ -16,7 +16,7 @@ public class SimpleMenuItemProvider implements MenuItemProvider {
     /**
      * Set a single {@link MenuItem}.
      *
-     * @param menuItem
+     * @param menuItem a menu item
      */
     public void setMenuItem(MenuItem menuItem) {
 
@@ -35,22 +35,12 @@ public class SimpleMenuItemProvider implements MenuItemProvider {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.core.web.menu.MenuItemProvider#getMenuItems()
-     */
     public List<MenuItem> getMenuItems() {
 
         return menuItems;
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.hera.core.Plugin#supports(java.lang.Object)
-     */
     @Override
     public boolean supports(String delimiter) {
 

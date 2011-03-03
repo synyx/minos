@@ -30,11 +30,6 @@ public class PathMenuItemFilter implements MenuItemFilter {
         this.pathsToFilter.add(pathToFilter);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.google.common.base.Predicate#apply(java.lang.Object)
-     */
     @Override
     public boolean apply(Menu input) {
 

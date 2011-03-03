@@ -23,11 +23,6 @@ public class PermissionMenuItemFilter implements MenuItemFilter {
         this.authenticationService = authenticationService;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.google.common.base.Predicate#apply(java.lang.Object)
-     */
     @Override
     public boolean apply(Menu input) {
 
