@@ -1,1 +1,1 @@
-<% response.sendRedirect("web/i18n/test"); %>
+<% response.sendRedirect("web/i18n"); %>
