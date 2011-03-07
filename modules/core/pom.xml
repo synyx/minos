@@ -29,6 +29,11 @@
 			<version>${springSecurityVersion}</version>
 			<scope>runtime</scope>
 		</dependency>
+        <dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>org.springframework.security.ldap</artifactId>
+			<version>${springSecurityVersion}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>org.springframework.security.web</artifactId>

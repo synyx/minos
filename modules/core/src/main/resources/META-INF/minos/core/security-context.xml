@@ -27,17 +27,53 @@
 	
 	<!-- Authentication provider -->
     <security:authentication-manager>
-    	<security:authentication-provider user-service-ref="userDetailsService">
-    		<security:password-encoder ref="passwordEncoder">
-    			<security:salt-source ref="saltSource" />
-    		</security:password-encoder>
-    	</security:authentication-provider>
+    	<security:authentication-provider ref="pluginAuthenticationProvider"/>
     </security:authentication-manager>
-	
+
+    <bean id="pluginAuthenticationProvider" class="org.synyx.minos.core.security.PluginAuthenticationProvider">
+        <property name="authenticationPlugins">
+            <plugin:list class="org.synyx.minos.core.security.AuthenticationPlugin" />
+        </property>
+    </bean>
+
+    <bean class="org.synyx.minos.core.security.AuthenticationProviderWrapperPlugin">
+        <constructor-arg ref="daoAuthenticationProvider"/>
+    </bean>
+
+    <bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <property name="userDetailsService" ref="userDetailsService"/>
+        <property name="passwordEncoder" ref="passwordEncoder"/>
+        <property name="saltSource" ref="saltSource"/>
+    </bean>
+
 	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
 	<bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
 		<property name="userPropertyToUse" value="id" />
 	</bean>
+
+    <!-- Example for authenticating against an LDAP server -->
+    <!--
+    <security:ldap-server id="ldapAuthServer" url="ldap://ldap:389/dc=example,dc=com"/>
+
+    <bean class="org.synyx.minos.core.security.AuthenticationProviderWrapperPlugin">
+        <constructor-arg ref="ldapAuthProvider"/>
+    </bean>
+
+    <bean id="ldapAuthProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
+        <constructor-arg>
+            <bean class="org.springframework.security.ldap.authentication.BindAuthenticator">
+                <constructor-arg ref="ldapAuthServer"/>
+                <property name="userDnPatterns"><list><value>uid={0},ou=People</value></list></property>
+            </bean>
+        </constructor-arg>
+        <property name="userDetailsContextMapper">
+            <bean class="org.synyx.minos.core.security.MinosUserDetailsContextMapper">
+                <constructor-arg ref="userManagement"/>
+                <property name="defaultRoles" value="${user.defaultRoles}"/>
+            </bean>
+        </property>
+    </bean>
+    -->
 
 	
 	<!-- Enable audition on entities -->
