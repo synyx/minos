@@ -94,7 +94,10 @@
 		<init-param>
 			<description>Where are the web controllers configured?</description>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath*:META-INF/minos/**/web-context.xml</param-value>
+			<param-value>
+				classpath*:META-INF/minos/**/web-context.xml,
+				classpath*:META-INF/minos/**/web-application-context.xml
+			</param-value>
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
