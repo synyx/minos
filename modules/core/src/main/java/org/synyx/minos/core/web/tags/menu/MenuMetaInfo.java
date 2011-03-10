@@ -14,7 +14,7 @@ public class MenuMetaInfo {
     private String url;
     private String title;
     private String description;
-    private boolean subMenu;
+    private Integer depth;
     private boolean parent;
 
     public MenuMetaInfo() {
@@ -56,18 +56,6 @@ public class MenuMetaInfo {
     }
 
 
-    public boolean isSubMenu() {
-
-        return subMenu;
-    }
-
-
-    public void setSubMenu(boolean argSubMenu) {
-
-        subMenu = argSubMenu;
-    }
-
-
     public String getTitle() {
 
         return title;
@@ -101,5 +89,23 @@ public class MenuMetaInfo {
     public void setParent(boolean argParent) {
 
         parent = argParent;
+    }
+
+
+    public void setDepth(Integer depth) {
+
+        this.depth = depth;
+    }
+
+
+    public Integer getDepth() {
+
+        return depth;
+    }
+
+
+    public boolean isRootLevel() {
+
+        return depth == 0;
     }
 }

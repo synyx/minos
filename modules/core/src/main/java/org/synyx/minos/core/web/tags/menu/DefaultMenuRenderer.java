@@ -12,12 +12,9 @@ public class DefaultMenuRenderer implements MenuRenderer {
     private Integer levels = 0;
     private boolean alwaysRenderSubmenus = false;
     private String rootId = null;
-    int remainingLevel = 0;
 
     @Override
     public String beforeMenu(MenuMetaInfo info) {
-
-        remainingLevel = levels;
 
         StringBuilder builder = new StringBuilder();
         builder.append("<div id='");
@@ -45,33 +42,27 @@ public class DefaultMenuRenderer implements MenuRenderer {
     @Override
     public String beforeMenuItem(MenuMetaInfo info) {
 
-        if (info != null && info.isSubMenu()) {
-            return "<ul class='submenu'>";
-        }
+        String aClass = info.isActive() ? " class='active'" : "";
 
-        return "";
+        return String.format("<li%s>", aClass);
     }
 
 
     @Override
     public String afterMenuItem(MenuMetaInfo info) {
 
-        if (info != null && info.isSubMenu()) {
-            return "</ul>";
-        }
-
-        return "";
+        return "</li>";
     }
 
 
     @Override
     public String renderItem(MenuMetaInfo info) {
 
-        if (info != null && info.getUrl() != null) {
+        if (info.getUrl() != null) {
             String aClass = info.isActive() ? " class='active'" : "";
 
-            return String.format("<li%s><a id='%s' href='%s' title='%s'%s>%s</a></li>", aClass, info.getId(),
-                    info.getUrl(), info.getDescription(), aClass, info.getTitle());
+            return String.format("<a id='%s' href='%s' title='%s'%s>%s</a>", info.getId(), info.getUrl(),
+                    info.getDescription(), aClass, info.getTitle());
         }
 
         return "";
@@ -81,14 +72,25 @@ public class DefaultMenuRenderer implements MenuRenderer {
     @Override
     public boolean proceedWithRenderingSubmenus(MenuMetaInfo info) {
 
-        if (!info.isSubMenu() && (info.isActive() || isAlwaysRenderSubmenus())
-                && (isLevelRestrictionActive() || remainingLevel > 1)) {
-            remainingLevel--;
-
-            return info.isParent();
+        if (isAlwaysRenderSubmenus()) {
+            return true;
         }
 
-        return false;
+        return isLevelRestrictionDisabled() || levels <= info.getDepth();
+    }
+
+
+    @Override
+    public String beforeSubmenueItems(MenuMetaInfo info) {
+
+        return "<ul class='submenu'>";
+    }
+
+
+    @Override
+    public String afterSubmenueItems(MenuMetaInfo info) {
+
+        return "</ul>";
     }
 
 
@@ -135,7 +137,7 @@ public class DefaultMenuRenderer implements MenuRenderer {
      *
      * @return
      */
-    private boolean isLevelRestrictionActive() {
+    private boolean isLevelRestrictionDisabled() {
 
         return levels <= 0;
     }

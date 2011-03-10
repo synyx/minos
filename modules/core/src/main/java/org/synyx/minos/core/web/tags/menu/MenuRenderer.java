@@ -59,4 +59,22 @@ public interface MenuRenderer {
      * @return true if proceeding with rendering of sub menus, else false
      */
     boolean proceedWithRenderingSubmenus(MenuMetaInfo info);
+
+
+    /**
+     * Called before each rendering submenues of a menuitem
+     *
+     * @param info MenuMetaInfo instance
+     * @return String containing the rendering result
+     */
+    String beforeSubmenueItems(MenuMetaInfo info);
+
+
+    /**
+     * Called before after rendering submenues of a menuitem
+     *
+     * @param info MenuMetaInfo instance
+     * @return String containing the rendering result
+     */
+    String afterSubmenueItems(MenuMetaInfo info);
 }

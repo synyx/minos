@@ -49,17 +49,16 @@ public class MenuTag extends RequestContextAwareTag {
         renderer = getMenuRenderer();
 
         StringBuilder builder = new StringBuilder();
-        buildHtmlMenu(null, menuItems, builder, false);
 
-        if (0 != builder.length()) {
-            MenuMetaInfo info = new MenuMetaInfo();
-            info.setId(id);
+        MenuMetaInfo info = new MenuMetaInfo();
+        info.setId(id);
 
-            JspWriter out = pageContext.getOut();
-            out.append(renderer.beforeMenu(info));
-            out.append(builder.toString());
-            out.append(renderer.afterMenu(info));
-        }
+        JspWriter out = pageContext.getOut();
+
+        out.append(renderer.beforeMenu(info));
+        buildHtmlMenu(menuItems, builder, 0);
+        out.append(builder.toString());
+        out.append(renderer.afterMenu(info));
 
         return 0;
     }
@@ -73,21 +72,16 @@ public class MenuTag extends RequestContextAwareTag {
      * @param builder
      * @throws IOException
      */
-    private void buildHtmlMenu(MenuMetaInfo menuInfo, MenuItems menuItems, StringBuilder builder, boolean submenu)
-        throws IOException {
+    private void buildHtmlMenu(MenuItems menuItems, StringBuilder builder, Integer depth) throws IOException {
 
         String path = getPathWithinApplication(getRequest());
 
-        builder.append(renderer.beforeMenuItem(menuInfo));
-
         for (Menu item : menuItems) {
-            boolean active = item.isActiveFor(path);
-
             MenuMetaInfo info = new MenuMetaInfo();
-            info.setActive(active);
+            info.setActive(item.isActiveFor(path));
             info.setDescription(resolveMessage(item.getDesciption()));
             info.setId(item.getTitle().replace('.', '_'));
-            info.setSubMenu(submenu);
+            info.setDepth(depth);
             info.setTitle(resolveMessage(item.getTitle()));
             info.setParent(item.hasSubMenues());
 
@@ -97,16 +91,17 @@ public class MenuTag extends RequestContextAwareTag {
                 info.setUrl(null);
             }
 
+            builder.append(renderer.beforeMenuItem(info));
             builder.append(renderer.renderItem(info));
 
             if (renderer.proceedWithRenderingSubmenus(info) && item.hasSubMenues()) {
-                info.setSubMenu(true);
-                buildHtmlMenu(info, item.getSubMenues(), builder, true);
-                info.setSubMenu(false);
+                builder.append(renderer.beforeSubmenueItems(info));
+                buildHtmlMenu(item.getSubMenues(), builder, depth + 1);
+                builder.append(renderer.afterSubmenueItems(info));
             }
-        }
 
-        builder.append(renderer.afterMenuItem(menuInfo));
+            builder.append(renderer.afterMenuItem(info));
+        }
     }
 
 
