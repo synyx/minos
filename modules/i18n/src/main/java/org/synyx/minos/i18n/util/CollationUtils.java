@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.synyx.minos.i18n.util;
 
 import org.springframework.beans.BeanWrapper;
@@ -26,15 +23,17 @@ public class CollationUtils {
      * @param col the {@link Collection}
      * @param fieldName the name of the property (e.g. "key" for getKey())
      * @param value the value to compare (using equals) against the returned value of the object
-     * @return the first object thats field equals the given value or null if none found
+     * @return the first object whose field equals the given value or null if none found
      */
     public static <E> E getRealMatch(Collection<E> col, String fieldName, String value) {
 
-        for (E e : col) {
-            BeanWrapper w = new BeanWrapperImpl(e);
+        if(col != null) {
+            for (E e : col) {
+                BeanWrapper w = new BeanWrapperImpl(e);
 
-            if (value.equals(w.getPropertyValue(fieldName))) {
-                return e;
+                if (fieldName != null && value != null && value.equals(w.getPropertyValue(fieldName))) {
+                    return e;
+                }
             }
         }
 
