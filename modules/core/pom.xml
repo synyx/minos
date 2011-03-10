@@ -15,6 +15,7 @@
 		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 
+
 	<dependencies>
 
 		<!-- Spring Security -->
@@ -50,8 +51,24 @@
 		<dependency>
 			<groupId>org.synyx.hades</groupId>
 			<artifactId>org.synyx.hades</artifactId>
-			<version>2.0.0.RC1</version>
+			<version>2.0.0.RC2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>jcl-over-slf4j</artifactId>
+				</exclusion>
+				</exclusions>
 		</dependency>
+		
+		<dependency>  
+				<groupId>org.springframework</groupId>  
+				<artifactId>spring-aspects</artifactId>  
+				<version>${springVersion}</version>  
+		</dependency>  
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -105,12 +122,6 @@
 			<version>1.2</version>
 		</dependency>
 
-		<dependency>
-			<groupId>displaytag</groupId>
-			<artifactId>displaytag</artifactId>
-			<version>1.2</version>
-		</dependency>
-
 		<!--  Mail -->
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -144,6 +155,14 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.1</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.google.collections</groupId>
+			<artifactId>google-collections</artifactId>
+			<version>1.0</version>
+			<type>pom</type>
+			<scope>compile</scope>
+		</dependency>
 
 		<!-- Hera -->
 		<dependency>
@@ -159,6 +178,12 @@
 			<groupId>opensymphony</groupId>
 			<artifactId>sitemesh</artifactId>
 			<version>2.3</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>displaytag</groupId>
+			<artifactId>displaytag</artifactId>
+			<version>1.2</version>
 		</dependency>
 
 		<!-- Marshalling -->
@@ -209,14 +234,6 @@
 			<artifactId>mockito-all</artifactId>
 			<version>1.8.5</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.google.collections</groupId>
-			<artifactId>google-collections</artifactId>
-			<version>1.0</version>
-			<type>pom</type>
-			<scope>compile</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -241,27 +258,11 @@
 					<extension>true</extension>
 					<strict>false</strict>
 				</configuration>
-
 			</plugin>
 		</plugins>
 	</build>
 
 	<repositories>
-
-		<repository>
-			<id>maven2.synyx.repository</id>
-			<name>Synyx Maven2 Repository</name>
-			<url>http://mvn.synyx.de/repository</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<checksumPolicy>warn</checksumPolicy>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-				<checksumPolicy>warn</checksumPolicy>
-			</releases>
-		</repository>
-
 		<repository>
 			<id>architect-rules-repo</id>
 			<name>architecture-rules repository</name>
@@ -274,8 +275,5 @@
 				<checksumPolicy>ignore</checksumPolicy>
 			</snapshots>
 		</repository>
-
 	</repositories>
-
-
 </project>
