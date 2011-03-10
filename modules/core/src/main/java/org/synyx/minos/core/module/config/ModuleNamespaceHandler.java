@@ -12,12 +12,10 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 public class ModuleNamespaceHandler extends NamespaceHandlerSupport {
 
     private static final String MODULE = "module";
-    private static final String REST_MODULE = "rest-module";
 
     @Override
     public void init() {
 
         registerBeanDefinitionParser(MODULE, new ModuleBeanDefinitionParser());
-        registerBeanDefinitionParser(REST_MODULE, new RestModuleBeanDefinitionParser());
     }
 }
