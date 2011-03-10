@@ -23,6 +23,9 @@ ul.menu li.active {
 	border: 0.08em solid #A5ACB2;
 	border-bottom: 0.08em solid #D3DADC;
 }
+
+
+
 ul.menu a.active {
 	color: #000;
 }
@@ -86,6 +89,13 @@ ul.submenu a.active {
 	border-right:0.08em solid #666;
 	background: no-repeat;
 }
+
+
+ul.submenu li.active {
+	background: none no-repeat scroll 0 0 transparent;
+	border: none;
+}
+
 ul.menu a:hover {
 	color: #9c6;
 }
