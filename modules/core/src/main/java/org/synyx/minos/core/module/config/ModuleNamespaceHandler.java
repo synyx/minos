@@ -14,11 +14,6 @@ public class ModuleNamespaceHandler extends NamespaceHandlerSupport {
     private static final String MODULE = "module";
     private static final String REST_MODULE = "rest-module";
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.beans.factory.xml.NamespaceHandler#init()
-     */
     @Override
     public void init() {
 

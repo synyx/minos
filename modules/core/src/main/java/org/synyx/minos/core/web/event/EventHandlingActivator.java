@@ -67,13 +67,6 @@ public class EventHandlingActivator extends ModulePostProcessor {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.springframework.beans.factory.config.BeanFactoryPostProcessor#postProcessBeanFactory(org.springframework.
-     * beans.factory.config.ConfigurableListableBeanFactory)
-     */
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 

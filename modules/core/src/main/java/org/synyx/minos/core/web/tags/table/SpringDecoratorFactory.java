@@ -23,12 +23,6 @@ import javax.servlet.jsp.PageContext;
  */
 public class SpringDecoratorFactory extends DefaultDecoratorFactory {
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.displaytag.decorator.DefaultDecoratorFactory#loadColumnDecorator( javax.servlet.jsp.PageContext,
-     * java.lang.String)
-     */
     @Override
     public DisplaytagColumnDecorator loadColumnDecorator(PageContext pageContext, String decoratorName)
         throws DecoratorInstantiationException {
@@ -45,12 +39,6 @@ public class SpringDecoratorFactory extends DefaultDecoratorFactory {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.displaytag.decorator.DefaultDecoratorFactory#loadTableDecorator(javax .servlet.jsp.PageContext,
-     * java.lang.String)
-     */
     @Override
     public TableDecorator loadTableDecorator(PageContext pageContext, String decoratorName)
         throws DecoratorInstantiationException {

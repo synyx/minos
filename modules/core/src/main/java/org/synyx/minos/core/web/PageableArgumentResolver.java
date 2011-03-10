@@ -251,11 +251,6 @@ public class PageableArgumentResolver implements WebArgumentResolver {
             this.values = values;
         }
 
-        /*
-         * (non-Javadoc)
-         *
-         * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
-         */
         @Override
         public void setAsText(String text) throws IllegalArgumentException {
 

@@ -64,12 +64,7 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
         this.startedModules = new ArrayList<Module>();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.context.ApplicationContextAware#setApplicationContext
-     * (org.springframework.context.ApplicationContext)
-     */
+    @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 
         this.context = applicationContext;

@@ -50,12 +50,6 @@ public class ValueObjectPropertyEditorRegistrar implements PropertyEditorRegistr
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.beans.PropertyEditorRegistrar#registerCustomEditors
-     * (org.springframework.beans.PropertyEditorRegistry)
-     */
     @Override
     public void registerCustomEditors(PropertyEditorRegistry registry) {
 

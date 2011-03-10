@@ -31,12 +31,6 @@ public class WebRequestEnricherHandlerInterceptor extends HandlerInterceptorAdap
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.web.servlet.HandlerInterceptor#preHandle(javax.servlet .http.HttpServletRequest,
-     * javax.servlet.http.HttpServletResponse, java.lang.Object)
-     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
         throws Exception {
@@ -51,12 +45,6 @@ public class WebRequestEnricherHandlerInterceptor extends HandlerInterceptorAdap
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.web.servlet.HandlerInterceptor#postHandle(javax.servlet .http.HttpServletRequest,
-     * javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.web.servlet.ModelAndView)
-     */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
         ModelAndView modelAndView) throws Exception {

@@ -57,11 +57,6 @@ public class SpringSecurityAuthenticationService extends AbstractAuthenticationS
         this.passwordEncoder = passwordEncoder;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.hades.domain.support.AuditorAware#getCurrentAuditor()
-     */
     @Override
     public User getCurrentAuditor() {
 
@@ -69,11 +64,6 @@ public class SpringSecurityAuthenticationService extends AbstractAuthenticationS
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.core.authentication.AuthenticationService#getCurrentUser ()
-     */
     @Override
     public User getCurrentUser() {
 
@@ -89,12 +79,6 @@ public class SpringSecurityAuthenticationService extends AbstractAuthenticationS
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @seecom.synyx.minos.core.authentication.AuthenticationService#
-     * getEncryptedPasswordFor(com.synyx.minos.core.domain.User)
-     */
     @Override
     public Password getEncryptedPasswordFor(User user) {
 

@@ -56,11 +56,6 @@ public class DispatchingMessageSource extends AbstractMessageSource {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.context.support.AbstractMessageSource#resolveCode (java.lang.String, java.util.Locale)
-     */
     @Override
     protected MessageFormat resolveCode(String code, Locale locale) {
 

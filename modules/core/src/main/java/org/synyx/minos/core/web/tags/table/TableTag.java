@@ -23,11 +23,6 @@ public class TableTag extends ELTableTag {
     public TableTag() throws InvalidTagAttributeValueException {
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.displaytag.tags.TableTag#setupViewableData()
-     */
     @Override
     protected void setupViewableData() {
 

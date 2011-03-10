@@ -93,11 +93,6 @@ public class ModuleAwareBeanDefinitionParser extends AbstractSingleBeanDefinitio
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser #getBeanClass(org.w3c.dom.Element)
-     */
     @Override
     protected Class<?> getBeanClass(Element element) {
 
@@ -105,11 +100,6 @@ public class ModuleAwareBeanDefinitionParser extends AbstractSingleBeanDefinitio
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @seeorg.springframework.beans.factory.xml.AbstractBeanDefinitionParser# shouldGenerateId()
-     */
     @Override
     protected boolean shouldGenerateId() {
 
@@ -117,12 +107,6 @@ public class ModuleAwareBeanDefinitionParser extends AbstractSingleBeanDefinitio
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser #doParse(org.w3c.dom.Element,
-     * org.springframework.beans.factory.support.BeanDefinitionBuilder)
-     */
     @Override
     protected final void doParse(Element element, BeanDefinitionBuilder builder) {
 

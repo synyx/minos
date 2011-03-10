@@ -14,11 +14,6 @@ import java.util.Comparator;
  */
 public class ModuleAwareComparator implements Comparator<ModuleAware> {
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */
     @Override
     public int compare(ModuleAware first, ModuleAware second) {
 

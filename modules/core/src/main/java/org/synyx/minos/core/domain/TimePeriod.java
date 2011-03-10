@@ -225,11 +225,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.calendar.domain.Overlapable#getEnd()
-     */
+    @Override
     public DateTime getEnd() {
 
         return new DateTime(end);
@@ -254,11 +250,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.calendar.domain.Overlapable#getStart()
-     */
+    @Override
     public DateTime getStart() {
 
         return new DateTime(start);
@@ -280,11 +272,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.calendar.domain.Overlapable#overlaps(com.synyx.minos. calendar.domain.Overlapable)
-     */
+    @Override
     public boolean overlaps(Overlapable<DateTime> that) {
 
         if (null == that) {
@@ -298,11 +286,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
+    @Override
     public int compareTo(TimePeriod period) {
 
         Assert.notNull(period);
@@ -311,11 +295,6 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
 
@@ -336,11 +315,6 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
 
@@ -353,11 +327,6 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
 

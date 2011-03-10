@@ -15,11 +15,6 @@ import org.synyx.minos.umt.service.UserManagement;
 @Transactional
 public class MinosCoreDevInstaller extends MinosCoreInstaller {
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.bootstrap.MinosCoreInstaller#onStart()
-     */
     @Override
     public void onStart() {
 

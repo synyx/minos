@@ -45,11 +45,6 @@ public class UserPlaceholderAwareUrlResolver extends SimpleUrlResolver {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.web.menu.SimpleUrlResolvingStrategy#resolveUrl(org.synyx.minos.core.web.menu.MenuItem)
-     */
     @Override
     public String resolveUrl(Menu item) {
 

@@ -24,11 +24,6 @@ public class ColumnTag extends ELColumnTag {
         setSortable(true);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.displaytag.tags.el.ELColumnTag#setProperty(java.lang.String)
-     */
     @Override
     public void setProperty(String value) {
 

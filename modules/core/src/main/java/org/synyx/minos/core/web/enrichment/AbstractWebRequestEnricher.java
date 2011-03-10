@@ -35,12 +35,6 @@ public abstract class AbstractWebRequestEnricher implements WebRequestEnricher {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.core.web.enrichment.WebRequestEnricher#preHandle(javax .servlet.http.HttpServletRequest,
-     * javax.servlet.http.HttpServletResponse)
-     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -48,23 +42,12 @@ public abstract class AbstractWebRequestEnricher implements WebRequestEnricher {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.core.web.enrichment.WebRequestEnricher#postHandle(javax .servlet.http.HttpServletRequest,
-     * javax.servlet.http.HttpServletResponse, org.springframework.web.servlet.ModelAndView)
-     */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView)
         throws Exception {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.hera.core.Plugin#supports(java.lang.Object)
-     */
     @Override
     public boolean supports(HttpServletRequest request) {
 
