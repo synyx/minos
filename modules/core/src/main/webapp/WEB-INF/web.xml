@@ -9,7 +9,8 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath*:META-INF/minos/**/module-context.xml,
-			classpath*:META-INF/minos/**/web/web-security.xml
+			classpath*:META-INF/minos/**/web/web-security.xml,
+			classpath*:META-INF/minos/**/application-context.xml
 		</param-value>
 	</context-param>
 
