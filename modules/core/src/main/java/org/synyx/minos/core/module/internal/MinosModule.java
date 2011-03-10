@@ -22,7 +22,7 @@ import java.util.Set;
  */
 public class MinosModule implements Module {
 
-    private static final String IDENTIFIER_REGEX = "^[a-zA-Z]\\w*(\\.\\w+)*$";
+    private static final String IDENTIFIER_REGEX = "^[a-zA-Z]\\w*$";
     private static final String RESOURCE_BASE_TEMPLATE = "META-INF/minos/%s";
     private static final String DEFAULT_PACKAGE_TEMPLATE = "org.synyx.minos.%s";
     private static final Lifecycle NO_OP_LIFECYCLE = new SimpleNoOpLifecycle();

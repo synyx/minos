@@ -82,13 +82,6 @@ public class MinosModuleUnitTest {
 
 
     @Test
-    public void acceptsValidIdentifiers_Dotted() {
-
-        new MinosModule("an.identifier");
-    }
-
-
-    @Test
     public void acceptsValidIdentifiers_WithNumbers() {
 
         new MinosModule("identifier123");
