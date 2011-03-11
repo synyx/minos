@@ -1,22 +1,35 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.items.domain;
+package ${package}.domain;
 
 import org.synyx.hades.domain.auditing.AbstractAuditable;
 
 import org.synyx.minos.core.domain.User;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 
 @Entity
-public class TodoItem extends AbstractAuditable<User, Long> {
+public class Item extends AbstractAuditable<User, Long> {
 
     private static final long serialVersionUID = -8172200297371920477L;
 
     private String description;
-    private boolean done;
+
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.NEW;
+
+    protected Item() {
+    }
+
+
+    public Item(String description) {
+
+        this.description = description;
+    }
 
     public String getDescription() {
 
@@ -30,14 +43,14 @@ public class TodoItem extends AbstractAuditable<User, Long> {
     }
 
 
-    public void setDone(boolean done) {
+    public void setStatus(Status status) {
 
-        this.done = done;
+        this.status = status;
     }
 
 
-    public boolean isDone() {
+    public Status getStatus() {
 
-        return done;
+        return status;
     }
 }

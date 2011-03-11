@@ -14,7 +14,7 @@
 	on .dao and you are perfectly fine.
 
 	Hades and Spring will automatically make the DAO implementations available via Hades'
-	automatic naming mechanism (e.g. a TodoItemDao becomes available for injection as todoItemDao
+	automatic naming mechanism (e.g. a ItemDao becomes available for injection as itemDao
 	in your Spring configuration)
 
 	See http://hades.synyx.org/static/2.x/site/org.synyx.hades/reference/html/sample-app.namespace.html${symbol_pound}config.autoconfig

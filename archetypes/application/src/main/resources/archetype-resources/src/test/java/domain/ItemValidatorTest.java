@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.items.domain;
+package ${package}.domain;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,21 +11,23 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.springframework.validation.Errors;
+import ${package}.domain.Item;
+import ${package}.domain.ItemValidator;
 
 
-public class TodoItemValidatorTest {
+public class ItemValidatorTest {
 
     private static final String TOO_LONG =
         "A very long text that should definitely be longer than anything that would be acceptable by the validator since this is how we want our items to be: short, descriptive and without clutter at all";
-    private static final String CONTAINS_TODO = "This item contains the word ToDo";
+    private static final String CONTAINS_XXX = "This item contains the word XXX";
 
-    private TodoItemValidator validator;
+    private ItemValidator validator;
     private Errors errors;
 
     @Before
     public void setUp() throws Exception {
 
-        validator = new TodoItemValidator();
+        validator = new ItemValidator();
         errors = mock(Errors.class);
     }
 
@@ -33,7 +35,7 @@ public class TodoItemValidatorTest {
     @Test
     public void shouldReportErrorOnEmpty() {
 
-        TodoItem item = new TodoItem();
+        Item item = new Item();
         item.setDescription("");
         validator.validate(item, errors);
         verify(errors, times(1)).rejectValue("description", "errors.empty", null, null);
@@ -43,7 +45,7 @@ public class TodoItemValidatorTest {
     @Test
     public void shouldReportErrorOnTooLong() {
 
-        TodoItem item = new TodoItem();
+        Item item = new Item();
         item.setDescription(TOO_LONG);
         validator.validate(item, errors);
         verify(errors, times(1)).rejectValue("description", "errors.toolong");
@@ -51,10 +53,10 @@ public class TodoItemValidatorTest {
 
 
     @Test
-    public void shouldReportErrorOnContainingTodo() {
+    public void shouldReportErrorOnContainingXXX() {
 
-        TodoItem item = new TodoItem();
-        item.setDescription(CONTAINS_TODO);
+        Item item = new Item();
+        item.setDescription(CONTAINS_XXX);
         validator.validate(item, errors);
         verify(errors, times(1)).rejectValue("description", "errors.contains");
     }

@@ -21,14 +21,16 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
+import ${package}.dao.ItemDao;
+import ${package}.domain.Item;
+import ${package}.domain.ItemValidator;
+import ${package}.domain.Status;
 import org.synyx.minos.core.Core;
 import org.synyx.minos.core.web.Message;
 
-import ${package}.items.dao.TodoDao;
-import ${package}.items.domain.TodoItem;
-import ${package}.items.domain.TodoItemValidator;
-
 import java.util.List;
+
+import javax.annotation.security.RolesAllowed;
 
 
 /*
@@ -36,25 +38,25 @@ import java.util.List;
  */
 @Controller
 @Transactional
-public class TodoController {
+public class ItemController {
 
-    public static final String SINGULAR = "todo";
-    public static final String PLURAL = "todos";
+    public static final String SINGULAR = "item";
+    public static final String PLURAL = "items";
     public static final String BASE_URL = "/" + PLURAL;
 
     public static final String FORM = "form";
     public static final String FORM_URL = BASE_URL + "/" + FORM;
 
     @Autowired
-    private TodoDao todoDao;
+    private ItemDao itemDao;
 
     @Autowired
-    private TodoItemValidator todoItemValidator;
+    private ItemValidator itemValidator;
 
     @RequestMapping(value = BASE_URL, method = GET)
     public String showItems(Model model) {
 
-        List<TodoItem> items = todoDao.readAll();
+        List<Item> items = itemDao.readAll();
         model.addAttribute(PLURAL, items);
 
         return PLURAL;
@@ -68,25 +70,27 @@ public class TodoController {
      */
     @RequestMapping(value = BASE_URL + "/{id}", method = GET)
     public String showItem(Model model,
-        @PathVariable("id") TodoItem item) {
+        @PathVariable("id") Item item) {
 
         model.addAttribute(SINGULAR, item);
+        model.addAttribute("statusValues", Status.values());
 
-        return SINGULAR;
+        return FORM;
     }
 
 
     @RequestMapping(value = FORM_URL, method = GET)
     public String showCreateFormForItem(Model model,
-        @ModelAttribute(SINGULAR) TodoItem item) {
+        @ModelAttribute(SINGULAR) Item item) {
 
         return prepareForm(model, item);
     }
 
 
-    private String prepareForm(Model model, TodoItem item) {
+    private String prepareForm(Model model, Item item) {
 
         model.addAttribute(SINGULAR, item);
+        model.addAttribute("statusValues", Status.values());
 
         return FORM;
     }
@@ -94,21 +98,21 @@ public class TodoController {
 
     @RequestMapping(value = BASE_URL, method = POST)
     public String createItem(Model model,
-        @ModelAttribute(SINGULAR) TodoItem item, Errors itemErrors) {
+        @ModelAttribute(SINGULAR) Item item, Errors itemErrors) {
 
         return save(model, item, itemErrors);
     }
 
 
-    private String save(Model model, TodoItem item, Errors itemErrors) {
+    private String save(Model model, Item item, Errors itemErrors) {
 
-        todoItemValidator.validate(item, itemErrors);
+        itemValidator.validate(item, itemErrors);
 
         if (itemErrors.hasErrors()) {
             return prepareForm(model, item);
         }
 
-        todoDao.saveAndFlush(item);
+        itemDao.saveAndFlush(item);
 
         /*
          * The Minos core module and default layout already supports short flash messages
@@ -116,7 +120,7 @@ public class TodoController {
          * several styles, including success messages, errors, notices and also warnings.
          * The content is taken from the configured message properties.
          */
-        model.addAttribute(Core.MESSAGE, Message.success("todos.item.save.success"));
+        model.addAttribute(Core.MESSAGE, Message.success("items.save.success"));
 
         return "redirect:" + BASE_URL + "/" + item.getId();
     }
@@ -124,21 +128,23 @@ public class TodoController {
 
     @RequestMapping(value = BASE_URL + "/{id}", method = PUT)
     public String updateItem(Model model,
-        @ModelAttribute(SINGULAR) TodoItem item, Errors itemErrors,
+        @ModelAttribute(SINGULAR) Item item, Errors itemErrors,
         @PathVariable("id") Long id) {
 
+        // set id to merge model with database
         item.setId(id);
 
         return save(model, item, itemErrors);
     }
 
 
+    @RolesAllowed("ROLE_ADMIN")
     @RequestMapping(value = BASE_URL + "/{id}", method = DELETE)
     public String deleteItem(Model model,
-        @PathVariable("id") TodoItem entity) {
+        @PathVariable("id") Item entity) {
 
-        todoDao.delete(entity);
-        model.addAttribute(Core.MESSAGE, Message.success("todos.item.delete.success"));
+        itemDao.delete(entity);
+        model.addAttribute(Core.MESSAGE, Message.success("items.delete.success"));
 
         return "redirect:" + BASE_URL;
     }

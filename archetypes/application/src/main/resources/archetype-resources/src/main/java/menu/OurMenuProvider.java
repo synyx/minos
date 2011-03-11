@@ -3,12 +3,11 @@
 #set( $symbol_escape = '\' )
 package ${package}.menu;
 
+import ${package}.web.ItemController;
 import org.synyx.minos.core.web.menu.AbstractMenuItemProvider;
 import org.synyx.minos.core.web.menu.FirstSubMenuUrlResolver;
 import org.synyx.minos.core.web.menu.MenuItem;
 import org.synyx.minos.core.web.menu.MenuItem.MenuItemBuilder;
-
-import ${package}.web.TodoController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +20,9 @@ import java.util.List;
  * displayed. The order of the list returned is not used in the rendering of the items,
  * instead MenuItems declare a position parameter.
  */
-public class TodoItemMenuProvider extends AbstractMenuItemProvider {
+public class OurMenuProvider extends AbstractMenuItemProvider {
 
-    public static final String MENU_ITEMS_KEYBASE = "todos";
+    public static final String MENU_ITEMS_KEYBASE = "menu.items";
 
     private int posCounter = 10;
 
@@ -41,8 +40,8 @@ public class TodoItemMenuProvider extends AbstractMenuItemProvider {
 
     private void buildMenuForItems(List<MenuItem> menu, MenuItem root) {
 
-        menu.add(buildSubMenuItem("list", TodoController.BASE_URL, root));
-        menu.add(buildSubMenuItem("create", TodoController.FORM_URL, root));
+        menu.add(buildSubMenuItem("list", ItemController.BASE_URL, root));
+        menu.add(buildSubMenuItem("create", ItemController.FORM_URL, root));
     }
 
 

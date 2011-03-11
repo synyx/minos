@@ -17,7 +17,7 @@
 	Usually you put your controllers here, as also validation beans for data from the
 	frontend as also menu providers.
     -->
-    <bean class="${package}.web.TodoController" />
-    <bean class="${package}.items.domain.TodoItemValidator" />
-    <bean class="${package}.menu.TodoItemMenuProvider" />
+    <bean class="${package}.web.ItemController" />
+    <bean class="${package}.domain.ItemValidator" />
+    <bean class="${package}.menu.OurMenuProvider" />
 </beans>

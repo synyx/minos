@@ -1,4 +1,4 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-<% response.sendRedirect("web/todos"); %>
+<% response.sendRedirect("web/items"); %>

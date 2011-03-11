@@ -7,5 +7,6 @@ span.icon {
     text-indent: -9999px;
 }
 
-.todo-done { background: url(../images/yes.png) 0 0 no-repeat; }
-.todo-not-done { background: url(../images/no.png) 0 0 no-repeat; }
+.item-status-new { background: url(../images/new.png) 0 0 no-repeat; }
+.item-status-progress { background: url(../images/progress.png) 0 0 no-repeat; }
+.item-status-done { background: url(../images/done.png) 0 0 no-repeat; }

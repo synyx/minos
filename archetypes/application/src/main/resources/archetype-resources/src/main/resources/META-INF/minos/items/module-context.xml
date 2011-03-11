@@ -30,11 +30,10 @@
 	prefix or, as in the example below, to name dependencies to other Minos modules.
     -->
     <bean id="sampleLifecycle" class="${package}.SampleLifecycle">
-        <constructor-arg ref="userDao" />
-        <constructor-arg ref="todoDao" />
+    	<constructor-arg ref="itemDao" />
     </bean>
 
-    <module:module id="todos" base-package="${package}" depends-on="umt"
+    <module:module id="items" base-package="${package}" depends-on="umt"
                    lifecycle-ref="sampleLifecycle" auto-config="false" />
 
     <bean class="org.synyx.minos.core.message.ModuleMessageSourceImpl">
@@ -48,7 +47,7 @@
 	    of messages, meaning it does not necessarily depend on every message being correctly prefixed, but also
 	    looks up the used keys directly.
         -->
-        <constructor-arg ref="todos" />
+        <constructor-arg ref="items" />
         <property name="lenient" value="true" />
     </bean>
 

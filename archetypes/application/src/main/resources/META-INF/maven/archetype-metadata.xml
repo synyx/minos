@@ -26,7 +26,6 @@
       <directory>src/main/webapp</directory>
       <includes>
         <include>**/*.png</include>
-        <include>**/*.tag</include>
         <include>**/*.css</include>
       </includes>
     </fileSet>

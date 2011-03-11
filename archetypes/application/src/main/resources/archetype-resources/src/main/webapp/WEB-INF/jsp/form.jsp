@@ -8,20 +8,32 @@
 <%@ taglib prefix="display" uri="http://displaytag.sf.net/el" %>
 
 <spring:url value="/styles" var="stylesheets" />
-<spring:url value="/web/todos" var="formURL" />
+	<c:choose><c:when test="${symbol_dollar}{item.new}">
+		<spring:url value="/web/items" var="formURL" />
+		<c:set var="formMethod" value="post" />
+	</c:when><c:otherwise>
+		<spring:url value="/web/items/${symbol_dollar}{item.id}" var="formURL" />
+		<c:set var="formMethod" value="put" />
+	</c:otherwise>
+</c:choose>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title><spring:message code="todos.create.title" /></title>
+    <title><spring:message code="menu.items.create.title" /></title>
     <link type="text/css" href="${symbol_dollar}{stylesheets}/style.css" rel="stylesheet" title="default" />
 </head>
 <body>
-<form:form action="${symbol_dollar}{formURL}" method="post" modelAttribute="todo">
+<form:form action="${symbol_dollar}{formURL}" method="${symbol_dollar}{formMethod}" modelAttribute="item">
 	<fieldset>
-		<legend><spring:message code="todos.create.title" /></legend>
-		<label for="description"><spring:message code="todos.item.description"/></label><br />
-		<form:input id="description" path="description" /><form:errors path="description" />
+		<legend><spring:message code="menu.items.create.title" /></legend>
+		<label for="description"><spring:message code="items.singular.description"/></label>
+		<form:input id="description" path="description" /><form:errors path="description" /><br />
+		<label for="status"><spring:message code="items.singular.status" /></label>
+		<form:select path="status" id="status">
+			<form:options items="${symbol_dollar}{statusValues}" itemLabel="message" />
+		</form:select>
+		<form:errors path="status" /><br />
 		<button name="submit" value="submit" type="submit">Submit!</button>
 	</fieldset>
 </form:form>

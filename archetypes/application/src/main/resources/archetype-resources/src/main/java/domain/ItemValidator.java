@@ -1,18 +1,18 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.items.domain;
+package ${package}.domain;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 
-public class TodoItemValidator implements Validator {
+public class ItemValidator implements Validator {
 
     public boolean supports(Class<?> clazz) {
 
-        return TodoItem.class.equals(clazz);
+        return Item.class.equals(clazz);
     }
 
 
@@ -20,10 +20,10 @@ public class TodoItemValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "errors.empty");
 
-        TodoItem item = (TodoItem) target;
+        Item item = (Item) target;
         String description = item.getDescription();
 
-        if (description.toLowerCase().contains("todo")) {
+        if (description.contains("XXX")) {
             errors.rejectValue("description", "errors.contains");
         }
 

@@ -7,7 +7,7 @@
     <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
     <packaging>war</packaging>
-    <name>Minos Application: ${artifactId}</name>
+    <name>Minos Application: example-app</name>
     <version>${version}</version>
 
     <properties>
