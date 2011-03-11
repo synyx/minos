@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.synyx.minos.i18n.service;
 
 import com.google.common.base.Predicate;
@@ -52,11 +49,7 @@ public class MessageServiceImpl implements MessageService {
         this.messageTranslationDao = messageTranslationDao;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.i18n.service.MessageService#save(org.synyx.minos.i18n.domain.Message)
-     */
+
     @Override
     @Transactional
     public void save(Message message, boolean finished) {
@@ -108,11 +101,6 @@ public class MessageServiceImpl implements MessageService {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.i18n.service.MessageService#getBasenames()
-     */
     @Override
     public List<String> getBasenames() {
 
@@ -120,11 +108,6 @@ public class MessageServiceImpl implements MessageService {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.i18n.service.MessageService#getLocales(java.lang.String)
-     */
     @Override
     @Transactional(readOnly = true)
     public List<LocaleWrapper> getLocales(String basename) {
@@ -159,11 +142,6 @@ public class MessageServiceImpl implements MessageService {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.i18n.service.MessageService#getMessagesHierarchically(java.lang.String, java.util.Locale)
-     */
     @Override
     public List<MessageView> getMessages(String basename, Locale locale) {
 
@@ -186,6 +164,7 @@ public class MessageServiceImpl implements MessageService {
         return result;
     }
 
+
     private static class MessageViewComparator implements Comparator<MessageView> {
         @Override
         public int compare(MessageView o1, MessageView o2) {
@@ -194,12 +173,6 @@ public class MessageServiceImpl implements MessageService {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.i18n.service.MessageService#getMessages(java.lang.String, java.util.Locale, boolean,
-     * boolean)
-     */
     @Override
     public List<MessageView> getMessages(String basename, Locale locale, boolean includeNew, boolean includeUpdated) {
 
@@ -213,11 +186,6 @@ public class MessageServiceImpl implements MessageService {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.i18n.service.MessageService#getMessage(String, String, Locale)
-     */
     @Override
     public MessageView getMessage(String basename, String key, Locale locale) {
 
@@ -228,11 +196,6 @@ public class MessageServiceImpl implements MessageService {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.i18n.service.MessageService#getMetaMessage(java.lang.String, java.lang.String)
-     */
     @Override
     public AvailableMessage getAvailableMessage(String basename, String key) {
 
@@ -322,12 +285,6 @@ public class MessageServiceImpl implements MessageService {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.i18n.service.MessageService#addLanguage(java.lang.String,
-     * org.synyx.minos.i18n.domain.LocaleWrapper)
-     */
     @Override
     @Transactional
     public void addLanguage(AvailableLanguage language) {
@@ -351,11 +308,6 @@ public class MessageServiceImpl implements MessageService {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.i18n.service.MessageService#removeTranslationInfo(org.synyx.minos.i18n.domain.Message)
-     */
     @Override
     @Transactional
     public void removeTranslationInfo(Message message) {
@@ -398,12 +350,6 @@ public class MessageServiceImpl implements MessageService {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.i18n.service.MessageService#saveAll(org.synyx.minos.i18n.domain.AvailableLanguage,
-     * java.util.Properties)
-     */
     @Override
     @Transactional
     public void saveAll(AvailableLanguage language, Properties properties) {
@@ -444,11 +390,11 @@ public class MessageServiceImpl implements MessageService {
     }
 
     /**
-     * Preticate that is able to filter {@link MessageView}s by their status
+     * Predicate that is able to filter {@link MessageView}s by their status
      *
      * @author Alexander Menz - menz@synyx.de
      */
-    private class MessageViewStatusPredicate implements Predicate<MessageView> {
+    private static class MessageViewStatusPredicate implements Predicate<MessageView> {
 
         private boolean includeNew = false;
         private boolean includeUpdated = false;
