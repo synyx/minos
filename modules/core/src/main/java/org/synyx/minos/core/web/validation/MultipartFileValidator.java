@@ -22,7 +22,7 @@ import java.util.Set;
  */
 public class MultipartFileValidator implements Validator {
 
-    private static Set<String> DEFAULT_ALLOWED_EXTENSIONS = new HashSet<String>(Arrays.asList("png", "jpg", "gif"));
+    private static final Set<String> DEFAULT_ALLOWED_EXTENSIONS = new HashSet<String>(Arrays.asList("png", "jpg", "gif"));
 
     private Set<String> supportedExceptions = DEFAULT_ALLOWED_EXTENSIONS;
 
@@ -38,11 +38,6 @@ public class MultipartFileValidator implements Validator {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.validation.Validator#supports(java.lang.Class)
-     */
     @Override
     public boolean supports(Class<?> clazz) {
 
@@ -50,11 +45,6 @@ public class MultipartFileValidator implements Validator {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
-     */
     @Override
     public void validate(Object target, Errors errors) {
 
