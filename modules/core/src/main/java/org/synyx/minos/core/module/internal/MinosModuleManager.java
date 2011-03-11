@@ -71,11 +71,6 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.module.ModuleManager#getModules()
-     */
     @Override
     public List<Module> getModules() {
 
@@ -100,12 +95,6 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.context.ApplicationListener#onApplicationEvent(org
-     * .springframework.context.ApplicationEvent)
-     */
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
@@ -122,11 +111,6 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.beans.factory.DisposableBean#destroy()
-     */
     public void destroy() {
 
         stopModules();
@@ -140,40 +124,41 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
      */
     private void installModules() {
 
-        execute(modules, new Callback<Module>() {
-
-                @Override
-                public boolean executionRequired(Module module) {
-
-                    ModuleDescriptor descriptor = getDescriptorFor(module);
-
-                    boolean alreadyInstalled = descriptor == null ? false : descriptor.isInstalled();
-
-                    if (alreadyInstalled) {
-                        LOG.debug(String.format("Module %s already installed!", module));
-                    }
-
-                    return !alreadyInstalled;
-                }
-
-
-                @Override
-                public void doWith(Module module) {
-
-                    ModuleDescriptor descriptor = getDescriptorFor(module);
-
-                    if (null == descriptor) {
-                        descriptor = new ModuleDescriptor(module);
-                    }
-
-                    module.getLifecycle().install();
-
-                    descriptor.setInstalled();
-                    moduleDescriptorDao.save(descriptor);
-                }
-            }, "Installation of module %s failed!", "Installing module %s!", "Successfully installed module %s!");
+        execute(modules, new InstallModulesCallback(),
+                "Installation of module %s failed!", "Installing module %s!", "Successfully installed module %s!");
     }
 
+    private class InstallModulesCallback extends Callback<Module> {
+        @Override
+        public boolean executionRequired(Module module) {
+
+                ModuleDescriptor descriptor = getDescriptorFor(module);
+
+                boolean alreadyInstalled = descriptor == null ? false : descriptor.isInstalled();
+
+                if (alreadyInstalled) {
+                    LOG.debug(String.format("Module %s already installed!", module));
+                }
+
+                return !alreadyInstalled;
+            }
+
+
+            @Override
+        public void doWith(Module module) {
+
+            ModuleDescriptor descriptor = getDescriptorFor(module);
+
+            if (null == descriptor) {
+                descriptor = new ModuleDescriptor(module);
+            }
+
+            module.getLifecycle().install();
+
+            descriptor.setInstalled();
+            moduleDescriptorDao.save(descriptor);
+        }
+    }
 
     /**
      * Returns the {@link ModuleDescriptor} for the given {@link Module} or {@literal null} if none found.
@@ -240,22 +225,24 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
         List<Module> modulesToShutdown = new ArrayList<Module>(startedModules);
         Collections.reverse(modulesToShutdown);
 
-        execute(modulesToShutdown, new Callback<Module>() {
+        execute(modulesToShutdown, new StopModulesCallBack(),
+                "Stopping module %s failed!", "Stopping module %s!", "Successfully stopped module %s!");
+    }
 
-                @Override
-                public boolean executionRequired(Module module) {
+    private class StopModulesCallBack extends Callback<Module> {
 
-                    return startedModules.contains(module);
-                }
+        @Override
+        public boolean executionRequired(Module module) {
+            return startedModules.contains(module);
+        }
 
 
-                @Override
-                public void doWith(Module module) {
+        @Override
+        public void doWith(Module module) {
 
-                    module.getLifecycle().onStop();
-                    startedModules.remove(module);
-                }
-            }, "Stopping module %s failed!", "Stopping module %s!", "Successfully stopped module %s!");
+            module.getLifecycle().onStop();
+            startedModules.remove(module);
+        }
     }
 
 
@@ -263,7 +250,7 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
      * Returns whether the given {@link ApplicationEvent} is actually from the {@link ApplicationContext} that contains
      * the {@link MinosModuleManager}.
      *
-     * @param applicationEvent
+     * @param event
      * @return
      */
     private boolean isStartEvent(ContextRefreshedEvent event) {
@@ -293,11 +280,6 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.module.ModuleManager#isAvailable(java.lang.String)
-     */
     @Override
     public boolean isAvailable(String identifier) {
 
@@ -344,7 +326,7 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
     }
 
     /**
-     * Simpl callback interface to implement specific behaviour to applied to the handed over module.
+     * Simple callback interface to implement specific behaviour to applied to the handed over module.
      *
      * @author Oliver Gierke - gierke@synyx.de
      */
