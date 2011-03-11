@@ -50,7 +50,7 @@ public class DispatchingMessageSource extends AbstractMessageSource {
      */
     private String getPrefixFromCode(String code) {
 
-        int firstDotPosition = code.indexOf(".");
+        int firstDotPosition = code.indexOf('.');
 
         return firstDotPosition > 0 ? code.substring(0, firstDotPosition) : code;
     }
