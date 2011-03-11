@@ -210,8 +210,9 @@ public class LocaleWrapper {
             if (other.country != null) {
                 return false;
             }
-        } else if (!country.equals(other.country))
+        } else if (!country.equals(other.country)) {
             return false;
+        }
 
         if (language == null) {
             if (other.language != null) {
