@@ -27,7 +27,7 @@ import java.util.Properties;
 
 
 /**
- * This class provides the functionalities to import and update messages for basenames from property resources. Beside
+ * This class provides the functionality to import and update messages for basenames from property resources. Beside
  * offering the import of a specific property resource for a specific basename, a map assigning property resources to
  * basenames can be set (i.e. via spring beans config) to provide a method for importing/updating messages on
  * application boot up.
@@ -89,9 +89,8 @@ public class MessageImporter {
         List<AvailableLanguage> availableLanguages = getAvailableLanguages(basename);
 
         // update/create messages
-        for (String key : messages.keySet()) {
-            String message = messages.get(key);
-            setMessage(basename, key, message, availableLanguages);
+        for (Map.Entry<String, String> entry : messages.entrySet()) {
+            setMessage(basename, entry.getKey(), entry.getValue(), availableLanguages);
         }
 
         // find deleted message meta
