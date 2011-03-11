@@ -34,7 +34,7 @@ public class FirstSubMenuUrlResolverUnitTest {
 
 
     @Test
-    public void resolvesToNullIfNoSubmenues() {
+    public void resolvesToNullIfNoSubmenus() {
 
         Menu item = Mockito.mock(Menu.class);
 
