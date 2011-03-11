@@ -188,14 +188,17 @@ public class Menu implements Comparable<Menu> {
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj)
+        if (this == obj) {
             return true;
+        }
 
-        if (obj == null)
+        if (obj == null) {
             return false;
+        }
 
-        if (getClass() != obj.getClass())
+        if (getClass() != obj.getClass()) {
             return false;
+        }
 
         Menu other = (Menu) obj;
 
@@ -204,9 +207,9 @@ public class Menu implements Comparable<Menu> {
 
 
     /**
-     * Returns wether we have the given {@link MenuTreeItem} somewhere in our trees of sub {@link MenuTreeItem}s.
+     * Returns whether we have the given {@link MenuTreeItem} somewhere in our trees of sub {@link MenuTreeItem}s.
      *
-     * @param menuItem
+     * @param menu
      * @return
      */
     public boolean hasSubMenuItem(Menu menu) {

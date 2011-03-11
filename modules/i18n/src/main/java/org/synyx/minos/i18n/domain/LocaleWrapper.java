@@ -1,13 +1,11 @@
 package org.synyx.minos.i18n.domain;
 
 import org.springframework.util.StringUtils;
-
 import org.synyx.messagesource.util.LocaleUtils;
-
-import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.util.Locale;
 
 
 /**
@@ -104,7 +102,7 @@ public class LocaleWrapper {
     /**
      * Set the country code of the {@link Locale} wrapped by this {@link LocaleWrapper}.
      *
-     * @param language the country code to set. Can be {@code null}, resulting in setting the country code of the
+     * @param country the country code to set. Can be {@code null}, resulting in setting the country code of the
      *            wrapped instance of {@link Locale} to "".
      */
     public void setCountry(String country) {
@@ -127,7 +125,7 @@ public class LocaleWrapper {
     /**
      * Set the variant code of the {@link Locale} wrapped by this {@link LocaleWrapper}.
      *
-     * @param language the variant code to set. Can be {@code null}, resulting in setting the variant code of the
+     * @param variant the variant code to set. Can be {@code null}, resulting in setting the variant code of the
      *            wrapped instance of {@link Locale} to "".
      */
     public void setVariant(String variant) {
@@ -191,42 +189,45 @@ public class LocaleWrapper {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
 
-        if (this == obj)
+        if (this == obj) {
             return true;
+        }
 
-        if (obj == null)
+        if (obj == null) {
             return false;
+        }
 
-        if (getClass() != obj.getClass())
+        if (getClass() != obj.getClass()) {
             return false;
+        }
 
         LocaleWrapper other = (LocaleWrapper) obj;
 
         if (country == null) {
-            if (other.country != null)
+            if (other.country != null) {
                 return false;
+            }
         } else if (!country.equals(other.country))
             return false;
 
         if (language == null) {
-            if (other.language != null)
+            if (other.language != null) {
                 return false;
-        } else if (!language.equals(other.language))
+            }
+        } else if (!language.equals(other.language)) {
             return false;
+        }
 
         if (variant == null) {
-            if (other.variant != null)
+            if (other.variant != null) {
                 return false;
-        } else if (!variant.equals(other.variant))
+            }
+        } else if (!variant.equals(other.variant)) {
             return false;
+        }
 
         return true;
     }
