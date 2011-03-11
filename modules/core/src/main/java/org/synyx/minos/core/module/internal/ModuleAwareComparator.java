@@ -3,6 +3,7 @@ package org.synyx.minos.core.module.internal;
 import org.synyx.minos.core.module.Module;
 import org.synyx.minos.core.module.ModuleAware;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 
@@ -12,7 +13,7 @@ import java.util.Comparator;
  *
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class ModuleAwareComparator implements Comparator<ModuleAware> {
+public class ModuleAwareComparator implements Comparator<ModuleAware>, Serializable {
 
     @Override
     public int compare(ModuleAware first, ModuleAware second) {
