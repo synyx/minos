@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.synyx.minos.core.web.menu;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -17,7 +14,7 @@ import java.util.Map;
 
 /**
  * {@link MenuProvider} implementation that uses {@link MenuItem}s provided by {@link MenuItemProvider}s defined in the
- * context, filteres them using {@link MenuItemFilter}s defined in the context and assembles the {@link MenuItems} using
+ * context, filters them using {@link MenuItemFilter}s defined in the context and assembles the {@link MenuItems} using
  * a {@link MenuAssembler}-Implementation.
  *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
@@ -149,21 +146,19 @@ public class MenuManager implements MenuProvider, InitializingBean {
             menuItems.addAll(provider.getMenuItems());
         }
 
-        Collections.sort(menuItems, new Comparator<MenuItem>() {
+        Collections.sort(menuItems, new MenuItemComparator());
+    }
 
-                @Override
-                public int compare(MenuItem o1, MenuItem o2) {
+    private static class MenuItemComparator implements Comparator<MenuItem> {
+        @Override
+        public int compare(MenuItem o1, MenuItem o2) {
+            int value = o2.getPath().length() - o1.getPath().length();
 
-                    int value = o2.getPath().length() - o1.getPath().length();
+            if (value == 0) {
+                return o1.compareTo(o2);
+            }
 
-                    if (value == 0) {
-                        return o1.compareTo(o2);
-                    }
-
-                    return value;
-                }
-            });
-
-        // Collections.sort(menuItems);
+            return value;
+        }
     }
 }
