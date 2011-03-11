@@ -67,7 +67,7 @@ public interface MenuRenderer {
      * @param info MenuMetaInfo instance
      * @return String containing the rendering result
      */
-    String beforeSubmenueItems(MenuMetaInfo info);
+    String beforeSubmenuItems(MenuMetaInfo info);
 
 
     /**
@@ -76,5 +76,5 @@ public interface MenuRenderer {
      * @param info MenuMetaInfo instance
      * @return String containing the rendering result
      */
-    String afterSubmenueItems(MenuMetaInfo info);
+    String afterSubmenuItems(MenuMetaInfo info);
 }

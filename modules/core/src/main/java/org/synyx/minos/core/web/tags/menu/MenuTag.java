@@ -95,9 +95,9 @@ public class MenuTag extends RequestContextAwareTag {
             builder.append(renderer.renderItem(info));
 
             if (renderer.proceedWithRenderingSubmenus(info) && item.hasSubMenues()) {
-                builder.append(renderer.beforeSubmenueItems(info));
+                builder.append(renderer.beforeSubmenuItems(info));
                 buildHtmlMenu(item.getSubMenues(), builder, depth + 1);
-                builder.append(renderer.afterSubmenueItems(info));
+                builder.append(renderer.afterSubmenuItems(info));
             }
 
             builder.append(renderer.afterMenuItem(info));

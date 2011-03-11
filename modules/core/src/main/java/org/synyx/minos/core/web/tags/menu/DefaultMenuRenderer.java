@@ -81,14 +81,14 @@ public class DefaultMenuRenderer implements MenuRenderer {
 
 
     @Override
-    public String beforeSubmenueItems(MenuMetaInfo info) {
+    public String beforeSubmenuItems(MenuMetaInfo info) {
 
         return "<ul class='submenu'>";
     }
 
 
     @Override
-    public String afterSubmenueItems(MenuMetaInfo info) {
+    public String afterSubmenuItems(MenuMetaInfo info) {
 
         return "</ul>";
     }
