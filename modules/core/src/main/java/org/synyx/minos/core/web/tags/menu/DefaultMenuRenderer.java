@@ -1,11 +1,14 @@
 package org.synyx.minos.core.web.tags.menu;
 
 /**
- * Default implementation of MenuRenderer
+ * Default implementation of MenuRenderer.
+ *
+ * If the property {@code levels} is set to a value greater than zero,
+ * the tag only renders submenus down to the given level. Any value less or equal
+ * than zero disables this restriction and simply renders the complete menu (the default).
+ * This also holds true if the renderer has {@code alwaysRenderSubmenus} set to {@code true}.
  *
  * @author David Linsin
- * @version 0.0.1
- * @since 0.0.1
  */
 public class DefaultMenuRenderer implements MenuRenderer {
 
@@ -17,7 +20,7 @@ public class DefaultMenuRenderer implements MenuRenderer {
     public String beforeMenu(MenuMetaInfo info) {
 
         StringBuilder builder = new StringBuilder();
-        builder.append("<div id='");
+        builder.append("<div id=\"");
 
         // unless id provided default to "menu" as id
         if (info.getId() != null) {
@@ -26,7 +29,7 @@ public class DefaultMenuRenderer implements MenuRenderer {
             builder.append("menu");
         }
 
-        builder.append("'><ul class=\"menu\">");
+        builder.append("\"><ul class=\"menu\">");
 
         return builder.toString();
     }
@@ -100,9 +103,9 @@ public class DefaultMenuRenderer implements MenuRenderer {
     }
 
 
-    public void setAlwaysRenderSubmenus(boolean argAlwaysRenderSubmenus) {
+    public void setAlwaysRenderSubmenus(boolean alwaysRenderSubmenus) {
 
-        alwaysRenderSubmenus = argAlwaysRenderSubmenus;
+        this.alwaysRenderSubmenus = alwaysRenderSubmenus;
     }
 
 
@@ -112,9 +115,9 @@ public class DefaultMenuRenderer implements MenuRenderer {
     }
 
 
-    public void setRootId(String argRootId) {
+    public void setRootId(String rootId) {
 
-        rootId = argRootId;
+        this.rootId = rootId;
     }
 
 
@@ -124,19 +127,12 @@ public class DefaultMenuRenderer implements MenuRenderer {
     }
 
 
-    public void setLevels(Integer argLevels) {
+    public void setLevels(Integer levels) {
 
-        levels = argLevels;
+        this.levels = levels;
     }
 
 
-    /**
-     * If the attribute levels is set, the tag renders submenues until the given level. This method checks if the
-     * level-feature is deactivated : if <minos:menu levels="0"> is used, the number of levels rendered are unlimited.
-     * This is also true for negative values of levels.
-     *
-     * @return
-     */
     private boolean isLevelRestrictionDisabled() {
 
         return levels <= 0;
