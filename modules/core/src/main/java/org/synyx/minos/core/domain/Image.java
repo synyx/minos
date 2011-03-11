@@ -40,7 +40,7 @@ public class Image {
     public Image(byte[] originalImage, double width, String formatName) {
 
         this();
-        this.originalImage = originalImage;
+        this.originalImage = originalImage.clone();
         this.thumbnail = ThumbnailUtils.scale(originalImage, width, formatName);
         this.formatName = formatName;
     }
