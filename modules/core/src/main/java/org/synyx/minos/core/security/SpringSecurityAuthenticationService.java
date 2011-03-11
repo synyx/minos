@@ -134,7 +134,7 @@ public class SpringSecurityAuthenticationService extends AbstractAuthenticationS
         List<ConfigAttribute> attributes = new ArrayList<ConfigAttribute>();
 
         for (String permission : permissions) {
-            attributes.add(new SecurityConfig(permission.toString()));
+            attributes.add(new SecurityConfig(permission));
         }
 
         return attributes;
