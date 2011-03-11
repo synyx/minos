@@ -1,11 +1,5 @@
 package org.synyx.minos.core.configuration;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -13,6 +7,12 @@ import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 
 
 /**
@@ -66,7 +66,7 @@ public class EnvironmentPropertyPlaceholderConfigurer extends PropertyPlaceholde
             }
         }
 
-        super.setLocations(resources.toArray(new Resource[] {}));
+        super.setLocations(resources.toArray(new Resource[resources.size()]));
 
         super.loadProperties(props);
     }

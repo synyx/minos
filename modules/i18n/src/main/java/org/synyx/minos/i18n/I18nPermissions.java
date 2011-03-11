@@ -56,7 +56,7 @@ public abstract class I18nPermissions {
         }
 
         allpermissions.add(I18N_REINITIALIZE_MESSAGES);
-        I18N_ADMINISTRATION = allpermissions.toArray(new String[] {});
+        I18N_ADMINISTRATION = allpermissions.toArray(new String[allpermissions.size()]);
     }
 
     /**
