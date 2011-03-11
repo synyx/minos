@@ -79,11 +79,11 @@ public class MenuTag extends RequestContextAwareTag {
         for (Menu item : menuItems) {
             MenuMetaInfo info = new MenuMetaInfo();
             info.setActive(item.isActiveFor(path));
-            info.setDescription(resolveMessage(item.getDesciption()));
+            info.setDescription(resolveMessage(item.getDescription()));
             info.setId(item.getTitle().replace('.', '_'));
             info.setDepth(depth);
             info.setTitle(resolveMessage(item.getTitle()));
-            info.setParent(item.hasSubMenues());
+            info.setParent(item.hasSubMenus());
 
             if (item.getUrl() != null) {
                 info.setUrl(UrlUtils.toUrl(item.getUrl(), getRequest()));
@@ -94,9 +94,9 @@ public class MenuTag extends RequestContextAwareTag {
             builder.append(renderer.beforeMenuItem(info));
             builder.append(renderer.renderItem(info));
 
-            if (renderer.proceedWithRenderingSubmenus(info) && item.hasSubMenues()) {
+            if (renderer.proceedWithRenderingSubmenus(info) && item.hasSubMenus()) {
                 builder.append(renderer.beforeSubmenuItems(info));
-                buildHtmlMenu(item.getSubMenues(), builder, depth + 1);
+                buildHtmlMenu(item.getSubMenus(), builder, depth + 1);
                 builder.append(renderer.afterSubmenuItems(info));
             }
 

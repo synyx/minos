@@ -53,7 +53,7 @@ public class MenuUnitTest {
 
         Menu parentMenu = Menu.create(parent, new MenuItems(secondMenu, thirdMenu, firstMenu));
 
-        Iterator<Menu> iterator = parentMenu.getSubMenues().iterator();
+        Iterator<Menu> iterator = parentMenu.getSubMenus().iterator();
 
         assertThat(iterator.next(), is(firstMenu));
         assertThat(iterator.next(), is(secondMenu));

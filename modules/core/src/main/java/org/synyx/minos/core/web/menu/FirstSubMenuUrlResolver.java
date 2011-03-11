@@ -16,6 +16,6 @@ public class FirstSubMenuUrlResolver implements UrlResolver {
     @Override
     public String resolveUrl(Menu item) {
 
-        return item.hasSubMenues() ? item.getSubMenues().iterator().next().getUrl() : null;
+        return item.hasSubMenus() ? item.getSubMenus().iterator().next().getUrl() : null;
     }
 }

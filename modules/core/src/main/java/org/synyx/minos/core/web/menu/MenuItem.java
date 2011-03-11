@@ -72,7 +72,7 @@ public final class MenuItem implements Comparable<MenuItem> {
      *
      * @return the desciption
      */
-    public String getDesciption() {
+    public String getDescription() {
 
         return desciption;
     }

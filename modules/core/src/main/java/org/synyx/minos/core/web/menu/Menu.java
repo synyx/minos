@@ -23,10 +23,10 @@ public final class Menu implements Comparable<Menu> {
 
     private UrlResolver urlStrategy;
     private String title;
-    private String desciption;
+    private String description;
     private Integer position = 0;
 
-    private MenuItems subMenues;
+    private MenuItems subMenus;
     private List<String> permissions = new ArrayList<String>();
 
     private Menu(String id) {
@@ -71,11 +71,11 @@ public final class Menu implements Comparable<Menu> {
     /**
      * Returns the description of the {@link MenuTreeItem}.
      *
-     * @return the desciption
+     * @return the description
      */
-    public String getDesciption() {
+    public String getDescription() {
 
-        return desciption;
+        return description;
     }
 
 
@@ -107,20 +107,15 @@ public final class Menu implements Comparable<Menu> {
      *
      * @return
      */
-    public boolean hasSubMenues() {
+    public boolean hasSubMenus() {
 
-        return !subMenues.isEmpty();
+        return !subMenus.isEmpty();
     }
 
 
-    /**
-     * Returns all submenues.
-     *
-     * @return
-     */
-    public MenuItems getSubMenues() {
+    public MenuItems getSubMenus() {
 
-        return subMenues;
+        return subMenus;
     }
 
 
@@ -152,7 +147,7 @@ public final class Menu implements Comparable<Menu> {
     public Menu deepCopy(Predicate<Menu> subMenuItemFilters) {
 
         Menu menu = new Menu(getId());
-        menu.desciption = getDesciption();
+        menu.description = getDescription();
         menu.title = getTitle();
         menu.position = getPosition();
         menu.urlStrategy = getUrlStrategy();
@@ -164,14 +159,14 @@ public final class Menu implements Comparable<Menu> {
 
         List<Menu> subs = new ArrayList<Menu>();
 
-        if (hasSubMenues()) {
+        if (hasSubMenus()) {
             // Only clone sub menu items that satisfy the filter
-            for (Menu sub : filter(subMenues, subMenuItemFilters)) {
+            for (Menu sub : filter(subMenus, subMenuItemFilters)) {
                 subs.add(sub.deepCopy(subMenuItemFilters));
             }
         }
 
-        menu.subMenues = new MenuItems(subs);
+        menu.subMenus = new MenuItems(subs);
 
         return menu;
     }
@@ -213,7 +208,7 @@ public final class Menu implements Comparable<Menu> {
      */
     public boolean hasSubMenuItem(Menu menu) {
 
-        return hasSubMenues() ? getSubMenues().contains(menu) : false;
+        return hasSubMenus() ? getSubMenus().contains(menu) : false;
     }
 
 
@@ -229,11 +224,11 @@ public final class Menu implements Comparable<Menu> {
             return true;
         }
 
-        if (!hasSubMenues()) {
+        if (!hasSubMenus()) {
             return false;
         }
 
-        for (Menu sub : getSubMenues()) {
+        for (Menu sub : getSubMenus()) {
             if (sub.isActiveFor(url)) {
                 return true;
             }
@@ -259,7 +254,7 @@ public final class Menu implements Comparable<Menu> {
     public static Menu create(MenuItem item, MenuItems children) {
 
         Menu menu = new Menu(item.getId());
-        menu.desciption = item.getDesciption();
+        menu.description = item.getDescription();
         menu.title = item.getTitle();
         menu.position = item.getPosition();
         menu.urlStrategy = item.getUrlResolver();
@@ -271,7 +266,7 @@ public final class Menu implements Comparable<Menu> {
             menu.permissions.add(permission);
         }
 
-        menu.subMenues = children;
+        menu.subMenus = children;
 
         return menu;
     }
@@ -285,6 +280,8 @@ public final class Menu implements Comparable<Menu> {
      */
     public static Menu create(MenuItem item) {
 
-        return create(item, new MenuItems(new ArrayList<Menu>()));
+        List<Menu> menuItems = Collections.emptyList();
+
+        return create(item, new MenuItems(menuItems));
     }
 }
