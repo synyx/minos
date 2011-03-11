@@ -178,33 +178,34 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
      */
     private synchronized void startModules() {
 
-        execute(modules, new Callback<Module>() {
+        execute(modules, new StartModulesCallback(),
+                "Starting module %s failed!", "Starting module %s", "Successfully started module %s");
+    }
 
-                @Override
-                public boolean executionRequired(Module module) {
+    private class StartModulesCallback extends Callback<Module> {
+        @Override
+        public boolean executionRequired(Module module) {
 
-                    if (!isInstalled(module)) {
-                        return false;
-                    }
+            if (!isInstalled(module)) {
+                return false;
+            }
 
-                    boolean alreadyStarted = startedModules.contains(module);
+            boolean alreadyStarted = startedModules.contains(module);
 
-                    if (alreadyStarted) {
-                        LOG.debug(String.format("Module %s already started!", module));
-                    }
+            if (alreadyStarted) {
+                LOG.debug(String.format("Module %s already started!", module));
+            }
 
-                    return !alreadyStarted;
-                }
+            return !alreadyStarted;
+        }
 
+        @Override
+        public void doWith(Module module) {
 
-                @Override
-                public void doWith(Module module) {
+            module.getLifecycle().onStart();
 
-                    module.getLifecycle().onStart();
-
-                    startedModules.add(module);
-                }
-            }, "Starting module %s failed!", "Starting module %s", "Successfully started module %s");
+            startedModules.add(module);
+        }
     }
 
 
@@ -216,11 +217,11 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
         List<Module> modulesToShutdown = new ArrayList<Module>(startedModules);
         Collections.reverse(modulesToShutdown);
 
-        execute(modulesToShutdown, new StopModulesCallBack(),
+        execute(modulesToShutdown, new StopModulesCallback(),
                 "Stopping module %s failed!", "Stopping module %s!", "Successfully stopped module %s!");
     }
 
-    private class StopModulesCallBack extends Callback<Module> {
+    private class StopModulesCallback extends Callback<Module> {
 
         @Override
         public boolean executionRequired(Module module) {
