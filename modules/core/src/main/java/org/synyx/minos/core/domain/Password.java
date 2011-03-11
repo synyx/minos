@@ -53,7 +53,7 @@ public class Password {
     }
 
     /**
-     * Returns whether the password is encrpyted.
+     * Returns whether the password is encrypted.
      *
      * @return the encrypted
      */
@@ -72,6 +72,10 @@ public class Password {
 
     @Override
     public boolean equals(Object obj) {
+
+        if(obj == null) {
+            return false;
+        }
 
         if (obj == this) {
             return true;
