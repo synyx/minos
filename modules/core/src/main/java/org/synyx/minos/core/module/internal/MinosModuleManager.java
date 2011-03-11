@@ -2,29 +2,20 @@ package org.synyx.minos.core.module.internal;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
-
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.util.StringUtils;
-
 import org.synyx.hera.core.SimplePluginRegistry;
-
 import org.synyx.minos.core.module.Lifecycle;
 import org.synyx.minos.core.module.Module;
 import org.synyx.minos.core.module.ModuleLifecycleException;
@@ -65,7 +56,7 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) {
 
         this.context = applicationContext;
     }

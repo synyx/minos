@@ -16,23 +16,13 @@ public class RolePropertyEditor extends PropertyEditorSupport {
 
     private UserManagement userManagement;
 
-    /**
-     * Creates a new {@link RolePropertyEditor}.
-     *
-     * @param userManagement
-     */
     public RolePropertyEditor(UserManagement userManagement) {
 
         this.userManagement = userManagement;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
-     */
     @Override
-    public void setAsText(String value) throws IllegalArgumentException {
+    public void setAsText(String value) {
 
         setValue(userManagement.getRole(Long.parseLong(value)));
     }

@@ -38,13 +38,8 @@ public class EntityPropertyEditor<T extends Serializable> extends PropertyEditor
         this.registry = registry;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
-     */
     @Override
-    public void setAsText(String idAsString) throws IllegalArgumentException {
+    public void setAsText(String idAsString) {
 
         if (StringUtils.isBlank(idAsString)) {
             setValue(null);

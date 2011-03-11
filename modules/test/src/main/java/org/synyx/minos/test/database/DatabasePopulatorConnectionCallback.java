@@ -1,16 +1,12 @@
 package org.synyx.minos.test.database;
 
 import org.springframework.core.io.Resource;
-
-import org.springframework.dao.DataAccessException;
-
 import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import java.util.List;
 
 
@@ -39,13 +35,8 @@ public class DatabasePopulatorConnectionCallback implements ConnectionCallback<V
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.jdbc.core.ConnectionCallback#doInConnection(java. sql.Connection)
-     */
     @Override
-    public Void doInConnection(Connection connection) throws SQLException, DataAccessException {
+    public Void doInConnection(Connection connection) throws SQLException {
 
         polulator.populate(connection);
 

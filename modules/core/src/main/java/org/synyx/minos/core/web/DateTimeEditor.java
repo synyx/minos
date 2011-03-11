@@ -144,7 +144,7 @@ public class DateTimeEditor extends PropertyEditorSupport {
      * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
      */
     @Override
-    public void setAsText(String text) throws IllegalArgumentException {
+    public void setAsText(String text) {
 
         List<DateTimeFormatter> parsers = new ArrayList<DateTimeFormatter>();
 
@@ -187,7 +187,7 @@ public class DateTimeEditor extends PropertyEditorSupport {
      * deal with short year values for parsing you need to configure the additional pattern and set {@code
      * #preferAdditionalPatternsForParsing} to {@literal true} to let this one kick in first.
      *
-     * @param b
+     * @param preferAdditionalPatternsForParsing
      * @return
      */
     public DateTimeEditor preferAdditionalPatternsForParsing(boolean preferAdditionalPatternsForParsing) {

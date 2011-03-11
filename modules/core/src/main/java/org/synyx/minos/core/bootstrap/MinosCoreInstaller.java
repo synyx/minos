@@ -42,7 +42,7 @@ public class MinosCoreInstaller extends SimpleNoOpLifecycle {
 
 
     @Override
-    public void install() throws ModuleLifecycleException {
+    public void install() {
 
         Role adminRole = createAdmin();
         Role userRole = createUser();

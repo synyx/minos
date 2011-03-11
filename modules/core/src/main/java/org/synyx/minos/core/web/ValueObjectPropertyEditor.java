@@ -73,7 +73,7 @@ public class ValueObjectPropertyEditor extends PropertyEditorSupport {
 
 
     @Override
-    public void setAsText(String text) throws IllegalArgumentException {
+    public void setAsText(String text) {
 
         if (!StringUtils.hasText(text)) {
             setValue(null);

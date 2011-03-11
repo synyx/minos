@@ -40,7 +40,7 @@ public class PluginAuthenticationProvider implements AuthenticationProvider, Ini
 
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) {
 
         Authentication result = null;
         AuthenticationException lastException = null;

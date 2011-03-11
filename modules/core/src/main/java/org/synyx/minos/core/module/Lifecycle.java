@@ -20,25 +20,19 @@ public interface Lifecycle {
     /**
      * Indicates module start event. Implementations can execute behaviour required to be executed on every start of the
      * module.
-     *
-     * @throws  ModuleLifecycleException  if there was an error during the start phase of the {@link Lifecycle}
      */
-    void onStart() throws ModuleLifecycleException;
+    void onStart();
 
 
     /**
      * Indicates module stop event. Implementations can execute behaviour required to be executed on shutdown of the
      * module. This might include freeing resources e.g.
-     *
-     * @throws  ModuleLifecycleException  if there was an error during the stop phase of the {@link Lifecycle}
      */
-    void onStop() throws ModuleLifecycleException;
+    void onStop();
 
 
     /**
      * Installation phase of a module's lifecycle. This phase will only be invoked once if it finishes successfully.
-     *
-     * @throws  ModuleLifecycleException  if the module could not be installed properly.
      */
-    void install() throws ModuleLifecycleException;
+    void install();
 }

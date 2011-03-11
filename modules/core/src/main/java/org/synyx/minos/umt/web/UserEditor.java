@@ -12,21 +12,14 @@ public class UserEditor extends PropertyEditorSupport {
 
     private UserManagement userManagement;
 
-    /**
-     *
-     */
     public UserEditor(UserManagement userManagement) {
 
         this.userManagement = userManagement;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
-     */
+
     @Override
-    public void setAsText(String text) throws IllegalArgumentException {
+    public void setAsText(String text) {
 
         Long id = Long.valueOf(text);
         setValue(userManagement.getUser(id));

@@ -2,26 +2,17 @@ package org.synyx.minos.core.module.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionValidationException;
-
 import org.springframework.core.annotation.AnnotationUtils;
-
 import org.synyx.minos.core.module.Module;
 import org.synyx.minos.core.module.ModuleDependent;
 import org.synyx.minos.core.module.internal.MinosModule;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -37,22 +28,13 @@ public class ModulePostProcessor implements BeanFactoryPostProcessor {
     private Set<String> modules;
     private Map<String, List<String>> decorators;
 
-    /**
-     * Constructor of {@code ModulePostProcessor}.
-     */
     public ModulePostProcessor() {
 
         modules = new HashSet<String>();
         decorators = new HashMap<String, List<String>>();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @seeorg.springframework.beans.factory.config.BeanFactoryPostProcessor# postProcessBeanFactory
-     * (org.springframework.beans.factory.config.ConfigurableListableBeanFactory )
-     */
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 
         if (!(beanFactory instanceof BeanDefinitionRegistry)) {
             return;
@@ -93,7 +75,7 @@ public class ModulePostProcessor implements BeanFactoryPostProcessor {
      *
      * @param beanFactory
      */
-    private void findModulesAndDecorators(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    private void findModulesAndDecorators(ConfigurableListableBeanFactory beanFactory) {
 
         String[] beanNames = beanFactory.getBeanDefinitionNames();
 

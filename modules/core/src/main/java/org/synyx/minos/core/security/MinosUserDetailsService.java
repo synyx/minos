@@ -1,13 +1,9 @@
 package org.synyx.minos.core.security;
 
-import org.springframework.dao.DataAccessException;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 import org.springframework.transaction.annotation.Transactional;
-
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.umt.dao.UserDao;
 
@@ -35,7 +31,7 @@ public class MinosUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
+    public UserDetails loadUserByUsername(String username) {
 
         // Retrieve user
         User user = userDao.findByUsername(username);

@@ -1,12 +1,7 @@
-/**
- *
- */
 package org.synyx.minos.i18n;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
-import org.springframework.context.NoSuchMessageException;
-
 import org.synyx.minos.core.message.ModuleMessageSource;
 import org.synyx.minos.core.module.Module;
 
@@ -38,37 +33,21 @@ public class DelegatingModuleMessageSource implements ModuleMessageSource {
         this.module = module;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.context.MessageSource#getMessage(org.springframework.context.MessageSourceResolvable,
-     * java.util.Locale)
-     */
     @Override
-    public String getMessage(MessageSourceResolvable arg0, Locale arg1) throws NoSuchMessageException {
+    public String getMessage(MessageSourceResolvable arg0, Locale arg1) {
 
         return target.getMessage(arg0, arg1);
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.context.MessageSource#getMessage(java.lang.String, java.lang.Object[], java.util.Locale)
-     */
     @Override
-    public String getMessage(String arg0, Object[] arg1, Locale arg2) throws NoSuchMessageException {
+    public String getMessage(String arg0, Object[] arg1, Locale arg2) {
 
         return target.getMessage(arg0, arg1, arg2);
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.context.MessageSource#getMessage(java.lang.String, java.lang.Object[], java.lang.String,
-     * java.util.Locale)
-     */
+
     @Override
     public String getMessage(String arg0, Object[] arg1, String arg2, Locale arg3) {
 
@@ -76,11 +55,6 @@ public class DelegatingModuleMessageSource implements ModuleMessageSource {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.message.MessageSourcePlugin#supports(java.lang.String)
-     */
     @Override
     public boolean supports(String delimiter) {
 
@@ -88,11 +62,6 @@ public class DelegatingModuleMessageSource implements ModuleMessageSource {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.module.ModuleAware#getModule()
-     */
     @Override
     public Module getModule() {
 

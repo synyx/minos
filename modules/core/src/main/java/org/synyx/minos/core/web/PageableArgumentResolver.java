@@ -87,12 +87,6 @@ public class PageableArgumentResolver implements WebArgumentResolver {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.web.bind.support.WebArgumentResolver#resolveArgument
-     * (org.springframework.core.MethodParameter, org.springframework.web.context.request.NativeWebRequest)
-     */
     public Object resolveArgument(MethodParameter methodParameter, NativeWebRequest webRequest) throws Exception {
 
         if (methodParameter.getParameterType().equals(Pageable.class)) {
@@ -252,7 +246,7 @@ public class PageableArgumentResolver implements WebArgumentResolver {
         }
 
         @Override
-        public void setAsText(String text) throws IllegalArgumentException {
+        public void setAsText(String text) {
 
             PropertyValue rawOrder = values.getPropertyValue(orderProperty);
             Order order = null == rawOrder ? Order.ASCENDING : Order.fromJpaValue(rawOrder.getValue().toString());

@@ -23,9 +23,8 @@ public class IllegalToNullPropertyEditor extends CustomNumberEditor {
      *
      * @param clazz
      * @param allowEmpty
-     * @throws IllegalArgumentException
      */
-    public IllegalToNullPropertyEditor(Class<?> clazz, boolean allowEmpty) throws IllegalArgumentException {
+    public IllegalToNullPropertyEditor(Class<?> clazz, boolean allowEmpty) {
 
         super(clazz, allowEmpty);
     }
@@ -37,21 +36,14 @@ public class IllegalToNullPropertyEditor extends CustomNumberEditor {
      * @param clazz
      * @param numberFormat
      * @param allowEmpty
-     * @throws IllegalArgumentException
      */
-    public IllegalToNullPropertyEditor(Class<?> clazz, NumberFormat numberFormat, boolean allowEmpty)
-        throws IllegalArgumentException {
+    public IllegalToNullPropertyEditor(Class<?> clazz, NumberFormat numberFormat, boolean allowEmpty) {
 
         super(clazz, numberFormat, allowEmpty);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
-     */
     @Override
-    public void setAsText(String text) throws IllegalArgumentException {
+    public void setAsText(String text) {
 
         try {
             super.setAsText(text);

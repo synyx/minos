@@ -1,21 +1,16 @@
 package org.synyx.minos.core.web;
 
-import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyEditorRegistrar;
 import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.config.CustomEditorConfigurer;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-
 import org.synyx.hades.dao.GenericDao;
 import org.synyx.hades.util.ClassUtils;
 
 import java.beans.PropertyEditor;
-
 import java.io.Serializable;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,12 +41,6 @@ public class GenericDaoPropertyEditorRegistrar implements PropertyEditorRegistra
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.beans.PropertyEditorRegistrar#registerCustomEditors
-     * (org.springframework.beans.PropertyEditorRegistry)
-     */
     public void registerCustomEditors(PropertyEditorRegistry registry) {
 
         for (Entry<Class<?>, GenericDao<?, Serializable>> entry : daoMap.entrySet()) {
@@ -61,15 +50,9 @@ public class GenericDaoPropertyEditorRegistrar implements PropertyEditorRegistra
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.context.ApplicationContextAware#setApplicationContext
-     * (org.springframework.context.ApplicationContext)
-     */
     @Override
     @SuppressWarnings("unchecked")
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext) {
 
         Collection<GenericDao> daos = BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext,
                 GenericDao.class).values();

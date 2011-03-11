@@ -9,16 +9,16 @@ package org.synyx.minos.core.module;
 public class SimpleNoOpLifecycle implements Lifecycle {
 
     @Override
-    public void onStart() throws ModuleLifecycleException {
+    public void onStart() {
     }
 
 
     @Override
-    public void onStop() throws ModuleLifecycleException {
+    public void onStop() {
     }
 
 
     @Override
-    public void install() throws ModuleLifecycleException {
+    public void install() {
     }
 }
