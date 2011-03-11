@@ -38,13 +38,6 @@ public class MessageViaRedirectInterceptor extends HandlerInterceptorAdapter {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.web.servlet.handler.HandlerInterceptorAdapter#postHandle
-     * (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object,
-     * org.springframework.web.servlet.ModelAndView)
-     */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
         ModelAndView modelAndView) throws Exception {
@@ -55,17 +48,14 @@ public class MessageViaRedirectInterceptor extends HandlerInterceptorAdapter {
         HttpSession session = request.getSession();
         session.removeAttribute(messageKey);
 
-        // Skip everythign else if no model provided
+        // Skip everything else if no model provided
         if (null == modelAndView) {
             return;
         }
 
-        // Found old message
-        if (null != oldMessage) {
-            // Restore, if no new one found
-            if (!hasNewMessage(modelAndView)) {
-                modelAndView.addObject(messageKey, oldMessage);
-            }
+        // Restore old message, if no new one found
+        if (null != oldMessage && !hasNewMessage(modelAndView)) {
+            modelAndView.addObject(messageKey, oldMessage);
         }
 
         // Redirect containing a message?
@@ -99,11 +89,7 @@ public class MessageViaRedirectInterceptor extends HandlerInterceptorAdapter {
 
         String viewName = modelAndView.getViewName();
 
-        if (null == viewName) {
-            return false;
-        }
-
-        if (viewName.startsWith(UrlBasedViewResolver.REDIRECT_URL_PREFIX)) {
+        if (null != viewName && viewName.startsWith(UrlBasedViewResolver.REDIRECT_URL_PREFIX)) {
             return true;
         }
 
