@@ -3,15 +3,13 @@ package org.synyx.minos.util;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
+import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import javax.imageio.ImageIO;
 
 
 /**
@@ -19,7 +17,10 @@ import javax.imageio.ImageIO;
  *
  * @author Markus Knittig - knittig@synyx.de
  */
-public abstract class ThumbnailUtils {
+public class ThumbnailUtils {
+
+    private ThumbnailUtils() {
+    }
 
     /**
      * Scales a {@link BufferedImage} to the given width.
@@ -33,7 +34,6 @@ public abstract class ThumbnailUtils {
 
         return op.filter(image, null);
     }
-
 
     /**
      * @see #scale(BufferedImage, double)

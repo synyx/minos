@@ -21,4 +21,8 @@ public class Core {
      * The key under which events are registered.
      */
     public static final String EVENT_KEY = MINOS_BASE + ".web.event";
+
+
+    private Core() {
+    }
 }

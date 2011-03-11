@@ -8,7 +8,10 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author Oliver Gierke - gierke@synyx.de
  */
-public abstract class EnumUtils {
+public class EnumUtils {
+
+    private EnumUtils() {
+    }
 
     /**
      * Returns the enum for the given value or the {@code defaultValue}. Transforms the value to UPPERCASE prior to

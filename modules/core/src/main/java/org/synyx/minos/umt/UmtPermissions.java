@@ -6,4 +6,7 @@ package org.synyx.minos.umt;
 public final class UmtPermissions {
 
     public static final String UMT_ADMIN = "UMT_ADMIN";
+
+    private UmtPermissions() {
+    }
 }

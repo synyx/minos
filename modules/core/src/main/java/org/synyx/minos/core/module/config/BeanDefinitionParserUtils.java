@@ -18,6 +18,9 @@ import org.w3c.dom.Element;
  */
 public class BeanDefinitionParserUtils {
 
+    private BeanDefinitionParserUtils() {
+    }
+
     /**
      * Adds a property value to the given {@link BeanDefinitionBuilder} if the given {@link Element} contains a value at
      * the attribute with the given name.

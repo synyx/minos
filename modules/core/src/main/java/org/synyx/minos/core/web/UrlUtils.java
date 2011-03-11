@@ -1,33 +1,31 @@
 package org.synyx.minos.core.web;
 
 import org.springframework.util.StringUtils;
-
 import org.springframework.web.util.UriTemplate;
 import org.springframework.web.util.UrlPathHelper;
 import org.springframework.web.util.WebUtils;
-
 import org.synyx.hades.domain.Persistable;
-
 import org.synyx.minos.util.Assert;
-
-import java.net.URI;
-
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
+import java.util.Map;
+import java.util.Map.Entry;
 
 
 /**
- * URL utility class easing and safing URL and view name construction.
+ * URL utility class easing and saving URL and view name construction.
  *
  * @author Oliver Gierke - gierke@synyx.de
  */
-public abstract class UrlUtils {
+public class UrlUtils {
 
     private static final String URL_POSTFIX = "";
     private static final String REDIRECT_PREFIX = "redirect:";
+
+    private UrlUtils() {
+    }
 
     /**
      * Returns the view name to cause a redirect for a given destination view.

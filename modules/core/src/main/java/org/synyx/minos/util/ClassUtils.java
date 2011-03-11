@@ -6,7 +6,10 @@ import org.springframework.util.StringUtils;
 /**
  * @author Oliver Gierke - gierke@synyx.de
  */
-public abstract class ClassUtils {
+public class ClassUtils {
+
+    private ClassUtils() {
+    }
 
     /**
      * Returns whether the given {@link Class} has a setter with the given argument types for the given property.

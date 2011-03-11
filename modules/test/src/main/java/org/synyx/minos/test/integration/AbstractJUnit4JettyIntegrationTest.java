@@ -16,6 +16,10 @@ public class AbstractJUnit4JettyIntegrationTest {
 
     private static Server server;
 
+
+    private AbstractJUnit4JettyIntegrationTest() {
+    }
+
     /**
      * Returns the location of jetty server configuration file. Defaults to {@code jetty.xml}.
      *
