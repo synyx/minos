@@ -4,41 +4,24 @@
 package org.synyx.minos.i18n.service;
 
 import com.google.common.base.Predicate;
-import static com.google.common.collect.Collections2.filter;
 import com.google.common.collect.ImmutableList;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.util.StringUtils;
-
 import org.synyx.messagesource.util.LocaleUtils;
-
 import org.synyx.minos.i18n.dao.AvailableLanguageDao;
 import org.synyx.minos.i18n.dao.AvailableMessageDao;
 import org.synyx.minos.i18n.dao.MessageDao;
 import org.synyx.minos.i18n.dao.MessageTranslationDao;
-import org.synyx.minos.i18n.domain.AvailableLanguage;
-import org.synyx.minos.i18n.domain.AvailableMessage;
-import org.synyx.minos.i18n.domain.LocaleWrapper;
-import org.synyx.minos.i18n.domain.Message;
-import org.synyx.minos.i18n.domain.MessageStatus;
-import org.synyx.minos.i18n.domain.MessageTranslation;
+import org.synyx.minos.i18n.domain.*;
 import org.synyx.minos.i18n.util.CollationUtils;
 import org.synyx.minos.i18n.web.LocaleInformation;
 import org.synyx.minos.i18n.web.MessageView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
+
+import static com.google.common.collect.Collections2.filter;
 
 
 /**
@@ -198,16 +181,16 @@ public class MessageServiceImpl implements MessageService {
             }
         }
 
-        Collections.sort(result, new Comparator<MessageView>() {
-
-                @Override
-                public int compare(MessageView o1, MessageView o2) {
-
-                    return o1.getMessage().getKey().compareTo(o2.getMessage().getKey());
-                }
-            });
+        Collections.sort(result, new MessageViewComparator());
 
         return result;
+    }
+
+    private static class MessageViewComparator implements Comparator<MessageView> {
+        @Override
+        public int compare(MessageView o1, MessageView o2) {
+            return o1.getMessage().getKey().compareTo(o2.getMessage().getKey());
+        }
     }
 
 
