@@ -15,6 +15,8 @@ import java.util.Comparator;
  */
 public class ModuleAwareComparator implements Comparator<ModuleAware>, Serializable {
 
+    private static final long serialVersionUID = 6644747725130777645L;
+
     @Override
     public int compare(ModuleAware first, ModuleAware second) {
 
