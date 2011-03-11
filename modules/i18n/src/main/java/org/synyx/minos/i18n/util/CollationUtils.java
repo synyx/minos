@@ -11,7 +11,7 @@ import java.util.Collection;
  *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
-public class CollationUtils {
+public final class CollationUtils {
 
     private CollationUtils() {
     }

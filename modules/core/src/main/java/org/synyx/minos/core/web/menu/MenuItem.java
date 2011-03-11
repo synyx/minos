@@ -17,7 +17,7 @@ import java.util.List;
  * @author Oliver Gierke - gierke@synyx.de
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
-public class MenuItem implements Comparable<MenuItem> {
+public final class MenuItem implements Comparable<MenuItem> {
 
     public static final String PATH_SEPARATOR = "/";
 
@@ -147,13 +147,11 @@ public class MenuItem implements Comparable<MenuItem> {
             return true;
         }
 
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
 
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
             return false;
-        }
 
         MenuItem other = (MenuItem) obj;
 
@@ -222,7 +220,7 @@ public class MenuItem implements Comparable<MenuItem> {
      * @author Marc Kannegiesser - kannegiesser@synyx.de
      * @author Oliver Gierke
      */
-    public static class MenuItemBuilder {
+    public static final class MenuItemBuilder {
 
         private final MenuItem menuItem;
 

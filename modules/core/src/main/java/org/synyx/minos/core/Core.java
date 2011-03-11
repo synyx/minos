@@ -5,7 +5,7 @@ package org.synyx.minos.core;
  *
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class Core {
+public final class Core {
 
     public static final String IDENTIFIER = "core";
 

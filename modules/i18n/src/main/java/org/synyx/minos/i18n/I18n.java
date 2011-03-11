@@ -5,7 +5,7 @@ package org.synyx.minos.i18n;
  *
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
-public class I18n {
+public final class I18n {
 
     public static final String IDENTIFIER = "i18n";
 

@@ -16,7 +16,7 @@ import org.w3c.dom.Element;
  *
  * @author  Oliver Gierke - gierke@synyx.de
  */
-public class BeanDefinitionParserUtils {
+public final class BeanDefinitionParserUtils {
 
     private BeanDefinitionParserUtils() {
     }

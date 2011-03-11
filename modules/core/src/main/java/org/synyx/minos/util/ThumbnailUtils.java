@@ -17,7 +17,7 @@ import java.io.InputStream;
  *
  * @author Markus Knittig - knittig@synyx.de
  */
-public class ThumbnailUtils {
+public final class ThumbnailUtils {
 
     private ThumbnailUtils() {
     }

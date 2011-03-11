@@ -20,7 +20,7 @@ import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
  *
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class AspectTestWrapper<Aspect, Target> {
+public final class AspectTestWrapper<Aspect, Target> {
 
     private final Aspect aspect;
     private final Target target;

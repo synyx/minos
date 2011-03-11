@@ -10,7 +10,7 @@ import org.mortbay.xml.XmlConfiguration;
 import java.net.URL;
 
 
-public class AbstractJUnit4JettyIntegrationTest {
+public final class AbstractJUnit4JettyIntegrationTest {
 
     private static final String DEFAULT_JETTY_CONFIG = "jetty.xml";
 

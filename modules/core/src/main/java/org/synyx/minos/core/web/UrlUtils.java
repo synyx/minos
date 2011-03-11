@@ -19,7 +19,7 @@ import java.util.Map.Entry;
  *
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class UrlUtils {
+public final class UrlUtils {
 
     private static final String URL_POSTFIX = "";
     private static final String REDIRECT_PREFIX = "redirect:";

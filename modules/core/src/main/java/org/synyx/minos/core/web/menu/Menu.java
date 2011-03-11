@@ -16,7 +16,7 @@ import java.util.List;
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  * @author Oliver Gierke
  */
-public class Menu implements Comparable<Menu> {
+public final class Menu implements Comparable<Menu> {
 
     private final String id;
     private String path;
@@ -49,7 +49,6 @@ public class Menu implements Comparable<Menu> {
     /**
      * Returns the URL the {@link MenuTreeItem} shall link to.
      *
-     * @param user the user to create the menu for. Can be {@literal null} if no user is authenticated
      * @return the url
      */
     public String getUrl() {
@@ -148,7 +147,7 @@ public class Menu implements Comparable<Menu> {
      * Returns a deep copy of this. This means that a copy of this with copies of all subMenueitems (and so on) is
      * returned.
      *
-     * @return a deep copy of this {@link MenuTreeItem}
+     * @return a deep copy of this {@link Menu}
      */
     public Menu deepCopy(Predicate<Menu> subMenuItemFilters) {
 

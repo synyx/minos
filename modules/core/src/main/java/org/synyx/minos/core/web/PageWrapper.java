@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author  Oliver Gierke - gierke@synyx.de
  */
-public class PageWrapper<T> implements PaginatedList {
+public final class PageWrapper<T> implements PaginatedList {
 
     /** By default page content is sorted in ascending order. */
     public static final SortOrderEnum DEFAULT_ORDER = SortOrderEnum.ASCENDING;

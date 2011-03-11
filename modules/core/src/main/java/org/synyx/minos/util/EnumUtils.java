@@ -8,7 +8,7 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class EnumUtils {
+public final class EnumUtils {
 
     private EnumUtils() {
     }

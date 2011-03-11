@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class Message implements Serializable, MessageSourceResolvable {
+public final class Message implements Serializable, MessageSourceResolvable {
 
     private static final long serialVersionUID = -8019010828845066017L;
 

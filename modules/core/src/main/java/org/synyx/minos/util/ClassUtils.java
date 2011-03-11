@@ -6,7 +6,7 @@ import org.springframework.util.StringUtils;
 /**
  * @author Oliver Gierke - gierke@synyx.de
  */
-public class ClassUtils {
+public final class ClassUtils {
 
     private ClassUtils() {
     }
