@@ -62,7 +62,7 @@ public interface MenuRenderer {
 
 
     /**
-     * Called before each rendering submenues of a menuitem
+     * Called before each rendering submenus of a menu item
      *
      * @param info MenuMetaInfo instance
      * @return String containing the rendering result
@@ -71,7 +71,7 @@ public interface MenuRenderer {
 
 
     /**
-     * Called before after rendering submenues of a menuitem
+     * Called before after rendering submenus of a menu item
      *
      * @param info MenuMetaInfo instance
      * @return String containing the rendering result

@@ -26,7 +26,7 @@ public class SimpleMenuAssemblerUnitTest {
 
         SimpleMenuAssembler assembler = new SimpleMenuAssembler();
 
-        Map<String, MenuItems> result = assembler.assembleMenues(new MenuItems(m1, m2));
+        Map<String, MenuItems> result = assembler.assembleMenus(new MenuItems(m1, m2));
         assertThat(result.size(), is(1));
         assertThat(result.containsKey("MAIN"), is(true));
         assertThat(result.get("MAIN").size(), is(2));

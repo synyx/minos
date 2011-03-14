@@ -103,7 +103,7 @@ public final class Menu implements Comparable<Menu> {
 
 
     /**
-     * Returns whether the {@link MenuTreeItem} has submenues.
+     * Returns whether the {@link MenuTreeItem} has submenus.
      *
      * @return
      */
@@ -139,7 +139,7 @@ public final class Menu implements Comparable<Menu> {
 
 
     /**
-     * Returns a deep copy of this. This means that a copy of this with copies of all subMenueitems (and so on) is
+     * Returns a deep copy of this. This means that a copy of this with copies of all submenu items (and so on) is
      * returned.
      *
      * @return a deep copy of this {@link Menu}

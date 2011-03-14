@@ -56,20 +56,15 @@ public class MenuManager implements MenuProvider, InitializingBean {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.web.menu.MenuProvider#getMenu(java.lang.String)
-     */
     @Override
     public MenuItems getMenu(String id) {
 
         MenuItems items = buildMenu(menuItems);
         MenuItems menuTree = items.filter(menuItemFilters);
 
-        Map<String, MenuItems> menues = buildMenues(menuTree);
+        Map<String, MenuItems> menus = buildMenus(menuTree);
 
-        MenuItems menu = menues.get(id);
+        MenuItems menu = menus.get(id);
 
         if (menu == null) {
             menu = MenuItems.EMPTY;
@@ -124,18 +119,18 @@ public class MenuManager implements MenuProvider, InitializingBean {
 
 
     /**
-     * Build the actual {@link MenuItems}es from the given {@link MenuItems}. Default implmentation will delegate this
+     * Build the actual {@link MenuItems}es from the given {@link MenuItems}. Default implementation will delegate this
      * to configured {@link MenuAssembler}.
      * <p>
-     * TODO: should we wrap the Map into a Menues class to avoid null checks for non existent id lookups?
+     * TODO: should we wrap the Map into a Menus class to avoid null checks for non existent id lookups?
      * </p>
      *
      * @param items
      * @return
      */
-    protected Map<String, MenuItems> buildMenues(MenuItems items) {
+    protected Map<String, MenuItems> buildMenus(MenuItems items) {
 
-        return menuAssembler.assembleMenues(items);
+        return menuAssembler.assembleMenus(items);
     }
 
 

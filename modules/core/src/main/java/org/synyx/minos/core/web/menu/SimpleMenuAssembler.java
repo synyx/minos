@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.synyx.minos.core.web.menu;
 
 import java.util.HashMap;
@@ -15,11 +12,11 @@ import java.util.Map;
 public class SimpleMenuAssembler implements MenuAssembler {
 
     @Override
-    public Map<String, MenuItems> assembleMenues(MenuItems items) {
+    public Map<String, MenuItems> assembleMenus(MenuItems items) {
 
-        Map<String, MenuItems> menues = new HashMap<String, MenuItems>();
-        menues.put("MAIN", items);
+        Map<String, MenuItems> menus = new HashMap<String, MenuItems>();
+        menus.put("MAIN", items);
 
-        return menues;
+        return menus;
     }
 }
