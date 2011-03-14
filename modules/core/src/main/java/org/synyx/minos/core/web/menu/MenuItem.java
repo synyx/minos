@@ -29,7 +29,7 @@ public final class MenuItem implements Comparable<MenuItem> {
 
     private UrlResolver urlStrategy;
     private String title;
-    private String desciption;
+    private String description;
     private Integer position = 0;
 
     private List<String> permissions = new ArrayList<String>();
@@ -70,11 +70,11 @@ public final class MenuItem implements Comparable<MenuItem> {
     /**
      * Returns the description of the {@link MenuItem}.
      *
-     * @return the desciption
+     * @return the description
      */
     public String getDescription() {
 
-        return desciption;
+        return description;
     }
 
 
@@ -192,7 +192,7 @@ public final class MenuItem implements Comparable<MenuItem> {
         clone.menuItem.path = item.getPath();
         clone.menuItem.urlStrategy = item.urlStrategy;
         clone.menuItem.title = item.title;
-        clone.menuItem.desciption = item.desciption;
+        clone.menuItem.description = item.description;
         clone.menuItem.position = item.position;
 
         clone.menuItem.permissions = new ArrayList<String>();
@@ -260,7 +260,7 @@ public final class MenuItem implements Comparable<MenuItem> {
 
         public MenuItemBuilder withDescription(String description) {
 
-            menuItem.desciption = description;
+            menuItem.description = description;
 
             return this;
         }
@@ -296,7 +296,7 @@ public final class MenuItem implements Comparable<MenuItem> {
 
             Assert.notNull(keyBase);
             menuItem.title = keyBase + TITLE_POSTFIX;
-            menuItem.desciption = keyBase + DESCRIPTION_POSTFIX;
+            menuItem.description = keyBase + DESCRIPTION_POSTFIX;
 
             return this;
         }
