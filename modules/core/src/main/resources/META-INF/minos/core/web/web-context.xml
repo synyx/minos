@@ -15,6 +15,8 @@
     
     <sec:global-method-security jsr250-annotations="enabled" access-decision-manager-ref="accessDecisionManager" />
 
+    <bean class="org.synyx.minos.core.web.ViewWebRequestEnricher"/>
+
 	<bean class="org.synyx.minos.core.web.MinosAnnotationHandlerMapping">
         <property name="useDefaultSuffixPattern" value="false" />
 		<property name="interceptors">

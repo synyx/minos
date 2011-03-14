@@ -2,7 +2,7 @@
 <sitemesh>
     <property name="decorators-file" value="/WEB-INF/decorators.xml" />
     <excludes file="${decorators-file}" />
- 
+
     <page-parsers>
         <parser content-type="text/html"
             class="com.opensymphony.module.sitemesh.parser.HTMLPageParser" />
@@ -11,6 +11,9 @@
     </page-parsers>
 
     <decorator-mappers>
+        <mapper class="org.synyx.minos.core.web.SitemeshDecoratorMapper">
+            <param name="config" value="${decorators-file}" />
+        </mapper>
         <mapper class="com.opensymphony.module.sitemesh.mapper.ConfigDecoratorMapper">
             <param name="config" value="${decorators-file}" />
         </mapper>
