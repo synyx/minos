@@ -1,19 +1,12 @@
 package org.synyx.minos.core.domain;
 
-import org.joda.time.DateMidnight;
-import org.joda.time.DateTime;
-import org.joda.time.Hours;
-import org.joda.time.Interval;
-import org.joda.time.Minutes;
-import org.joda.time.ReadablePeriod;
+import org.joda.time.*;
 import org.joda.time.base.BaseDateTime;
-
 import org.synyx.minos.util.Assert;
-
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.util.Date;
 
 
 /**
@@ -121,17 +114,17 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
      */
     public static TimePeriod allDay(DateTime day) {
 
-        day = defaultForNull(day, new DateTime());
+        DateTime validDay = defaultForNull(day, new DateTime());
 
-        return allDay(day, day);
+        return allDay(validDay, validDay);
     }
 
 
     public static TimePeriod allDay(DateMidnight day) {
 
-        day = defaultForNull(day, new DateMidnight());
+        DateMidnight validDay = defaultForNull(day, new DateMidnight());
 
-        return new TimePeriod(day, day.plusDays(1));
+        return new TimePeriod(validDay, validDay.plusDays(1));
     }
 
 
@@ -182,9 +175,9 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
      */
     public static TimePeriod allWeek(DateMidnight date) {
 
-        date = defaultForNull(date, new DateMidnight());
+        DateMidnight validDate = defaultForNull(date, new DateMidnight());
 
-        DateMidnight start = date.withDayOfWeek(1);
+        DateMidnight start = validDate.withDayOfWeek(1);
         DateMidnight end = start.plusWeeks(1);
 
         return new TimePeriod(start, end);
@@ -205,7 +198,7 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
     /**
      * Returns the period of the entire month of the given date.
      *
-     * @param dateTime
+     * @param date
      * @return
      */
     public static TimePeriod allMonth(DateTime date) {
@@ -216,9 +209,9 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
 
     public static TimePeriod allMonth(DateMidnight date) {
 
-        date = defaultForNull(date, new DateMidnight());
+        DateMidnight validDate = defaultForNull(date, new DateMidnight());
 
-        DateMidnight start = date.withDayOfMonth(1);
+        DateMidnight start = validDate.withDayOfMonth(1);
         DateMidnight end = start.plusMonths(1);
 
         return new TimePeriod(start, end);
@@ -334,14 +327,8 @@ public class TimePeriod implements Overlapable<DateTime>, Comparable<TimePeriod>
     }
 
 
-    /**
-     * Returns the current date if the given {@code date} is {@code null} or the date itself otherwise.
-     *
-     * @param date
-     * @return
-     */
-    private static <T extends BaseDateTime> T defaultForNull(T subject, T devault) {
+    private static <T extends BaseDateTime> T defaultForNull(T subject, T defaultValue) {
 
-        return null == subject ? devault : subject;
+        return null == subject ? defaultValue : subject;
     }
 }
