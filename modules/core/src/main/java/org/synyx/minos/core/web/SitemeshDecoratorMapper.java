@@ -6,6 +6,8 @@ import com.opensymphony.module.sitemesh.DecoratorMapper;
 import com.opensymphony.module.sitemesh.Page;
 import com.opensymphony.module.sitemesh.mapper.ConfigDecoratorMapper;
 import com.opensymphony.module.sitemesh.mapper.ConfigLoader;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,8 @@ public class SitemeshDecoratorMapper extends ConfigDecoratorMapper {
 
     private static final String DEFAULT_CONFIGURATION = "/WEB-INF/decorators.xml";
 
+    private static final Log LOG = LogFactory.getLog(SitemeshDecoratorMapper.class);
+
     private ConfigLoader configLoader = null;
 
 
@@ -33,7 +37,8 @@ public class SitemeshDecoratorMapper extends ConfigDecoratorMapper {
             String fileName = properties.getProperty("config", DEFAULT_CONFIGURATION);
             configLoader = new ConfigLoader(fileName, config);
         } catch (Exception e) {
-            throw new InstantiationException(e.toString());
+            LOG.error("Couldn't initialize SitemeshDecoratorMapper", e);
+            throw new InstantiationException();
         }
     }
 
@@ -60,7 +65,7 @@ public class SitemeshDecoratorMapper extends ConfigDecoratorMapper {
         try {
             name = configLoader.getMappedName(thisPath);
         } catch (ServletException e) {
-            e.printStackTrace();
+            LOG.error("Failed to load mapped name", e);
         }
 
         Decorator result = getNamedDecorator(request, name);
@@ -88,7 +93,7 @@ public class SitemeshDecoratorMapper extends ConfigDecoratorMapper {
         try {
             result = configLoader.getDecoratorByName(name);
         } catch (ServletException e) {
-            e.printStackTrace();
+            LOG.error("Failed to load decorator", e);
         }
 
         if (result == null || (result.getRole() != null && !request.isUserInRole(result.getRole()))) {
