@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.synyx.minos.i18n.service;
 
 import org.apache.commons.logging.Log;
