@@ -20,7 +20,7 @@ import java.util.Properties;
  */
 public class SitemeshDecoratorMapper extends ConfigDecoratorMapper {
 
-    private final String DEFAULT_CONFIGURATION = "/WEB-INF/decorators.xml";
+    private static final String DEFAULT_CONFIGURATION = "/WEB-INF/decorators.xml";
 
     private ConfigLoader configLoader = null;
 
