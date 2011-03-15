@@ -23,11 +23,13 @@ public abstract class MockUtils {
     @SuppressWarnings("unchecked")
     public static <T> T unwrap(T advisedMock) throws Exception {
 
-        while (advisedMock instanceof Advised) {
-            Advised advised = (Advised) advisedMock;
-            advisedMock = (T) advised.getTargetSource().getTarget();
+        T mock = advisedMock;
+
+        while (mock instanceof Advised) {
+            Advised advised = (Advised) mock;
+            mock = (T) advised.getTargetSource().getTarget();
         }
 
-        return advisedMock;
+        return mock;
     }
 }

@@ -66,7 +66,7 @@ public class MessageServiceImpl implements MessageService {
             Message parentMessage = getMessageEntity(message.getBasename(), message.getKey(), parent);
 
             if (parentMessage.getMessage().equals(message.getMessage())) {
-                // skip messages that dont have differences to their parent
+                // skip messages that don't have differences to their parent
                 if (!message.isNew()) {
                     LOG.info("Removing message since it equals its parent: " + message.toString());
                     messageDao.delete(messageDao.readByPrimaryKey(message.getId()));
@@ -295,18 +295,18 @@ public class MessageServiceImpl implements MessageService {
 
         if (availableLanguageDao.findByBasenameAndLocale(language.getBasename(), language.getLocale()) == null) {
             LOG.info("Creating new language: " + language.toString());
-            language = availableLanguageDao.save(language);
+            AvailableLanguage newLanguage = availableLanguageDao.save(language);
 
-            if (language.isRequired()) {
-                List<AvailableMessage> messages = availableMessageDao.findByBasename(language.getBasename());
+            if (newLanguage.isRequired()) {
+                List<AvailableMessage> messages = availableMessageDao.findByBasename(newLanguage.getBasename());
 
                 for (AvailableMessage message : messages) {
-                    MessageTranslation t = new MessageTranslation(message, language, MessageStatus.NEW);
+                    MessageTranslation t = new MessageTranslation(message, newLanguage, MessageStatus.NEW);
                     messageTranslationDao.save(t);
                 }
 
                 LOG.info("Language is required. Added " + messages.size() + " translation-informations: "
-                    + language.toString());
+                    + newLanguage.toString());
             }
         }
     }

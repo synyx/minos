@@ -1,29 +1,21 @@
 package org.synyx.minos.core.web;
 
 import org.springframework.beans.BeanUtils;
-
 import org.springframework.core.annotation.AnnotationUtils;
-
 import org.springframework.ui.Model;
-
 import org.springframework.validation.Errors;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.WebRequest;
-
 import org.synyx.hades.domain.Persistable;
-
 import org.synyx.minos.core.Core;
 
-import java.io.Serializable;
-
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
+import java.io.Serializable;
+import java.util.List;
 
 
 /**
@@ -46,9 +38,6 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
     }
 
 
-    /**
-     *
-     */
     public GenericCrudControllerSupport(Class<BeanType> beanClass) {
 
         readAnnotations();
@@ -112,7 +101,7 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
 
 
     /**
-     * Create a new instance of Beantype. This method is used when preparing the {@link Model} for the create-form.
+     * Create a new instance of {@link BeanType}. This method is used when preparing the {@link Model} for the create-form.
      *
      * @param beanClass class of the Bean to be created
      * @return a new Instance of BeanType
@@ -136,11 +125,11 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
             return showForm(bean, model, request);
         }
 
-        bean = save(bean);
+        BeanType newBean = save(bean);
 
         conversation.setComplete();
-        model.addAttribute(modelAttribute, bean);
-        model.addAttribute(Core.MESSAGE, Message.success(getMessageKey(SAVE_SUCCESS_MESSAGE_TEMPLATE), bean.getId()));
+        model.addAttribute(modelAttribute, newBean);
+        model.addAttribute(Core.MESSAGE, Message.success(getMessageKey(SAVE_SUCCESS_MESSAGE_TEMPLATE), newBean.getId()));
 
         return "redirect:";
     }

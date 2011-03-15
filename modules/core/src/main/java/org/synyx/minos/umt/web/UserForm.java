@@ -40,7 +40,7 @@ public class UserForm {
 
 
     /**
-     * Creates a new form and prepopulates it with the data from the given user.
+     * Creates a new form and populates it with the data from the given user.
      */
     public UserForm(User user) {
 
@@ -56,7 +56,7 @@ public class UserForm {
     }
 
     /**
-     * Returns, if it represents a new user or an already existing one.
+     * Returns true, if it represents a new user or an already existing one.
      *
      * @return
      */
@@ -66,51 +66,43 @@ public class UserForm {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.core.web.support.DomainObjectForm#getDomainObject()
-     */
     public User getDomainObject() {
 
         return mapProperties(null);
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.core.web.DomainObjectForm#getDomainObject(java.lang.Object )
-     */
     public User mapProperties(User user) {
 
-        if (null == user) {
-            user = new User(username, emailAddress);
+        User validUser = user;
+
+        if (null == validUser) {
+            validUser = new User(username, emailAddress);
         }
 
-        user.setId(id);
-        user.setFirstname(firstname);
-        user.setLastname(lastname);
+        validUser.setId(id);
+        validUser.setFirstname(firstname);
+        validUser.setLastname(lastname);
 
-        // only set the newPasswort if its not null or empty string
-        // this is because the ui does cannot resend the password
-        // and it should only be changed it the user gives a new password
+        // Only set the newPassword if it's not null empty.
+        // This is because the UI cannot resend the password and
+        // it should only be changed if the user provided a new password
         if (!StringUtils.isBlank(newPassword)) {
-            user.setPassword(new Password(newPassword));
+            validUser.setPassword(new Password(newPassword));
         }
 
-        user.setEmailAddress(emailAddress);
-        user.setUsername(username);
+        validUser.setEmailAddress(emailAddress);
+        validUser.setUsername(username);
 
-        user.getRoles().clear();
+        validUser.getRoles().clear();
 
         for (Role role : roles) {
-            user.addRole(role);
+            validUser.addRole(role);
         }
 
-        user.setActive(active);
+        validUser.setActive(active);
 
-        return user;
+        return validUser;
     }
 
 
