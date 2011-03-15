@@ -16,7 +16,7 @@ import org.springframework.validation.Validator;
  */
 public abstract class ValidationSupport<T> {
 
-    private static final Log log = LogFactory.getLog(ValidationSupport.class);
+    private static final Log LOG = LogFactory.getLog(ValidationSupport.class);
 
     private Validator validator;
 
@@ -43,7 +43,7 @@ public abstract class ValidationSupport<T> {
     protected boolean isValid(T target, Errors errors) {
 
         if (null == validator) {
-            log.info("No validator set! Skipping validation...");
+            LOG.info("No validator set! Skipping validation...");
 
             return true;
         }

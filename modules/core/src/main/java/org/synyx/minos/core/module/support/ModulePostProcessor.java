@@ -23,7 +23,7 @@ import java.util.*;
  */
 public class ModulePostProcessor implements BeanFactoryPostProcessor {
 
-    private static final Log log = LogFactory.getLog(ModulePostProcessor.class);
+    private static final Log LOG = LogFactory.getLog(ModulePostProcessor.class);
 
     private Set<String> modules;
     private Map<String, List<String>> decorators;
@@ -58,8 +58,8 @@ public class ModulePostProcessor implements BeanFactoryPostProcessor {
             }
 
             if (!modules.containsAll(requiredModules)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Removing module decorator " + decoratorName + " because it requires module "
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Removing module decorator " + decoratorName + " because it requires module "
                         + requiredModules + " and only " + modules + " were found!");
                 }
 

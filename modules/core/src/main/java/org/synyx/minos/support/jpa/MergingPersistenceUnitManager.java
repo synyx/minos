@@ -21,7 +21,7 @@ import javax.persistence.spi.PersistenceUnitInfo;
  */
 public class MergingPersistenceUnitManager extends DefaultPersistenceUnitManager {
 
-    private static final Log log = LogFactory.getLog(MergingPersistenceUnitManager.class);
+    private static final Log LOG = LogFactory.getLog(MergingPersistenceUnitManager.class);
 
     @Override
     protected void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo pui) {
@@ -35,7 +35,7 @@ public class MergingPersistenceUnitManager extends DefaultPersistenceUnitManager
             for (URL url : oldPui.getJarFileUrls()) {
                 // Add jar file url to PUI
                 if (!pui.getJarFileUrls().contains(url)) {
-                    log.debug(String.format("Adding %s to persistence units", url));
+                    LOG.debug(String.format("Adding %s to persistence units", url));
 
                     pui.addJarFileUrl(url);
                 }

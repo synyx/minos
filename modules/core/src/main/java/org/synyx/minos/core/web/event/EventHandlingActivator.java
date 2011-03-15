@@ -21,7 +21,7 @@ import org.synyx.minos.core.module.support.ModulePostProcessor;
  */
 public class EventHandlingActivator extends ModulePostProcessor {
 
-    private static final Log log = LogFactory.getLog(EventHandlingActivator.class);
+    private static final Log LOG = LogFactory.getLog(EventHandlingActivator.class);
 
     private static final String DEFAULT_ORCHESTRATOR_NAME = "orchestrator";
 
@@ -71,8 +71,8 @@ public class EventHandlingActivator extends ModulePostProcessor {
 
         // Skip if we can not add further beans
         if (!(beanFactory instanceof DefaultListableBeanFactory)) {
-            if (log.isWarnEnabled()) {
-                log.warn("Could not add orchestrator as" + " the given bean "
+            if (LOG.isWarnEnabled()) {
+                LOG.warn("Could not add orchestrator as" + " the given bean "
                     + "factory does not allow registration of additional beans!");
             }
 
@@ -141,8 +141,8 @@ public class EventHandlingActivator extends ModulePostProcessor {
         String[] aopAutoProxyNames = factory.getBeanNamesForType(AnnotationAwareAspectJAutoProxyCreator.class);
 
         if (0 == aopAutoProxyNames.length) {
-            if (log.isDebugEnabled()) {
-                log.debug("No AnnotationAwareAspectJAutoProxyCreator " + "found! Creating one.");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("No AnnotationAwareAspectJAutoProxyCreator " + "found! Creating one.");
             }
 
             BeanDefinitionBuilder builder = BeanDefinitionBuilder.rootBeanDefinition(

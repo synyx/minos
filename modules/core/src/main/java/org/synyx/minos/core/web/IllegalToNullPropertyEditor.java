@@ -16,7 +16,7 @@ import java.text.NumberFormat;
  */
 public class IllegalToNullPropertyEditor extends CustomNumberEditor {
 
-    private static final Log log = LogFactory.getLog(IllegalToNullPropertyEditor.class);
+    private static final Log LOG = LogFactory.getLog(IllegalToNullPropertyEditor.class);
 
     /**
      * Creates a new {@link IllegalToNullPropertyEditor}.
@@ -48,7 +48,7 @@ public class IllegalToNullPropertyEditor extends CustomNumberEditor {
         try {
             super.setAsText(text);
         } catch (NumberFormatException e) {
-            log.debug(String.format("Invalid parameter! Using null! %s", e.getMessage()));
+            LOG.debug(String.format("Invalid parameter! Using null! %s", e.getMessage()));
 
             setValue(null);
         }
