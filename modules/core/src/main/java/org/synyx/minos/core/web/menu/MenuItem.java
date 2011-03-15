@@ -147,11 +147,13 @@ public final class MenuItem implements Comparable<MenuItem> {
             return true;
         }
 
-        if (obj == null)
+        if (obj == null) {
             return false;
+        }
 
-        if (getClass() != obj.getClass())
+        if (getClass() != obj.getClass()) {
             return false;
+        }
 
         MenuItem other = (MenuItem) obj;
 
