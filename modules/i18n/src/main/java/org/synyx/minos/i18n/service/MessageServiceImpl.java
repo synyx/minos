@@ -16,6 +16,7 @@ import org.synyx.minos.i18n.util.CollationUtils;
 import org.synyx.minos.i18n.web.LocaleInformation;
 import org.synyx.minos.i18n.web.MessageView;
 
+import java.io.Serializable;
 import java.util.*;
 
 import static com.google.common.collect.Collections2.filter;
@@ -165,7 +166,10 @@ public class MessageServiceImpl implements MessageService {
     }
 
 
-    private static class MessageViewComparator implements Comparator<MessageView> {
+    private static class MessageViewComparator implements Comparator<MessageView>, Serializable {
+
+        private static final long serialVersionUID = 3514101505215036763L;
+
         @Override
         public int compare(MessageView o1, MessageView o2) {
             return o1.getMessage().getKey().compareTo(o2.getMessage().getKey());

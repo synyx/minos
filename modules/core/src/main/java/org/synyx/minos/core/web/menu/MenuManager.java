@@ -4,6 +4,7 @@ import org.springframework.beans.factory.InitializingBean;
 
 import org.synyx.minos.util.Assert;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -46,7 +47,7 @@ public class MenuManager implements MenuProvider, InitializingBean {
     }
 
     /**
-     * Configures a {@link MenuAssembler}. Defaults to {@value #DEFAULT_MENUASSEMBLER}.
+     * Configures a {@link MenuAssembler}. Defaults to {@link #DEFAULT_MENUASSEMBLER}.
      *
      * @param menuAssembler the menuAssembler to set
      */
@@ -144,7 +145,11 @@ public class MenuManager implements MenuProvider, InitializingBean {
         Collections.sort(menuItems, new MenuItemComparator());
     }
 
-    private static class MenuItemComparator implements Comparator<MenuItem> {
+
+    private static class MenuItemComparator implements Comparator<MenuItem>, Serializable {
+
+        private static final long serialVersionUID = -1034641285923829020L;
+
         @Override
         public int compare(MenuItem o1, MenuItem o2) {
             int value = o2.getPath().length() - o1.getPath().length();
