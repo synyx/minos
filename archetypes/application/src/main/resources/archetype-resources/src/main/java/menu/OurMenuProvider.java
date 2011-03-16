@@ -47,7 +47,7 @@ public class OurMenuProvider extends AbstractMenuItemProvider {
 
     private MenuItem buildMenuRootForItems() {
 
-        MenuItemBuilder menuItemBuilder = MenuItem.create("items");
+        MenuItemBuilder menuItemBuilder = MenuItem.create("menu.items");
         menuItemBuilder.withKeyBase(MENU_ITEMS_KEYBASE);
         menuItemBuilder.withPosition(200);
         menuItemBuilder.withUrlResolver(new FirstSubMenuUrlResolver());

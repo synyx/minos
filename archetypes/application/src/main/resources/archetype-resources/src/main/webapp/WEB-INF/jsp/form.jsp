@@ -21,7 +21,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title><spring:message code="menu.items.create.title" /></title>
-    <link type="text/css" href="${symbol_dollar}{stylesheets}/style.css" rel="stylesheet" title="default" />
 </head>
 <body>
 <form:form action="${symbol_dollar}{formURL}" method="${symbol_dollar}{formMethod}" modelAttribute="item">
