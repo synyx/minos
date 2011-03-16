@@ -79,7 +79,11 @@ public class DefaultMenuRenderer implements MenuRenderer {
             return true;
         }
 
-        return isLevelRestrictionDisabled() || levels <= info.getDepth();
+        if (info.isActive()) {
+            return isLevelRestrictionDisabled() || levels <= info.getDepth();
+        } else {
+            return false;
+        }
     }
 
 
