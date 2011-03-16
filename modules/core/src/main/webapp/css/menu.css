@@ -1,111 +1,68 @@
-/***********************************************************************
-* Channelnavigation
-***********************************************************************/
+
+/********************************
+ * Navigation (menus & submenus)
+ ********************************/
+ul.menu, ul.submenu { margin: 0; list-style: none; }
 
 ul.menu {
 	position: relative;
-	background-image: url(../images/menu/bg_navChannel0.gif);
-	background-repeat: repeat-x;
-	height: 3.6em;
-	margin: 0;
+	background: url(../images/menu/bg_navChannel0.gif) 0 0 repeat-x;
 	padding: 0 0 0 1em;
-	list-style: none;
-}
-ul.menu li {
-	display: block;
-	margin: 0;
-	padding: 0.4em 0 0 0;
-	float:left;
-}
-ul.menu li.active {
-	background: url(../images/menu/bg_navChannel1.gif);
-	background-repeat: repeat-x;
-	border: 0.08em solid #A5ACB2;
-	border-bottom: 0.08em solid #D3DADC;
+	height: 3.6em;
 }
 
-
-
-ul.menu a.active {
-	color: #000;
-}
-ul.menu a {
-	display:block;
-	color: #E0E0E0;
-	text-decoration:none;
-	margin: 0.15em 0 0 0.7em;
-	padding: 0.4em 1em 0.5em 2em;
-	border-right: 0.1em solid #A5ACB2;
-	position: relative;
-	font: bold 0.7em tahoma, geneva, helvetica, arial, sans-serif;
-	background-repeat: no-repeat;
-	background-position: 0 0.4em;
-}
-
-/***********************************************************************
-* Channel-Subnavigation
-***********************************************************************/
 ul.submenu {
 	position: absolute;
-	z-index:101;
 	left: 0;
 	top: 2.1em;
-	margin:0;
 	padding: 0.1em 0em;
 	background: #D3DADC;
-	list-style: none;
 	height: 1.5em;
 	width: 100%;
 }
 
-ul.submenu li {
-	position:relative;
-	z-index:102;
+ul.menu li, ul.submenu li {	display: block; margin: 0; float:left; }
+ul.menu li { padding: 0.4em 0 0 0; }
+ul.submenu li { position: relative; padding: 0.2em 0 0 0; }
+
+ul.menu li.active {
+	background: url(../images/menu/bg_navChannel1.gif) 0 0 repeat-x;
+	border: 0.08em solid #A5ACB2;
+	border-bottom: 0.08em solid #D3DADC;
+}
+ul.submenu li.active { background: transparent none; border: none; }
+
+/**
+ * Default styling for links in menus
+ * (includes bundled core menu items)
+ */
+ul.menu a, ul.submenu a {
 	display: block;
-	margin: 0;
-	padding: 0.2em 0 0 0;
-	float:left;
+	text-decoration: none;
+	position: relative;
+	font: bold 0.7em tahoma, geneva, helvetica, arial, sans-serif;
+}
+
+ul.menu li a {
+	color: #E0E0E0;
+	margin: 0.15em 0 0 0.7em;
+	padding: 0.4em 1em 0.5em 2em;
+	border-right: 0.1em solid #A5ACB2;
+	background: no-repeat;
+	background-position: 0 0.4em;
 }
 
 ul.submenu li a {
 	color: #666;
-	text-decoration: none;
-	display: block;
-	border: 0;
 	margin: 0 0 0 0.6em;
 	padding: 0.1em 1em 0.2em 2em;
-	border-right: 0.08em solid #666;
+	border: none;
 	background: no-repeat;
 	background-position: 0 0.1em;
 }
 
-ul.submenu a.active {
-	color: #000;
-	text-decoration: none;
-	display: block;
-	border: 0;
-	margin: 0 0 0 0.6em;
-	padding: 0 1em 1em 0.2em 2em;
-	border-right:0.08em solid #666;
-	background: no-repeat;
-}
-
-
-ul.submenu li.active {
-	background: none no-repeat scroll 0 0 transparent;
-	border: none;
-}
-
-ul.menu a:hover {
-	color: #9c6;
-}
-ul.submenu a:hover {
-	color: #9c6;
-}
-ul.submenu a.active:hover
-{
-	color:#000;
-}
+ul.menu li a:hover, ul.submenu li a:hover { color: #9c6; }
+ul.menu li a.active, ul.submenu li a.active:hover { color: #000; }
 
 ul.menu a#umt_menu_title {
 	background-image: url(../images/umt/user.png);	
@@ -123,6 +80,6 @@ ul.menu a#core_menu_logout_title {
 	background-image: url(../images/core/logout.png);	
 }
 
-ul.menu a#myaccount_title {
+ul.menu a#umt_myaccount_title {
 	background-image: url(../images/umt/myaccount.png);
 }
