@@ -72,6 +72,9 @@
     <bean class="org.synyx.minos.core.message.ModuleMessageSourceImpl">
         <constructor-arg ref="core" />
     </bean>
+
+
+    <bean id="moduleBeanPostProcessor" class="org.synyx.minos.core.module.config.ModuleBeanPostProcessor"/>
     
     <!-- 
         Fileupload - needs to be in here rather than web-context.xml as it is being looked up
