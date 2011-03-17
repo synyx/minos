@@ -10,7 +10,6 @@ public class ProjectDeletedEvent implements Event {
 
     private String name;
 
-
     /**
      * @param name
      */
@@ -20,17 +19,9 @@ public class ProjectDeletedEvent implements Event {
         this.name = name;
     }
 
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
 
-        // TODO Auto-generated method stub
         return getClass().getSimpleName() + ": " + name;
     }
-
 }
