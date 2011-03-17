@@ -1,25 +1,43 @@
 package org.synyx.minos.i18n.service;
 
 import com.google.common.base.Predicate;
+import static com.google.common.collect.Collections2.filter;
 import com.google.common.collect.ImmutableList;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.util.StringUtils;
+
 import org.synyx.messagesource.util.LocaleUtils;
+
 import org.synyx.minos.i18n.dao.AvailableLanguageDao;
 import org.synyx.minos.i18n.dao.AvailableMessageDao;
 import org.synyx.minos.i18n.dao.MessageDao;
 import org.synyx.minos.i18n.dao.MessageTranslationDao;
-import org.synyx.minos.i18n.domain.*;
+import org.synyx.minos.i18n.domain.AvailableLanguage;
+import org.synyx.minos.i18n.domain.AvailableMessage;
+import org.synyx.minos.i18n.domain.LocaleWrapper;
+import org.synyx.minos.i18n.domain.Message;
+import org.synyx.minos.i18n.domain.MessageStatus;
+import org.synyx.minos.i18n.domain.MessageTranslation;
 import org.synyx.minos.i18n.util.CollationUtils;
 import org.synyx.minos.i18n.web.LocaleInformation;
 import org.synyx.minos.i18n.web.MessageView;
 
 import java.io.Serializable;
-import java.util.*;
 
-import static com.google.common.collect.Collections2.filter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
 
 
 /**
@@ -49,7 +67,6 @@ public class MessageServiceImpl implements MessageService {
         this.availableMessageDao = availableMessageDao;
         this.messageTranslationDao = messageTranslationDao;
     }
-
 
     @Override
     @Transactional
@@ -163,17 +180,6 @@ public class MessageServiceImpl implements MessageService {
         Collections.sort(result, new MessageViewComparator());
 
         return result;
-    }
-
-
-    private static class MessageViewComparator implements Comparator<MessageView>, Serializable {
-
-        private static final long serialVersionUID = 3514101505215036763L;
-
-        @Override
-        public int compare(MessageView o1, MessageView o2) {
-            return o1.getMessage().getKey().compareTo(o2.getMessage().getKey());
-        }
     }
 
 
@@ -295,6 +301,7 @@ public class MessageServiceImpl implements MessageService {
 
         if (availableLanguageDao.findByBasenameAndLocale(language.getBasename(), language.getLocale()) == null) {
             LOG.info("Creating new language: " + language.toString());
+
             AvailableLanguage newLanguage = availableLanguageDao.save(language);
 
             if (newLanguage.isRequired()) {
@@ -390,6 +397,17 @@ public class MessageServiceImpl implements MessageService {
             }
 
             save(message, true);
+        }
+    }
+
+    private static class MessageViewComparator implements Comparator<MessageView>, Serializable {
+
+        private static final long serialVersionUID = 3514101505215036763L;
+
+        @Override
+        public int compare(MessageView o1, MessageView o2) {
+
+            return o1.getMessage().getKey().compareTo(o2.getMessage().getKey());
         }
     }
 

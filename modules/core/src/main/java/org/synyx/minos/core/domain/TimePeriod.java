@@ -1,12 +1,19 @@
 package org.synyx.minos.core.domain;
 
-import org.joda.time.*;
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+import org.joda.time.Hours;
+import org.joda.time.Interval;
+import org.joda.time.Minutes;
+import org.joda.time.ReadablePeriod;
 import org.joda.time.base.BaseDateTime;
+
 import org.synyx.minos.util.Assert;
+
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import java.util.Date;
 
 
 /**

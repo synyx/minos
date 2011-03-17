@@ -2,20 +2,28 @@ package org.synyx.minos.core.module.internal;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.DisposableBean;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
+
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.util.StringUtils;
+
 import org.synyx.hera.core.SimplePluginRegistry;
+
 import org.synyx.minos.core.module.Lifecycle;
 import org.synyx.minos.core.module.Module;
 import org.synyx.minos.core.module.ModuleLifecycleException;
@@ -115,41 +123,10 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
      */
     private void installModules() {
 
-        execute(modules, new InstallModulesCallback(),
-                "Installation of module %s failed!", "Installing module %s!", "Successfully installed module %s!");
+        execute(modules, new InstallModulesCallback(), "Installation of module %s failed!", "Installing module %s!",
+            "Successfully installed module %s!");
     }
 
-    private class InstallModulesCallback extends Callback<Module> {
-        @Override
-        public boolean executionRequired(Module module) {
-
-                ModuleDescriptor descriptor = getDescriptorFor(module);
-
-                boolean alreadyInstalled = descriptor == null ? false : descriptor.isInstalled();
-
-                if (alreadyInstalled) {
-                    LOG.debug(String.format("Module %s already installed!", module));
-                }
-
-                return !alreadyInstalled;
-            }
-
-
-            @Override
-        public void doWith(Module module) {
-
-            ModuleDescriptor descriptor = getDescriptorFor(module);
-
-            if (null == descriptor) {
-                descriptor = new ModuleDescriptor(module);
-            }
-
-            module.getLifecycle().install();
-
-            descriptor.setInstalled();
-            moduleDescriptorDao.save(descriptor);
-        }
-    }
 
     /**
      * Returns the {@link ModuleDescriptor} for the given {@link Module} or {@literal null} if none found.
@@ -178,34 +155,8 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
      */
     private synchronized void startModules() {
 
-        execute(modules, new StartModulesCallback(),
-                "Starting module %s failed!", "Starting module %s", "Successfully started module %s");
-    }
-
-    private class StartModulesCallback extends Callback<Module> {
-        @Override
-        public boolean executionRequired(Module module) {
-
-            if (!isInstalled(module)) {
-                return false;
-            }
-
-            boolean alreadyStarted = startedModules.contains(module);
-
-            if (alreadyStarted) {
-                LOG.debug(String.format("Module %s already started!", module));
-            }
-
-            return !alreadyStarted;
-        }
-
-        @Override
-        public void doWith(Module module) {
-
-            module.getLifecycle().onStart();
-
-            startedModules.add(module);
-        }
+        execute(modules, new StartModulesCallback(), "Starting module %s failed!", "Starting module %s",
+            "Successfully started module %s");
     }
 
 
@@ -217,24 +168,8 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
         List<Module> modulesToShutdown = new ArrayList<Module>(startedModules);
         Collections.reverse(modulesToShutdown);
 
-        execute(modulesToShutdown, new StopModulesCallback(),
-                "Stopping module %s failed!", "Stopping module %s!", "Successfully stopped module %s!");
-    }
-
-    private class StopModulesCallback extends Callback<Module> {
-
-        @Override
-        public boolean executionRequired(Module module) {
-            return startedModules.contains(module);
-        }
-
-
-        @Override
-        public void doWith(Module module) {
-
-            module.getLifecycle().onStop();
-            startedModules.remove(module);
-        }
+        execute(modulesToShutdown, new StopModulesCallback(), "Stopping module %s failed!", "Stopping module %s!",
+            "Successfully stopped module %s!");
     }
 
 
@@ -315,6 +250,84 @@ public class MinosModuleManager implements ModuleManager, ApplicationContextAwar
         }
 
         revokeAuthentication();
+    }
+
+    private class InstallModulesCallback extends Callback<Module> {
+
+        @Override
+        public boolean executionRequired(Module module) {
+
+            ModuleDescriptor descriptor = getDescriptorFor(module);
+
+            boolean alreadyInstalled = descriptor == null ? false : descriptor.isInstalled();
+
+            if (alreadyInstalled) {
+                LOG.debug(String.format("Module %s already installed!", module));
+            }
+
+            return !alreadyInstalled;
+        }
+
+
+        @Override
+        public void doWith(Module module) {
+
+            ModuleDescriptor descriptor = getDescriptorFor(module);
+
+            if (null == descriptor) {
+                descriptor = new ModuleDescriptor(module);
+            }
+
+            module.getLifecycle().install();
+
+            descriptor.setInstalled();
+            moduleDescriptorDao.save(descriptor);
+        }
+    }
+
+    private class StartModulesCallback extends Callback<Module> {
+
+        @Override
+        public boolean executionRequired(Module module) {
+
+            if (!isInstalled(module)) {
+                return false;
+            }
+
+            boolean alreadyStarted = startedModules.contains(module);
+
+            if (alreadyStarted) {
+                LOG.debug(String.format("Module %s already started!", module));
+            }
+
+            return !alreadyStarted;
+        }
+
+
+        @Override
+        public void doWith(Module module) {
+
+            module.getLifecycle().onStart();
+
+            startedModules.add(module);
+        }
+    }
+
+    private class StopModulesCallback extends Callback<Module> {
+
+        @Override
+        public boolean executionRequired(Module module) {
+
+            return startedModules.contains(module);
+        }
+
+
+        @Override
+        public void doWith(Module module) {
+
+            module.getLifecycle().onStop();
+            startedModules.remove(module);
+        }
     }
 
     /**

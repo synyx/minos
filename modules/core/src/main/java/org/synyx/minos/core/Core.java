@@ -22,7 +22,6 @@ public final class Core {
      */
     public static final String EVENT_KEY = MINOS_BASE + ".web.event";
 
-
     private Core() {
     }
 }

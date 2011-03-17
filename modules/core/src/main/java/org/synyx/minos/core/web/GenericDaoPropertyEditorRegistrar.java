@@ -4,13 +4,17 @@ import org.springframework.beans.PropertyEditorRegistrar;
 import org.springframework.beans.PropertyEditorRegistry;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.config.CustomEditorConfigurer;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+
 import org.synyx.hades.dao.GenericDao;
 import org.synyx.hades.util.ClassUtils;
 
 import java.beans.PropertyEditor;
+
 import java.io.Serializable;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;

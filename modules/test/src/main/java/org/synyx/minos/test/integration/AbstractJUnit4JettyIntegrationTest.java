@@ -16,7 +16,6 @@ public final class AbstractJUnit4JettyIntegrationTest {
 
     private static Server server;
 
-
     private AbstractJUnit4JettyIntegrationTest() {
     }
 

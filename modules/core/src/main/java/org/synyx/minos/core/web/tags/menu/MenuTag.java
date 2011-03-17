@@ -2,15 +2,17 @@ package org.synyx.minos.core.web.tags.menu;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
+
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.core.web.menu.Menu;
 import org.synyx.minos.core.web.menu.MenuItem;
 import org.synyx.minos.core.web.menu.MenuItems;
 import org.synyx.minos.core.web.menu.MenuProvider;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
-import java.io.IOException;
 
 
 /**
@@ -19,8 +21,7 @@ import java.io.IOException;
  * @author Oliver Gierke - gierke@synyx.de
  * @author Marc Kannegiesser - kannegiesser@synyx.de
  */
-public class
-        MenuTag extends RequestContextAwareTag {
+public class MenuTag extends RequestContextAwareTag {
 
     private static final long serialVersionUID = 3562560895559874960L;
 

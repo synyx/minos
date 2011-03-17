@@ -4,6 +4,7 @@ import org.synyx.minos.core.module.Module;
 import org.synyx.minos.core.module.ModuleAware;
 
 import java.io.Serializable;
+
 import java.util.Comparator;
 
 

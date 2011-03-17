@@ -1,11 +1,13 @@
 package org.synyx.minos.i18n.domain;
 
 import org.springframework.util.StringUtils;
+
 import org.synyx.messagesource.util.LocaleUtils;
+
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import java.util.Locale;
 
 
 /**

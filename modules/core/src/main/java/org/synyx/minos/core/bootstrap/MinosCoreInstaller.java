@@ -5,7 +5,6 @@ import org.springframework.core.annotation.Order;
 
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
-import org.synyx.minos.core.module.ModuleLifecycleException;
 import org.synyx.minos.core.module.SimpleNoOpLifecycle;
 import org.synyx.minos.umt.UmtPermissions;
 import org.synyx.minos.umt.service.UserManagement;

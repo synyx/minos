@@ -22,7 +22,8 @@ import java.util.Set;
  */
 public class MultipartFileValidator implements Validator {
 
-    private static final Set<String> DEFAULT_ALLOWED_EXTENSIONS = new HashSet<String>(Arrays.asList("png", "jpg", "gif"));
+    private static final Set<String> DEFAULT_ALLOWED_EXTENSIONS = new HashSet<String>(Arrays.asList("png", "jpg",
+                "gif"));
 
     private Set<String> supportedExceptions = DEFAULT_ALLOWED_EXTENSIONS;
 

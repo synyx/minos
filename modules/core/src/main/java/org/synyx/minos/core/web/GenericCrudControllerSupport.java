@@ -1,21 +1,29 @@
 package org.synyx.minos.core.web;
 
 import org.springframework.beans.BeanUtils;
+
 import org.springframework.core.annotation.AnnotationUtils;
+
 import org.springframework.ui.Model;
+
 import org.springframework.validation.Errors;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.WebRequest;
+
 import org.synyx.hades.domain.Persistable;
+
 import org.synyx.minos.core.Core;
 
-import javax.servlet.http.HttpSession;
 import java.io.Serializable;
+
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -129,7 +137,8 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
 
         conversation.setComplete();
         model.addAttribute(modelAttribute, newBean);
-        model.addAttribute(Core.MESSAGE, Message.success(getMessageKey(SAVE_SUCCESS_MESSAGE_TEMPLATE), newBean.getId()));
+        model.addAttribute(Core.MESSAGE,
+            Message.success(getMessageKey(SAVE_SUCCESS_MESSAGE_TEMPLATE), newBean.getId()));
 
         return "redirect:";
     }

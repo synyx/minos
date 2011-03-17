@@ -1,6 +1,7 @@
 package org.synyx.minos.i18n.bootstrap;
 
 import org.springframework.transaction.annotation.Transactional;
+
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.module.SimpleNoOpLifecycle;
 import org.synyx.minos.i18n.I18nPermissions;
@@ -19,13 +20,11 @@ public class I18nLifecycle extends SimpleNoOpLifecycle {
     private final UserManagement userManagement;
     private final MessageTransferService messageTransferService;
 
-
     public I18nLifecycle(UserManagement userManagement, MessageTransferService messageTransferService) {
 
         this.userManagement = userManagement;
         this.messageTransferService = messageTransferService;
     }
-
 
     @Override
     public void onStart() {

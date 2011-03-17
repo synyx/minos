@@ -1,8 +1,10 @@
 package org.synyx.minos.core.module.support;
 
 import org.springframework.beans.factory.config.BeanPostProcessor;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+
 import org.synyx.minos.core.module.ModuleManager;
 import org.synyx.minos.core.module.ModuleManagerAware;
 

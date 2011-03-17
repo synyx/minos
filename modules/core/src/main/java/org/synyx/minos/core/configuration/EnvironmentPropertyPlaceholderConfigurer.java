@@ -2,13 +2,17 @@ package org.synyx.minos.core.configuration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+
 import org.springframework.context.ResourceLoaderAware;
+
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,11 +25,11 @@ import java.util.Properties;
  * given environmentPropertyName. If you configure this with a environmentProperty target.system=prod it replaces all
  * occurences of {env} within the given resourcepatterns with prod (eg. application-{env}.properties with
  * application-prod.properties.
- * 
+ *
  * @author Marc Kannegießer - kannegiesser@synyx.de
  */
-public class EnvironmentPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer implements
-        ResourceLoaderAware {
+public class EnvironmentPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer
+    implements ResourceLoaderAware {
 
     public static final Log LOG = LogFactory.getLog(EnvironmentPropertyPlaceholderConfigurer.class);
 
@@ -34,7 +38,6 @@ public class EnvironmentPropertyPlaceholderConfigurer extends PropertyPlaceholde
     private ResourceLoader resourceLoader;
 
     private String defaultEnvironment = "dev";
-
 
     /**
      * Replaces the placeholders {env} in all given resource-patterns and loads them.
@@ -50,6 +53,7 @@ public class EnvironmentPropertyPlaceholderConfigurer extends PropertyPlaceholde
         List<Resource> resources = new ArrayList<Resource>();
 
         ResourcePatternResolver patternResolver = null;
+
         if (resourceLoader instanceof ResourcePatternResolver) {
             patternResolver = (ResourcePatternResolver) resourceLoader;
         }
@@ -57,6 +61,7 @@ public class EnvironmentPropertyPlaceholderConfigurer extends PropertyPlaceholde
         for (int i = 0; i < resourcePatterns.size(); i++) {
             String resourcePattern = resourcePatterns.get(i);
             String replaced = resourcePattern.replaceAll("\\{env\\}", env);
+
             if (patternResolver == null) {
                 Resource resource = resourceLoader.getResource(replaced);
                 resources.add(resource);
@@ -85,7 +90,7 @@ public class EnvironmentPropertyPlaceholderConfigurer extends PropertyPlaceholde
     /**
      * Sets a {@link List} of patterns which may contain placeholder {env} which will be replaced with the target system
      * name
-     * 
+     *
      * @param resourcePatterns
      */
     public void setResourcePatterns(List<String> resourcePatterns) {
@@ -96,7 +101,7 @@ public class EnvironmentPropertyPlaceholderConfigurer extends PropertyPlaceholde
 
     /**
      * Sets the name of the System property that is used to resolve the target environment (defaults to target.system).
-     * 
+     *
      * @param environmentPropertyName the name of the System property containing the environment name
      */
     public void setEnvironmentPropertyName(String environmentPropertyName) {
@@ -107,12 +112,11 @@ public class EnvironmentPropertyPlaceholderConfigurer extends PropertyPlaceholde
 
     /**
      * Sets the default-environment that is used when the {@link #environmentPropertyName} is not set (defaults to dev).
-     * 
+     *
      * @param defaultEnvironment the name of the default environment
      */
     public void setDefaultEnvironment(String defaultEnvironment) {
 
         this.defaultEnvironment = defaultEnvironment;
     }
-
 }

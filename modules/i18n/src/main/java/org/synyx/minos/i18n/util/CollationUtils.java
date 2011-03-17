@@ -27,7 +27,7 @@ public final class CollationUtils {
      */
     public static <E> E getRealMatch(Collection<E> col, String fieldName, String value) {
 
-        if(col != null) {
+        if (col != null) {
             for (E e : col) {
                 BeanWrapper w = new BeanWrapperImpl(e);
 

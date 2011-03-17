@@ -17,7 +17,6 @@ public class UserEditor extends PropertyEditorSupport {
         this.userManagement = userManagement;
     }
 
-
     @Override
     public void setAsText(String text) {
 

@@ -1,6 +1,7 @@
 package org.synyx.minos.core.security;
 
 import org.springframework.security.core.Authentication;
+
 import org.synyx.hera.core.Plugin;
 
 

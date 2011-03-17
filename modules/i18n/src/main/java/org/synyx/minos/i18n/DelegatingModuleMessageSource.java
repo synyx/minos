@@ -2,6 +2,7 @@ package org.synyx.minos.i18n;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
+
 import org.synyx.minos.core.message.ModuleMessageSource;
 import org.synyx.minos.core.module.Module;
 
@@ -45,7 +46,6 @@ public class DelegatingModuleMessageSource implements ModuleMessageSource {
 
         return target.getMessage(arg0, arg1, arg2);
     }
-
 
 
     @Override

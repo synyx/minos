@@ -73,7 +73,7 @@ public class Password {
     @Override
     public boolean equals(Object obj) {
 
-        if(obj == null) {
+        if (obj == null) {
             return false;
         }
 

@@ -1,17 +1,22 @@
 package org.synyx.minos.core.web;
 
 import org.springframework.util.StringUtils;
+
 import org.springframework.web.util.UriTemplate;
 import org.springframework.web.util.UrlPathHelper;
 import org.springframework.web.util.WebUtils;
+
 import org.synyx.hades.domain.Persistable;
+
 import org.synyx.minos.util.Assert;
+
+import java.net.URI;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.net.URI;
-import java.util.Map;
-import java.util.Map.Entry;
 
 
 /**
