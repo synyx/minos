@@ -72,6 +72,10 @@ public class ItemController {
     public String showItem(Model model,
         @PathVariable("id") Item item) {
 
+        if (item == null) {
+            return "redirect:" + BASE_URL;
+        }
+
         model.addAttribute(SINGULAR, item);
         model.addAttribute("statusValues", Status.values());
 
