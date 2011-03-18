@@ -20,6 +20,16 @@ import java.util.Collection;
 import java.util.List;
 
 
+/**
+ * Operations to map a {@link MinosUserDetails} object from a Spring LDAP {@link DirContextOperations} implementation
+ * and create a user entry in the user database if it doesn't exist yet. The user object will have the provided
+ * default roles.
+ *
+ * Used by {@link org.springframework.security.ldap.authentication.LdapAuthenticationProvider} when loading
+ * user information.
+ *
+ * @author Jochen Schalanda
+ */
 public class MinosUserDetailsContextMapper implements UserDetailsContextMapper {
 
     private final UserManagement userManagement;
@@ -31,6 +41,15 @@ public class MinosUserDetailsContextMapper implements UserDetailsContextMapper {
         this.userManagement = userManagement;
     }
 
+
+    /**
+     * Creates a fully populated UserDetails object for use by the security framework.
+     *
+     * @param ctx the context object which contains the user information.
+     * @param username the user's supplied login name.
+     * @param authority the list of authorities which the user should be given.
+     * @return the user object.
+     */
     @Override
     @Transactional
     public UserDetails mapUserFromContext(DirContextOperations ctx, String username,
@@ -59,16 +78,7 @@ public class MinosUserDetailsContextMapper implements UserDetailsContextMapper {
     }
 
 
-    @Override
-    public void mapUserToContext(UserDetails user, DirContextAdapter ctx) {
-
-        throw new UnsupportedOperationException(
-            "MinosUserDetailsContextMapper only supports reading from a context. Please"
-            + "use a subclass if mapUserToContext() is required.");
-    }
-
-
-    public List<Role> getDefaultRoleList() {
+    private List<Role> getDefaultRoleList() {
 
         List<String> roles = Arrays.asList(defaultRoles.split(","));
         List<Role> defaultRoleList = new ArrayList<Role>();
@@ -80,6 +90,15 @@ public class MinosUserDetailsContextMapper implements UserDetailsContextMapper {
         }
 
         return defaultRoleList;
+    }
+
+
+    @Override
+    public void mapUserToContext(UserDetails user, DirContextAdapter ctx) {
+
+        throw new UnsupportedOperationException(
+                "MinosUserDetailsContextMapper only supports reading from a context. Please"
+                        + "use a subclass if mapUserToContext() is required.");
     }
 
 

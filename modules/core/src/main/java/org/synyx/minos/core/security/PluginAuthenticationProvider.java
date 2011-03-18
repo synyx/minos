@@ -12,6 +12,12 @@ import java.util.Collections;
 import java.util.List;
 
 
+/**
+ * An {@link AuthenticationProvider} implementation that uses one or more {@link AuthenticationPlugin}s to authenticate
+ * a user.
+ *
+ * @author Jochen Schalanda
+ */
 public class PluginAuthenticationProvider implements AuthenticationProvider, InitializingBean {
 
     private List<AuthenticationPlugin> authenticationPlugins = Collections.emptyList();

@@ -4,6 +4,12 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 
 
+/**
+ * An {@link AuthenticationPlugin} implementation that tries to authenticate a user with a wrapped
+ * {@link AuthenticationProvider}.
+ *
+ * @author Jochen Schalanda
+ */
 public class AuthenticationProviderWrapperPlugin implements AuthenticationPlugin {
 
     private AuthenticationProvider authenticationProvider;

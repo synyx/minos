@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@RunWith(MockitoJUnitRunner.class)
 public class PluginAuthenticationProviderUnitTest {
 
     private static final String USERNAME = "username";
