@@ -48,6 +48,9 @@
 <form:form action="${symbol_dollar}{formURL}" method="${symbol_dollar}{formMethod}" modelAttribute="item">
 	<fieldset>
 		<legend>${symbol_dollar}{formTitle}</legend>
+		<form:hidden path="id" />
+		<form:hidden path="createdDate" />
+		<form:hidden path="createdBy" />
 		<label for="description"><spring:message code="items.singular.description"/></label>
 		<form:input id="description" path="description" /><form:errors class="error" path="description" /><br />
 		<label for="status"><spring:message code="items.singular.status" /></label>

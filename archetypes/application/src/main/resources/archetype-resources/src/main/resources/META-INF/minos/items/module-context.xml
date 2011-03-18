@@ -31,6 +31,7 @@
     -->
     <bean id="sampleLifecycle" class="${package}.SampleLifecycle">
     	<constructor-arg ref="itemDao" />
+    	<constructor-arg ref="userManagement" />
     </bean>
 
     <module:module id="items" base-package="${package}" depends-on="umt"
@@ -51,4 +52,15 @@
         <property name="lenient" value="true" />
     </bean>
 
+	<!-- Services -->
+	<bean class="${package}.service.ClockService" />
+
+	<!-- Custom permissions, read from a class with static String constants -->
+	<bean class="org.synyx.minos.core.security.SimpleConstantsPermissionAware">
+		<constructor-arg>
+			<list>
+				<value>${package}.SamplePermissions</value>
+			</list>
+		</constructor-arg>
+	</bean>
 </beans>

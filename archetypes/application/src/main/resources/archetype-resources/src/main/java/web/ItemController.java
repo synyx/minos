@@ -16,19 +16,21 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import org.synyx.minos.core.Core;
+import org.synyx.minos.core.web.Message;
+
+import ${package}.SamplePermissions;
 import ${package}.dao.ItemDao;
 import ${package}.domain.Item;
 import ${package}.domain.ItemValidator;
 import ${package}.domain.Status;
-import org.synyx.minos.core.Core;
-import org.synyx.minos.core.web.Message;
+import ${package}.service.ClockService;
 
 import java.util.List;
 
@@ -51,6 +53,9 @@ public class ItemController {
 
     @Autowired
     private ItemDao itemDao;
+
+    @Autowired
+    private ClockService clockService;
 
     @Autowired
     private ItemValidator itemValidator;
@@ -84,7 +89,7 @@ public class ItemController {
         return FORM;
     }
 
-    
+
     @RequestMapping(value = BASE_URL, method = GET, params = "status")
     public String showItems(@RequestParam("status") Status status, Model model) {
 
@@ -94,7 +99,6 @@ public class ItemController {
         return PLURAL;
     }
 
-    
 
     @RequestMapping(value = FORM_URL, method = GET)
     public String showCreateFormForItem(Model model,
@@ -106,6 +110,7 @@ public class ItemController {
 
     private String prepareForm(Model model, Item item) {
 
+        model.addAttribute("currentTime", clockService.getCurrentTime());
         model.addAttribute(SINGULAR, item);
         model.addAttribute("statusValues", Status.values());
 
@@ -155,7 +160,7 @@ public class ItemController {
     }
 
 
-    @RolesAllowed("ROLE_ADMIN")
+    @RolesAllowed(SamplePermissions.ITEMS_DELETE)
     @RequestMapping(value = BASE_URL + "/{id}", method = DELETE)
     public String deleteItem(Model model,
         @PathVariable("id") Item entity) {
