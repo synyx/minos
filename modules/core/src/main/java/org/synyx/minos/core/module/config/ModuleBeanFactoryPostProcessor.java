@@ -1,5 +1,7 @@
 package org.synyx.minos.core.module.config;
 
+import org.springframework.aop.framework.ProxyFactoryBean;
+import org.springframework.aop.target.LazyInitTargetSource;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValue;
@@ -7,13 +9,12 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.support.GenericBeanDefinition;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-
 import org.synyx.minos.core.module.Module;
+import org.synyx.minos.util.Assert;
 
 
 /**
@@ -22,7 +23,7 @@ import org.synyx.minos.core.module.Module;
  *
  * @author Jochen Schalanda
  */
-public class ModuleBeanPostProcessor implements BeanFactoryPostProcessor, ApplicationContextAware {
+public class ModuleBeanFactoryPostProcessor implements BeanFactoryPostProcessor, ApplicationContextAware {
 
     private static final String LIFECYCLE_PROPERTY = "lifecycle";
     private static final String TARGET_BEAN_NAME_PROPERTY = "targetBeanName";
@@ -62,23 +63,23 @@ public class ModuleBeanPostProcessor implements BeanFactoryPostProcessor, Applic
                 setBeanLazyInit(context.getBeanDefinition(originalLifecycleName));
 
                 /**
-                 * Create and register a {@link org.springframework.aop.target.LazyInitTargetSource}
-                 * pointing to the original {@link org.synyx.minos.core.module.Lifecycle} class.
+                 * Create and register a {@link LazyInitTargetSource}pointing to the original
+                 * {@link org.synyx.minos.core.module.Lifecycle} class.
                  */
-                BeanDefinition lazyInitTargetSource = createBeanDefinition(
-                        org.springframework.aop.target.LazyInitTargetSource.class,
-                        createPropertyValues(TARGET_BEAN_NAME_PROPERTY, originalLifecycleName));
+                BeanDefinition lazyInitTargetSource =
+                        BeanDefinitionBuilder.genericBeanDefinition(LazyInitTargetSource.class)
+                                .addPropertyValue(TARGET_BEAN_NAME_PROPERTY, originalLifecycleName)
+                                .getBeanDefinition();
 
                 beanFactory.registerBeanDefinition(lazyInitTargetSourceName, lazyInitTargetSource);
 
                 /**
-                 * Create and register a {@link org.springframework.aop.framework.ProxyFactoryBean}
-                 * pointing to the created {@link org.springframework.aop.target.LazyInitTargetSource}
+                 * Create and register a {@link ProxyFactoryBean} pointing to the created {@link LazyInitTargetSource}
                  */
-                BeanDefinition proxyFactoryBean = createBeanDefinition(
-                        org.springframework.aop.framework.ProxyFactoryBean.class,
-                        createPropertyValues(TARGET_SOURCE_PROPERTY,
-                            new RuntimeBeanReference(lazyInitTargetSourceName)));
+                BeanDefinition proxyFactoryBean =
+                        BeanDefinitionBuilder.genericBeanDefinition(ProxyFactoryBean.class)
+                                .addPropertyValue(TARGET_SOURCE_PROPERTY, new RuntimeBeanReference(lazyInitTargetSourceName))
+                                .getBeanDefinition();
 
                 beanFactory.registerBeanDefinition(proxyFactoryBeanName, proxyFactoryBean);
 
@@ -103,26 +104,9 @@ public class ModuleBeanPostProcessor implements BeanFactoryPostProcessor, Applic
     }
 
 
-    private MutablePropertyValues createPropertyValues(String propertyName, Object propertyValue) {
-
-        MutablePropertyValues propertyValues = new MutablePropertyValues();
-        propertyValues.add(propertyName, propertyValue);
-
-        return propertyValues;
-    }
-
-
-    private BeanDefinition createBeanDefinition(Class<?> beanClass, MutablePropertyValues propertyValues) {
-
-        GenericBeanDefinition genericBeanDefinition = new GenericBeanDefinition();
-        genericBeanDefinition.setBeanClass(beanClass);
-        genericBeanDefinition.setPropertyValues(propertyValues);
-
-        return genericBeanDefinition;
-    }
-
-
     private void setBeanLazyInit(BeanDefinition beanDefinition) {
+
+        Assert.notNull(beanDefinition);
 
         beanDefinition.setLazyInit(true);
     }

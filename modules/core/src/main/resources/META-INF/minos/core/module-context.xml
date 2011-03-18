@@ -74,7 +74,7 @@
     </bean>
 
 
-    <bean id="moduleBeanPostProcessor" class="org.synyx.minos.core.module.config.ModuleBeanPostProcessor"/>
+    <bean id="moduleBeanFactoryPostProcessor" class="org.synyx.minos.core.module.config.ModuleBeanFactoryPostProcessor"/>
     
     <!-- 
         Fileupload - needs to be in here rather than web-context.xml as it is being looked up
