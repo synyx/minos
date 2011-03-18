@@ -3,7 +3,9 @@
 #set( $symbol_escape = '\' )
 package ${package}.menu;
 
+import ${package}.domain.Status;
 import ${package}.web.ItemController;
+
 import org.synyx.minos.core.web.menu.AbstractMenuItemProvider;
 import org.synyx.minos.core.web.menu.FirstSubMenuUrlResolver;
 import org.synyx.minos.core.web.menu.MenuItem;
@@ -40,8 +42,14 @@ public class OurMenuProvider extends AbstractMenuItemProvider {
 
     private void buildMenuForItems(List<MenuItem> menu, MenuItem root) {
 
-        menu.add(buildSubMenuItem("list", ItemController.BASE_URL, root));
         menu.add(buildSubMenuItem("create", ItemController.FORM_URL, root));
+        menu.add(buildSubMenuItem("list", ItemController.BASE_URL, root));
+        
+        // add an item for each status
+        for (Status status : Status.values()) {
+            menu.add(buildSubMenuItem("list." + status.toString(),
+                    ItemController.BASE_URL + "?status=" + status.toString(), root));
+        }
     }
 
 

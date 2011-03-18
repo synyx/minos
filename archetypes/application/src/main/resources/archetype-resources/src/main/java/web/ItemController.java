@@ -16,6 +16,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -82,6 +84,17 @@ public class ItemController {
         return FORM;
     }
 
+    
+    @RequestMapping(value = BASE_URL, method = GET, params = "status")
+    public String showItems(@RequestParam("status") Status status, Model model) {
+
+        List<Item> items = itemDao.findByStatus(status);
+        model.addAttribute(PLURAL, items);
+
+        return PLURAL;
+    }
+
+    
 
     @RequestMapping(value = FORM_URL, method = GET)
     public String showCreateFormForItem(Model model,
