@@ -123,7 +123,11 @@
         <constructor-arg>
             <plugin:list class="org.synyx.minos.core.web.menu.MenuItemFilter" />
         </constructor-arg>
+        <property name="menuAssembler" ref="menuAssembler"/>
 	</bean>
+	
+	<bean id="menuAssembler" class="org.synyx.minos.core.web.menu.SimpleMenuAssembler" />
+	
 	
     <bean id="menuPermissionFilter" class="org.synyx.minos.core.web.menu.filter.PermissionMenuItemFilter">
         <constructor-arg ref="authenticationService" />
