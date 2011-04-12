@@ -220,7 +220,9 @@ public final class Menu implements Comparable<Menu> {
      */
     public boolean isActiveFor(String url) {
 
-        if (url.startsWith(urlStrategy.resolveUrl(this))) {
+        String urlForMenu = urlStrategy.resolveUrl(this);
+
+        if (urlForMenu != null && url.startsWith(urlForMenu)) {
             return true;
         }
 
