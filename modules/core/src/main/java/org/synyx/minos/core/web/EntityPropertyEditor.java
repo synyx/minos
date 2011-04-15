@@ -51,11 +51,6 @@ public class EntityPropertyEditor<T extends Serializable> extends PropertyEditor
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.beans.PropertyEditorSupport#getAsText()
-     */
     @Override
     public String getAsText() {
 

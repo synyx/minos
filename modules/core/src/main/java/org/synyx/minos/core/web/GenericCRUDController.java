@@ -66,11 +66,6 @@ public class GenericCRUDController<BeanType extends Persistable<PK>, PK extends 
         this.dao = dao;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.web.GenericCrudControllerSupport#save(org.synyx. hades.domain.Persistable)
-     */
     @Override
     protected BeanType save(BeanType bean) {
 
@@ -78,11 +73,6 @@ public class GenericCRUDController<BeanType extends Persistable<PK>, PK extends 
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.web.GenericCrudControllerSupport#delete(org.synyx .hades.domain.Persistable)
-     */
     @Override
     protected void delete(BeanType bean) {
 
@@ -90,11 +80,6 @@ public class GenericCRUDController<BeanType extends Persistable<PK>, PK extends 
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.web.GenericCrudControllerSupport#readAll()
-     */
     @Override
     protected List<BeanType> readAll() {
 

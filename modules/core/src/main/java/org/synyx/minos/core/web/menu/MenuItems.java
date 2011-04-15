@@ -104,11 +104,6 @@ public class MenuItems implements Iterable<Menu> {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Iterable#iterator()
-     */
     @Override
     public Iterator<Menu> iterator() {
 

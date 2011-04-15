@@ -22,11 +22,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MinosViewResolver extends InternalResourceViewResolver {
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.web.servlet.view.UrlBasedViewResolver#createView( java.lang.String, java.util.Locale)
-     */
     @Override
     protected View createView(String viewName, Locale locale) throws Exception {
 
@@ -57,12 +52,6 @@ public class MinosViewResolver extends InternalResourceViewResolver {
             super(url, contextRelative, http10Compatible);
         }
 
-        /*
-         * (non-Javadoc)
-         *
-         * @see org.springframework.web.servlet.view.RedirectView#renderMergedOutputModel (java.util.Map,
-         * javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-         */
         @Override
         protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
             HttpServletResponse response) throws IOException {

@@ -14,12 +14,6 @@ import java.util.Set;
  */
 public class MinosAnnotationHandlerMapping extends DefaultAnnotationHandlerMapping {
 
-    /*
-     * (non-Javadoc)
-     *
-     * @seeorg.springframework.web.servlet.mvc.annotation. DefaultAnnotationHandlerMapping#addUrlsForPath(java.util.Set,
-     * java.lang.String)
-     */
     @Override
     protected void addUrlsForPath(Set<String> urls, String path) {
 

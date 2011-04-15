@@ -56,66 +56,36 @@ public class MinosUserDetails implements UserDetails {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.security.userdetails.UserDetails#getPassword()
-     */
     public String getPassword() {
 
         return user.getPassword() == null ? null : user.getPassword().toString();
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.security.userdetails.UserDetails#getUsername()
-     */
     public String getUsername() {
 
         return user.getUsername();
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.security.userdetails.UserDetails#isAccountNonExpired ()
-     */
     public boolean isAccountNonExpired() {
 
         return true;
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.security.userdetails.UserDetails#isAccountNonLocked()
-     */
     public boolean isAccountNonLocked() {
 
         return true;
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.security.userdetails.UserDetails#isCredentialsNonExpired ()
-     */
     public boolean isCredentialsNonExpired() {
 
         return true;
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.security.userdetails.UserDetails#isEnabled()
-     */
     public boolean isEnabled() {
 
         return user.isActive();

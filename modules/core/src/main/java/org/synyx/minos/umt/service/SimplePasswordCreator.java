@@ -43,11 +43,6 @@ public class SimplePasswordCreator implements PasswordCreator {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.umt.service.PasswordCreator#generatePassword()
-     */
     public Password generatePassword() {
 
         StringBuffer buffer = new StringBuffer();

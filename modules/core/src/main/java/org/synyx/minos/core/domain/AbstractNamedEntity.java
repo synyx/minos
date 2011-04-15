@@ -8,11 +8,6 @@ package org.synyx.minos.core.domain;
  */
 public abstract class AbstractNamedEntity {
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
 
@@ -30,11 +25,6 @@ public abstract class AbstractNamedEntity {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
 

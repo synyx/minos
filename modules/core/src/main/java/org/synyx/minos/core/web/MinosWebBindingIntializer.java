@@ -33,12 +33,6 @@ public class MinosWebBindingIntializer extends ConfigurableWebBindingInitializer
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.web.bind.support.ConfigurableWebBindingInitializer
-     * #initBinder(org.springframework.web.bind.WebDataBinder, org.springframework.web.context.request.WebRequest)
-     */
     @Override
     public void initBinder(WebDataBinder binder, WebRequest request) {
 

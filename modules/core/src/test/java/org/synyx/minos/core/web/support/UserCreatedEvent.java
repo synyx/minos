@@ -31,16 +31,9 @@ public class UserCreatedEvent implements Event {
     }
 
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
 
-        // TODO Auto-generated method stub
         return getClass().getSimpleName() + ": " + user.getEmailAddress();
     }
-
 }

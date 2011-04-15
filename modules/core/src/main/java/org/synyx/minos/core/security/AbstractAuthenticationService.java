@@ -36,11 +36,6 @@ public abstract class AbstractAuthenticationService implements AuthenticationSer
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.authentication.AuthenticationService#isCurrentUser (org.synyx.minos.core.domain.User)
-     */
     @Override
     public boolean isCurrentUser(User user) {
 
@@ -50,11 +45,6 @@ public abstract class AbstractAuthenticationService implements AuthenticationSer
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.authentication.AuthenticationService#isCurrentUser (java.lang.String)
-     */
     @Override
     public boolean isCurrentUser(String username) {
 
@@ -64,11 +54,6 @@ public abstract class AbstractAuthenticationService implements AuthenticationSer
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.authentication.AuthenticationService#getPermissions ()
-     */
     @Override
     public Collection<String> getPermissions() {
 
@@ -76,11 +61,6 @@ public abstract class AbstractAuthenticationService implements AuthenticationSer
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.core.authentication.AuthenticationService#hasPermission (java.util.Collection)
-     */
     @Override
     public boolean hasAnyPermission(Collection<String> permissions) {
 
@@ -88,11 +68,6 @@ public abstract class AbstractAuthenticationService implements AuthenticationSer
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.core.authentication.AuthenticationService#hasAllPermissions (java.util.Collection)
-     */
     @Override
     public boolean hasAllPermissions(Collection<String> permissions) {
 

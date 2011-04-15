@@ -163,11 +163,6 @@ public class ValueObjectPropertyEditorUnitTest {
         }
 
 
-        /*
-         * (non-Javadoc)
-         * 
-         * @see org.synyx.minos.core.domain.AbstractNamedEntity#getValue()
-         */
         @Override
         protected String getValue() {
 

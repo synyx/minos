@@ -47,12 +47,6 @@ public abstract class AbstractEventHandler<T extends Event> implements EventHand
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * com.synyx.minos.core.web.support.EventHandlerInterface#handleEvent(com.synyx.minos.core.web.support.EvenContext)
-     */
     public void handleEvent(T event, EventContext context) throws Exception {
 
         // Prepare duplicate execution

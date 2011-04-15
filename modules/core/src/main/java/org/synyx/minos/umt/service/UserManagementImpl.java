@@ -54,11 +54,6 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
         this.passwordCreator = passwordCreator;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.umt.service.UserManagement#delete(java.lang.String)
-     */
     @Override
     @Transactional(readOnly = false)
     public void delete(User user) throws UserNotFoundException {
@@ -77,11 +72,6 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.umt.service.UserManagement#save(com.synyx.minos.umt.domain .User, boolean)
-     */
     @Override
     @Transactional(readOnly = false)
     public void save(User user) {
@@ -111,11 +101,6 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.umt.service.UserManagement#save(com.synyx.minos.umt.domain .Role)
-     */
     @Override
     @Transactional(readOnly = false)
     public void save(Role role) {
@@ -126,11 +111,6 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.umt.service.UserManagement#getUsers()
-     */
     @Override
     public List<User> getUsers() {
 
@@ -138,12 +118,6 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.umt.service.UserManagement#getUsers(org.synyx.hades.domain .Pageable,
-     * org.synyx.hades.domain.support.Sort)
-     */
     @Override
     public Page<User> getUsers(Pageable pageable) {
 
@@ -151,11 +125,6 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.umt.service.UserManagement#getUser(java.lang.Long)
-     */
     @Override
     public User getUser(Long id) {
 
@@ -169,11 +138,6 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.umt.service.UserManagement#getUser(java.lang.String)
-     */
     @Override
     public User getUser(String username) {
 
@@ -196,11 +160,6 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.umt.service.UserManagement#exists(java.lang.Long)
-     */
     @Override
     public boolean exists(Long id) {
 
@@ -212,11 +171,6 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.umt.service.UserManagement#getRoles()
-     */
     @Override
     public List<Role> getRoles() {
 
@@ -224,11 +178,6 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.umt.service.UserManagement#getRole(java.lang.Long)
-     */
     @Override
     public Role getRole(Long id) {
 
@@ -236,11 +185,6 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.umt.service.UserManagement#getRole(java.lang.String)
-     */
     @Override
     public Role getRole(String name) {
 
@@ -248,11 +192,6 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.umt.service.UserManagement#getUsersByEmail(java.lang.String)
-     */
     @Override
     public List<User> getUsersByEmail(String argEmail) {
 
@@ -260,11 +199,6 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.umt.service.UserManagement#deleteRole(org.synyx.minos .core.domain.Role)
-     */
     @Override
     @Transactional(readOnly = false)
     public void deleteRole(Role role) {
@@ -288,11 +222,6 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.synyx.minos.umt.service.UserManagement#getUsersByRole(org.synyx.minos.core.domain.Role)
-     */
     @Override
     public Page<User> getUsersByRole(Role role, Pageable pageable) {
 

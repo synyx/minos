@@ -78,11 +78,6 @@ public class UmtMenuItemProvider extends AbstractMenuItemProvider {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.core.web.menu.AbstractMenuItemProvider#initMenuItems()
-     */
     @Override
     protected List<MenuItem> initMenuItems() {
 

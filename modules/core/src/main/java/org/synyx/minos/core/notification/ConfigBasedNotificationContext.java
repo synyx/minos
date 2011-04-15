@@ -19,11 +19,6 @@ public class ConfigBasedNotificationContext implements NotificationContext {
         this.configKey = configKey;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.core.notification.NotificationContext#getConfigurationKey ()
-     */
     public String getConfigurationKey() {
 
         return configKey;

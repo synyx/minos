@@ -33,12 +33,6 @@ public class CurrentUserArgumentResolver implements WebArgumentResolver {
         this.authenticationService = authenticationService;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.web.bind.support.WebArgumentResolver#resolveArgument
-     * (org.springframework.core.MethodParameter, org.springframework.web.context.request.NativeWebRequest)
-     */
     public Object resolveArgument(MethodParameter methodParameter, NativeWebRequest webRequest) throws Exception {
 
         boolean isUserType = User.class.equals(methodParameter.getParameterType());

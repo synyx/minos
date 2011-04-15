@@ -29,12 +29,6 @@ public class MinosSessionAttributeStore extends DefaultSessionAttributeStore {
         this.manager = manager;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @seeorg.springframework.web.bind.support.DefaultSessionAttributeStore# getAttributeNameInSession
-     * (org.springframework.web.context.request.WebRequest, java.lang.String)
-     */
     @Override
     protected String getAttributeNameInSession(WebRequest request, String attributeName) {
 

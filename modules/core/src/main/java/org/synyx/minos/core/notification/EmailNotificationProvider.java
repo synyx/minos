@@ -24,12 +24,6 @@ public class EmailNotificationProvider extends AbstractNotificationProvider {
         this.mailSender = mailSender;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @seecom.synyx.minos.core.notification.AbstractNotificationProvider#
-     * notifyInExecutor(com.synyx.minos.core.notification.Notification)
-     */
     @Override
     public void notifyInExecutor(Notification notification, User recipient) {
 

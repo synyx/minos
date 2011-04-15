@@ -66,33 +66,18 @@ public abstract class AbstractNotification implements Notification {
         this.recipients = null == recipients ? new HashSet<User>() : recipients;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.core.notification.Notification#getSender()
-     */
     public User getSender() {
 
         return sender;
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.core.notification.Notification#getrecipients()
-     */
     public Set<User> getRecipients() {
 
         return recipients;
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.core.notification.Notification#hasSender()
-     */
     public boolean hasSender() {
 
         return null != sender;

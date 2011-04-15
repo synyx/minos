@@ -32,12 +32,6 @@ import javax.servlet.jsp.PageContext;
  */
 public class MinosColumnDecorator implements DisplaytagColumnDecorator {
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.displaytag.decorator.DisplaytagColumnDecorator#decorate(java.lang .Object,
-     * javax.servlet.jsp.PageContext, org.displaytag.properties.MediaTypeEnum)
-     */
     public Object decorate(Object columnValue, PageContext pageContext, MediaTypeEnum media) throws DecoratorException {
 
         if (columnValue instanceof ReadableInstant) {

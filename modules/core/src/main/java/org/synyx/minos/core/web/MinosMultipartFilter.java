@@ -27,12 +27,6 @@ public class MinosMultipartFilter extends MultipartFilter {
         setMultipartResolverBeanName("multipartResolver");
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @seeorg.springframework.web.multipart.support.MultipartFilter#
-     * lookupMultipartResolver(javax.servlet.http.HttpServletRequest)
-     */
     @Override
     protected MultipartResolver lookupMultipartResolver(HttpServletRequest request) {
 

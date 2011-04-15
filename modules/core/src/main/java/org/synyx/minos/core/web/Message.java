@@ -183,11 +183,6 @@ public final class Message implements Serializable, MessageSourceResolvable {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.context.MessageSourceResolvable#getArguments()
-     */
     public Object[] getArguments() {
 
         return arguments;
@@ -205,22 +200,12 @@ public final class Message implements Serializable, MessageSourceResolvable {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.context.MessageSourceResolvable#getCodes()
-     */
     public String[] getCodes() {
 
         return new String[] { key };
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.context.MessageSourceResolvable#getDefaultMessage()
-     */
     public String getDefaultMessage() {
 
         return null;

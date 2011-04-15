@@ -45,12 +45,6 @@ public abstract class AbstractNotificationProvider extends AbstractMetadataBased
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see com.synyx.minos.core.notification.NotificationProvider#notify(com.synyx
-     * .minos.core.notification.Notification)
-     */
     public final void notify(final Notification notification, final User recipient) {
 
         taskExecutor.execute(new Runnable() {

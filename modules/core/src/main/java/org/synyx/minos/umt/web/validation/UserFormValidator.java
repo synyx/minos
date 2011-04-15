@@ -51,22 +51,12 @@ public class UserFormValidator implements Validator {
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.validation.Validator#supports(java.lang.Class)
-     */
     public boolean supports(Class<?> clazz) {
 
         return UserForm.class.equals(clazz);
     }
 
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.validation.Validator#validate(java.lang.Object, org.springframework.validation.Errors)
-     */
     public void validate(Object target, Errors errors) {
 
         UserForm user = (UserForm) target;
