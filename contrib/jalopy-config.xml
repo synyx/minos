@@ -299,14 +299,14 @@
     </chunks>
     <comments>
      <format>
-      <multiLine>false</multiLine>
-      <singleLine>false</singleLine>
+      <multiLine>true</multiLine>
+      <singleLine>true</singleLine>
      </format>
      <javadoc>
       <blankLines>
        <xdoclet>0</xdoclet>
       </blankLines>
-      <blockTagsShort>true</blockTagsShort>
+      <blockTagsShort>false</blockTagsShort>
       <check>
        <description>
         <enabled>false</enabled>
@@ -336,7 +336,7 @@
       </compact>
       <enumShort>false</enumShort>
       <failOnError>false</failOnError>
-      <fieldsShort>true</fieldsShort>
+      <fieldsShort>false</fieldsShort>
       <generate>
        <bean>true</bean>
        <class>1</class>
@@ -352,9 +352,9 @@
       </generate>
       <html>
        <indent>false</indent>
-       <verify>false</verify>
+       <verify>true</verify>
       </html>
-      <methodsShort>true</methodsShort>
+      <methodsShort>false</methodsShort>
       <normalizeWhitespace>true</normalizeWhitespace>
       <parseComments>true</parseComments>
       <removePreformattedStar>true</removePreformattedStar>
@@ -369,12 +369,12 @@
        </custom>
        <group>true</group>
        <indent>true</indent>
-       <innerSpacing>2</innerSpacing>
+       <innerSpacing>1</innerSpacing>
        <methodTypeParams>false</methodTypeParams>
        <order>@param^param|@return^return|@throws^throws|@author^common|@version^common|@see^common|@since^common|@serial^common|@serialData^common|@serialField^common|@deprecated^common|@custom^common|@beaninfo^none|@@attribute^none|@invalid^common|@todo^common|@xdoclet^none|@jalopy.group^none|@call-tree^none</order>
        <removeMisused>false</removeMisused>
        <sort>true</sort>
-       <sortAttributes>false</sortAttributes>
+       <sortAttributes>true</sortAttributes>
        <sortXDoclet>false</sortXDoclet>
        <spelling>false</spelling>
       </tags>
@@ -439,11 +439,11 @@
        <lineLength>120</lineLength>
       </wrap>
      </javadoc>
-     <keepFirstColumnAsIs>false</keepFirstColumnAsIs>
+     <keepFirstColumnAsIs>true</keepFirstColumnAsIs>
      <moveAfterBrace>-1</moveAfterBrace>
      <reflow>
-      <multiLine>false</multiLine>
-      <singeLine>false</singeLine>
+      <multiLine>true</multiLine>
+      <singeLine>true</singeLine>
      </reflow>
      <remove>
       <javadoc>
@@ -489,8 +489,8 @@
      <wrap>
       <lineLength>120</lineLength>
       <minSpace>20</minSpace>
-      <multiLine>false</multiLine>
-      <singleLine>false</singleLine>
+      <multiLine>true</multiLine>
+      <singleLine>true</singleLine>
      </wrap>
     </comments>
     <environment />
@@ -1064,7 +1064,7 @@
     <lineSeparator>AUTO</lineSeparator>
     <testFormatting>false</testFormatting>
     <threadCount>2</threadCount>
-    <useEditorPreview>false</useEditorPreview>
+    <useEditorPreview>true</useEditorPreview>
    </misc>
    <project>
     <autoSwitch>true</autoSwitch>
