@@ -187,14 +187,6 @@
 			<version>1.2</version>
 		</dependency>
 
-
-		<dependency>
-			<groupId>httpunit</groupId>
-			<artifactId>httpunit</artifactId>
-			<version>1.6.2</version>
-			<scope>test</scope>
-		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -331,9 +323,8 @@
 			<name>Synyx OpenSource Repository</name>
 			<url>http://repo.synyx.org</url>
 			<snapshots>
-                                <enabled>true</enabled>
-                        </snapshots>
-
+				<enabled>true</enabled>
+			</snapshots>
 		</repository>
 
 		<repository>
@@ -370,15 +361,23 @@
 		</repository>
 
 		<repository>
-			<id>jboss</id>
-			<name>JBoss repository</name>
-			<url>http://repository.jboss.org/maven2</url>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Repository Group</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
 		</repository>
 
 	</repositories>
 
 	<pluginRepositories>
-
 		<pluginRepository>
 			<id>central</id>
 			<name>Maven Central</name>

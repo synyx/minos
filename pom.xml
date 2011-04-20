@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.synyx.minos</groupId>
     <artifactId>org.synyx.minos</artifactId>
     <version>2.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    
+
     <name>Minos</name>
     <description>Platform to implement modular Spring and JPA based web applications.</description>
-    
+
     <modules>
         <module>modules</module>
         <module>archetypes</module>
     </modules>
-    
-    <url>http://minos.synyx.de</url>
+
+    <url>http://minos.synyx.org</url>
     <inceptionYear>2008-2010</inceptionYear>
-    
+
     <licenses>
         <license>
             <name>Apache 2</name>
@@ -26,29 +26,28 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
-    
-    
+
     <organization>
         <name>Synyx GmbH &amp; Co. KG</name>
-        <url>http://www.synyx.de</url>
+        <url>http://www.synyx.org</url>
     </organization>
-    
+
     <ciManagement>
         <system>Hudson</system>
-        <url>http://ci.synyx.org</url>
+        <url>http://ci.synyx.org/job/minos-sandbox/</url>
     </ciManagement>
-    
+
     <issueManagement>
         <system>Redmine</system>
         <url>http://minos.synyx.org/</url>
     </issueManagement>
-    
+
     <scm>
         <url>http://svn.synyx.org/synyx/opensource/minos/trunk</url>
         <connection>scm:svn:http://svn.synyx.org/synyx/opensource/minos/trunk</connection>
         <developerConnection>scm:svn:https://svn.synyx.de/svn/synyx/opensource/minos/trunk</developerConnection>
     </scm>
-    
+
     <distributionManagement>
         <site>
             <id>static.synyx.org</id>
@@ -63,7 +62,7 @@
             <url>http://nexus.synyx.de/content/repositories/public-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-    
+
     <developers>
         <developer>
             <id>kannegiesser</id>
@@ -86,7 +85,7 @@
             </roles>
         </developer>
     </developers>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -99,7 +98,7 @@
             </plugin>
         </plugins>
     </build>
-    
+
     <profiles>
         <profile>
             <!--  Additional plugins for deploy step -->
@@ -131,7 +130,7 @@
                             </execution>
                         </executions>
                     </plugin>
-                    
+
                     <!-- Package JavaDoc -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -150,5 +149,50 @@
             </build>
         </profile>
     </profiles>
-    
+
+    <reporting>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jxr-plugin</artifactId>
+        </plugin>
+
+        <!--
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>jxr-maven-plugin</artifactId>
+        </plugin>
+        -->
+
+        <!-- Metrics plugins -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>jdepend-maven-plugin</artifactId>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>javancss-maven-plugin</artifactId>
+        </plugin>
+
+        <!-- Code checks -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>taglist-maven-plugin</artifactId>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <configuration>
+            <links>
+              <link>http://java.sun.com/javase/6/docs/api/</link>
+              <link>http://junit.sourceforge.net/javadoc/</link>
+              <link>http://static.springframework.org/spring/docs/3.0.x/javadoc-api/</link>
+            </links>
+          </configuration>
+        </plugin>
+      </plugins>
+    </reporting>
+
 </project>
