@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.synyx.minos.modules</groupId>
-	<artifactId>org.synyx.minos.modules.i18n</artifactId>
+	<artifactId>org.synyx.minos.modules.monitoring</artifactId>
 	<packaging>war</packaging>
 
 	<parent>
