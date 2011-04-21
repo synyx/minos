@@ -5,8 +5,6 @@
 
 <%@ taglib prefix="core" tagdir="/WEB-INF/tags/core" %>
 
-
-
 <div id="filter">
 <table id="filter_table">
 <tr>

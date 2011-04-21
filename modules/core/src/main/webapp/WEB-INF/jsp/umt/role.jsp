@@ -8,7 +8,6 @@
 <h2><spring:message code="umt.role" /></h2>
 
 <minos:form modelAttribute="role" action="/web/umt/roles">
-
 	<table class="form" id="role_form">
 		<tr>
 			<td><label for="roleform_name"><spring:message code="umt.role.name" />:</label></td>

@@ -6,6 +6,8 @@
 
 <%@ taglib prefix="core" tagdir="/WEB-INF/tags/core" %>
 
+<html>
+<body>
 <display:table id="role" name="roles" requestURI="roles">
 	<minos:column sortProperty="name" titleKey="name">
 		<a href="roles/${role.id}">${role.name}</a>
@@ -29,3 +31,5 @@
 		</tr>
 	</display:footer>
 </display:table>
+</body>
+</html>

@@ -1,3 +1,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<spring:message code="core.ui.error" />
+<html>
+<body>
+	<h1><spring:message code="core.ui.error" /></h1>
+</body>
+</html>
