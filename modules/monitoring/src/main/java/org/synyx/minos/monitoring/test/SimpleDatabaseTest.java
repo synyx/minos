@@ -5,7 +5,7 @@ import org.synyx.hades.domain.PageRequest;
 import org.synyx.hades.domain.Pageable;
 
 import org.synyx.minos.core.domain.User;
-import org.synyx.minos.monitoring.service.MonitoringTest.MonitoringTestCommand;
+import org.synyx.minos.monitoring.service.MonitoringTest;
 import org.synyx.minos.monitoring.service.MonitoringTestResult;
 import org.synyx.minos.umt.dao.UserDao;
 
@@ -15,7 +15,10 @@ import org.synyx.minos.umt.dao.UserDao;
  *
  * @author  Marc Kannegießer - kannegiesser@synyx.de
  */
-public class SimpleDatabaseTest implements MonitoringTestCommand {
+public class SimpleDatabaseTest extends MonitoringTest {
+
+    private static final String DEFAULT_DESCRIPTION = "Simple Database Test";
+    private static final String DEFAULT_NAME = "DB-READ";
 
     private static int expectedPageSize = 1;
 
@@ -23,12 +26,12 @@ public class SimpleDatabaseTest implements MonitoringTestCommand {
 
     public SimpleDatabaseTest(UserDao userDao) {
 
-        super();
+        super(DEFAULT_NAME, DEFAULT_DESCRIPTION);
         this.userDao = userDao;
     }
 
     @Override
-    public MonitoringTestResult getResult() {
+    public MonitoringTestResult execute() {
 
         Pageable page = new PageRequest(0, expectedPageSize);
 

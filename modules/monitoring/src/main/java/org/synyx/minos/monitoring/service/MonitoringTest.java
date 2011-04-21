@@ -1,32 +1,28 @@
 package org.synyx.minos.monitoring.service;
 
-public class MonitoringTest {
+public abstract class MonitoringTest {
 
     private String name;
     private String description;
 
-    private MonitoringTestCommand command;
-
-    public MonitoringTest(MonitoringTestCommand command) {
-
-        this.name = command.getClass().getSimpleName();
-        this.description = command.getClass().getName();
-        this.command = command;
+    public MonitoringTest() {
     }
 
 
-    public MonitoringTest(String name, String description, MonitoringTestCommand command) {
+    public MonitoringTest(String name, String description) {
 
-        super();
-        this.setName(name);
-        this.setDescription(description);
-        this.command = command;
+        setName(name);
+        setDescription(description);
     }
 
-    protected MonitoringTestResult execute() {
-
-        return command.getResult();
-    }
+    /**
+     * Implement this method in your <code>MonitoringTest</code> subclass and return the appropriate
+     * {@link MonitoringTestResult}. This should not return null on error, but a result that reflects the error that
+     * occurred.
+     *
+     * @return  a test result
+     */
+    public abstract MonitoringTestResult execute();
 
 
     public void setName(String name) {
@@ -37,7 +33,11 @@ public class MonitoringTest {
 
     public String getName() {
 
-        return name;
+        if (name == null) {
+            return getClass().getSimpleName();
+        } else {
+            return name;
+        }
     }
 
 
@@ -49,7 +49,11 @@ public class MonitoringTest {
 
     public String getDescription() {
 
-        return description;
+        if (description == null) {
+            return getClass().getName();
+        } else {
+            return description;
+        }
     }
 
 
@@ -85,10 +89,5 @@ public class MonitoringTest {
             return false;
 
         return true;
-    }
-
-    public interface MonitoringTestCommand {
-
-        MonitoringTestResult getResult();
     }
 }

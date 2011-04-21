@@ -19,6 +19,7 @@
 		<module>core</module>
 		<module>test</module>
 		<module>i18n</module>
+		<module>monitoring</module>
 	</modules>
 
 	<properties>
