@@ -4,11 +4,6 @@
 <%@ page import="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter" %>
 <html>
 <head>
-	<script type="text/javascript">
-$(document).ready(function() {
-	$("#loginform_username").focus();
-});
-	</script>
 	<style type="text/css">
 		#login { width: 400px; margin: 0 auto; }
 	</style>
@@ -43,6 +38,9 @@ $(document).ready(function() {
 </div>
 
 </form>
+<script type="text/javascript">
+  document.forms.login.loginform_username.focus();
+</script>
 </body>
 
 </html>
