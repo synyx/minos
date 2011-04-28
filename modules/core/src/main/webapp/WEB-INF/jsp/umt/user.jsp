@@ -6,7 +6,6 @@
 
 <html>
 <body>
-<h2><spring:message code="umt.user" /></h2>
-<umt:userForm />
+	<umt:userForm />
 </body>
 </html>

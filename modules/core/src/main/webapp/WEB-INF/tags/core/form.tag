@@ -8,7 +8,6 @@
 <%@ attribute name="id" required="false" description="The id to be set for the form. If not set the name of the model attribute will be used." %>
 <%@ attribute name="action" required="true" description="The URL of the collection resource to POST to for creation. Default resource URL is then \$\{collectionUrl}/{id}." %>
 <%@ attribute name="resourceAction" required="false" description="A custom URL template to update existing entities with PUT" %>
-
 <%@ attribute name="modelAttribute" required="true" description="The model attribute to create the form for. Has to have a 'new' property as well as an 'id'." %>
 
 <%--
