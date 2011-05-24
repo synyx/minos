@@ -84,6 +84,22 @@
                 <role>Developer</role>
             </roles>
         </developer>
+        <developer>
+            <id>menz</id>
+            <name>Alexander Menz</name>
+            <email>menz@synyx.de</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>kuhn</id>
+            <name>Stefan Kuhn</name>
+            <email>kuhn@synyx.de</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
     </developers>
 
     <build>
