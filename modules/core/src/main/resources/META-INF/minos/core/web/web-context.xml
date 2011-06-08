@@ -64,7 +64,15 @@
 		</property>
 		<property name="webBindingInitializer" ref="minosWebBindingInitializer" />	
         <property name="supportedMethods" value="GET,PUT,POST,HEAD,DELETE" />
+        <property name="messageConverters">
+			<plugin:list class="org.springframework.http.converter.HttpMessageConverter" />
+		</property>
 	</bean>
+	
+	<!--  MessageConverters to map to simple String and JSon -->
+	<bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter"/>
+    <bean id="jacksonsHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+	
 
 	<bean class="org.synyx.minos.core.web.PageableArgumentResolver" />
     <bean class="org.synyx.minos.core.web.CurrentUserArgumentResolver">
