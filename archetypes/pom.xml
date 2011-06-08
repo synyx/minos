@@ -17,7 +17,6 @@
 
 	<modules>
 		<module>application</module>
-		<module>module</module>
 	</modules>
 
 </project>
