@@ -56,7 +56,7 @@ public class MonitoringController implements ApplicationContextAware {
     }
 
 
-    @RequestMapping(value = "/monitoring", method = GET)
+    @RequestMapping(value = "/public/monitoring", method = GET)
     @ResponseBody
     public List<MonitoringTest> getMonitoringTests() {
 
@@ -64,7 +64,7 @@ public class MonitoringController implements ApplicationContextAware {
     }
 
 
-    @RequestMapping(value = "/monitoring/{name}", method = { GET, POST })
+    @RequestMapping(value = "/public/monitoring/{name}", method = { GET, POST })
     @ResponseBody
     public MonitoringTestResult executeTest(@PathVariable("name") String name) {
 
