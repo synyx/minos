@@ -46,6 +46,7 @@
 </head>
 <body>
 <form:form action="${symbol_dollar}{formURL}" method="${symbol_dollar}{formMethod}" modelAttribute="item">
+	<form:errors path="*" />
 	<fieldset>
 		<legend>${symbol_dollar}{formTitle}</legend>
 		<form:hidden path="id" />
