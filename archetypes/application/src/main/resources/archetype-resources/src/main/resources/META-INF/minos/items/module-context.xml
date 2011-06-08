@@ -55,7 +55,7 @@
 	<!-- Services -->
 	<bean class="${package}.service.ClockService" />
 
-	<!-- Custom permissions, read from a class with static String constants -->
+	<!-- Custom permissions, scanned from a class with String constants. -->
 	<bean class="org.synyx.minos.core.security.SimpleConstantsPermissionAware">
 		<constructor-arg>
 			<list>
