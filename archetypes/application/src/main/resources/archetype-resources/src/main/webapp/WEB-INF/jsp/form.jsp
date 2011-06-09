@@ -23,43 +23,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>${symbol_dollar}{formTitle}</title>
-    <style type="text/css">
-    ${symbol_pound}item { font: 13px/20px sans-serif; }
-    ${symbol_pound}item fieldset { background: ${symbol_pound}eee; padding: 1em; }
-    ${symbol_pound}item legend {
-    	font-weight: bold;
-    	padding: 0.2em 0.5em;
-    	border: 1px solid black;
-    	background: ${symbol_pound}ddd;
-    }
-    ${symbol_pound}item label { width: 10em; display: block; float: left; clear: left; }
-    ${symbol_pound}item input, ${symbol_pound}item submit { display: block; float: left; }
-    ${symbol_pound}item button[name="submit"] {
-    	display: block;
-    	clear: left;
-    	float: left;
-    	margin-top: 2em;
-    	font-weight: bold;
-    }
-    ${symbol_pound}item .error { color: red; }
-    </style>
 </head>
 <body>
 <form:form action="${symbol_dollar}{formURL}" method="${symbol_dollar}{formMethod}" modelAttribute="item">
-	<form:errors path="*" />
-	<fieldset>
-		<legend>${symbol_dollar}{formTitle}</legend>
-		<form:hidden path="id" />
-		<form:hidden path="createdDate" />
-		<form:hidden path="createdBy" />
-		<label for="description"><spring:message code="items.singular.description"/></label>
-		<form:input id="description" path="description" /><form:errors class="error" path="description" /><br />
-		<label for="status"><spring:message code="items.singular.status" /></label>
-		<form:select path="status" id="status">
-			<form:options items="${symbol_dollar}{statusValues}" itemLabel="message" />
-		</form:select>
-		<form:errors  class="error" path="status" /><br />
+<form:errors path="*" />
+<form:hidden path="id" />
+<form:hidden path="createdDate" />
+<form:hidden path="createdBy" />
+<fieldset>
+<legend>${symbol_dollar}{formTitle}</legend>
+<div class="pair">
+	<label for="description"><spring:message code="items.singular.description"/></label>
+	<form:input id="description" path="description" /><form:errors class="error" path="description" /><br />
+</div>
+<div class="pair">
+	<label for="status"><spring:message code="items.singular.status" /></label>
+	<form:select path="status" id="status">
+		<form:options items="${symbol_dollar}{statusValues}" itemLabel="message" />
+	</form:select>
+	<form:errors  class="error" path="status" /><br />
+</div>
+</fieldset>
+<fieldset>
+	<div class="buttonrow">
 		<button name="submit" value="submit" type="submit">Submit!</button>
-	</fieldset>
+	</div>
+</fieldset>
 </form:form>
 </body>

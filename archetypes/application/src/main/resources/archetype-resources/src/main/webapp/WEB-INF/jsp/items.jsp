@@ -27,10 +27,12 @@
 	<minos:column titleKey="items.singular.createdDate" property="createdDate" />
 	<minos:column titleKey="items.singular.status" property="status.message" />
 	<minos:column>
-		<a class="editlink" href="items/${symbol_dollar}{item.id}">${symbol_dollar}{editMessage}</a>
+		<a class="editlink" href="items/${symbol_dollar}{item.id}" title="${symbol_dollar}{editMessage}">
+			<img src="<spring:url value="/images/edit.png" />" alt="${symbol_dollar}{editMessage}" />
+		</a>
 		<authz:authorize ifAnyGranted="ROLE_ADMIN">
-		<form:form method="delete" action="items/${symbol_dollar}{item.id}">
-			<input type="submit" value="${symbol_dollar}{deleteMessage}" />
+		<form:form method="delete" action="items/${symbol_dollar}{item.id}" cssStyle="display: inline;">
+			<input type="image" src="<c:url value="/images/core/delete.png" />"  alt="<spring:message code="core.ui.delete" />" />
 		</form:form>
 		</authz:authorize>
 	</minos:column>
