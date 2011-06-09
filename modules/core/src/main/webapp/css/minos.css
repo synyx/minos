@@ -39,24 +39,59 @@ h3 {
 #middle { padding: 1em 1em; }
 
 /* forms */
-form fieldset { margin: 10px 0; padding: 10px; border: #ddd 1px solid; }
+form { width: 590px; }
+form fieldset {
+    padding: 10px;
+    clear: both;
+    border-color: #ddd;
+    border-width: 1px 0 0 0;
+    border-style: solid none none none;
+}
 form fieldset legend { font-weight: bold; color: #666; }
-form fieldset div { padding: 0.25em 0; }
-form fieldset label,
-form fieldset span.label { margin-right: 10px; padding-right: 10px; width: 150px; display: block; float: left; text-align: right; position: relative; }
-form fieldset label.error,
-form fieldset span.error,
-form fieldset span[id$=".errors"] { color: #c00; }
-form fieldset label em,
-form fieldset span.label em { position: absolute; right: 0; font-size: 120%; font-style: normal; color: #C00; }
+form div.pair {
+    display: block;
+    clear: left;
+    margin: 0.5em 0 0 0;
+}
+form div.pair label,
+form div.pair span.label {
+    margin-right: 10px;
+    width: 150px;
+    display: block;
+    float: left;
+    text-align: right;
+}
+form div.pair input[type="text"],
+form div.pair textarea,
+form div.pair input[type="password"] {
+    min-width: 250px;
+}
+
+form fieldset span[id$=".errors"] {
+    display: block;
+    clear: both;
+    color: #c00;
+    margin-top: 5px;
+    margin-left: 160px;
+}
+form fieldset.checkboxes span[id$=".errors"] { margin-left: 0px; }
+
 form fieldset input.error { border-color: #c00; background-color: #fef; }
+
 form fieldset input:focus,
-form fieldset input.error:focus,
 form fieldset textarea:focus {	background-color: #FFC; border-color: #FC6; }
-form fieldset div.controlset label,
-form fieldset div.controlset input { display: inline; float: none; }
-form fieldset div.controlset div { margin-left: 170px; }
-form div.buttonrow { margin-left: 180px; }
+
+form fieldset.checkboxes { padding-left: 170px; }
+form fieldset.checkboxes legend { margin-left: -160px; }
+
+form fieldset.checkboxes input { margin-right: 0.5em; }
+form fieldset.checkboxes span {
+    width: 120px;
+    display: inline-block;
+    margin-right: 1em;
+    white-space: nowrap;
+}
+form div.buttonrow { margin-left: 160px; }
 
 /* tables */
 table th { white-space: nowrap; }

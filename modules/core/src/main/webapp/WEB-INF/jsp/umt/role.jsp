@@ -8,74 +8,48 @@
 <h2><spring:message code="umt.role" /></h2>
 
 <minos:form modelAttribute="role" action="/web/umt/roles">
-	<table class="form" id="role_form">
-		<tr>
-			<td><label for="roleform_name"><spring:message code="umt.role.name" />:</label></td>
-			<td>
-				<c:if test="${role.systemRole}">
-					${role.name}
-					<form:hidden path="name" />
-				</c:if>
-				<c:if test="${!role.systemRole}">
-					<form:input path="name" id="roleform_name"/>
-				</c:if>
-			</td>
-			<td><form:errors path="name" /></td>
-		</tr>
-		<tr>
-			<td><label for="roleform_permissions"><spring:message code="umt.role.permissions" />:</label></td>
-			<td>
-				
-			
-				
-				<c:forEach items="${permissions}" var="permission" varStatus="status">
-					
-					
-					
-					<c:choose>
-					<c:when test="${permission.checked}"><c:set var="checked" value="checked='checked'"/></c:when>
-					<c:otherwise><c:set var="checked" value=""/></c:otherwise>
-					</c:choose>
-					
-					<c:set var="permissionnamenotresolved" value="umt.permission.${permission.name}"/>
-					<c:set var="permissionname"><spring:message code="umt.permission.${permission.name}"/></c:set>
-					<c:if test="${permissionname eq permissionnamenotresolved}">
-						<c:set var="permissionname" value="${permission.name}"/>
-					</c:if>
-					
-					<c:set var="permissiondescnotresolved" value="umt.permission.description.${permission.name}"/>
-					<c:set var="permissiondesc"><spring:message code="umt.permission.description.${permission.name}"/></c:set>
-					<c:if test="${permissiondesc eq permissiondescnotresolved}">
-						<c:set var="permissiondesc" value=""/>
-					</c:if>
-					
-					
-					<span title="${permissiondesc}"><input ${checked} type="checkbox" value="${permission.name}" name="permissions" id="rolefor_permissions${status.index+1}"><label for="rolefor_permissions${status.index+1}">${permissionname}</label><br /></span>
-					
-					
-					
-					
-					
-					
-
-					
-					</li>
-				</c:forEach>
-				</ul>
-				<input type="hidden" value="on" name="_permissions"/>
-			</td>
-			<td><form:errors path="permissions" /></td>
-		</tr>
-		<tfoot>
-			<tr>
-				<td></td>
-				<td>
-					<input type="submit" value="<spring:message code="core.ui.ok" />" />
-					<a href="../roles"><spring:message code="core.ui.cancel" /></a>
-				</td>
-				<td></td>
-			</tr>
-		</tfoot>
-	</table>
-	
+<fieldset>
+<legend><spring:message code="umt.role" /></legend>
+<div class="pair">
+	<label for="roleform_name"><spring:message code="umt.role.name" /></label>
+	<c:choose><c:when test="${role.systemRole}">
+		<span>${role.name}</span>
+		<form:hidden path="name" />
+	</c:when><c:otherwise>
+		<form:input path="name" id="roleform_name"/>
+		<form:errors path="name" />
+	</c:otherwise></c:choose>
+</div>
+</fieldset>
+<fieldset class="checkboxes">
+<legend><spring:message code="umt.role.permissions" /></legend>
+<c:forEach items="${permissions}" var="permission" varStatus="status">
+	<c:choose>
+		<c:when test="${permission.checked}"><c:set var="checked" value="checked='checked'"/></c:when>
+		<c:otherwise><c:set var="checked" value=""/></c:otherwise>
+	</c:choose>
+	<c:set var="permissionnamenotresolved" value="umt.permission.${permission.name}"/>
+	<c:set var="permissionname"><spring:message code="umt.permission.${permission.name}"/></c:set>
+	<c:if test="${permissionname eq permissionnamenotresolved}">
+		<c:set var="permissionname" value="${permission.name}"/>
+	</c:if>
+	<c:set var="permissiondescnotresolved" value="umt.permission.description.${permission.name}"/>
+	<c:set var="permissiondesc"><spring:message code="umt.permission.description.${permission.name}"/></c:set>
+	<c:if test="${permissiondesc eq permissiondescnotresolved}">
+		<c:set var="permissiondesc" value=""/>
+	</c:if>
+	<span title="${permissiondesc}">
+		<input ${checked} type="checkbox" value="${permission.name}" name="permissions" id="rolefor_permissions${status.index+1}">
+		<label for="rolefor_permissions${status.index+1}">${permissionname}</label
+	</span>
+</c:forEach>
+<input type="hidden" value="on" name="_permissions"/>
+<form:errors path="permissions" />
+</fieldset>
+<fieldset>
+<div class="buttonrow">
+	<input type="submit" value="<spring:message code="core.ui.ok" />" />
+	<a href="../roles"><spring:message code="core.ui.cancel" /></a>
+</div>
+</fieldset>
 </minos:form>
