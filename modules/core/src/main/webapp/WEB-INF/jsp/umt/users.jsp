@@ -5,6 +5,9 @@
 
 <%@ taglib prefix="core" tagdir="/WEB-INF/tags/core" %>
 
+<html>
+<body>
+
 <div id="filter">
 <table id="filter_table">
 <tr>
@@ -59,3 +62,6 @@
 		</tr>
 	</display:footer>
 </display:table>
+
+</body>
+</html>
