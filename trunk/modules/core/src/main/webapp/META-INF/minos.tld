@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+    version="2.1">
+
+    <description>Minos JSP Tag Library</description>
+    <tlib-version>2.0</tlib-version>
+    <short-name>minos</short-name>
+    <uri>http://www.synyx.org/minos/tags</uri>
+    
+    <tag>
+        <description>
+            Renders a system message if available.
+        </description>
+        <name>system-message</name>
+        <tag-class>org.synyx.minos.core.web.tags.SystemMessageTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+    
+    <tag>
+        <name>styles</name>
+        <tag-class>org.synyx.minos.core.web.tags.StylesTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+    
+    <tag>
+        <name>menu</name>
+        <tag-class>org.synyx.minos.core.web.tags.menu.MenuTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+          <description>
+            The name of the menu to display (try MAIN for default-menu)
+          </description>
+          <name>menuId</name>
+          <required>false</required>
+          <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <description>
+                A Spring bean implementing org.synyx.minos.core.web.tags.menu.MenuRenderer,
+                which is used to render the menu tag.
+            </description>
+            <name>renderBean</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    
+    <tag>
+        
+        <name>table</name>
+        <tag-class>org.synyx.minos.core.web.tags.table.TableTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+          <description>
+            When the present, links for sorting, exports, and paging are formed by adding any tag generated parameters to
+            the value of requestURI attribute.
+          </description>
+          <name>requestURI</name>
+          <required>false</required>
+          <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
+    
+    <tag>
+        <name>column</name>
+        <tag-class>org.synyx.minos.core.web.tags.table.ColumnTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+          <description>
+            name of the property in the bean specified in the parent table tag (via the "name" attribute) mapped to this
+            column
+          </description>
+          <name>property</name>
+          <required>false</required>
+          <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        name of the property in the bean specified in the parent table tag (via the "name" attribute) which will be used
+        to sort values in the column. This can be used when the column body is filled or a decorator is used and column
+        should sort on undecorated values.
+      </description>
+      <name>sortProperty</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>title of the column (text for the th cell)</description>
+      <name>title</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        The classname of comparator to use when sorting this column, or the comparator itself. Defaults to the
+        DefaultComparator.
+      </description>
+      <name>comparator</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        Resource key used to lookup the title value. Only works if "title" is not defined. Works together with a
+        configured I18nResourceProvider, specified via the displaytag.properties file. By default, if JSTL is available,
+        the JSTL provider is used, which makes this attribute work the same as fmt:message's key property.
+      </description>
+      <name>titleKey</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        By default, null values don't appear in the list. By setting 'nulls' to 'true', then null values will appear as
+        "null" in the list (mostly useful for debugging). Defaults to 'false'.
+      </description>
+      <name>nulls</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        If true, will total the contents of this column. This value is available via the Map named in varTotals for the
+        table. Column values need to Numbers.
+      </description>
+      <name>total</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>boolean</type>
+    </attribute>
+    <attribute>
+      <description>Set to 'true' to make the column sortable. Defaults to 'false'.</description>
+      <name>sortable</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        The default sort order for this column. Valid values are "ascending" (default) or "descending"
+      </description>
+      <name>defaultorder</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description>
+        Automatically hyperlink URLs and email addresses that appear in the column. Defaults to 'false'.
+      </description>
+      <name>autolink</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        A MessageFormat patter that will be used to decorate objects in the column. Can be used as a "shortcut" for
+        simple column decorations. @since 1.1
+      </description>
+      <name>format</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description>
+        Set it to true to escape special characters in html and xml output. Defaults to 'false'. @since 1.1
+      </description>
+      <name>escapeXml</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>boolean</type>
+    </attribute>
+    <attribute>
+      <description>
+        Render the column for the media type(s). The column won't be added to the table if the current request media is
+        not supported. Can be any space separated combination of 'html', 'csv', 'xml', 'all', or 'excel'. Defaults to
+        'all'.
+      </description>
+      <name>media</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        <![CDATA[
+        The base URL used to construct the dynamic link. If this attribute is provided, then the data that is shown for
+        this column is wrapped inside a <a href=""> tag with the url provided through this attribute. Typically you
+        would use this attribute along with one of the struts-like param attributes (param*) to create a dynamic link so
+        that each row creates a different URL based on the data that is being viewed. An empty href value will generate
+        a link to the current page, preserving parameters just like for paging links.]]>
+      </description>
+      <name>href</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        The base URL used to construct the dynamic link. This attribute has the same functionality as the href
+        attribute, but it pre-pends the contextPath.
+      </description>
+      <name>url</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        The name of the request parameter that will be dynamically added to the generated href URL. The corresponding
+        value is defined by the perty and (optional) paramName attributes, optionally scoped by the paramScope
+        attribute.
+      </description>
+      <name>paramId</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        The name of a JSP bean that is a String containing the value for the request parameter named by paramId (if
+        paramProperty is not specified), or a JSP bean whose property getter is called to return a String (if
+        paramProperty is specified). The JSP bean is constrained to the bean scope specified by the paramScope property,
+        if it is specified. If paramName is omitted, then it is assumed that the current object being iterated on is the
+        target bean.
+      </description>
+      <name>paramName</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        The name of a property of the current object being iterated on, whose return value will be used as the value of
+        the parameter (named by the paramId attribute) that will be dynamically added to this href URL. If paramName is
+        also specified the property will not be fetched from the object being iterated on, but from the bean specified
+        by paramName. The support of paramProperty in conjunction with paramName will be probably removed in future: use
+        paramProperty only if you need a property in the iterated object, elsewhere use only paramName (you can select a
+        property using an expression name.property).
+      </description>
+      <name>paramProperty</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        @deprecated - use Expressions in paramName. The scope within which to search for the bean specified by the
+        paramName attribute. If not specified, all scopes are searched. If paramName is not provided, then the current
+        object being iterated on is assumed to be the target bean.
+      </description>
+      <name>paramScope</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        If this attribute is provided, then the column's displayed is limited to this number of characters. An elipse
+        (...) is appended to the end if this column is linked, and the user can mouseover the elipse to get the full
+        text. Be careful on using this attribute for String which can contain html tags or entities, or together with
+        the autolink attribute turned on: displaytag will do its best trying to avoid leaving unclosed tags or broken
+        entities in the output, but a complex or bad input could lead to unattended results.
+      </description>
+      <name>maxLength</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        If this attribute is provided, then the column's displayed is limited to this number of words. An elipse (...)
+        is appended to the end if this column is linked, and the user can mouseover the elipse to get the full text. Be
+        careful on using this attribute for String which can contain html tags or entities, or together with the
+        autolink attribute turned on: displaytag will do its best trying to avoid leaving unclosed tags or broken
+        entities in the output, but a complex or bad input could lead to unattended results.
+      </description>
+      <name>maxWords</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        html pass through attribute; use this instead of directly coding presentational atttributes.
+      </description>
+      <name>class</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>"class" html attribute added only for header cells.</description>
+      <name>headerClass</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>html pass through attribute.</description>
+      <name>style</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        The grouping level (starting at 1 and incrementing) of this column (indicates if successive contain the same
+        values, then they should not be displayed). The level indicates that if a lower level no longer matches, then
+        the matching for this higher level should start over as well. If this attribute is not included, then no
+        grouping is performed.
+      </description>
+      <name>group</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        Whitespace separated list of column decorators to apply to the current column. A table decorator name can be the
+        name of an object in page, request, session or application scope or a fully qualified class name of a class
+        implementing the org.displaytag.decorator.DisplaytagColumnDecorator interface. If a decorator is specified for
+        the entire table, then this decorator will decorate that decorator.
+      </description>
+      <name>decorator</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        Used with sort="external", the name that should be given to the server to sort this column. IE if
+        sortName="buzz", then the href for this column to sort will have a parameter d-(encodedId)-s=buzz. If sortName
+        is ommitted the value for the sort param will default to the column number.
+      </description>
+      <name>sortName</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <description>"scope" html attribute added only for header cells.</description>
+      <name>headerScope</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>"scope" html attribute.</description>
+      <name>scope</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <description>
+        Static value to be used for the column. It has the same meaning of setting a value in the tag body, but values
+        set using this attribute will not be coerced to Strings. You may need to use the value attribute instead of a
+        scriptlet in the tag body if you need to calculate totals on numeric values.
+      </description>
+      <name>value</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+    </attribute>
+  </tag>
+    
+</taglib>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+
+	<!-- Read properties from properties file to use them in beanconfigs -->
+	<bean id="propertyPlaceholderConfigurer"
+		class="org.synyx.minos.core.configuration.EnvironmentPropertyPlaceholderConfigurer">
+				<property name="ignoreResourceNotFound" value="true" />
+		<property name="systemPropertiesMode">
+			<util:constant static-field="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer.SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		</property>
+		<property name="environmentPropertyName" value="minos.environment"/>
+		<property name="defaultEnvironment" value="dev"/>
+		<property name="resourcePatterns">
+			<list>
+			    <value>classpath*:module.properties</value>
+				<value>classpath:application.properties</value>
+				<value>classpath:application-{env}.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${database.driver}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+		<property name="testOnBorrow" value="${database.testonborrow}" />
+		<property name="validationQuery" value="${database.validationquery}" />
+		
+	</bean>
+
+	<!--
+		org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager
+	-->
+	<bean id="persistenceUnitManager"
+		class="org.synyx.minos.support.jpa.MergingPersistenceUnitManager">
+		<property name="defaultDataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitManager" ref="persistenceUnitManager" />
+		<property name="persistenceUnitName" value="minos" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="generateDdl" value="true" />
+			</bean>
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="hibernate.hbm2ddl.delimiter.type" value="InnoDB" />
+				<entry key="hibernate.dialect" value="${hibernate.dialect}" />
+				<entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<!-- 
+		
+		Mail Setup TODO: replace with concrete implementation
+		
+	-->
+
+	<!-- Mock dependencies of MailNotificationAspect -->
+	<bean id="mailSender" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg value="org.springframework.mail.javamail.JavaMailSender" />
+	</bean>
+
+
+
+</beans>

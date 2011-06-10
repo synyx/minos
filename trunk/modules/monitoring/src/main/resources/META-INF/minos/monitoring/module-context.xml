@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:hera="http://schemas.synyx.org/hera"
+       xmlns:module="http://schemas.synyx.org/minos/module"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://schemas.synyx.org/hera http://schemas.synyx.org/hera/hera.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://schemas.synyx.org/minos/module http://schemas.synyx.org/minos/module/minos-module.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<bean id="monitoringService" class="org.synyx.minos.monitoring.service.MonitoringServiceImpl">
+		<property name="tests">
+			<hera:list class="org.synyx.minos.monitoring.service.MonitoringTest"/>
+		</property>
+	</bean>
+
+	<bean id="dbTest" class="org.synyx.minos.monitoring.test.SimpleDatabaseTest">
+		<constructor-arg ref="userDao"/>
+		<property name="name" value="DB-READ"/>
+		<property name="description" value="Simple Database Test"/>
+	</bean>
+
+	<module:module id="monitoring" base-package="org.synyx.minos.monitoring"
+		depends-on="core" auto-config="false" />
+
+</beans>

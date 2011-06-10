@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+    xmlns:plugin="http://schemas.synyx.org/hera"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+        http://schemas.synyx.org/hera http://schemas.synyx.org/hera/hera.xsd">
+	
+	<!-- Securing service layer -->
+	
+	<!-- Service wrapper to access authentication information -->
+	<bean id="authenticationService" class="org.synyx.minos.core.security.SpringSecurityAuthenticationService">
+		<constructor-arg ref="userDao" />
+		<constructor-arg ref="accessDecisionManager" />
+		<constructor-arg ref="passwordEncoder" />
+		<constructor-arg ref="saltSource" />
+        <property name="modulePermissions">
+            <plugin:list class="org.synyx.minos.core.security.PermissionAware" />
+        </property>
+	</bean>
+	
+	<!-- User details service implementation -->
+	<bean id="userDetailsService" class="org.synyx.minos.core.security.MinosUserDetailsService">
+		<constructor-arg ref="userDao" />
+	</bean>
+	
+	<!-- Authentication provider -->
+    <security:authentication-manager>
+    	<security:authentication-provider ref="pluginAuthenticationProvider"/>
+    </security:authentication-manager>
+
+    <bean id="pluginAuthenticationProvider" class="org.synyx.minos.core.security.PluginAuthenticationProvider">
+        <property name="authenticationPlugins">
+            <plugin:list class="org.synyx.minos.core.security.AuthenticationPlugin" />
+        </property>
+    </bean>
+
+    <bean class="org.synyx.minos.core.security.AuthenticationProviderWrapperPlugin">
+        <constructor-arg ref="daoAuthenticationProvider"/>
+    </bean>
+
+    <bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <property name="userDetailsService" ref="userDetailsService"/>
+        <property name="passwordEncoder" ref="passwordEncoder"/>
+        <property name="saltSource" ref="saltSource"/>
+    </bean>
+
+	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+	<bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+		<property name="userPropertyToUse" value="id" />
+	</bean>
+
+    <!-- Example for authenticating against an LDAP server -->
+    <!--
+    <security:ldap-server id="ldapAuthServer" url="ldap://ldap:389/dc=example,dc=com"/>
+
+    <bean class="org.synyx.minos.core.security.AuthenticationProviderWrapperPlugin">
+        <constructor-arg ref="ldapAuthProvider"/>
+    </bean>
+
+    <bean id="ldapAuthProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
+        <constructor-arg>
+            <bean class="org.springframework.security.ldap.authentication.BindAuthenticator">
+                <constructor-arg ref="ldapAuthServer"/>
+                <property name="userDnPatterns"><list><value>uid={0},ou=People</value></list></property>
+            </bean>
+        </constructor-arg>
+        <property name="userDetailsContextMapper">
+            <bean class="org.synyx.minos.core.security.MinosUserDetailsContextMapper">
+                <constructor-arg ref="userManagement"/>
+                <property name="defaultRoles" value="${user.defaultRoles}"/>
+            </bean>
+        </property>
+    </bean>
+    -->
+
+	
+	<!-- Enable audition on entities -->
+	<bean id="auditingAdvice" class="org.synyx.hades.domain.auditing.AuditingAdvice">
+		<property name="auditorAware" ref="authenticationService" />
+	</bean>
+	
+	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<property name="decisionVoters">
+			<list>
+                <bean class="org.springframework.security.access.vote.RoleVoter" />
+                
+				<bean class="org.springframework.security.access.vote.RoleVoter">
+                    <property name="rolePrefix" value="" />
+                </bean>
+				
+				<bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 
+	<security:global-method-security jsr250-annotations="enabled" access-decision-manager-ref="accessDecisionManager" />
+	 -->
+
+</beans>

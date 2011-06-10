@@ -1,0 +1,87 @@
+table {
+	margin: 20px 0 20px 0;
+	font-size: 0.8em;
+	border-collapse: collapse;
+	color: #666;
+}
+
+th { border-bottom: 2px solid #eee; }
+td { border-bottom: 1px solid #eee; }
+
+th,td {
+	padding: 4px 8px;
+	text-align: left;
+	color: #000;
+}
+
+td.date { text-align: right; }
+
+tfoot td {
+	border-top: 2px solid #eee;
+	border-bottom: none;
+	padding-top: 1em;
+}
+
+
+th a,th a:visited {	color: #000; }
+th a:hover { text-decoration: underline; color: #666; }
+
+th.sorted { text-decoration: underline; }
+th.sorted a,th.sortable a {
+	background: right no-repeat;
+	display: block;
+	width: 100%;
+}
+
+th.sortable a {
+	background-image: url(../images/arrow_off.png);
+	text-decoration: none;
+	margin-right: 1.5em;
+}
+
+th.order1 a { background-image: url(../images/arrow_down.png); }
+th.order2 a { background-image: url(../images/arrow_up.png); }
+
+tr.odd { background-color: #fff; }
+tr.even { background-color: #fafafa; }
+
+div.exportlinks {
+	background-color: #eee;
+	border: 1px dotted #999;
+	padding: 2px 4px 2px 4px;
+	margin: 2px 0 10px 0;
+	width: 79%;
+}
+
+span.export {
+	padding: 0 4px 1px 20px;
+	display: inline;
+	display: inline-block;
+	cursor: pointer;
+}
+
+div#pagebanner {
+	border-bottom: 1px solid #eee;
+	padding-bottom: 2px;
+}
+
+span.pagebanner, span.pagelinks {
+	padding: 4px 8px;
+	width: 79%;
+	margin-top: 10px;
+	font-size: 0.8em;
+}
+
+.group-1, .group-2 { border-top:1px solid black; }
+
+.group-1 { font-weight:bold; padding-bottom:10px; }
+.group-2 { font-style:italic; border-top: 1px solid black; }
+
+.subtotal-header,
+.subtotal-label,
+.grandtotal-label { border-top: 1px solid white; }
+.grandtotal-row { border-top: 2px solid black; }
+
+.subtotal-header { padding-bottom: 0px; }
+.subtotal-label, .grandtotal-label { font-weight: bold; }
+.subtotal-sum, .grandtotal-sum { font-weight: bold; text-align: right; }
