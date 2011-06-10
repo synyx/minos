@@ -93,6 +93,22 @@
             </roles>
         </developer>
         <developer>
+            <id>krupicka</id>
+            <name>Florian  Krupicka</name>
+            <email>krupicka@synyx.de</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+	</developer>
+        <developer>
+            <id>schalanda</id>
+            <name>Jochen Schalanda</name>
+            <email>schalanda@synyx.de</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
             <id>kuhn</id>
             <name>Stefan Kuhn</name>
             <email>kuhn@synyx.de</email>
