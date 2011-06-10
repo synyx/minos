@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.synyx.minos</groupId>
+    <artifactId>org.synyx.minos</artifactId>
+    <version>2.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>Minos</name>
+    <description>Platform to implement modular Spring and JPA based web applications.</description>
+
+    <modules>
+        <module>modules</module>
+        <module>archetypes</module>
+    </modules>
+
+    <url>http://minos.synyx.org</url>
+    <inceptionYear>2008-2010</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>Synyx GmbH &amp; Co. KG</name>
+        <url>http://www.synyx.org</url>
+    </organization>
+
+    <ciManagement>
+        <system>Hudson</system>
+        <url>http://ci.synyx.org/job/minos-sandbox/</url>
+    </ciManagement>
+
+    <issueManagement>
+        <system>Redmine</system>
+        <url>http://minos.synyx.org/</url>
+    </issueManagement>
+
+    <scm>
+        <url>http://svn.synyx.org/synyx/opensource/minos/tags/org.synyx.minos-2.0.0</url>
+        <connection>scm:svn:http://svn.synyx.org/synyx/opensource/minos/tags/org.synyx.minos-2.0.0</connection>
+        <developerConnection>scm:svn:https://svn.synyx.de/svn/synyx/opensource/minos/tags/org.synyx.minos-2.0.0</developerConnection>
+    </scm>
+
+    <distributionManagement>
+        <site>
+            <id>static.synyx.org</id>
+            <url>scp://static.synyx.org/home/public/public_html/minos/site/${project.version}</url>
+        </site>
+        <repository>
+            <id>releases.public.nexus.synyx.de</id>
+            <url>http://nexus.synyx.de/content/repositories/public-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots.public.nexus.synyx.de</id>
+            <url>http://nexus.synyx.de/content/repositories/public-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <developers>
+        <developer>
+            <id>kannegiesser</id>
+            <name>Marc Kannegießer</name>
+            <email>kannegiesser@synyx.de</email>
+            <roles>
+                <role>Project Lead</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>gierke</id>
+            <name>Oliver Gierke</name>
+            <email>ogierke@vmware.com</email>
+            <url>http://www.olivergierke.de</url>
+            <organization>SpringSource - a division of VMware</organization>
+            <organizationUrl>http://www.springsource.com</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>menz</id>
+            <name>Alexander Menz</name>
+            <email>menz@synyx.de</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>krupicka</id>
+            <name>Florian  Krupicka</name>
+            <email>krupicka@synyx.de</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+	</developer>
+        <developer>
+            <id>schalanda</id>
+            <name>Jochen Schalanda</name>
+            <email>schalanda@synyx.de</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>kuhn</id>
+            <name>Stefan Kuhn</name>
+            <email>kuhn@synyx.de</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.0-beta-9</version>
+                <configuration>
+                    <scmCommentPrefix> * [maven-release-plugin] - </scmCommentPrefix>
+                </configuration>
+            </plugin>
+
+            <!--
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>2.2</version>
+            </plugin>
+            -->
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <!--  Additional plugins for deploy step -->
+            <id>release</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!--  Sign artifacts -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.0</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <keyname>${gpg.key}</keyname>
+                                    <passphrase>${gpg.password}</passphrase>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Package JavaDoc -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.7</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <reporting>
+      <plugins>
+        <!-- Javadoc plugins -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+            <links>
+              <link>http://java.sun.com/javase/6/docs/api/</link>
+              <link>http://junit.sourceforge.net/javadoc/</link>
+              <link>http://static.springframework.org/spring/docs/3.0.x/javadoc-api/</link>
+            </links>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jxr-plugin</artifactId>
+          <version>2.2</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>taglist-maven-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+
+        <!-- Metrics plugins -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>jdepend-maven-plugin</artifactId>
+          <version>2.0-beta-2</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>javancss-maven-plugin</artifactId>
+          <version>2.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+
+        <!-- Code checks -->
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+        </plugin>
+      </plugins>
+    </reporting>
+
+</project>

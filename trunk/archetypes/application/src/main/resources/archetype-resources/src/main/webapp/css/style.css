@@ -1,0 +1,12 @@
+/*
+  Add your styles here
+*/
+span.icon {
+    display: block;
+    width: 16px; height: 16px;
+    text-indent: -9999px;
+}
+
+.item-status-new { background: url(../images/new.png) 0 0 no-repeat; }
+.item-status-progress { background: url(../images/progress.png) 0 0 no-repeat; }
+.item-status-done { background: url(../images/done.png) 0 0 no-repeat; }

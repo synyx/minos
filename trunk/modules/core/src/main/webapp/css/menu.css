@@ -1,0 +1,85 @@
+
+/********************************
+ * Navigation (menus & submenus)
+ ********************************/
+ul.menu, ul.submenu { margin: 0; list-style: none; }
+
+ul.menu {
+	position: relative;
+	background: url(../images/menu/bg_navChannel0.gif) 0 0 repeat-x;
+	padding: 0 0 0 1em;
+	height: 3.6em;
+}
+
+ul.submenu {
+	position: absolute;
+	left: 0;
+	top: 2.1em;
+	padding: 0.1em 0em;
+	background: #D3DADC;
+	height: 1.5em;
+	width: 100%;
+}
+
+ul.menu li, ul.submenu li {	display: block; margin: 0; float:left; }
+ul.menu li { padding: 0.4em 0 0 0; }
+ul.submenu li { position: relative; padding: 0.2em 0 0 0; }
+
+ul.menu li.active {
+	background: url(../images/menu/bg_navChannel1.gif) 0 0 repeat-x;
+	border: 0.08em solid #A5ACB2;
+	border-bottom: 0.08em solid #D3DADC;
+}
+ul.submenu li.active { background: transparent none; border: none; }
+
+/**
+ * Default styling for links in menus
+ * (includes bundled core menu items)
+ */
+ul.menu a, ul.submenu a {
+	display: block;
+	text-decoration: none;
+	position: relative;
+	font: bold 0.7em tahoma, geneva, helvetica, arial, sans-serif;
+}
+
+ul.menu li a {
+	color: #E0E0E0;
+	margin: 0.15em 0 0 0.7em;
+	padding: 0.4em 1em 0.5em 2em;
+	border-right: 0.1em solid #A5ACB2;
+	background: no-repeat;
+	background-position: 0 0.4em;
+}
+
+ul.submenu li a {
+	color: #666;
+	margin: 0 0 0 0.6em;
+	padding: 0.1em 1em 0.2em 2em;
+	border: none;
+	background: no-repeat;
+	background-position: 0 0.1em;
+}
+
+ul.menu li a:hover, ul.submenu li a:hover { color: #9c6; }
+ul.menu li a.active, ul.submenu li a.active:hover { color: #000; }
+
+ul.menu a#umt_menu_title {
+	background-image: url(../images/umt/user.png);	
+}
+
+ul.submenu a#umt_menu_users_title {
+	background-image: url(../images/umt/user.png);	
+}
+
+ul.submenu a#umt_menu_roles_title {
+	background-image: url(../images/umt/role.png);
+}
+
+ul.menu a#core_menu_logout_title {
+	background-image: url(../images/core/logout.png);	
+}
+
+ul.menu a#umt_myaccount_title {
+	background-image: url(../images/umt/myaccount.png);
+}

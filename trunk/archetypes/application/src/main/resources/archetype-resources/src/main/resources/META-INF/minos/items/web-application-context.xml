@@ -1,0 +1,23 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:hera="http://schemas.synyx.org/hera"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:module="http://schemas.synyx.org/minos/module"
+       xsi:schemaLocation="http://schemas.synyx.org/hera http://schemas.synyx.org/hera/hera.xsd
+                           http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+                           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+                           http://schemas.synyx.org/minos/module http://schemas.synyx.org/minos/module/minos-module.xsd">
+
+	<!--
+		This file is loaded last and enables you to override beans from
+		the web layers of all configured modules.
+	 -->
+
+</beans>	
