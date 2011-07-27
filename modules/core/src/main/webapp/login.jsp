@@ -5,7 +5,7 @@
 <html>
 <head>
 	<style type="text/css">
-		#login { width: 400px; margin: 0 auto; }
+		#login { width: 600px; margin: 0 auto; }
 	</style>
 	<title>Minos 2 - Login</title>
 </head>
@@ -20,15 +20,15 @@
 <form id="login" method="post" action="<core:url value='web/j_spring_security_check'/>">
 <fieldset>
 	<legend><spring:message code="core.ui.login" /></legend>
-	<div>
+	<div class="pair">
 		<label for="loginform_username"><spring:message code="umt.user.username" /></label>
 		<input type="text" name="j_username" id="loginform_username" <core:if test="${not empty param.login_error}">value="<%= session.getAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_LAST_USERNAME_KEY) %>"</core:if> />
 	</div>
-	<div>
+	<div class="pair">
 		<label for="loginform_password"><spring:message code="umt.user.password" /></label>
 		<input type="password" name="j_password" id="loginform_password"/>
 	</div>
-	<div>
+	<div class="pair">
 		<label>&nbsp;</label>
 		<input type="checkbox" name="_spring_security_remember_me" /><spring:message code="umt.login.rememberme" />
 	</div>

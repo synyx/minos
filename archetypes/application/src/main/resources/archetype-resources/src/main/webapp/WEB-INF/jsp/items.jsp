@@ -38,3 +38,4 @@
 	</minos:column>
 </display:table>
 </body>
+</html>

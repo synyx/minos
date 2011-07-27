@@ -40,7 +40,7 @@
 	</c:if>
 	<span title="${permissiondesc}">
 		<input ${checked} type="checkbox" value="${permission.name}" name="permissions" id="rolefor_permissions${status.index+1}">
-		<label for="rolefor_permissions${status.index+1}">${permissionname}</label
+		<label for="rolefor_permissions${status.index+1}">${permissionname}</label>
 	</span>
 </c:forEach>
 <input type="hidden" value="on" name="_permissions"/>
