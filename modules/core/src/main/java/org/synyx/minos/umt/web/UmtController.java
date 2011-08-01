@@ -60,7 +60,7 @@ import javax.annotation.security.RolesAllowed;
 /**
  * Web controller for the user management providing access to most of the user management functionality.
  *
- * @author Oliver Gierke - gierke@synyx.de
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 @Controller
 @SessionAttributes({ UmtController.ROLE_KEY, UmtController.USER_KEY })
@@ -202,7 +202,10 @@ public class UmtController extends ValidationSupport<UserForm> {
     private String populateFormModel(UserForm userForm, Model model) {
 
         model.addAttribute(USER_KEY, userForm);
-        model.addAttribute("roles", userManagement.getRoles());
+
+        List<Role> roles = new ArrayList<Role>(userManagement.getRoles());
+        Collections.sort(roles);
+        model.addAttribute("roles", roles);
 
         return "/umt/user";
     }

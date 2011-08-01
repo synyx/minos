@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Like {@link AccountUserForm} but with mapping for all {@link User} properties.
  *
- * @author Oliver Gierke - gierke@synyx.de
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 public class UserForm {
 
@@ -30,18 +30,14 @@ public class UserForm {
     private String newPassword;
     private String repeatedPassword;
 
-    /**
-     * Creates an empty form for users.
-     */
+    /** Creates an empty form for users. */
     protected UserForm() {
 
         this.roles = new ArrayList<Role>();
     }
 
 
-    /**
-     * Creates a new form and populates it with the data from the given user.
-     */
+    /** Creates a new form and populates it with the data from the given user. */
     public UserForm(User user) {
 
         Assert.notNull(user);
@@ -107,7 +103,7 @@ public class UserForm {
 
 
     /**
-     * @return the id
+     * @return  the id
      */
     public Long getId() {
 
@@ -116,7 +112,7 @@ public class UserForm {
 
 
     /**
-     * @param id the id to set
+     * @param  id  the id to set
      */
     public void setId(Long id) {
 
@@ -125,7 +121,7 @@ public class UserForm {
 
 
     /**
-     * @return the username
+     * @return  the username
      */
     public String getUsername() {
 
@@ -134,7 +130,7 @@ public class UserForm {
 
 
     /**
-     * @param username the username to set
+     * @param  username  the username to set
      */
     public void setUsername(String username) {
 
@@ -143,7 +139,7 @@ public class UserForm {
 
 
     /**
-     * @return the firstname
+     * @return  the firstname
      */
     public String getFirstname() {
 
@@ -152,7 +148,7 @@ public class UserForm {
 
 
     /**
-     * @param firstname the firstname to set
+     * @param  firstname  the firstname to set
      */
     public void setFirstname(String firstname) {
 
@@ -161,7 +157,7 @@ public class UserForm {
 
 
     /**
-     * @return the lastname
+     * @return  the lastname
      */
     public String getLastname() {
 
@@ -170,7 +166,7 @@ public class UserForm {
 
 
     /**
-     * @param lastname the lastname to set
+     * @param  lastname  the lastname to set
      */
     public void setLastname(String lastname) {
 
@@ -179,7 +175,7 @@ public class UserForm {
 
 
     /**
-     * @return the emailAddress
+     * @return  the emailAddress
      */
     public String getEmailAddress() {
 
@@ -188,7 +184,7 @@ public class UserForm {
 
 
     /**
-     * @param emailAddress the emailAddress to set
+     * @param  emailAddress  the emailAddress to set
      */
     public void setEmailAddress(String emailAddress) {
 
@@ -197,7 +193,7 @@ public class UserForm {
 
 
     /**
-     * @return the roles
+     * @return  the roles
      */
     public List<Role> getRoles() {
 
@@ -206,7 +202,7 @@ public class UserForm {
 
 
     /**
-     * @param roles the roles to set
+     * @param  roles  the roles to set
      */
     public void setRoles(List<Role> roles) {
 
@@ -215,7 +211,7 @@ public class UserForm {
 
 
     /**
-     * @return the password
+     * @return  the password
      */
     public String getNewPassword() {
 
@@ -224,7 +220,7 @@ public class UserForm {
 
 
     /**
-     * @param password the password to set
+     * @param  password  the password to set
      */
     public void setNewPassword(String password) {
 
@@ -233,7 +229,7 @@ public class UserForm {
 
 
     /**
-     * @return the repeatedPassword
+     * @return  the repeatedPassword
      */
     public String getRepeatedPassword() {
 
@@ -242,7 +238,7 @@ public class UserForm {
 
 
     /**
-     * @param repeatedPassword the repeatedPassword to set
+     * @param  repeatedPassword  the repeatedPassword to set
      */
     public void setRepeatedPassword(String repeatedPassword) {
 
@@ -251,7 +247,7 @@ public class UserForm {
 
 
     /**
-     * @return the active
+     * @return  the active
      */
     public boolean isActive() {
 
@@ -260,7 +256,7 @@ public class UserForm {
 
 
     /**
-     * @param active the active to set
+     * @param  active  the active to set
      */
     public void setActive(boolean active) {
 

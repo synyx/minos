@@ -42,8 +42,6 @@
 	<minos:column property="lastname" />
 	<minos:column property="emailAddress" />
 	<minos:column property="roles" sortable="false" titleKey="umt.user.roles" />
-	<minos:column property="lastModifiedDate" class="date" />
-	<minos:column property="lastModifiedBy" />
 	<minos:column class="actions" titleKey="core.ui.actions" sortable="false">
 	
 		<core:imageLink href="users/${user.id}" imageUrl="/images/umt/user_edit.png" altKey="core.ui.edit" />

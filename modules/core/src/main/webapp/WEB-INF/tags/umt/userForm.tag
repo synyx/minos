@@ -51,7 +51,7 @@
 <c:if test="${!myaccount}">
 <fieldset class="checkboxes">
 <legend><spring:message code="umt.user.roles" /></legend>
-	<form:checkboxes id="userform_roles" path="roles" items="${roles}" itemLabel="name" itemValue="id" />
+	<form:checkboxes id="userform_roles" path="roles" items="${roles}" itemLabel="name" itemValue="id"  element="p" />
 	<form:errors path="roles" />
 </fieldset>
 </c:if>

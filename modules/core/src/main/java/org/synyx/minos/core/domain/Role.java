@@ -22,16 +22,20 @@ import javax.persistence.FetchType;
  * @author  Oliver Gierke
  */
 @Entity
-public class Role extends AbstractAuditable<User, Long> {
+public class Role extends AbstractAuditable<User, Long> implements Comparable<Role> {
 
     private static final long serialVersionUID = 71349340935123L;
 
     private static final String PREFIX = "ROLE_";
 
-    /** System role for administrators */
+    /**
+     * System role for administrators
+     */
     public static final String ADMIN_NAME = "ADMIN";
 
-    /** System role for users */
+    /**
+     * System role for users
+     */
     public static final String USER_NAME = "USER";
 
     private static final Collection<String> SYSTEM_ROLES = Arrays.asList(ADMIN_NAME, USER_NAME);
@@ -169,5 +173,18 @@ public class Role extends AbstractAuditable<User, Long> {
         }
 
         return prefixedName.substring(PREFIX.length());
+    }
+
+
+    @Override
+    public int compareTo(Role o) {
+
+        if (this.isSystemRole() && !o.isSystemRole()) {
+            return -1;
+        } else if (o.isSystemRole() && !this.isSystemRole()) {
+            return 1;
+        }
+
+        return getName().compareTo(o.getName());
     }
 }
