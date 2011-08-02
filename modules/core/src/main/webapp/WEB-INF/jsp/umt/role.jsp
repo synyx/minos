@@ -4,6 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%@ taglib prefix="minos" tagdir="/WEB-INF/tags/core" %>
+<%@ taglib prefix="umt" tagdir="/WEB-INF/tags/umt" %>
 
 <h2><spring:message code="umt.role" /></h2>
 
@@ -17,8 +18,8 @@
 		<form:hidden path="name" />
 	</c:when><c:otherwise>
 		<form:input path="name" id="roleform_name"/>
-		<form:errors path="name" />
 	</c:otherwise></c:choose>
+		<form:errors path="name" />
 </div>
 <div class="pair">
 	<label for="roleform_description"><spring:message code="umt.role.description" /></label>
@@ -54,7 +55,29 @@
 <fieldset>
 <div class="buttonrow">
 	<input type="submit" value="<spring:message code="core.ui.ok" />" />
-	<a href="../roles"><spring:message code="core.ui.cancel" /></a>
+	<a href="<spring:url value="/web/umt/roles"/>"><spring:message code="core.ui.cancel" /></a>
 </div>
 </fieldset>
+<fieldset>
+
+	<legend>
+		<spring:message code="umt.role.usersinrole" />
+	</legend>	
+	
+	<spring:message code="umt.role.usersinrole.following" arguments="${role.name}" />
+	
+	<div style="margin:20px 20px;">
+
+		<ul class="list">
+			<c:forEach var="user" items="${users}">
+				<li><umt:userLink user="${user}"/></li>
+			</c:forEach>
+		</ul>
+	</div>
+	
+
+
+</fieldset>
+
+
 </minos:form>

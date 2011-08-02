@@ -22,7 +22,7 @@ import java.util.List;
  * Implementation of user management module. Uses an implementation of {@code PasswordCreator} to generate a random
  * password, that is used as initial password for a new user after successful registration.
  *
- * @author Oliver Gierke - gierke@synyx.de
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 @Transactional(readOnly = true)
 public class UserManagementImpl implements UserManagement, UserAccountManagement {
@@ -37,9 +37,9 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
      * Creates a new {@link UserManagementImpl} with the given {@link UserDao}, {@link RoleDao},
      * {@link AuthenticationService} and {@link PasswordCreator}.
      *
-     * @param userDao
-     * @param roleDao
-     * @param authenticationService
+     * @param  userDao
+     * @param  roleDao
+     * @param  authenticationService
      */
     public UserManagementImpl(UserDao userDao, RoleDao roleDao, AuthenticationService authenticationService,
         PasswordCreator passwordCreator) {
@@ -226,5 +226,12 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
     public Page<User> getUsersByRole(Role role, Pageable pageable) {
 
         return userDao.findByRole(pageable, role);
+    }
+
+
+    @Override
+    public List<User> getUsersByRole(Role role) {
+
+        return userDao.findByRole(role);
     }
 }

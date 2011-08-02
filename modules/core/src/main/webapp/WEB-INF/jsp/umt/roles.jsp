@@ -20,7 +20,7 @@
 		
 		<!-- Delete role -->
 		<c:if test="${!role.systemRole}">
-			<core:deleteLink href="roles/${role.id}" imageUrl="/images/umt/role_delete.png" />
+			<core:imageLink href="roles/${role.id}/delete" imageUrl="/images/umt/role_delete.png" altKey="umt.role.delete" />
 		</c:if>
 		
 	</minos:column>
@@ -32,5 +32,6 @@
 		</tr>
 	</display:footer>
 </display:table>
+
 </body>
 </html>

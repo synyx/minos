@@ -1,42 +1,59 @@
 package org.synyx.minos.umt.web;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+
+import org.junit.Assert;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import org.junit.runner.RunWith;
+
+import org.mockito.Mock;
+
+import static org.mockito.Mockito.only;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.mockito.runners.MockitoJUnitRunner;
+
+import org.springframework.ui.ExtendedModelMap;
+import org.springframework.ui.Model;
+
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.bind.support.SimpleSessionStatus;
+
+import org.synyx.hades.domain.Page;
+import org.synyx.hades.domain.PageImpl;
+
+import static org.synyx.minos.TestConstants.USER;
+import org.synyx.minos.core.domain.Role;
+import org.synyx.minos.core.domain.User;
+import org.synyx.minos.core.security.AuthenticationService;
+import org.synyx.minos.core.web.UrlUtils;
+import static org.synyx.minos.core.web.WebTestUtils.assertContains;
+import static org.synyx.minos.core.web.WebTestUtils.assertErrorMessage;
+import static org.synyx.minos.core.web.WebTestUtils.assertSuccessMessageWithArguments;
+import org.synyx.minos.umt.service.UserManagement;
+import org.synyx.minos.umt.service.UserNotFoundException;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.ui.ExtendedModelMap;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
-import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.bind.support.SimpleSessionStatus;
-import org.synyx.hades.domain.Page;
-import org.synyx.hades.domain.PageImpl;
-import org.synyx.minos.core.domain.Role;
-import org.synyx.minos.core.domain.User;
-import org.synyx.minos.core.security.AuthenticationService;
-import org.synyx.minos.core.web.UrlUtils;
-import org.synyx.minos.umt.service.UserManagement;
-import org.synyx.minos.umt.service.UserNotFoundException;
-
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-import static org.synyx.minos.TestConstants.*;
-import static org.synyx.minos.core.web.WebTestUtils.*;
-
 
 /**
  * Unit test for {@code UmtController}. TODO: extract message assertions into utility class
- * 
- * @author Oliver Gierke - gierke@synyx.de
+ *
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 @RunWith(MockitoJUnitRunner.class)
 public class UmtControllerUnitTest {
@@ -63,10 +80,7 @@ public class UmtControllerUnitTest {
     private SessionStatus sessionStatus;
     private UserForm userForm;
 
-
-    /**
-     * Initializes mocks and prepopulates the controller to test.
-     */
+    /** Initializes mocks and prepopulates the controller to test. */
     @Before
     public void setUp() {
 
@@ -107,9 +121,7 @@ public class UmtControllerUnitTest {
     }
 
 
-    /**
-     * Asserts that if a role is given getUsers executes the role-filter method on the usermanagement
-     */
+    /** Asserts that if a role is given getUsers executes the role-filter method on the usermanagement */
     @Test
     @SuppressWarnings("unchecked")
     public void executesRoleFilterMethodOnManagement() {
@@ -117,6 +129,7 @@ public class UmtControllerUnitTest {
         Page<User> referenceUsers = new PageImpl<User>(Collections.EMPTY_LIST);
 
         Role role = new Role("somerole");
+
         // Prepare user management
         when(userManagement.getUsersByRole(role, null)).thenReturn(referenceUsers);
 
@@ -142,8 +155,8 @@ public class UmtControllerUnitTest {
 
     /**
      * Asserts that a successful deletion is confirmed by a success message containing the username.
-     * 
-     * @throws UserNotFoundException
+     *
+     * @throws  UserNotFoundException
      */
     @Test
     public void confirmsSuccessfulDeletion() throws UserNotFoundException {
@@ -156,33 +169,27 @@ public class UmtControllerUnitTest {
         assertSuccessMessageWithArguments(model, USER.getUsername());
     }
 
-    /**
-     * Asserts asking for deleting.
-     *
-     */
+
+    /** Asserts asking for deleting. */
     @Test
     public void deleteQuestion() throws UserNotFoundException {
 
-        String viewName = controller.deleteQuestion(USER, model, null);
+        String viewName = controller.deleteUserQuestion(USER, model, null);
 
         Assert.assertEquals(UmtUrls.USER_DELETE_QUESTION, viewName);
     }
 
-    /**
-     * Asserts not asking for deleting if current user tries to delete.
-     *
-     */
+
+    /** Asserts not asking for deleting if current user tries to delete. */
     @Test
     public void doNotDeleteQuestionWithSameUser() throws UserNotFoundException {
 
-        String viewName = controller.deleteQuestion(USER, model, USER);
+        String viewName = controller.deleteUserQuestion(USER, model, USER);
         assertRedirectsToUserList(viewName);
     }
 
 
-    /**
-     * Asserts that the controller prepopulates a blank user form for the edit form if no id is given.
-     */
+    /** Asserts that the controller prepopulates a blank user form for the edit form if no id is given. */
     @Test
     public void createsBlankFormIfNoIdGiven() {
 
@@ -195,9 +202,7 @@ public class UmtControllerUnitTest {
     }
 
 
-    /**
-     * Asserts that the controller rejects invalid usernames and redirects to the user list instead.
-     */
+    /** Asserts that the controller rejects invalid usernames and redirects to the user list instead. */
     @Test
     public void rejectsInvalidUsernameForEdit() {
 
@@ -229,9 +234,7 @@ public class UmtControllerUnitTest {
     }
 
 
-    /**
-     * Asserts that the controller rejects form submissions whose validation results return errors.
-     */
+    /** Asserts that the controller rejects form submissions whose validation results return errors. */
     @Test
     public void rejectsInvalidFormSubmissions() {
 
@@ -243,9 +246,7 @@ public class UmtControllerUnitTest {
     }
 
 
-    /**
-     * Asserts that the controller invokes {@code UserManagement#save(User)} if a valid request was submitted.
-     */
+    /** Asserts that the controller invokes {@code UserManagement#save(User)} if a valid request was submitted. */
     @Test
     public void triggersSaveOnUserManagement() {
 
@@ -264,8 +265,8 @@ public class UmtControllerUnitTest {
 
     /**
      * Asserts that the view targets the user list with a redirect.
-     * 
-     * @param viewName
+     *
+     * @param  viewName
      */
     private void assertRedirectsToUserList(String viewName) {
 
@@ -275,23 +276,26 @@ public class UmtControllerUnitTest {
 
     /**
      * Expresses expectation of a given validation result.
-     * 
-     * @param result
+     *
+     * @param  result
      */
     private void expectValidationResult(boolean result) {
 
         when(errors.hasErrors()).thenReturn(!result);
     }
 
+
     @Test
     public void determinePermissions() throws Exception {
+
         Collection<String> permList = Arrays.asList("EDIT_USER", "CREATE_USER");
         when(authenticationService.getPermissions()).thenReturn(permList);
 
         Role role = new Role("MODERATOR");
         role.add("EDIT_USER");
 
-        List<PermissionHolder> holder = Arrays.asList(new PermissionHolder("CREATE_USER", false), new PermissionHolder("EDIT_USER", true));
+        List<PermissionHolder> holder = Arrays.asList(new PermissionHolder("CREATE_USER", false),
+                new PermissionHolder("EDIT_USER", true));
         List<PermissionHolder> result = controller.determinePermissions(role);
         assertEquals(holder.get(0).getChecked(), result.get(0).getChecked());
         assertEquals(holder.get(1).getChecked(), result.get(1).getChecked());

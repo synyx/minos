@@ -3,7 +3,7 @@ package org.synyx.minos.umt.web;
 /**
  * URLs to be used for UMT web and REST controllers
  *
- * @author Oliver Gierke - gierke@synyx.de
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 public final class UmtUrls {
 
@@ -19,11 +19,12 @@ public final class UmtUrls {
 
     public static final String ROLES = MODULE + "/roles";
     public static final String ROLE = MODULE + "/roles/{id}";
+    public static final String ROLE_DELETE = ROLE + "/delete";
+    public static final String ROLE_DELETE_QUESTION = MODULE + "/roledelete";
+
     public static final String ROLE_FORM = ROLES + "/form";
 
-    /**
-     * Private constructor to prevent instantiation.
-     */
+    /** Private constructor to prevent instantiation. */
     private UmtUrls() {
     }
 }

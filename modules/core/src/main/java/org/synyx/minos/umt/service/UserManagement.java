@@ -14,7 +14,7 @@ import javax.annotation.security.RolesAllowed;
 /**
  * Interface for user managment module.
  *
- * @author Oliver Gierke
+ * @author  Oliver Gierke
  */
 @RolesAllowed("ROLE_USER")
 public interface UserManagement {
@@ -22,7 +22,7 @@ public interface UserManagement {
     /**
      * Creates a new user. Generates a new password for her if she has none.
      *
-     * @param user
+     * @param  user
      */
     void save(User user);
 
@@ -30,7 +30,7 @@ public interface UserManagement {
     /**
      * Saves a role.
      *
-     * @param role
+     * @param  role
      */
     @RolesAllowed("ROLE_ADMIN")
     void save(Role role);
@@ -39,8 +39,9 @@ public interface UserManagement {
     /**
      * Deletes the given {@link User}.
      *
-     * @param id
-     * @throws UserNotFoundException if the given {@link User} was not found or {@literal null} was given
+     * @param  id
+     *
+     * @throws  UserNotFoundException  if the given {@link User} was not found or {@literal null} was given
      */
     @RolesAllowed("ROLE_ADMIN")
     void delete(User user) throws UserNotFoundException;
@@ -57,7 +58,8 @@ public interface UserManagement {
     /**
      * Returns a {@link Page} of {@link User}s.
      *
-     * @param pageable
+     * @param  pageable
+     *
      * @return
      */
     Page<User> getUsers(Pageable pageable);
@@ -66,8 +68,9 @@ public interface UserManagement {
     /**
      * Returns a {@link User} with the given id.
      *
-     * @param id
-     * @return the user with the given id or {@literal null} if no user can be found.
+     * @param  id
+     *
+     * @return  the user with the given id or {@literal null} if no user can be found.
      */
     User getUser(Long id);
 
@@ -75,7 +78,8 @@ public interface UserManagement {
     /**
      * Returns the user with the given username or {@code null} if none found.
      *
-     * @param username
+     * @param  username
+     *
      * @return
      */
     User getUser(String username);
@@ -84,26 +88,39 @@ public interface UserManagement {
     /**
      * Returns all {@link User}s with passed email
      *
-     * @param email String containing email
-     * @return {@link List} of {@link User}s with passed email, empty {@link List} if none exists with passed email
+     * @param  email  String containing email
+     *
+     * @return  {@link List} of {@link User}s with passed email, empty {@link List} if none exists with passed email
      */
     List<User> getUsersByEmail(String email);
 
 
     /**
-     * Returns all {@link User}s that have the given {@link Role}
+     * Returns all {@link User}s that have the given {@link Role} paged.
      *
-     * @param role the {@link Role} to search {@link User}s for
-     * @param pageable
-     * @return a page of {@link User}s with the given {@link Role}
+     * @param  role  the {@link Role} to search {@link User}s for
+     * @param  pageable
+     *
+     * @return  a page of {@link User}s with the given {@link Role}
      */
     Page<User> getUsersByRole(Role role, Pageable pageable);
 
 
     /**
+     * Returns all {@link User}s that have the given {@link Role}
+     *
+     * @param  role  the {@link Role} to search {@link User}s for
+     *
+     * @return  a list of {@link User}s with the given {@link Role}
+     */
+    List<User> getUsersByRole(Role role);
+
+
+    /**
      * Returns whether a {@code User} with the given id already exists.
      *
-     * @param id
+     * @param  id
+     *
      * @return
      */
     boolean exists(Long id);
@@ -120,7 +137,7 @@ public interface UserManagement {
     /**
      * Returns a {@link Role} with the given id.
      *
-     * @param id
+     * @param  id
      */
     Role getRole(Long id);
 
@@ -128,7 +145,8 @@ public interface UserManagement {
     /**
      * Returns the {@link Role} with the given name.
      *
-     * @param name
+     * @param  name
+     *
      * @return
      */
     Role getRole(String name);
@@ -137,7 +155,7 @@ public interface UserManagement {
     /**
      * Deletes the given role.
      *
-     * @param role
+     * @param  role
      */
     void deleteRole(Role role);
 }

@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,6 +41,8 @@ import org.synyx.minos.umt.service.UserNotFoundException;
 import static org.synyx.minos.umt.web.UmtUrls.MODULE;
 import static org.synyx.minos.umt.web.UmtUrls.ROLE;
 import static org.synyx.minos.umt.web.UmtUrls.ROLES;
+import static org.synyx.minos.umt.web.UmtUrls.ROLE_DELETE;
+import static org.synyx.minos.umt.web.UmtUrls.ROLE_DELETE_QUESTION;
 import static org.synyx.minos.umt.web.UmtUrls.ROLE_FORM;
 import static org.synyx.minos.umt.web.UmtUrls.USER;
 import static org.synyx.minos.umt.web.UmtUrls.USERS;
@@ -73,6 +76,8 @@ public class UmtController extends ValidationSupport<UserForm> {
 
     private final UserManagement userManagement;
     private final AuthenticationService authenticationService;
+
+    private Validator roleValidator;
 
     private Comparator<String> permissionComparator;
 
@@ -157,7 +162,7 @@ public class UmtController extends ValidationSupport<UserForm> {
 
 
     @RequestMapping(value = USER_DELETE, method = GET)
-    public String deleteQuestion(@PathVariable("id") User user, Model model, @CurrentUser User currentUser) {
+    public String deleteUserQuestion(@PathVariable("id") User user, Model model, @CurrentUser User currentUser) {
 
         if (null == user) {
             model.addAttribute(Core.MESSAGE, Message.error("umt.user.delete.usernamerequired"));
@@ -263,7 +268,7 @@ public class UmtController extends ValidationSupport<UserForm> {
     @RequestMapping(value = ROLE_FORM, method = GET)
     public String showEmptyFormForNewRole(Model model) {
 
-        return prepareRoleForm(BeanUtils.instantiateClass(Role.class), model);
+        return prepareRoleForm(new Role(), model);
     }
 
 
@@ -275,6 +280,8 @@ public class UmtController extends ValidationSupport<UserForm> {
 
         List<PermissionHolder> permissions = determinePermissions(role);
         model.addAttribute("permissions", permissions);
+
+        model.addAttribute("users", userManagement.getUsersByRole(role));
 
         return "/umt/role";
     }
@@ -304,7 +311,17 @@ public class UmtController extends ValidationSupport<UserForm> {
 
 
     @RequestMapping(value = ROLES, method = POST)
-    public String saveNewRole(@ModelAttribute(ROLE_KEY) Role role, Model model) {
+    public String saveNewRole(@ModelAttribute(ROLE_KEY) Role role, Errors errors, Model model) {
+
+        return saveRole(role, errors, model);
+    }
+
+
+    String saveRole(Role role, Errors errors, Model model) {
+
+        if (!isRoleValid(role, errors)) {
+            return prepareRoleForm(role, model);
+        }
 
         userManagement.save(role);
 
@@ -314,14 +331,22 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
+    private boolean isRoleValid(Role role, Errors errors) {
+
+        if (roleValidator != null) {
+            roleValidator.validate(role, errors);
+
+            return !errors.hasErrors();
+        } else {
+            return true;
+        }
+    }
+
+
     @RequestMapping(value = ROLE, method = PUT)
-    public String saveExistingRole(@ModelAttribute(ROLE_KEY) Role role, Model model) {
+    public String saveExistingRole(@ModelAttribute(ROLE_KEY) Role role, Errors errors, Model model) {
 
-        userManagement.save(role);
-
-        model.addAttribute(Core.MESSAGE, Message.success("umt.role.save.success", role.getName()));
-
-        return UrlUtils.redirect(ROLES);
+        return saveRole(role, errors, model);
     }
 
 
@@ -336,8 +361,31 @@ public class UmtController extends ValidationSupport<UserForm> {
     }
 
 
+    @RequestMapping(value = ROLE_DELETE, method = GET)
+    public String deleteRoleQuestion(@PathVariable("id") Role role, Model model, @CurrentUser User currentUser) {
+
+        if (null == role) {
+            return UrlUtils.redirect(ROLES);
+        }
+
+        List<User> users = userManagement.getUsersByRole(role);
+
+        model.addAttribute(ROLE_KEY, role);
+        model.addAttribute("deletable", users.isEmpty());
+        model.addAttribute("users", users);
+
+        return ROLE_DELETE_QUESTION;
+    }
+
+
     public void setPermissionComparator(Comparator<String> permissionComparator) {
 
         this.permissionComparator = permissionComparator;
+    }
+
+
+    public void setRoleValidator(Validator roleValidator) {
+
+        this.roleValidator = roleValidator;
     }
 }

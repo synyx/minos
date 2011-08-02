@@ -2,8 +2,6 @@ package org.synyx.minos.core.domain;
 
 import org.synyx.hades.domain.auditing.AbstractAuditable;
 
-import org.synyx.minos.util.Assert;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -88,8 +86,7 @@ public class Role extends AbstractAuditable<User, Long> implements Comparable<Ro
      */
     public void setName(String name) {
 
-        Assert.hasText(name, "Name must not be empty!");
-        this.name = name.toUpperCase();
+        this.name = name != null ? name.toUpperCase() : name;
     }
 
 
@@ -98,9 +95,10 @@ public class Role extends AbstractAuditable<User, Long> implements Comparable<Ro
      *
      * @return  an unmodifiable set of all permissions assigned to this {@link Role}
      */
+    @SuppressWarnings("unchecked")
     public Set<String> getPermissions() {
 
-        return Collections.unmodifiableSet(permissions);
+        return (Set<String>) (permissions == null ? Collections.emptySet() : Collections.unmodifiableSet(permissions));
     }
 
 
