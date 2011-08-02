@@ -20,6 +20,11 @@
 		<form:errors path="name" />
 	</c:otherwise></c:choose>
 </div>
+<div class="pair">
+	<label for="roleform_description"><spring:message code="umt.role.description" /></label>
+	<form:textarea path="description"/>
+</div>
+
 </fieldset>
 <fieldset class="checkboxes">
 <legend><spring:message code="umt.role.permissions" /></legend>
@@ -38,10 +43,10 @@
 	<c:if test="${permissiondesc eq permissiondescnotresolved}">
 		<c:set var="permissiondesc" value=""/>
 	</c:if>
-	<span title="${permissiondesc}">
+	<p title="${permissiondesc}">
 		<input ${checked} type="checkbox" value="${permission.name}" name="permissions" id="rolefor_permissions${status.index+1}">
 		<label for="rolefor_permissions${status.index+1}">${permissionname}</label>
-	</span>
+	</p>
 </c:forEach>
 <input type="hidden" value="on" name="_permissions"/>
 <form:errors path="permissions" />

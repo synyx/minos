@@ -12,6 +12,7 @@
 	<minos:column sortProperty="name" titleKey="name">
 		<a href="roles/${role.id}">${role.name}</a>
 	</minos:column>
+	<minos:column property="descriptionShortVersion" sortProperty="description" titleKey="description"/>
 	<minos:column sortable="false" class="actions" titleKey="core.ui.actions">
 	
 		<!-- Edit role -->

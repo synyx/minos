@@ -1,7 +1,7 @@
 package org.synyx.minos.umt;
 
 /**
- * @author Oliver Gierke - gierke@synyx.de
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 public final class UmtPermissions {
 

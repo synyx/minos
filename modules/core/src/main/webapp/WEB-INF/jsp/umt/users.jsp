@@ -41,7 +41,9 @@
 	<minos:column property="firstname" />
 	<minos:column property="lastname" />
 	<minos:column property="emailAddress" />
-	<minos:column property="roles" sortable="false" titleKey="umt.user.roles" />
+	<minos:column sortable="false" titleKey="umt.user.roles">
+		<c:forEach var="role" items="${user.roles}" varStatus="status">${role.name}<c:if test="${! status.last}">, </c:if></c:forEach>
+	</minos:column>
 	<minos:column class="actions" titleKey="core.ui.actions" sortable="false">
 	
 		<core:imageLink href="users/${user.id}" imageUrl="/images/umt/user_edit.png" altKey="core.ui.edit" />

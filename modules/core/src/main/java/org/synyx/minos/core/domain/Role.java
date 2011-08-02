@@ -40,8 +40,13 @@ public class Role extends AbstractAuditable<User, Long> implements Comparable<Ro
 
     private static final Collection<String> SYSTEM_ROLES = Arrays.asList(ADMIN_NAME, USER_NAME);
 
+    private static final int SHORTVERSION_LENGTH = 64;
+
     @Column(nullable = false, unique = true)
     private String name;
+
+    @Column(length = 2048, nullable = true)
+    private String description;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> permissions;
@@ -186,5 +191,27 @@ public class Role extends AbstractAuditable<User, Long> implements Comparable<Ro
         }
 
         return getName().compareTo(o.getName());
+    }
+
+
+    public void setDescription(String description) {
+
+        this.description = description;
+    }
+
+
+    public String getDescription() {
+
+        return description;
+    }
+
+
+    public String getDescriptionShortVersion() {
+
+        if (description == null || description.length() <= SHORTVERSION_LENGTH) {
+            return description;
+        }
+
+        return description.substring(0, SHORTVERSION_LENGTH - 3) + "...";
     }
 }
