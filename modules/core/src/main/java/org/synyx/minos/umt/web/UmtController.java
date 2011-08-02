@@ -281,7 +281,9 @@ public class UmtController extends ValidationSupport<UserForm> {
         List<PermissionHolder> permissions = determinePermissions(role);
         model.addAttribute("permissions", permissions);
 
-        model.addAttribute("users", userManagement.getUsersByRole(role));
+        if (!role.isNew()) {
+            model.addAttribute("users", userManagement.getUsersByRole(role));
+        }
 
         return "/umt/role";
     }

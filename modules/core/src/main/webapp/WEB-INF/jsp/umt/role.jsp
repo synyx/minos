@@ -58,6 +58,8 @@
 	<a href="<spring:url value="/web/umt/roles"/>"><spring:message code="core.ui.cancel" /></a>
 </div>
 </fieldset>
+
+<c:if test="${not role.new }">
 <fieldset>
 
 	<legend>
@@ -74,10 +76,7 @@
 			</c:forEach>
 		</ul>
 	</div>
-	
-
-
 </fieldset>
-
+</c:if>
 
 </minos:form>

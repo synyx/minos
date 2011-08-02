@@ -71,7 +71,7 @@
 <fieldset>
 <div class="buttonrow">
 	<input type="submit" value="<spring:message code="core.ui.ok" />" />
-	<a href="../users"><spring:message code="core.ui.cancel" /></a>
+	<a href="<spring:url value="/web/umt/users" />"><spring:message code="core.ui.cancel" /></a>
 </div>
 </fieldset>
 </minos:form>
