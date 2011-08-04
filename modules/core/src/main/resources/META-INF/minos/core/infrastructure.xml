@@ -48,13 +48,16 @@
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="generateDdl" value="true" />
+				<property name="showSql" value="${hibernate.show_sql}" />
 			</bean>
+			
 		</property>
 		<property name="jpaPropertyMap">
 			<map>
 				<entry key="hibernate.hbm2ddl.delimiter.type" value="InnoDB" />
 				<entry key="hibernate.dialect" value="${hibernate.dialect}" />
 				<entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
+				
 			</map>
 		</property>
 	</bean>
