@@ -73,7 +73,13 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.5.1-Final</version>
+			<version>3.6.6.Final</version>
+                        <exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+                            </exclusions>
 		</dependency>
 
 		<dependency>
