@@ -49,10 +49,12 @@
     </scm>
 
     <distributionManagement>
+<!--
         <site>
             <id>static.synyx.org</id>
             <url>scp://static.synyx.org/home/public/public_html/minos/site/${project.version}</url>
         </site>
+-->
         <repository>
             <id>releases.public.nexus.synyx.de</id>
             <url>http://nexus.synyx.de/content/repositories/public-releases</url>
