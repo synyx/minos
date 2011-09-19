@@ -208,6 +208,7 @@ public class UserManagementImpl implements UserManagement, UserAccountManagement
 
 
     @Override
+    @Transactional(readOnly = false)
     public void saveUserAccount(User user) {
 
         Assert.notNull(user);
