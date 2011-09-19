@@ -5,6 +5,10 @@
 <%@ taglib prefix="umt" tagdir="/WEB-INF/tags/umt" %>
 
 <html>
+<head>
+        <title><spring:message code="umt.menu.users.title" /></title>
+</head>
+
 <body>
 	<umt:userForm />
 </body>

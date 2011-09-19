@@ -3,6 +3,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <html>
+<head>
+	<title><spring:message code="umt.menu.users.title" /></title>
+</head>
 <body>
 <h2><spring:message code="umt.user.delete.question" arguments="${userForm.username}"/></h2>
 <c:set var="actionUrl"><c:url value="/web/umt/users/${userForm.id}"/></c:set>

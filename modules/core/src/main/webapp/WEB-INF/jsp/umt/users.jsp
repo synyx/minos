@@ -6,6 +6,11 @@
 <%@ taglib prefix="core" tagdir="/WEB-INF/tags/core" %>
 
 <html>
+<head>
+        <title><spring:message code="umt.menu.users.title" /></title>
+</head>
+
+
 <body>
 
 <div id="filter">

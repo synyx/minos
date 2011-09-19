@@ -4,6 +4,11 @@
 <%@ taglib prefix="umt" tagdir="/WEB-INF/tags/umt" %>
 
 <html>
+<head>
+        <title><spring:message code="umt.menu.roles.title" /></title>
+</head>
+
+
 <body>
 <h2><spring:message code="umt.role.delete.question" arguments="${role.name}"/></h2>
 <c:set var="actionUrl"><c:url value="/web/umt/roles/${role.id}"/></c:set>

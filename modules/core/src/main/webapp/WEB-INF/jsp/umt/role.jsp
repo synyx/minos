@@ -6,6 +6,12 @@
 <%@ taglib prefix="minos" tagdir="/WEB-INF/tags/core" %>
 <%@ taglib prefix="umt" tagdir="/WEB-INF/tags/umt" %>
 
+<html>
+<head>
+        <title><spring:message code="umt.menu.roles.title" /></title>
+</head>
+<body>
+
 <h2><spring:message code="umt.role" /></h2>
 
 <minos:form modelAttribute="role" action="/web/umt/roles">
@@ -80,3 +86,6 @@
 </c:if>
 
 </minos:form>
+
+</body>
+</html>

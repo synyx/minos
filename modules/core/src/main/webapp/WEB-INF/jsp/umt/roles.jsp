@@ -7,6 +7,11 @@
 <%@ taglib prefix="core" tagdir="/WEB-INF/tags/core" %>
 
 <html>
+<head>
+        <title><spring:message code="umt.menu.roles.title" /></title>
+</head>
+
+
 <body>
 <display:table id="role" name="roles" requestURI="roles">
 	<minos:column sortProperty="name" titleKey="name">
