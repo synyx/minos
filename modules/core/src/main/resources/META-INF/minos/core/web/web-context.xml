@@ -15,6 +15,9 @@
     
     <sec:global-method-security jsr250-annotations="enabled" access-decision-manager-ref="accessDecisionManager" />
 
+	<import resource="../propertyPlaceholder.xml" />
+
+
     <bean class="org.synyx.minos.core.web.ViewWebRequestEnricher"/>
 
 	<bean class="org.synyx.minos.core.web.MinosAnnotationHandlerMapping">
@@ -112,10 +115,13 @@
         <property name="order" value="10"/>
     </bean>
 
+	
 
-    <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+    <bean id="exceptionResolver" class="org.synyx.minos.core.web.ErrorReportExceptionHandler">
         <property name="order" value="20"/>
-	<property name="defaultErrorView" value="general-error"/>
+    	<property name="authenticationService" ref="authenticationService" />
+    	<property name="reportBasePath" value="${core.errorReportPath}" /> 
+		<property name="defaultErrorView" value="general-error"/>
         <property name="exceptionMappings">
             <props>
                 <prop key="org.springframework.security.access.AccessDeniedException">accessDenied</prop>
