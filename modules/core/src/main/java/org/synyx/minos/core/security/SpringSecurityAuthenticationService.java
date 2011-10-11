@@ -1,8 +1,11 @@
 package org.synyx.minos.core.security;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -13,22 +16,16 @@ import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import org.synyx.hades.domain.auditing.AuditorAware;
-
 import org.synyx.minos.core.domain.Password;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.umt.dao.UserDao;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 
 /**
  * Implementation of the {@code AuthenticationService} to use Spring Security.
  *
- * @author Oliver Gierke - gierke@synyx.de
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 public class SpringSecurityAuthenticationService extends AbstractAuthenticationService implements AuditorAware<User> {
 
@@ -42,10 +39,10 @@ public class SpringSecurityAuthenticationService extends AbstractAuthenticationS
     /**
      * Creates a new {@link SpringSecurityAuthenticationService}.
      *
-     * @param userDao the DAO to lookup users
-     * @param accessDecisionManager the {@link AccessDecisionManager} to be consulted to find out about permissions
-     * @param saltSource the {@link SaltSource} to be used on password encryption
-     * @param passwordEncoder the {@link PasswordEncoder} to be used for password encryption
+     * @param  userDao  the DAO to lookup users
+     * @param  accessDecisionManager  the {@link AccessDecisionManager} to be consulted to find out about permissions
+     * @param  saltSource  the {@link SaltSource} to be used on password encryption
+     * @param  passwordEncoder  the {@link PasswordEncoder} to be used for password encryption
      */
     public SpringSecurityAuthenticationService(UserDao userDao, AccessDecisionManager accessDecisionManager,
         SaltSource saltSource, PasswordEncoder passwordEncoder) {
@@ -96,9 +93,10 @@ public class SpringSecurityAuthenticationService extends AbstractAuthenticationS
     /**
      * Checks the current authentication for the given permissions.
      *
-     * @param permissions
-     * @return whether the currently authenticated {@link User} has the given permissions. Will return {@literal false}
-     *         if {@literal null} or an empty collection is given.
+     * @param  permissions
+     *
+     * @return  whether the currently authenticated {@link User} has the given permissions. Will return {@literal false}
+     *          if {@literal null} or an empty collection is given.
      */
     @Override
     protected boolean hasPermissions(Collection<String> permissions) {
@@ -118,11 +116,9 @@ public class SpringSecurityAuthenticationService extends AbstractAuthenticationS
 
             return true;
         } catch (AccessDeniedException e) {
-            LOG.debug("Access denied!", e);
 
             return false;
         } catch (InsufficientAuthenticationException e) {
-            LOG.debug("Access denied!", e);
 
             return false;
         }
