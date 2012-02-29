@@ -12,7 +12,7 @@
 <legend><spring:message code="umt.user" /></legend>
 <div class="pair">
 	<label for="userform_username"><spring:message code="umt.user.username" /></label>
-	<c:choose><c:when test="${myaccount || !userForm.new}">
+	<c:choose><c:when test="${myaccount || (!userForm.new)}">
 		<span>${userForm.username}</span>
 		<form:hidden path="username" />
 	</c:when><c:otherwise>
