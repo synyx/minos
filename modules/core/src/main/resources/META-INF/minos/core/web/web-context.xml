@@ -98,7 +98,7 @@
 	</bean>
     
     <!-- PropertyEditors -->
-    <bean class="org.synyx.minos.core.web.GenericDaoPropertyEditorRegistrar" />
+    <bean class="org.synyx.hades.extensions.beans.GenericDaoPropertyEditorRegistrar" />
     <bean class="org.synyx.minos.core.web.ValueObjectPropertyEditorRegistrar">
         <constructor-arg value="org.synyx.**.domain" />
     </bean>
