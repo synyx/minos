@@ -179,7 +179,7 @@
         <dependency>
             <groupId>spring-helper-sitemesh</groupId>
             <artifactId>spring-helper-sitemesh</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>0.1</version>
         </dependency>
 		
         <dependency>
