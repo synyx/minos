@@ -18,8 +18,6 @@
 	<import resource="../propertyPlaceholder.xml" />
 
 
-    <bean class="org.synyx.minos.core.web.ViewWebRequestEnricher"/>
-
 	<bean class="org.synyx.minos.core.web.MinosAnnotationHandlerMapping">
         <property name="useDefaultSuffixPattern" value="false" />
 		<property name="interceptors">
@@ -39,6 +37,7 @@
                         <plugin:registry class="org.synyx.minos.core.web.enrichment.WebRequestEnricher" />
                     </property>
                 </bean>
+                <bean class="org.synyx.sitemesh.ViewWebRequestEnricher"/>
 				<bean class="org.synyx.minos.core.web.MessageViaRedirectInterceptor">
 					<property name="messageKey">
 						<util:constant static-field="org.synyx.minos.core.Core.MESSAGE" />

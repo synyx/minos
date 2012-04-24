@@ -11,7 +11,7 @@
     </page-parsers>
 
     <decorator-mappers>
-        <mapper class="org.synyx.minos.core.web.SitemeshDecoratorMapper">
+        <mapper class="org.synyx.sitemesh.SitemeshDecoratorMapper">
             <param name="config" value="${decorators-file}" />
         </mapper>
         <mapper class="com.opensymphony.module.sitemesh.mapper.ConfigDecoratorMapper">
