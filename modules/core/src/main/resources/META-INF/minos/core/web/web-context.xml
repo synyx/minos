@@ -48,7 +48,7 @@
         <property name="supportedMethods" value="GET,PUT,POST,HEAD,DELETE" />
     </bean>
     
-    <bean id="conversationManager" class="org.synyx.minos.core.web.conversation.ConversationManager" />
+    <!--<bean id="conversationManager" class="org.synyx.minos.core.web.conversation.ConversationManager" />-->
 
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <!-- 
