@@ -177,7 +177,7 @@
 
 		<!-- View technology -->
         <dependency>
-            <groupId>spring-helper-sitemesh</groupId>
+            <groupId>org.synyx</groupId>
             <artifactId>spring-helper-sitemesh</artifactId>
             <version>0.1</version>
         </dependency>
