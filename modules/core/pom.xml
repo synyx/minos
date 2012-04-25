@@ -210,6 +210,11 @@
             <artifactId>mockito-all</artifactId>
             <version>1.8.5</version>
         </dependency>
+        <dependency>
+            <groupId>org.synyx</groupId>
+            <artifactId>spring-helper-binding</artifactId>
+            <version>0.1</version>
+        </dependency>
     </dependencies>
 
     <build>

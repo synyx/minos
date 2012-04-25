@@ -73,9 +73,10 @@
     <bean id="jacksonsHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
 	
 
-	<bean class="org.synyx.minos.core.web.PageableArgumentResolver" />
-    <bean class="org.synyx.minos.core.web.CurrentUserArgumentResolver">
+    <bean class="org.synyx.minos.core.web.PageableArgumentResolver" />
+    <bean class="org.synyx.binding.user.CurrentUserArgumentResolver">
     	<constructor-arg ref="authenticationService" />
+        <constructor-arg type="java.lang.Class" value="org.synyx.minos.core.domain.User" />
     </bean>
 
 	<bean id="minosWebBindingInitializer" class="org.synyx.minos.core.web.MinosWebBindingIntializer">
@@ -95,7 +96,7 @@
     
     <!-- PropertyEditors -->
     <bean class="org.synyx.hades.extensions.beans.GenericDaoPropertyEditorRegistrar" />
-    <bean class="org.synyx.minos.core.web.ValueObjectPropertyEditorRegistrar">
+    <bean class="org.synyx.binding.valueobject.ValueObjectPropertyEditorRegistrar">
         <constructor-arg value="org.synyx.**.domain" />
     </bean>
     

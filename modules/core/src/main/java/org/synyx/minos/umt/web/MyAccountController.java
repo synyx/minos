@@ -1,5 +1,6 @@
 package org.synyx.minos.umt.web;
 
+import org.synyx.binding.user.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import org.synyx.minos.core.Core;
 import org.synyx.minos.core.domain.User;
-import org.synyx.minos.core.web.CurrentUser;
 import org.synyx.minos.core.web.Message;
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.core.web.ValidationSupport;

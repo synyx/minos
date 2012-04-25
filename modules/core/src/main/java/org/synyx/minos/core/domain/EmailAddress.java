@@ -3,6 +3,7 @@ package org.synyx.minos.core.domain;
 import org.synyx.minos.util.Assert;
 
 import javax.persistence.Embeddable;
+import org.synyx.binding.valueobject.ValueObject;
 
 
 /**

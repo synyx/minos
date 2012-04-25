@@ -4,6 +4,7 @@ import org.synyx.minos.core.domain.Password;
 import org.synyx.minos.core.domain.User;
 
 import java.util.Collection;
+import org.synyx.binding.user.CurrentUserProvider;
 
 
 /**
@@ -11,15 +12,7 @@ import java.util.Collection;
  *
  * @author Oliver Gierke - gierke@synyx.de
  */
-public interface AuthenticationService extends PermissionAware {
-
-    /**
-     * Returns the currently authenticated user or {@code null} if none available.
-     *
-     * @return the current user or {@code null} if none available
-     */
-    User getCurrentUser();
-
+public interface AuthenticationService extends PermissionAware, CurrentUserProvider<User> {
 
     /**
      * Returns whether the {@link User} with the given username is currently authenticated.

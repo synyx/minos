@@ -4,6 +4,7 @@ import org.synyx.minos.util.Assert;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
+import org.synyx.binding.valueobject.ValueObject;
 
 
 /**

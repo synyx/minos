@@ -30,7 +30,6 @@ import org.synyx.minos.core.Core;
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.security.AuthenticationService;
-import org.synyx.minos.core.web.CurrentUser;
 import org.synyx.minos.core.web.Message;
 import org.synyx.minos.core.web.PageWrapper;
 import org.synyx.minos.core.web.UrlUtils;
@@ -58,6 +57,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
+import org.synyx.binding.user.CurrentUser;
 
 
 /**
