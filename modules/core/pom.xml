@@ -215,6 +215,11 @@
             <artifactId>spring-helper-binding</artifactId>
             <version>0.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.synyx</groupId>
+            <artifactId>spring-helper-util</artifactId>
+            <version>0.2</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -8,7 +8,7 @@ import org.springframework.util.StringUtils;
 import org.synyx.minos.core.module.Module;
 import org.synyx.minos.core.module.internal.MinosModule;
 import org.synyx.minos.util.Assert;
-import org.synyx.minos.util.ClassUtils;
+import org.synyx.util.ClassUtils;
 
 import org.w3c.dom.Element;
 
