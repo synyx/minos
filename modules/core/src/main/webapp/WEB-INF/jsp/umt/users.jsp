@@ -62,7 +62,7 @@
 	<display:footer>
 		<tr>
 			<td colspan="8">
-				<core:imageLink href="users/form" imageUrl="/images/umt/user_add.png" altKey="umt.user.new" />
+				<core:imageLink href="users/form" imageUrl="/images/umt/user_add.png" altKey="umt.user['new']" />
 			</td>
 		</tr>
 	</display:footer>

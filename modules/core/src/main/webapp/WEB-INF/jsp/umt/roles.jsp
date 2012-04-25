@@ -32,7 +32,7 @@
 	<display:footer>
 		<tr>
 			<td colspan="2">
-				<core:imageLink href="roles/form" imageUrl="/images/umt/role_add.png" altKey="umt.role.new" />		
+				<core:imageLink href="roles/form" imageUrl="/images/umt/role_add.png" altKey="umt.role['new']" />		
 			</td>
 		</tr>
 	</display:footer>

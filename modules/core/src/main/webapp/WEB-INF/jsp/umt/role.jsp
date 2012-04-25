@@ -65,7 +65,7 @@
 </div>
 </fieldset>
 
-<c:if test="${not role.new }">
+<c:if test="${not role['new'] }">
 <fieldset>
 
 	<legend>

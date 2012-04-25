@@ -21,7 +21,7 @@ Tag file to automatically create correct HTML form according to the model attrib
 --%>
 
 <c:set var="modelObject" value="${requestScope[modelAttribute]}" />
-<c:set var="method" value="${modelObject.new ? 'POST' : 'PUT'}" />
+<c:set var="method" value="${modelObject['new'] ? 'POST' : 'PUT'}" />
 <c:set var="formId" value="${empty id ? modelAttribute : id}" />
 
 <%-- Determine URL template to use to find the URL to point to --%>
@@ -36,7 +36,7 @@ Tag file to automatically create correct HTML form according to the model attrib
 
 <%-- Determine URL to point to --%>
 <c:choose>
-	<c:when test="${modelObject.new}">
+	<c:when test="${modelObject['new']}">
 		<c:set var="formAction"><spring:url value="${action}" /></c:set>
 	</c:when>
 	<c:otherwise>
