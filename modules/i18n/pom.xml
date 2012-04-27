@@ -51,6 +51,11 @@
 			<artifactId>messagesource</artifactId>
 			<version>0.6</version>
 		</dependency>
+        <dependency>
+            <groupId>org.synyx</groupId>
+            <artifactId>spring-helper-tagsupport</artifactId>
+            <version>0.2</version>
+        </dependency>
 	</dependencies>
 
 	<build>

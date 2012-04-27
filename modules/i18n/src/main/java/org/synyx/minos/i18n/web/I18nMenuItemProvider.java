@@ -1,17 +1,18 @@
 package org.synyx.minos.i18n.web;
 
-import org.synyx.minos.core.web.menu.AbstractMenuItemProvider;
-import org.synyx.minos.core.web.menu.MenuItem;
 import org.synyx.minos.i18n.I18nPermissions;
+
+import org.synyx.tagsupport.tags.menu.AbstractMenuItemProvider;
+import org.synyx.tagsupport.tags.menu.MenuItem;
 
 import java.util.Arrays;
 import java.util.List;
 
 
 /**
- * {@link org.synyx.minos.core.web.menu.MenuItemProvider} for I18n module.
+ * {@link org.synyx.tagsupport.tags.menu.MenuItemProvider} for I18n module.
  *
- * @author Marc Kannegiesser - kannegiesser@synyx.de
+ * @author  Marc Kannegiesser - kannegiesser@synyx.de
  */
 public class I18nMenuItemProvider extends AbstractMenuItemProvider {
 

@@ -55,7 +55,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Controller for i18n module
  *
- * @author Marc Kannegiesser - kannegiesser@synyx.de
+ * @author  Marc Kannegiesser - kannegiesser@synyx.de
  */
 @Controller
 public class I18nController {
@@ -99,7 +99,7 @@ public class I18nController {
 
         messageTransferService.initializeMessageSources();
 
-        model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message.success("i18n.messagesources.reinitialized"));
+        model.addAttribute(Core.MESSAGE, org.synyx.tagsupport.Message.success("i18n.messagesources.reinitialized"));
 
         return UrlUtils.redirect(URL_MAIN);
     }
@@ -111,7 +111,7 @@ public class I18nController {
 
         messageTransferService.importMessages();
 
-        model.addAttribute(Core.MESSAGE, org.synyx.minos.core.web.Message.success("i18n.messagesources.imported"));
+        model.addAttribute(Core.MESSAGE, org.synyx.tagsupport.Message.success("i18n.messagesources.imported"));
 
         return UrlUtils.redirect(URL_MAIN);
     }
@@ -194,11 +194,10 @@ public class I18nController {
         if (!locales.contains(language.getLocale())) {
             // todo make boolean configurable
             messageService.addLanguage(language);
-            model.addAttribute(Core.MESSAGE,
-                org.synyx.minos.core.web.Message.success("i18n.messages.newlanguage.success"));
+            model.addAttribute(Core.MESSAGE, org.synyx.tagsupport.Message.success("i18n.messages.newlanguage.success"));
         } else {
             model.addAttribute(Core.MESSAGE,
-                org.synyx.minos.core.web.Message.notice("i18n.messages.newlanguage.alreadyexists"));
+                org.synyx.tagsupport.Message.notice("i18n.messages.newlanguage.alreadyexists"));
         }
 
         return UrlUtils.redirect(URL_BASENAME.replace("{basename}", basename));
@@ -228,11 +227,10 @@ public class I18nController {
             messageService.removeLanguage(basename, lang);
 
             model.addAttribute(Core.MESSAGE,
-                org.synyx.minos.core.web.Message.success("i18n.basename.deleteLanguage.message.success"));
+                org.synyx.tagsupport.Message.success("i18n.basename.deleteLanguage.message.success"));
         } else {
             model.addAttribute(Core.MESSAGE,
-                org.synyx.minos.core.web.Message.error(
-                    "i18n.basename.deleteLanguage.message.impossiblebecauseofdefault"));
+                org.synyx.tagsupport.Message.error("i18n.basename.deleteLanguage.message.impossiblebecauseofdefault"));
         }
 
         messageTransferService.initializeMessageSources();
