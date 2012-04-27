@@ -1,28 +1,36 @@
 package org.synyx.minos.core.web.menu.filter;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+
+import static org.hamcrest.CoreMatchers.is;
+
+import static org.junit.Assert.assertThat;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import org.junit.runner.RunWith;
+
+import org.mockito.Mock;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.mockito.runners.MockitoJUnitRunner;
+
+import org.synyx.minos.core.security.AuthenticationService;
+
+import org.synyx.tagsupport.tags.menu.Menu;
+import org.synyx.tagsupport.tags.menu.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.synyx.minos.core.security.AuthenticationService;
-import org.synyx.minos.core.web.menu.Menu;
-import org.synyx.minos.core.web.menu.MenuItem;
-
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-
 
 /**
- * @author Marc Kannegiesser - kannegiesser@synyx.de
- * @author Oliver Gierke
+ * @author  Marc Kannegiesser - kannegiesser@synyx.de
+ * @author  Oliver Gierke
  */
 
 @RunWith(MockitoJUnitRunner.class)
@@ -40,7 +48,6 @@ public class PermissionMenuItemFilterUnitTest {
     private MenuItem bItem;
     private Menu a;
     private Menu b;
-
 
     @Before
     public void setup() {
@@ -65,7 +72,6 @@ public class PermissionMenuItemFilterUnitTest {
         filter.apply(b);
         verify(authService).hasAllPermissions(a.getPermissions());
         verify(authService).hasAllPermissions(b.getPermissions());
-
     }
 
 

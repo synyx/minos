@@ -1,11 +1,11 @@
 package org.synyx.minos.umt.web;
 
-import org.synyx.minos.core.web.menu.AbstractMenuItemProvider;
-import org.synyx.minos.core.web.menu.FirstSubMenuUrlResolver;
-import org.synyx.minos.core.web.menu.MenuItem;
-import org.synyx.minos.core.web.menu.MenuItem.MenuItemBuilder;
-import org.synyx.minos.core.web.menu.UrlResolver;
 import org.synyx.minos.umt.UmtPermissions;
+
+import org.synyx.tagsupport.tags.menu.AbstractMenuItemProvider;
+import org.synyx.tagsupport.tags.menu.FirstSubMenuUrlResolver;
+import org.synyx.tagsupport.tags.menu.MenuItem;
+import org.synyx.tagsupport.tags.menu.UrlResolver;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * {@link MenuItem}s for user management module.
  *
- * @author Oliver Gierke - gierke@synyx.de
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 public class UmtMenuItemProvider extends AbstractMenuItemProvider {
 
@@ -24,7 +24,7 @@ public class UmtMenuItemProvider extends AbstractMenuItemProvider {
     public static final String MENU_UMT_USERS = "MENU_UMT_USERS";
     public static final String MENU_UMT_MYACCOUNT = "MENU_UMT_MYACCOUNT";
 
-    public MenuItemBuilder getMainMenuItem() {
+    public MenuItem.MenuItemBuilder getMainMenuItem() {
 
         UrlResolver umtItemStrategy = new FirstSubMenuUrlResolver();
 
@@ -32,46 +32,46 @@ public class UmtMenuItemProvider extends AbstractMenuItemProvider {
     }
 
 
-    public MenuItemBuilder getLogoutMenuItem() {
+    public MenuItem.MenuItemBuilder getLogoutMenuItem() {
 
         return MenuItem.create(MENU_UMT_LOGOUT).withKeyBase("core.menu.logout").withPosition(1000000).withUrl(
                 "/logout");
     }
 
 
-    public MenuItemBuilder getUserManageMenuItem() {
+    public MenuItem.MenuItemBuilder getUserManageMenuItem() {
 
         return getUserManageMenuItem(getMainMenuItem().build());
     }
 
 
-    public MenuItemBuilder getUserManageMenuItem(MenuItem parent) {
+    public MenuItem.MenuItemBuilder getUserManageMenuItem(MenuItem parent) {
 
         return MenuItem.create(MENU_UMT_USERS).withKeyBase("umt.menu.users").withPosition(100).withUrl(UmtUrls.USERS)
             .withPermission(UmtPermissions.UMT_ADMIN).withParent(parent);
     }
 
 
-    public MenuItemBuilder getRoleManageMenuItem() {
+    public MenuItem.MenuItemBuilder getRoleManageMenuItem() {
 
         return getRoleManageMenuItem(getMainMenuItem().build());
     }
 
 
-    public MenuItemBuilder getRoleManageMenuItem(MenuItem parent) {
+    public MenuItem.MenuItemBuilder getRoleManageMenuItem(MenuItem parent) {
 
         return MenuItem.create(MENU_UMT_ROLES).withKeyBase("umt.menu.roles").withPosition(200).withUrl(UmtUrls.ROLES)
             .withPermission(UmtPermissions.UMT_ADMIN).withParent(parent);
     }
 
 
-    public MenuItemBuilder getMyAccountMenuItem() {
+    public MenuItem.MenuItemBuilder getMyAccountMenuItem() {
 
         return getMyAccountMenuItem(getMainMenuItem().build());
     }
 
 
-    public MenuItemBuilder getMyAccountMenuItem(MenuItem parent) {
+    public MenuItem.MenuItemBuilder getMyAccountMenuItem(MenuItem parent) {
 
         return MenuItem.create(MENU_UMT_MYACCOUNT).withKeyBase("umt.myaccount").withPosition(300).withUrl(
                 UmtUrls.MYACCOUNT).withParent(parent);

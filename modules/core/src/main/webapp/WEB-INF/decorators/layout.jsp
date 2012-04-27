@@ -3,6 +3,7 @@
 <%@ taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="minos" uri="http://www.synyx.org/minos/tags" %>
+<%@ taglib prefix="tagsupport" uri="http://www.synyx.org/spring-helper-tagsupport" %>
 
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -11,16 +12,16 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<script type="text/javascript" src="<c:url value="/js/minos-core.js" />"> </script>
 	<title><decorator:title default="Minos 2" /></title>
-	<minos:styles />
+	<tagsupport:styles />
 	<decorator:head />
 </head>
 <body>
 	<div id="header">
 		<h1><decorator:title default="Minos 2" /></h1>
-		<minos:menu menuId="MAIN" />
+		<tagsupport:menu menuId="MAIN" />
 	</div>
 	<div id="middle">
-		<minos:system-message />
+		<tagsupport:system-message />
 		<decorator:body />
 	</div>
 	<div id="footer"></div>

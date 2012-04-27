@@ -1,6 +1,5 @@
 package org.synyx.minos.umt.web;
 
-import org.synyx.binding.user.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -16,19 +15,22 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import org.synyx.binding.user.CurrentUser;
+
 import org.synyx.minos.core.Core;
 import org.synyx.minos.core.domain.User;
-import org.synyx.minos.core.web.Message;
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.core.web.ValidationSupport;
 import org.synyx.minos.umt.service.UserAccountManagement;
 import static org.synyx.minos.umt.web.UmtUrls.MYACCOUNT;
 
+import org.synyx.tagsupport.Message;
+
 
 /**
  * Web controller for the user account management.
  *
- * @author Markus Knittig - knittig@synyx.de
+ * @author  Markus Knittig - knittig@synyx.de
  */
 @Controller
 @SessionAttributes({ MyAccountController.ACCOUNT_KEY })
@@ -48,8 +50,9 @@ public class MyAccountController extends ValidationSupport<UserForm> {
     /**
      * Show the form for an existing {@link User}.
      *
-     * @param user
-     * @param model
+     * @param  user
+     * @param  model
+     *
      * @return
      */
     @RequestMapping(value = MYACCOUNT, method = GET)
@@ -64,10 +67,11 @@ public class MyAccountController extends ValidationSupport<UserForm> {
     /**
      * Saves an existing {@link User}.
      *
-     * @param userForm
-     * @param errors
-     * @param conversation
-     * @param model
+     * @param  userForm
+     * @param  errors
+     * @param  conversation
+     * @param  model
+     *
      * @return
      */
     @RequestMapping(value = MYACCOUNT, method = PUT)

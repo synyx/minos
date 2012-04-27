@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import org.synyx.binding.user.CurrentUser;
+
 import org.synyx.hades.domain.Page;
 import org.synyx.hades.domain.Pageable;
 
@@ -30,7 +32,6 @@ import org.synyx.minos.core.Core;
 import org.synyx.minos.core.domain.Role;
 import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.security.AuthenticationService;
-import org.synyx.minos.core.web.Message;
 import org.synyx.minos.core.web.PageWrapper;
 import org.synyx.minos.core.web.UrlUtils;
 import org.synyx.minos.core.web.ValidationSupport;
@@ -50,6 +51,8 @@ import static org.synyx.minos.umt.web.UmtUrls.USER_DELETE_QUESTION;
 import static org.synyx.minos.umt.web.UmtUrls.USER_FORM;
 import org.synyx.minos.util.Assert;
 
+import org.synyx.tagsupport.Message;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -57,7 +60,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.security.RolesAllowed;
-import org.synyx.binding.user.CurrentUser;
 
 
 /**

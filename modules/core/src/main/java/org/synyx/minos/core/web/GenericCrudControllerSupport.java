@@ -19,6 +19,8 @@ import org.synyx.hades.domain.Persistable;
 
 import org.synyx.minos.core.Core;
 
+import org.synyx.tagsupport.Message;
+
 import java.io.Serializable;
 
 import java.util.List;
@@ -27,7 +29,7 @@ import javax.servlet.http.HttpSession;
 
 
 /**
- * @author Oliver Gierke - gierke@synyx.de
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 public abstract class GenericCrudControllerSupport<BeanType extends Persistable<PK>, PK extends Serializable>
     extends ValidationSupport<BeanType> {
@@ -95,10 +97,11 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
      * Hook before showing a bean-form. An implementing subclass may do any preparations here. The bean that is returned
      * from this method will be added to the model.
      *
-     * @param bean the bean that should be showed
-     * @param model the model
-     * @param request the request
-     * @return the bean to be added to the model
+     * @param  bean  the bean that should be showed
+     * @param  model  the model
+     * @param  request  the request
+     *
+     * @return  the bean to be added to the model
      */
     protected String prepareForm(BeanType bean, Model model, WebRequest request) {
 
@@ -109,10 +112,12 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
 
 
     /**
-     * Create a new instance of {@link BeanType}. This method is used when preparing the {@link Model} for the create-form.
+     * Create a new instance of {@link BeanType}. This method is used when preparing the {@link Model} for the
+     * create-form.
      *
-     * @param beanClass class of the Bean to be created
-     * @return a new Instance of BeanType
+     * @param  beanClass  class of the Bean to be created
+     *
+     * @return  a new Instance of BeanType
      */
     protected BeanType createNewBean(Class<BeanType> beanClass, Model model, WebRequest request) {
 
@@ -148,11 +153,12 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
      * Hook before saving a bean (create or edit). An implementing subclass may do any preparations here. If false is
      * returned, the bean is not saved but displayed again (see {@link #showForm(Persistable, Model, WebRequest)}).
      *
-     * @param bean the bean that should be deleted
-     * @param errors validation/binding result
-     * @param model the model
-     * @param request the request
-     * @return true if the bean should be saved
+     * @param  bean  the bean that should be deleted
+     * @param  errors  validation/binding result
+     * @param  model  the model
+     * @param  request  the request
+     *
+     * @return  true if the bean should be saved
      */
     protected boolean prepareCreateOrEdit(BeanType bean, Errors errors, Model model, WebRequest request) {
 
@@ -191,10 +197,11 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
      * Hook before deleting a bean. An implementing subclass may do any preparations here. If false is returned, the
      * bean is not deleted but displayed again (see {@link #showForm(Persistable, Model, WebRequest)}).
      *
-     * @param bean the bean that should be deleted
-     * @param model the model
-     * @param request the request
-     * @return true if the bean should be deleted
+     * @param  bean  the bean that should be deleted
+     * @param  model  the model
+     * @param  request  the request
+     *
+     * @return  true if the bean should be deleted
      */
     protected boolean prepareDelete(BeanType bean, Model model, WebRequest request) {
 
@@ -221,10 +228,11 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
      * Hook before listing all beans. An implementing subclass may do any preparations here. The list that is returned
      * from this method will be added to the model.
      *
-     * @param beans the list of beans that should be listed
-     * @param model the model
-     * @param request the request
-     * @return the list to be added to the model
+     * @param  beans  the list of beans that should be listed
+     * @param  model  the model
+     * @param  request  the request
+     *
+     * @return  the list to be added to the model
      */
     protected List<BeanType> prepareList(List<BeanType> beans, Model model, WebRequest request) {
 
@@ -235,7 +243,8 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
     /**
      * Save the actual entity.
      *
-     * @param bean
+     * @param  bean
+     *
      * @return
      */
     protected abstract BeanType save(BeanType bean);
@@ -244,7 +253,7 @@ public abstract class GenericCrudControllerSupport<BeanType extends Persistable<
     /**
      * Perform the actual delete operation.
      *
-     * @param bean
+     * @param  bean
      */
     protected abstract void delete(BeanType bean);
 

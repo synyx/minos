@@ -10,45 +10,6 @@
     <uri>http://www.synyx.org/minos/tags</uri>
     
     <tag>
-        <description>
-            Renders a system message if available.
-        </description>
-        <name>system-message</name>
-        <tag-class>org.synyx.minos.core.web.tags.SystemMessageTag</tag-class>
-        <body-content>empty</body-content>
-    </tag>
-    
-    <tag>
-        <name>styles</name>
-        <tag-class>org.synyx.minos.core.web.tags.StylesTag</tag-class>
-        <body-content>empty</body-content>
-    </tag>
-    
-    <tag>
-        <name>menu</name>
-        <tag-class>org.synyx.minos.core.web.tags.menu.MenuTag</tag-class>
-        <body-content>empty</body-content>
-        <attribute>
-          <description>
-            The name of the menu to display (try MAIN for default-menu)
-          </description>
-          <name>menuId</name>
-          <required>false</required>
-          <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        <attribute>
-            <description>
-                A Spring bean implementing org.synyx.minos.core.web.tags.menu.MenuRenderer,
-                which is used to render the menu tag.
-            </description>
-            <name>renderBean</name>
-            <required>false</required>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-    </tag>
-    
-    <tag>
-        
         <name>table</name>
         <tag-class>org.synyx.minos.core.web.tags.table.TableTag</tag-class>
         <body-content>JSP</body-content>

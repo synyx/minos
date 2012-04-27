@@ -3,8 +3,8 @@
  */
 package org.synyx.minos.core.web.menu.filter;
 
-import org.synyx.minos.core.web.menu.Menu;
-import org.synyx.minos.core.web.menu.MenuItemFilter;
+import org.synyx.tagsupport.tags.menu.Menu;
+import org.synyx.tagsupport.tags.menu.MenuItemFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * {@link MenuItemFilter} that filters items that match a given {@link List} of Strings representing the Items ID-Paths.
  *
- * @author Marc Kannegiesser - kannegiesser@synyx.de
+ * @author  Marc Kannegiesser - kannegiesser@synyx.de
  */
 public class PathMenuItemFilter implements MenuItemFilter {
 

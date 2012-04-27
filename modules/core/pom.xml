@@ -195,6 +195,12 @@
             <version>1.8.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.synyx</groupId>
+            <artifactId>spring-helper-tagsupport</artifactId>
+            <version>0.2</version>
+        </dependency>
+        
 		<!-- Test libraries -->
 
 		<!-- Core Minos test support -->

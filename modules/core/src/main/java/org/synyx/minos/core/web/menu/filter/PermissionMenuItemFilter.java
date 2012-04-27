@@ -1,17 +1,18 @@
 package org.synyx.minos.core.web.menu.filter;
 
 import org.synyx.minos.core.security.AuthenticationService;
-import org.synyx.minos.core.web.menu.Menu;
-import org.synyx.minos.core.web.menu.MenuItem;
-import org.synyx.minos.core.web.menu.MenuItemFilter;
 import org.synyx.minos.util.Assert;
+
+import org.synyx.tagsupport.tags.menu.Menu;
+import org.synyx.tagsupport.tags.menu.MenuItemFilter;
 
 
 /**
- * {@link MenuItemFilter} that that considers the permissions registered with the {@link MenuItem}.
+ * {@link MenuItemFilter} that that considers the permissions registered with the
+ * {@link org.synyx.tagsupport.tags.menu.MenuItem}.
  *
- * @author Marc Kannegiesser - kannegiesser@synyx.de
- * @author Oliver Gierke
+ * @author  Marc Kannegiesser - kannegiesser@synyx.de
+ * @author  Oliver Gierke
  */
 public class PermissionMenuItemFilter implements MenuItemFilter {
 

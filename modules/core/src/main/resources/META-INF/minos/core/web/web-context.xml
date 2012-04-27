@@ -127,17 +127,17 @@
     </bean>
 	
 
-	<bean id="menuProvider" class="org.synyx.minos.core.web.menu.MenuManager">
+	<bean id="menuProvider" class="org.synyx.tagsupport.tags.menu.MenuManager">
         <constructor-arg>
-            <plugin:list class="org.synyx.minos.core.web.menu.MenuItemProvider" />
+            <plugin:list class="org.synyx.tagsupport.tags.menu.MenuItemProvider" />
         </constructor-arg>
         <constructor-arg>
-            <plugin:list class="org.synyx.minos.core.web.menu.MenuItemFilter" />
+            <plugin:list class="org.synyx.tagsupport.tags.menu.MenuItemFilter" />
         </constructor-arg>
         <property name="menuAssembler" ref="menuAssembler"/>
 	</bean>
 	
-	<bean id="menuAssembler" class="org.synyx.minos.core.web.menu.SimpleMenuAssembler" />
+	<bean id="menuAssembler" class="org.synyx.tagsupport.tags.menu.SimpleMenuAssembler" />
 	
 	
     <bean id="menuPermissionFilter" class="org.synyx.minos.core.web.menu.filter.PermissionMenuItemFilter">

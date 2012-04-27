@@ -6,13 +6,16 @@ import org.synyx.minos.core.domain.User;
 import org.synyx.minos.core.security.AuthenticationService;
 import org.synyx.minos.util.Assert;
 
+import org.synyx.tagsupport.tags.menu.Menu;
+import org.synyx.tagsupport.tags.menu.SimpleUrlResolver;
+
 
 /**
- * {@link UrlResolver} that is able to detect a given placeholder in the configured URL and replaces it with the current
- * {@link User}s username.
+ * {@link org.synyx.tagsupport.tags.menu.UrlResolver} that is able to detect a given placeholder in the configured URL
+ * and replaces it with the current {@link User}s username.
  *
- * @author Marc Kannegiesser - kannegiesser@synyx.de
- * @author Oliver Gierke
+ * @author  Marc Kannegiesser - kannegiesser@synyx.de
+ * @author  Oliver Gierke
  */
 public class UserPlaceholderAwareUrlResolver extends SimpleUrlResolver {
 
@@ -24,8 +27,8 @@ public class UserPlaceholderAwareUrlResolver extends SimpleUrlResolver {
     /**
      * Creates a new {@link UserPlaceholderAwareUrlResolver}.
      *
-     * @param url
-     * @param authService
+     * @param  url
+     * @param  authService
      */
     public UserPlaceholderAwareUrlResolver(String url, AuthenticationService authService) {
 
@@ -37,7 +40,7 @@ public class UserPlaceholderAwareUrlResolver extends SimpleUrlResolver {
     /**
      * Configure the placeholder that should be replaced with the username. Defaults to {@value #DEFAULT_PLACEHOLDER}.
      *
-     * @param userPlaceholder the userPlaceholder to set
+     * @param  userPlaceholder  the userPlaceholder to set
      */
     public void setPlaceholder(String userPlaceholder) {
 

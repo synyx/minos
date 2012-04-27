@@ -7,6 +7,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.util.WebUtils;
 
+import org.synyx.tagsupport.Message;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,11 +17,11 @@ import javax.servlet.http.HttpSession;
 /**
  * This interceptor transparently transfers {@code Message}s through a redirect. It uses the {@code HttpSession} to do
  * this and cares for session cleanup after the redirect.
- * <p>
- * Messages that are added in the redirect action transparently override the session message. This ensures to always see
- * the latest system message but implies the disadvantage, that the old message is never being seen.
  *
- * @author Oliver Gierke - gierke@synyx.de
+ * <p>Messages that are added in the redirect action transparently override the session message. This ensures to always
+ * see the latest system message but implies the disadvantage, that the old message is never being seen.</p>
+ *
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 public class MessageViaRedirectInterceptor extends HandlerInterceptorAdapter {
 
@@ -29,7 +31,7 @@ public class MessageViaRedirectInterceptor extends HandlerInterceptorAdapter {
      * Configures the message key that is used to lookup messages in the {@link HttpSession} and
      * {@link HttpServletRequest}. This has to be the key under which controllers register application messages.
      *
-     * @param messageKey the messageKey to set
+     * @param  messageKey  the messageKey to set
      */
     @Required
     public void setMessageKey(String messageKey) {
@@ -70,7 +72,8 @@ public class MessageViaRedirectInterceptor extends HandlerInterceptorAdapter {
     /**
      * Returns whether we have a new message in the current model.
      *
-     * @param modelAndView
+     * @param  modelAndView
+     *
      * @return
      */
     private boolean hasNewMessage(ModelAndView modelAndView) {
@@ -82,7 +85,8 @@ public class MessageViaRedirectInterceptor extends HandlerInterceptorAdapter {
     /**
      * Returns whether the current request results in a redirect.
      *
-     * @param modelAndView
+     * @param  modelAndView
+     *
      * @return
      */
     private boolean isRedirect(ModelAndView modelAndView) {

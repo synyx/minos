@@ -1,24 +1,29 @@
 package org.synyx.minos.core.web;
 
-import static org.junit.Assert.*;
-
-import javax.servlet.http.HttpSession;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
+
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
-import org.synyx.minos.core.web.Message;
-import org.synyx.minos.core.web.MessageViaRedirectInterceptor;
+
+import org.synyx.tagsupport.Message;
+
+import javax.servlet.http.HttpSession;
 
 
 /**
  * Unit test for {@link MessageViaRedirectInterceptor}.
- * 
- * @author Oliver Gierke - gierke@synyx.de
+ *
+ * @author  Oliver Gierke - gierke@synyx.de
  */
 public class MessageViaRedirectInterceptorUnitTest {
 
@@ -34,7 +39,6 @@ public class MessageViaRedirectInterceptorUnitTest {
     private MockHttpSession session;
 
     private Message message;
-
 
     @Before
     public void setUp() {
@@ -55,8 +59,8 @@ public class MessageViaRedirectInterceptorUnitTest {
 
     /**
      * Tests whether the interceptor stores an available {@link Message} in the session on redirect calls.
-     * 
-     * @throws Exception
+     *
+     * @throws  Exception
      */
     @Test
     public void storesMessageOnRedirect() throws Exception {
@@ -76,8 +80,8 @@ public class MessageViaRedirectInterceptorUnitTest {
     /**
      * Tests whether the interceptor retrieves the old message if the controller did not produce a new one on a
      * non-redirect view.
-     * 
-     * @throws Exception
+     *
+     * @throws  Exception
      */
     @Test
     public void retrievesMessageIfNoneNewSet() throws Exception {
@@ -89,8 +93,8 @@ public class MessageViaRedirectInterceptorUnitTest {
     /**
      * Tests whether the interceptor uses the new message if the controller call produced a new message, even if there
      * is a old message stored.
-     * 
-     * @throws Exception
+     *
+     * @throws  Exception
      */
     @Test
     public void usesNewMessageIfNewSet() throws Exception {
@@ -103,8 +107,8 @@ public class MessageViaRedirectInterceptorUnitTest {
 
     /**
      * Tests, whether the interceptor cleans up the {@link HttpSession} on non-redirect calls.
-     * 
-     * @throws Exception
+     *
+     * @throws  Exception
      */
     @Test
     public void cleansUpIfOldMessageFound() throws Exception {
@@ -116,8 +120,8 @@ public class MessageViaRedirectInterceptorUnitTest {
 
     /**
      * Asserts that the interceptor simply does nothing on {@code null} models.
-     * 
-     * @throws Exception
+     *
+     * @throws  Exception
      */
     @Test
     public void handlesNullModelAndViewCorrectly() throws Exception {
@@ -130,11 +134,12 @@ public class MessageViaRedirectInterceptorUnitTest {
      * Asserts that the message {@code toBeFound} is found in the model after a controller invocation that produces the
      * new message while already having the {@code oldMessage}. This can be used to verify overwriting behaviour of the
      * {@link MessageViaRedirectInterceptor}.
-     * 
-     * @param toBeFound
-     * @param newMessage
-     * @param oldMessage
-     * @throws Exception
+     *
+     * @param  toBeFound
+     * @param  newMessage
+     * @param  oldMessage
+     *
+     * @throws  Exception
      */
     private void assertMessageFound(Message toBeFound, Message newMessage, Message oldMessage) throws Exception {
 
