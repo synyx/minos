@@ -114,9 +114,8 @@
 
 	
 
-    <bean id="exceptionResolver" class="org.synyx.minos.core.web.ErrorReportExceptionHandler">
+    <bean id="exceptionResolver" class="org.synyx.tagsupport.ErrorReportExceptionHandler">
         <property name="order" value="20"/>
-    	<property name="authenticationService" ref="authenticationService" />
     	<property name="reportBasePath" value="${core.errorReportPath}" /> 
 		<property name="defaultErrorView" value="general-error"/>
         <property name="exceptionMappings">
