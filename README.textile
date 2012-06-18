@@ -1,0 +1,50 @@
+h1. What is Minos?
+
+_Minos_ is a thin framework layer built on "Spring":http://www.springsource.org/, that helps you to develop applications in a modular way. It is concerned with:
+
+* making standard tasks easier by eliminating boilerplate code
+* separating distinct layers through modular configuration
+* structuring an application into self-contained modules with clear dependency directions
+
+It is thin and lightweight in the sense, that it glues together several libraries and technologies instead of "reinventing the wheel" and augments these in some domains. Following is a list of the used libraries, technologies and augmenting code and their role in the framework:
+
+* "Spring":http://www.springsource.org/ is used for "Dependency Injection":http://martinfowler.com/articles/injection.html
+* "Spring MVC":http://static.springsource.org/spring/docs/3.0.x/reference/mvc.html is used, to define request handlers in the form of controller objects
+* "Maven":http://maven.apache.org/ is used as a build system and - with the help of "WAR overlays":http://maven.apache.org/plugins/maven-war-plugin/overlays.html - to assemble applications from multiple [[Minos modules|Modules]]
+* "JPA":http://www.oracle.com/technetwork/java/javaee/tech/persistence-jsp-140049.html (via "Hibernate's":http://www.hibernate.org/ implementation) is used to define the [[domain model|Domain objects]]
+* "Hades":http://hades.synyx.org (currently becoming Spring Data) is used to generate "Data Access Objects (DAO)":http://en.wikipedia.org/wiki/Data_access_object for the domain model
+* "Spring Security":http://static.springsource.org/spring-security/site/docs/3.0.x/reference/springsecurity.html is used in a bundled user management with URL based access control 
+* A [[menu system|Menu]] is provided, which allows rendering of hierarchical menus with respect to the security layer  
+* "Hera":http://hera.synyx.org, a small plugin system, is used to collect providers for various aspects - for example the menus - from among the Spring beans
+* [[Internationalization|Using i18n Module]] support is provided as a modular aspect to simplify localized versions of an application
+* "SiteMesh":http://www.opensymphony.com/sitemesh/ is used as a view decoration & layout system for the JSP-based views in _Spring MVC_ 
+* Helpful [[Tags]] for form generation or sortable & pageable table views (based on _Hades_ and "DisplayTag":http://displaytag.sf.net/)
+* Pre-configured and modular definitions of the web application context (@web.xml@), [[Spring beans|Spring beans configuration]] and [[application properties|Infrastructure configuration]]
+
+h2. Contents
+
+* [[Getting started]] - Your first application with Minos
+* [[Guideline for developing with Minos|Guideline]]
+* [[Modules]]
+* [[Spring Configuration|Spring beans configuration]] - @module-context.xml@, @web-context.xml@, @application-context.xml@
+* [[Environment Configuration|Infrastructure configuration]] - @module.properties@, @application.properties@, @application-<env>.properties@ for specific environments
+* [[Domain objects]]
+* [[Authentication & Authorization|Authentication]]
+* [[Message sources|Messages]]
+* [[Menu]] - contributing to the menu and customize its structure and look & feel
+* [[Tags]]
+* [[I18N Support|Using i18n Module]]
+* [[Monitoring Support|Using monitoring Module]]
+* [[FAQ]]
+
+h2. Development & Releases
+
+* [[Developer Notes]]
+* [[Development guidelines]]
+* [[Project structure]]
+* [[Release process]]
+
+h2. Discussion
+
+* [[Signup Module]]
+* [[Templates]]
