@@ -43,9 +43,9 @@
     </issueManagement>
 
     <scm>
-        <url>http://svn.synyx.org/synyx/opensource/minos/trunk</url>
-        <connection>scm:svn:http://svn.synyx.org/synyx/opensource/minos/trunk</connection>
-        <developerConnection>scm:svn:https://svn.synyx.de/svn/synyx/opensource/minos/trunk</developerConnection>
+      <url>scm:git:git://github.com/synyx/minos.git</url>
+      <connection>scm:git:git://github.com/synyx/minos.git</connection>
+      <developerConnection>scm:git:ssh://git@github.com:synyx/minos.git</developerConnection>
     </scm>
 
     <distributionManagement>
