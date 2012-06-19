@@ -45,7 +45,7 @@
     <scm>
       <url>scm:git:git://github.com/synyx/minos.git</url>
       <connection>scm:git:git://github.com/synyx/minos.git</connection>
-      <developerConnection>scm:git:ssh://git@github.com:synyx/minos.git</developerConnection>
+      <developerConnection>scm:git:ssh://git@github.com/synyx/minos.git</developerConnection>
     </scm>
 
     <distributionManagement>
