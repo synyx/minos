@@ -9,6 +9,13 @@
     <name>Minos Modules: Core</name>
     <description>Minos Core Module</description>
 
+    <properties>
+      <jenkins.job.reporters.email>kannegiesser@synyx.de</jenkins.job.reporters.email>
+			<jenkins.jdk.name>Java6</jenkins.jdk.name>
+			<jenkins.job.git.userRemoteConfigs.1.url>http://github.com/synyx/minos.git</jenkins.job.git.userRemoteConfigs.1.url>
+    </properties>
+
+
     <parent>
         <groupId>org.synyx.minos.modules</groupId>
         <artifactId>org.synyx.minos.modules</artifactId>
@@ -231,6 +238,29 @@
     <build>
         <plugins>
 
+           <plugin>
+               <groupId>org.synyx.maven.plugins</groupId>
+               <artifactId>jenkins-maven-plugin</artifactId>
+               <version>1.0.0</version>
+               <configuration>
+                   <jobTypes>build</jobTypes>
+                   <types>build</types>
+                   <names>build</names>
+                   <failOnError>true</failOnError>
+                   <template>classpath:org/synyx/jenkins/jobs/template.xml</template>
+                   <propertiesBase>classpath:org/synyx/jenkins/jobs/properties/</propertiesBase>
+                   <url>http://jenkins-vm:8080/</url>
+                   <majorVersion>trunk</majorVersion>
+               </configuration>
+               <dependencies>
+                   <dependency>
+                       <groupId>org.synyx.jenkins</groupId>
+                       <artifactId>jenkins-config</artifactId>
+                       <version>0.4</version>
+                   </dependency>
+               </dependencies>
+           </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -254,4 +284,17 @@
             </snapshots>
         </repository>
     </repositories>
+    <pluginRepositories>
+      <pluginRepository>
+        <id>nexus.synyx.de</id>
+        <name>Synyx OpenSource Repository</name>
+        <url>http://repo.synyx.org</url>
+      </pluginRepository>
+      <pluginRepository>
+        <id>maven.jenkins-ci.org</id>
+        <name>Jenkins Repo</name>
+        <url>http://kuali-nexus-lb-287160402.us-east-1.elb.amazonaws.com/content/groups/public/</url>
+      </pluginRepository>
+    </pluginRepositories>
+
 </project>
