@@ -32,10 +32,6 @@
         <url>http://www.synyx.org</url>
     </organization>
 
-    <ciManagement>
-        <system>Hudson</system>
-        <url>http://ci.synyx.org/job/minos-sandbox/</url>
-    </ciManagement>
 
     <issueManagement>
         <system>Redmine</system>
